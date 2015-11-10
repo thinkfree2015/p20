@@ -10,22 +10,12 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>base</module>
-        <module>ef-website</module>
-        <module>ef-system</module>
-        <module>ef-model</module>
-        <module>ef-personal</module>
-        <module>ef-tenant</module>
-        <module>base_resource</module>
         <module>pal-system</module>
         <module>pal-model</module>
-        <module>ef-wiki</module>
         <module>pal-website</module>
         <module>xh-system</module>
         <module>xh-website</module>
         <module>xh-model</module>
-        <module>ef-consumer</module>
-        <module>tg-website</module>
     </modules>
 
     <repositories>
