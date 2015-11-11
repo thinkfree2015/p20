@@ -36,7 +36,7 @@ public class SearchController {
                 .append("&start=")
                 .append((pageEntity.getIndex()-1)*pageEntity.getSize())
                 .append("&rows=")
-                .append(pageEntity.getIndex()*pageEntity.getSize()).toString();
+                .append(pageEntity.getSize()).toString();
         SearchClient.searchList.add(query);
         modelMap.put("q", query);
 
