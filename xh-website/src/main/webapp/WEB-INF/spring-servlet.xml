@@ -22,6 +22,7 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/project/**.do"/>
+            <mvc:mapping path="/home/homeMaster.do"/>
             <!--<mvc:mapping path="/**"/>-->
             <!--<mvc:mapping path="**"/>-->
             <bean class="com.efeiyi.association.core.DataSourceInterceptor"/>

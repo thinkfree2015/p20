@@ -46,7 +46,7 @@ public class DataSourceInterceptor extends HandlerInterceptorAdapter {
 
 //        DatabaseContextHolder.getDataSourceLock(request).lock();
 
-        DatabaseContextHolder.setDataSource("dataSource");
+        DatabaseContextHolder.setDataSource(request,"dataSource");
 
         return true;
     }
@@ -61,7 +61,7 @@ public class DataSourceInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
-        DatabaseContextHolder.setDataSource("null");
+        DatabaseContextHolder.setDataSource(request,"null");
 
     }
 }

@@ -85,7 +85,7 @@ public class HomeController {
     @RequestMapping("/homeMaster.do")
     public ModelAndView getHomeMaster(ModelMap modelMap, HttpServletRequest request) throws Exception {
 
-        DatabaseContextHolder.setDataSource("dataSource");//切换数据源
+//        DatabaseContextHolder.setDataSource("dataSource");//切换数据源
         //传承人
         String qm = request.getParameter("qm");
         Do tempDo = doManager.getDoByQueryModel(qm.split("_")[0]);//先找到配置文件里的entity
@@ -93,7 +93,7 @@ public class HomeController {
         PageInfo pageInfo = xdoManager.listPage(tempDo, tempDoQuery, null, null);
         modelMap.put("masterList", subList(pageInfo.getList(), 2));
 
-        DatabaseContextHolder.setDataSource(null);//切换回数据源
+//        DatabaseContextHolder.setDataSource(null);//切换回数据源
 
         return new ModelAndView("home/homeMaster");
     }

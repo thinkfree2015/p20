@@ -23,22 +23,22 @@
 
     <!--sitemesh3 配置-->
     <filter>
-    <filter-name>sitemesh</filter-name>
-    <filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class>
     </filter>
     <filter-mapping>
-    <filter-name>sitemesh</filter-name>
-    <url-pattern>/*</url-pattern>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
     <filter>
-    <filter-name>lazyLoadingFilter</filter-name>
-    <filter-class>
-    org.springframework.orm.hibernate4.support.OpenSessionInViewFilter
-    </filter-class>
+        <filter-name>lazyLoadingFilter</filter-name>
+        <filter-class>
+            org.springframework.orm.hibernate4.support.OpenSessionInViewFilter
+        </filter-class>
     </filter>
     <filter-mapping>
-    <filter-name>lazyLoadingFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+        <filter-name>lazyLoadingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <!--编码配置-->
@@ -98,9 +98,9 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-    <!--<error-page>-->
-    <!--<error-code>500</error-code>-->
-    <!--<location>/500.jsp</location>-->
-    <!--<exception-type>java.lang.Throwable</exception-type>-->
-    <!--</error-page>-->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jsp/500.jsp</location>
+        <exception-type>java.lang.Throwable</exception-type>
+    </error-page>
 </web-app>
