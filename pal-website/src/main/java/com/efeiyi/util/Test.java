@@ -3,6 +3,8 @@ package com.efeiyi.util;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,6 +12,13 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import com.efeiyi.util.AesException;
 import com.efeiyi.util.WXEncrypt;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.util.NamedList;
 import org.aspectj.lang.annotation.Before;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -44,30 +53,30 @@ public class Test {
     public void tearDown() throws Exception {
     }
 
-    public static void main(String []args) throws ParserConfigurationException, SAXException, IOException,AesException {
-        try {
-            WXEncrypt pc = new WXEncrypt(token, encodingAesKey, appId);
-            String afterEncrpt = pc.encryptMsg(replyMsg, timestamp, nonce);
-
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            StringReader sr = new StringReader(afterEncrpt);
-            InputSource is = new InputSource(sr);
-            Document document = db.parse(is);
-
-            Element root = document.getDocumentElement();
-            NodeList nodelist1 = root.getElementsByTagName("Encrypt");
-            NodeList nodelist2 = root.getElementsByTagName("MsgSignature");
-
-            String encrypt = nodelist1.item(0).getTextContent();
-            String msgSignature = nodelist2.item(0).getTextContent();
-            String fromXML = String.format(xmlFormat, encrypt);
-
-            // 第三方收到公众号平台发送的消息
-            String afterDecrpt = pc.decryptMsg(msgSignature, timestamp, nonce, fromXML);
-        } catch (AesException e) {
-        }
-    }
+//    public static void main(String []args) throws ParserConfigurationException, SAXException, IOException,AesException {
+//        try {
+//            WXEncrypt pc = new WXEncrypt(token, encodingAesKey, appId);
+//            String afterEncrpt = pc.encryptMsg(replyMsg, timestamp, nonce);
+//
+//            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder db = dbf.newDocumentBuilder();
+//            StringReader sr = new StringReader(afterEncrpt);
+//            InputSource is = new InputSource(sr);
+//            Document document = db.parse(is);
+//
+//            Element root = document.getDocumentElement();
+//            NodeList nodelist1 = root.getElementsByTagName("Encrypt");
+//            NodeList nodelist2 = root.getElementsByTagName("MsgSignature");
+//
+//            String encrypt = nodelist1.item(0).getTextContent();
+//            String msgSignature = nodelist2.item(0).getTextContent();
+//            String fromXML = String.format(xmlFormat, encrypt);
+//
+//            // 第三方收到公众号平台发送的消息
+//            String afterDecrpt = pc.decryptMsg(msgSignature, timestamp, nonce, fromXML);
+//        } catch (AesException e) {
+//        }
+//    }
 
 //    public void testAesEncrypt() {
 //        try {
@@ -134,4 +143,38 @@ public class Test {
 //        wxcpt.verifyUrl(verifyMsgSig, timeStamp, nonce, echoStr);
 //        // 只要不抛出异常就好
 //    }
+
+
+    public static void main(String [] args) throws IOException, SolrServerException {
+        HttpSolrClient client = new HttpSolrClient("http://localhost:8080/solr-5.3.1/product");
+        SolrQuery query = new SolrQuery("all_name:剪纸" );
+        query.setStart(0)
+                .setRows(10)
+                .addHighlightField("product_name")
+                .addHighlightField("master_name")
+                .addHighlightField("tenant_name")
+                .addHighlightField("sub_name")
+                .setHighlight(true)
+                .setHighlightSimplePre("<font color='red'>")
+                .setHighlightSimplePost("</font>");
+        QueryResponse response1 = client.query(query);
+        Map<String, Map<String, List<String>>> map = response1.getHighlighting();
+        SolrDocumentList docsList = response1.getResults();
+
+        Map<String, Map<String, List<String>>> highLightingMap = response1.getHighlighting();
+
+        for(Object obj : docsList){
+            Map docMap = (Map)obj;
+            String id = (String)docMap.get("id");
+            Map subHighLightingMap = (Map)highLightingMap.get(id);
+            for(Object subObj : subHighLightingMap.entrySet()){
+                Map.Entry entry = (Map.Entry)subObj;
+                if (subHighLightingMap.get(entry.getKey()) instanceof  List){
+                    docMap.put(entry.getKey(),((List)subHighLightingMap.get(entry.getKey())).get(0));
+                    continue;
+                }
+                docMap.put(entry.getKey(),subHighLightingMap.get(entry.getKey()));
+            }
+        }
+    }
 }

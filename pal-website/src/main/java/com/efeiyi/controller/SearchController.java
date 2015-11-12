@@ -18,8 +18,8 @@ import java.util.Map;
 @Controller
 public class SearchController {
 
-    @RequestMapping("/search.do")
-    public ModelAndView search(HttpServletRequest request, ModelMap modelMap) throws Exception {
+//    @RequestMapping("/search.do")
+      public ModelAndView search(HttpServletRequest request, ModelMap modelMap) throws Exception {
 
         String query = request.getParameter("q");
         query = URLEncoder.encode(query, "utf-8");
@@ -76,6 +76,41 @@ public class SearchController {
                 docMap.put(entry.getKey(),subHighLightingMap.get(entry.getKey()));
             }
         }
+        return new ModelAndView("/search");
+    }
+
+    @RequestMapping("/search.do")
+    public ModelAndView solrJSearch(HttpServletRequest request, ModelMap modelMap) throws Exception {
+
+        String query = request.getParameter("q");
+        modelMap.put("q", query);
+
+        PageEntity pageEntity = new PageEntity();
+        String pageIndex = request.getParameter("pageEntity.index");
+        String pageSize = request.getParameter("pageEntity.size");
+        if (pageIndex != null) {
+            pageEntity.setIndex(Integer.parseInt(pageIndex));
+            pageEntity.setSize(Integer.parseInt(pageSize));
+        }
+        request.setAttribute("pageEntity",pageEntity);
+        modelMap.put("pageEntity", pageEntity);
+        SearchClient.postList.add(request);
+
+        synchronized (request) {
+            try {
+                synchronized (SearchClient.postList) {
+                    SearchClient.postList.notifyAll();
+                }
+                request.wait();
+            } catch (Exception e) {
+                Thread.currentThread().interrupt();
+                e.printStackTrace();
+            }
+
+        }
+        List docsList = SearchClient.responseMap.remove(request);
+        modelMap.put("searchList", docsList);
+
         return new ModelAndView("/search");
     }
 
