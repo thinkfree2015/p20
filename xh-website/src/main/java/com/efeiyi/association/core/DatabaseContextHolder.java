@@ -13,24 +13,30 @@ import java.util.concurrent.locks.ReentrantLock;
 public class DatabaseContextHolder {
     //    private static final ThreadLocal<String> contextHolder = new ThreadLocal<String>();
 //    private static final ThreadLocal<ReentrantLock> dataSourceLockHolder = new ThreadLocal<ReentrantLock>();
-    private static final ThreadLocal<Map<HttpServletRequest, String>> requestBinded2Thread = new ThreadLocal<Map<HttpServletRequest, String>>();
+//    private static final ThreadLocal<Map<HttpServletRequest, String>> requestBinded2Thread = new ThreadLocal<Map<HttpServletRequest, String>>();
+    private static final Map<Thread,HttpServletRequest> threadBinded2Request = new HashMap<Thread,HttpServletRequest>();
+    private static final Map<HttpServletRequest,String> requestBinded2Datasource = new HashMap<HttpServletRequest,String>();
+
 
     public static void setDataSource(HttpServletRequest request, String dataSource) {
-        Map map = new HashMap<HttpServletRequest, String>();
-        map.put(request, dataSource);
-        requestBinded2Thread.set(map);
+        requestBinded2Datasource.put(request,dataSource);
+        threadBinded2Request.put(Thread.currentThread(), request);
     }
 
     public static String getDataSource() {
-        Map<HttpServletRequest, String> map = null;
-        if ((map = requestBinded2Thread.get()) == null || map.isEmpty()) {
-            return null;
-        }
-        for (Map.Entry<HttpServletRequest, String> entry : map.entrySet()) {
-            return entry.getValue();
-        }
-        return null;
+        return requestBinded2Datasource.remove(threadBinded2Request.remove(Thread.currentThread()));
     }
+
+//    public static String getDataSource() {
+//        Map<HttpServletRequest, String> map = null;
+//        if ((map = requestBinded2Thread.get()) == null || map.isEmpty()) {
+//            return null;
+//        }
+//        for (Map.Entry<HttpServletRequest, String> entry : map.entrySet()) {
+//            return entry.getValue();
+//        }
+//        return null;
+//    }
 
 //    public static void setDataSource(String dataSource) {
 //        contextHolder.set(dataSource);
