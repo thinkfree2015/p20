@@ -46,9 +46,10 @@ public class DatabaseContextHolder {
 //        return contextHolder.get();
 //    }
 
-//    public static void clearDataSource() {
-//        contextHolder.remove();
-//    }
+    public static void clearDataSource(HttpServletRequest request) {
+        requestBinded2Datasource.remove(request);
+        threadBinded2Request.remove(Thread.currentThread());
+    }
 
 //    public static Lock getDataSourceLock(HttpServletRequest request){
 //        if(dataSourceLockHolder.get() == null) {

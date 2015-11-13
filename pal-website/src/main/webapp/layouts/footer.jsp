@@ -16,7 +16,7 @@
       <strong>商家入驻热线</strong>
       <em>400-876-8766</em>
     </p>
-    <p class="copyright">Copyright © 2012-2022 永新华韵文化发展有限公司版权所有-京ICP备15032511号-1</p>
+    <p class="copyright">Copyright © 2012-2022 永新华韵文化发展有限公司版权所有-京ICP备15032511号-1 网站备案号:京公网安备11010502027456</p>
   </div>
 </div>
 <!--//End--footer-->

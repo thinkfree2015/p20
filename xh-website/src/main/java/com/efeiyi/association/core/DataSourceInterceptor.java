@@ -1,6 +1,5 @@
 package com.efeiyi.association.core;
 
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +60,7 @@ public class DataSourceInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
-        DatabaseContextHolder.setDataSource(request,"null");
-
+//        DatabaseContextHolder.setDataSource(request,"null");
+        DatabaseContextHolder.clearDataSource(request);
     }
 }
