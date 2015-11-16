@@ -17,7 +17,7 @@
 <c:if test="${not empty q}">
 
     <%--分类选项project_name start--%>
-    <div>分类：<a href="/search.do?q=${q}&resultPage=${resultPage}">全部：</a>
+    <div>分类：<a href="/search.do?q=${q}&resultPage=${resultPage}&facetFieldJson=${facetFieldJson}">全部：</a>
         <c:forEach items="${facetFieldsMap}" var="facetFields">
             <c:forEach items="${facetFields.value}" var="facetEntry">
                 <form action="<c:url value='/search.do'/>" method="get">
@@ -41,8 +41,11 @@
     <%--检索结果Start--%>
     <div>
         <c:forEach items="${searchResultList}" var="result">
-            ${result.product_model_price}
-            <img src="http://ec-efeiyi.oss-cn-beijing.aliyuncs.com/${result.picture_url}"/>
+            价格：${result.product_model_price}
+            商品名：${result.product_name}
+            分类名：${result.project_name}
+            <br/>
+            <%--<img src="http://ec-efeiyi.oss-cn-beijing.aliyuncs.com/${result.picture_url}"/>--%>
         </c:forEach>
     </div>
     <%--检索结果End--%>
@@ -52,8 +55,12 @@
         <c:url value="/search.do" var="url"/>
         <ming800:pcPageList bean="${requestScope.pageEntity}" url="${url}">
             <ming800:pcPageParam name="q" value="${requestScope.q}"/>
-            <ming800:pcPageParam name="facetFields" value="${requestScope.facetFields}"/>
             <ming800:pcPageParam name="resultPage" value="${requestScope.resultPage}"/>
+            <ming800:pcPageParam name="queryFacet" value="${queryFacet}"/>
+            <ming800:pcPageParam name="facetFieldJson" value="${facetFieldJson}"/>
+            <ming800:pcPageParam name="queryFacetJson" value="${queryFacetJson}"/>
+            <ming800:pcPageParam name="sortField" value="${sortField}"/>
+            <ming800:pcPageParam name="sortOrder" value="${sortOrder}"/>
         </ming800:pcPageList>
     </div>
     <%--翻页end--%>
@@ -63,8 +70,8 @@
     function facetForward(url) {
         window.location.href = url + "&facetFieldJson=" + facets + "&queryFacetJson=${queryFacetJson}" ;
     }
-    function sortForward(sortParam,sortOrder) {
-        var url = "<c:url value='/search.do?q=${q}&resultPage=${resultPage}&sortField='/>" + sortParam + "&sortOrder=" + sortOrder;
+    function sortForward(sortField,sortOrder) {
+        var url = "<c:url value='/search.do?q=${q}&resultPage=${resultPage}&queryFacet=${queryFacet}&sortField='/>" + sortField + "&sortOrder=" + sortOrder;
         facetForward(url)
     }
 </script>

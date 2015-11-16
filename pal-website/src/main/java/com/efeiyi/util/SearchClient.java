@@ -126,7 +126,6 @@ public class SearchClient implements Runnable {
         String sortField = request.getParameter("sortField");
         String sortOrder = request.getParameter("sortOrder");
         if(sortField != null && !sortField.equals("")){
-
             solrQuery.setSort(sortField,sortOrder == null || sortOrder.equals("") ? SolrQuery.ORDER.desc : SolrQuery.ORDER.asc);
         }
 

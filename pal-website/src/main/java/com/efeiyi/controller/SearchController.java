@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -87,27 +88,25 @@ public class SearchController {
         //基本查询q
         String q = request.getParameter("q");
         modelMap.put("q", q);
+        StringBuilder queryString = new StringBuilder("all_name:").append(q);
+
+        //其他查询条件Json
+        String queryFacetJson = request.getParameter("queryFacetJson");
+        Map queryFacetMap = queryFacetJson != null && !"".equals(queryFacetJson) ? JsonUtil.parseJsonStringToMap(queryFacetJson.replaceAll("'", "\"")) : new HashMap();
+        String queryFacet = request.getParameter("queryFacet");
+        if(queryFacet != null && !"".equals(queryFacet)) {
+            String[] newFacetQuery = queryFacet.split(":");
+            queryFacetMap.put(newFacetQuery[0], newFacetQuery[1]);
+        }
+        //替换掉所有双引号
+        modelMap.put("queryFacetJson",JsonUtil.getJsonString(queryFacetMap).replaceAll("\"","'"));
 
         //完整查询queryString
-        StringBuilder queryString = new StringBuilder("all_name:").append(q);
-        String queryFacetJson = request.getParameter("queryFacetJson");
-        if (queryFacetJson != null && !"".equals(queryFacetJson)) {
-            Map queryFacetMap = JsonUtil.parseJsonStringToMap(queryFacetJson);
-            for (Object objectKey : queryFacetMap.keySet())
-            {
-                queryString.append(" AND ").append(objectKey).append(":").append(queryFacetMap.get(objectKey));
-            }
-
-        }
-
-        String queryFacet = request.getParameter("queryFacet");
         if(queryFacet != null && !"".equals(queryFacet)) {
             queryString.append(" AND ").append(queryFacet);
             modelMap.put("queryFacet",queryFacet);
         }
-
         request.setAttribute("q",queryString);
-        modelMap.put("queryFacetJson", queryFacetJson);
 
         //分页
         PageEntity pageEntity = new PageEntity();
@@ -162,7 +161,8 @@ public class SearchController {
         modelMap.put("resultPage", request.getParameter("resultPage"));
         modelMap.put("sortParam", request.getParameter("sortParam"));
         modelMap.put("sortOrder", request.getParameter("sortOrder"));
-
+        modelMap.put("sortField", request.getParameter("sortField"));
+        modelMap.put("sortOrder",request.getParameter("sortOrder"));
         return new ModelAndView(request.getParameter("resultPage"));
     }
 
