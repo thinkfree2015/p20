@@ -119,7 +119,7 @@ public class SearchClient implements Runnable {
                 .setHighlightSimplePost("</font>");
 
         //分配权重
-        solrQuery.set("defType","dismax")
+        solrQuery.set("defType","edismax")
         .set("qf","product_name^5 sub_name^3 specification^3 project_name^4 master_name^2");
 
         //排序
