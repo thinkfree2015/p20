@@ -12,12 +12,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import com.efeiyi.util.AesException;
 import com.efeiyi.util.WXEncrypt;
+import com.ming800.core.taglib.PageEntity;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.*;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.params.GroupParams;
 import org.apache.solr.common.util.NamedList;
 import org.aspectj.lang.annotation.Before;
 import org.w3c.dom.Document;
@@ -28,14 +30,14 @@ import org.xml.sax.SAXException;
 
 public class Test {
     static String encodingAesKey = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG";
-    static  String token = "pamtest";
-    static  String timestamp = "1409304348";
-    static   String nonce = "xxxxxx";
-    static  String appId = "wxb11529c136998cb6";
-    static  String replyMsg = "我是中文abcd123";
-    static  String xmlFormat = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%1$s]]></Encrypt></xml>";
-    static  String afterAesEncrypt = "jn1L23DB+6ELqJ+6bruv21Y6MD7KeIfP82D6gU39rmkgczbWwt5+3bnyg5K55bgVtVzd832WzZGMhkP72vVOfg==";
-    static  String randomStr = "aaaabbbbccccdddd";
+    static String token = "pamtest";
+    static String timestamp = "1409304348";
+    static String nonce = "xxxxxx";
+    static String appId = "wxb11529c136998cb6";
+    static String replyMsg = "我是中文abcd123";
+    static String xmlFormat = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%1$s]]></Encrypt></xml>";
+    static String afterAesEncrypt = "jn1L23DB+6ELqJ+6bruv21Y6MD7KeIfP82D6gU39rmkgczbWwt5+3bnyg5K55bgVtVzd832WzZGMhkP72vVOfg==";
+    static String randomStr = "aaaabbbbccccdddd";
 
     String replyMsg2 = "<xml><ToUserName><![CDATA[oia2Tj我是中文jewbmiOUlr6X-1crbLOvLw]]></ToUserName><FromUserName><![CDATA[gh_7f083739789a]]></FromUserName><CreateTime>1407743423</CreateTime><MsgType><![CDATA[video]]></MsgType><Video><MediaId><![CDATA[eYJ1MbwPRJtOvIEabaxHs7TX2D-HV71s79GUxqdUkjm6Gs2Ed1KF3ulAOA9H1xG0]]></MediaId><Title><![CDATA[testCallBackReplyVideo]]></Title><Description><![CDATA[testCallBackReplyVideo]]></Description></Video></xml>";
     String afterAesEncrypt2 = "jn1L23DB+6ELqJ+6bruv23M2GmYfkv0xBh2h+XTBOKVKcgDFHle6gqcZ1cZrk3e1qjPQ1F4RsLWzQRG9udbKWesxlkupqcEcW7ZQweImX9+wLMa0GaUzpkycA8+IamDBxn5loLgZpnS7fVAbExOkK5DYHBmv5tptA9tklE/fTIILHR8HLXa5nQvFb3tYPKAlHF3rtTeayNf0QuM+UW/wM9enGIDIJHF7CLHiDNAYxr+r+OrJCmPQyTy8cVWlu9iSvOHPT/77bZqJucQHQ04sq7KZI27OcqpQNSto2OdHCoTccjggX5Z9Mma0nMJBU+jLKJ38YB1fBIz+vBzsYjrTmFQ44YfeEuZ+xRTQwr92vhA9OxchWVINGC50qE/6lmkwWTwGX9wtQpsJKhP+oS7rvTY8+VdzETdfakjkwQ5/Xka042OlUb1/slTwo4RscuQ+RdxSGvDahxAJ6+EAjLt9d8igHngxIbf6YyqqROxuxqIeIch3CssH/LqRs+iAcILvApYZckqmA7FNERspKA5f8GoJ9sv8xmGvZ9Yrf57cExWtnX8aCMMaBropU/1k+hKP5LVdzbWCG0hGwx/dQudYR/eXp3P0XxjlFiy+9DMlaFExWUZQDajPkdPrEeOwofJb";
@@ -145,10 +147,14 @@ public class Test {
 //    }
 
 
-    public static void main(String [] args) throws IOException, SolrServerException {
-        HttpSolrClient client = new HttpSolrClient("http://localhost:8080/solr-5.3.1/product");
-        SolrQuery query = new SolrQuery("all_name:剪纸" );
-        query.setStart(0)
+    public static void main(String[] args) throws IOException, SolrServerException {
+        HttpSolrClient solrClient = new HttpSolrClient("http://localhost:8080/solr-5.3.1/product");
+        String queryString = "all_name:剪纸";
+//        String queryString = "*:*";
+        SolrQuery solrQuery = new SolrQuery(queryString);
+
+
+        solrQuery.setStart(0)
                 .setRows(10)
                 .addHighlightField("product_name")
                 .addHighlightField("master_name")
@@ -157,11 +163,53 @@ public class Test {
                 .setHighlight(true)
                 .setHighlightSimplePre("<font color='red'>")
                 .setHighlightSimplePost("</font>");
-        QueryResponse response1 = client.query(query);
-        Map<String, Map<String, List<String>>> map = response1.getHighlighting();
-        SolrDocumentList docsList = response1.getResults();
 
-        Map<String, Map<String, List<String>>> highLightingMap = response1.getHighlighting();
+            solrQuery.setFacet(true)
+                    .addFacetField("project_name")
+            .setFacetMissing(false)
+            .setFilterQueries("project_name:剪纸")
+                    .set("defType","dismax")
+                    ;
+
+
+        QueryResponse response = solrClient.query(solrQuery);
+
+
+
+        SolrDocumentList docsList = response.getResults();
+        Map<String, Map<String, List<String>>> highLightingMap = response.getHighlighting();
+//        List<FacetField>facets = response.getFacetFields();//返回的facet列表
+
+//        for (FacetField facet :facets) {
+//
+//            System.out.println(facet.getName());
+//
+//            System.out.println("----------------");
+//
+//            List<FacetField.Count>counts = facet.getValues();
+//
+//            for (FacetField.Count count : counts){
+//
+//                System.out.println(count.getName()+":"+ count.getCount());
+//
+//            }
+//
+//            System.out.println();
+//
+//        }
+
+//        for (GroupCommand groupCommand : groupList) {
+//
+//            List<Group> groups = groupCommand.getValues();
+//
+//            for (Group group : groups) {
+//
+//                System.out.println("group查询..." + group.getGroupValue() + "数量为：" + group.getResult().getNumFound());
+//
+//            }
+//
+//        }
+
 
         for(Object obj : docsList){
             Map docMap = (Map)obj;
@@ -176,5 +224,6 @@ public class Test {
                 docMap.put(entry.getKey(),subHighLightingMap.get(entry.getKey()));
             }
         }
+        System.out.println("");
     }
 }

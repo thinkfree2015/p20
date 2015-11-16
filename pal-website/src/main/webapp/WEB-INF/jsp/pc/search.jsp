@@ -1,64 +1,70 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2015/11/13
+  Time: 17:50
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="/layouts/public.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ming800" uri="http://java.ming800.com/taglib" %>
-<!doctype html>
-<div class="search-list">
-  <div class="search-home">
-    <div class="logo">
-      <h1><a href="<c:url value='<%=basePath%>'/>"><img src="<c:url value='/resources/images/logo.png'/>"
-                                                        width="160" height="72"/></a></h1>
-    </div>
-    <form id="form" method="get" action="<c:url value='/checkLabelPc.do'/>">
-      <div class="title"><a class="active">真伪查询</a></div>
-      <label for="">
-        <%--<input class="txt" type="text" name="serial" id="serial" value="" placeholder="请输入名称查询,如:”苏绣”"/>--%>
-        <input class="txt" type="text" name="serial" id="serial" value="" placeholder="请输入12位防伪码"/>
-        <input class="btn" type="submit" value="查 询"/>
-      </label>
-    </form>
-  </div>
-</div>
-<!--//End--search-list-->
-<div class="hd">
-  <div class="search-result">
-    <h1>检索结果</h1>
-    <c:forEach items="${searchList}" var="item">
-    <div class="item">
-      <a class="img" href=""><img src="http://ec-efeiyi.oss-cn-beijing.aliyuncs.com/${item.picture_url}"/></a>
-      <ul>
-        <li><span>证书编号: 140522398541258</span><i class="icon icon-code"></i><i class="icon icon-card"></i><i class="icon icon-dna"></i></li>
-        <li>名称: ${item.product_name}</li>
-        <li>作者: ${item.master_name}</li>
-        <li>商户: ${item.tenant_name}</li>
-        <%--<li>创作年代: 2006</li>--%>
-        <%--<li>认证时间: 2015年5月</li>--%>
-        <%--<li>尺寸: 100*128cm</li>--%>
-        <%--<li>类别: 苏绣</li>--%>
-        <%--<li>重量: 1236.12g</li>--%>
-      </ul>
-    </div>
-    </c:forEach>
-    <!--//End-->
-    <div style="clear: both">
-      <c:url value="/search.do" var="url" />
-      <ming800:pcPageList bean="${requestScope.pageEntity}" url="${url}">
-        <ming800:pcPageParam name="q" value="${requestScope.q}"/>
-      </ming800:pcPageList>
-    </div>
-  </div>
-</div>
-<!--//End--footer-->
+<form id="form" action="<c:url value='/search.do'/>" method="get">
+    <input class="txt" type="text" name="q" id="q" value="${q}"/>
+    <input class="btn" type="submit" id="btn" value="检 索"/>
+    <input type="hidden" id="resultPage" name="resultPage" value="/search"/>
+    <input type="hidden" id="facetFields" name="facetFields" value="project_name"/>
+</form>
+<c:if test="${not empty q}">
 
-<!--[if (gte IE 9)|!(IE)]><!-->
-<script src="js/jquery.min.js"></script>
-<!--<![endif]-->
-<!--[if lte IE 8 ]>
-<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
-<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="js/amazeui.ie8polyfill.min.js"></script>
-<![endif]-->
-<script src="js/amazeui.min.js"></script>
-<script src="js/cpbjs.js"></script>
-</body>
-</html>
+    <%--分类选项project_name start--%>
+    <div>分类：<a href="/search.do?q=${q}&resultPage=${resultPage}">全部：</a>
+        <c:forEach items="${facetFieldsMap}" var="facetFields">
+            <c:forEach items="${facetFields.value}" var="facetEntry">
+                <form action="<c:url value='/search.do'/>" method="get">
+                    <input type="hidden" name="q" value="${q}"/>
+                    <input type="hidden" name="resultPage" value="${resultPage}"/>
+                    <input type="hidden" name="queryFacet" value="project_name:${facetEntry.key}"/>
+                    <input type="hidden" name="queryFacetJson" value="${queryFacetJson}"/>
+                    <input type="hidden" name="facetFieldJson" value="${facetFieldJson}"/>
+                    <input type="submit" value='${facetEntry.key}'>
+                </form>
+            </c:forEach>
+        </c:forEach>
+    </div>
+    <%--分类选项project_name end--%>
+
+    <%--排序start--%>
+    <div><input value="价格降序"  onclick="sortForward('product_model_price','')" type="button"></div>
+    <div><input value="价格升序"  onclick="sortForward('product_model_price','asc')" type="button"></div>
+    <%--排序end--%>
+
+    <%--检索结果Start--%>
+    <div>
+        <c:forEach items="${searchResultList}" var="result">
+            ${result.product_model_price}
+            <img src="http://ec-efeiyi.oss-cn-beijing.aliyuncs.com/${result.picture_url}"/>
+        </c:forEach>
+    </div>
+    <%--检索结果End--%>
+
+    <%--翻页start--%>
+    <div style="clear: both">
+        <c:url value="/search.do" var="url"/>
+        <ming800:pcPageList bean="${requestScope.pageEntity}" url="${url}">
+            <ming800:pcPageParam name="q" value="${requestScope.q}"/>
+            <ming800:pcPageParam name="facetFields" value="${requestScope.facetFields}"/>
+            <ming800:pcPageParam name="resultPage" value="${requestScope.resultPage}"/>
+        </ming800:pcPageList>
+    </div>
+    <%--翻页end--%>
+</c:if>
+<script type="text/javascript">
+    var facets = "${facetFieldJson}";
+    function facetForward(url) {
+        window.location.href = url + "&facetFieldJson=" + facets + "&queryFacetJson=${queryFacetJson}" ;
+    }
+    function sortForward(sortParam,sortOrder) {
+        var url = "<c:url value='/search.do?q=${q}&resultPage=${resultPage}&sortField='/>" + sortParam + "&sortOrder=" + sortOrder;
+        facetForward(url)
+    }
+</script>
