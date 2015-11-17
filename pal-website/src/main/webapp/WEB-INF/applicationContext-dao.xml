@@ -45,7 +45,7 @@
           class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
-
+    <bean id="commonManager" class="com.ming800.core.p.service.impl.CommonManagerImpl" />
 
     <!--<tx:annotation-driven transaction-manager="transactionManager" />-->
 

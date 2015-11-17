@@ -15,6 +15,7 @@
     <input class="btn" type="submit" id="btn" value="检 索"/>
     <input type="hidden" id="resultPage" name="resultPage" value="/search"/>
     <input type="hidden" id="facetFields" name="facetFields" value="project_name"/>
+    <input type="hidden" id="group" name="group" value="efeiyi"/>
 
 </form>
 </body>
