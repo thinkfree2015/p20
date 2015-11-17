@@ -13,11 +13,12 @@
     <input class="btn" type="submit" id="btn" value="检 索"/>
     <input type="hidden" id="resultPage" name="resultPage" value="/search"/>
     <input type="hidden" id="facetFields" name="facetFields" value="project_name"/>
+    <input type="hidden" name="group" value="efeiyi"/>
 </form>
 <c:if test="${not empty q}">
 
     <%--分类选项project_name start--%>
-    <div>分类：<a href="/search.do?q=${q}&resultPage=${resultPage}&facetFieldJson=${facetFieldJson}">全部：</a>
+    <div>分类：<a href="/search.do?q=${q}&resultPage=${resultPage}&facetFieldJson=${facetFieldJson}&group=efeiyi">全部：</a>
         <c:forEach items="${facetFieldsMap}" var="facetFields">
             <c:forEach items="${facetFields.value}" var="facetEntry">
                 <form action="<c:url value='/search.do'/>" method="get">
@@ -26,6 +27,7 @@
                     <input type="hidden" name="queryFacet" value="project_name:${facetEntry.key}"/>
                     <input type="hidden" name="queryFacetJson" value="${queryFacetJson}"/>
                     <input type="hidden" name="facetFieldJson" value="${facetFieldJson}"/>
+                    <input type="hidden"  name="group" value="efeiyi"/>
                     <input type="submit" value='${facetEntry.key}'>
                 </form>
             </c:forEach>
@@ -33,9 +35,18 @@
     </div>
     <%--分类选项project_name end--%>
 
+    <%--价格区间start--%>
+<div>
+    <input value="0-100" onclick="priceSectionForward('[0 TO 100]')" type="button">
+    <input value="100-1000" onclick="priceSectionForward('[100 TO 1000]')" type="button">
+    <input value="1000-10000" onclick="priceSectionForward('[1000 TO 10000]')" type="button">
+</div>
+
+    <%--价格区间end--%>
+
     <%--排序start--%>
-    <div><input value="价格降序"  onclick="sortForward('product_model_price','')" type="button"></div>
-    <div><input value="价格升序"  onclick="sortForward('product_model_price','asc')" type="button"></div>
+    <div><input value="价格降序"  onclick="sortForward('product_model_price','')" type="button">
+        <input value="价格升序"  onclick="sortForward('product_model_price','asc')" type="button"></div>
     <%--排序end--%>
 
     <%--检索结果Start--%>
@@ -61,6 +72,8 @@
             <ming800:pcPageParam name="queryFacetJson" value="${queryFacetJson}"/>
             <ming800:pcPageParam name="sortField" value="${sortField}"/>
             <ming800:pcPageParam name="sortOrder" value="${sortOrder}"/>
+            <ming800:pcPageParam name="group" value="efeiyi"/>
+            <ming800:pcPageParam name="fq" value="${fq}"/>
         </ming800:pcPageList>
     </div>
     <%--翻页end--%>
@@ -68,10 +81,14 @@
 <script type="text/javascript">
     var facets = "${facetFieldJson}";
     function facetForward(url) {
-        window.location.href = url + "&facetFieldJson=" + facets + "&queryFacetJson=${queryFacetJson}" ;
+        window.location.href = url + "&facetFieldJson=" + facets + "&queryFacetJson=${queryFacetJson}&group=efeiyi" ;
     }
     function sortForward(sortField,sortOrder) {
-        var url = "<c:url value='/search.do?q=${q}&resultPage=${resultPage}&queryFacet=${queryFacet}&sortField='/>" + sortField + "&sortOrder=" + sortOrder;
+        var url = "<c:url value='/search.do?q=${q}&resultPage=${resultPage}&queryFacet=${queryFacet}&sortField='/>" + sortField + "&sortOrder=" + sortOrder +"&fq=${fq}";
+        facetForward(url)
+    }
+    function priceSectionForward(priceSection){
+        var url = "<c:url value='/search.do?q=${q}&resultPage=${resultPage}&queryFacet=${queryFacet}&fq=product_model_price:'/>" + priceSection;
         facetForward(url)
     }
 </script>
