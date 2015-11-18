@@ -20,9 +20,9 @@
     </recommends>
 
     <searchs>
-        <search group="efeiyi" recommendedModel="com.ming800.core.p.model.CommonSearch" rows="10" defaultQ="all_name:" highLight="true"
+        <search group="efeiyi" recommendedModel="com.ming800.core.p.model.CommonSearch" rows="12" defaultQ="all_name:" highLight="true"
                 highLightFields="product_name,specification" highLightSimplePre="&lt;font color='red'&gt;" highLightSimplePost="&lt;/font&gt;"
                 defType="edismax" qf="product_name^5 sub_name^3 specification^3 project_name^4 master_name^2" solrClientCount="5"
-                solrServerCoreUrl="http://localhost:8080/solr-5.3.1/product"/>
+                solrServerCoreUrl="http://192.168.1.57/solr/product"/>
     </searchs>
 </common>
