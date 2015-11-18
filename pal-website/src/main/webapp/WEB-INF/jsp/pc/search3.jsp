@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ming800" uri="http://java.ming800.com/taglib" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html class="no-js">
 <head>
     <meta charset="utf-8">
@@ -292,10 +293,11 @@
                     <div class="look-head">
                         <span>分类：</span>
                         <c:if test="${empty searchParamBean.queryFacet}">
-                            <strong><a href="<c:url value="/search.do?q=${searchParamBean.q}&resultPage=${searchParamBean.resultPage}&facetFieldJson=${searchParamBean.facetFieldJson}&priceUD=0&group=efeiyi" />">全部</a></strong>
+                            <strong>
                         </c:if>
-                        <c:if test="${not empty searchParamBean.queryFacet}">
-                            <strong><a href="<c:url value="/search.do?q=${searchParamBean.q}&resultPage=${searchParamBean.resultPage}&facetFieldJson=${searchParamBean.facetFieldJson}&priceUD=0&group=efeiyi" />">全部</a></strong>
+                            <a href="<c:url value="/search.do?q=${searchParamBean.q}&resultPage=${searchParamBean.resultPage}&facetFieldJson=${searchParamBean.facetFieldJson}&priceUD=0&group=efeiyi" />">全部</a>
+                        <c:if test="${empty searchParamBean.queryFacet}">
+                            </strong>
                         </c:if>
                     </div>
                     <div class="look-body">
@@ -303,7 +305,7 @@
                         <c:forEach items="${searchParamBean.facetFieldsMap}" var="facetFields">
                             <c:forEach items="${facetFields.value}" var="facetEntry">
                                 <a href="javascript:void(0);"
-                                   class="<c:if test="${searchParamBean.queryFacet == '${facetFields.key:facetEntry.key}'}"></c:if>"
+                                   class="<c:if test="${not empty searchParamBean.queryFacet && fn:contains(searchParamBean.queryFacet, facetEntry.key)}">active</c:if>"
                                    onclick="facetForward('<c:url value="/search.do?q=${searchParamBean.q}&resultPage=${searchParamBean.resultPage}&queryFacet=project_name:${facetEntry.key}&priceUD=0"/>')">
                                    ${facetEntry.key}
 
