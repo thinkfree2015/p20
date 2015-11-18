@@ -61,7 +61,7 @@
     <div class="hd">
         <div class="logo"><a class="icon" href="" target="_blank" title="e飞蚁-爱非遗"></a></div>
         <form action="<c:url value='/search.do'/>" method="get">
-            <input type="text" class="txt" placeholder="" name="q" id="q" value="">
+            <input type="text" class="txt" placeholder="" name="q" id="q" value="<c:if test="${searchParamBean.q != '*'}">${searchParamBean.q}</c:if>">
             <input type="submit" class="icon-new btn" value="">
             <%-- 全文检索测试 --%>
             <input type="hidden" id="resultPage" name="resultPage" value="/search3"/>
@@ -283,7 +283,7 @@
             <ul class="sech-look1">
                 <li><a href="#">检索结果</a></li>
                 <li class="icon"></li>
-                <li class="active"><a href="#">${searchParamBean.q}</a></li>
+                <li class="active"><a href="javascript:void(0);"><c:if test="${searchParamBean.q != '*'}">${searchParamBean.q}</c:if></a></li>
             </ul>
         </div>
         <div class="searching ae">
@@ -322,7 +322,7 @@
                 <!--一个类-->
                 <div class="loog-ground ae">
                     <div class="look-head">
-                        <span>分类：</span>
+                        <span>价格：</span>
                         <c:if test="${empty searchParamBean.fq || searchParamBean.fq == 'product_model_price:[* TO *]'}">
                             <strong><a href="javascript:void(0);" onclick="priceSectionForward('[* TO *]')">全部</a></strong>
                         </c:if>
@@ -342,7 +342,7 @@
                 <!--一个类-->
                 <div class="loog-ground ae">
                     <div class="look-head">
-                        <span>分类：</span>
+                        <span>用途：</span>
                         <strong><a href="#">全部</a></strong>
                     </div>
                     <div class="look-body">
@@ -417,7 +417,7 @@
                             <a href="http://192.168.1.57/ef-website/product/productModel/${result.id}" target="_blank" title="">
                                 <%--<img class="imgfilter" src="../../shop2015/upload/category-1.jpg" alt="">--%>
                                 <img class="imgfilter" src="http://ec-efeiyi.oss-cn-beijing.aliyuncs.com/${result.picture_url}" alt="">
-                                <p class="wh name">${result.product_name}[${result.specification}]</p>
+                                <p class="wh name">${result.product_name}[<c:if test="${result.frequent != 1}">${result.specification}</c:if>]</p>
                                 <p class="wh price">￥${result.product_model_price}</p>
                             </a>
                         </li>
@@ -538,8 +538,8 @@
 
             </div>
             <!-- //End--list-pro-->
-            <div class="pages wh">
-            <%--<div style="clear: both">--%>
+            <%--<div class="pages wh">--%>
+            <div style="clear: both">
                 <%--<ul class="am-pagination am-pagination-centered">
                     <li><a href="">1</a></li>
                     <li class="am-active"><a href="#">2</a></li>
