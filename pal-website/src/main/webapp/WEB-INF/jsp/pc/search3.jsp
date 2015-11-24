@@ -26,9 +26,9 @@
     <!-- Tile icon for Win8 (144x144 + tile color) -->
     <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
     <meta name="msapplication-TileColor" content="#0e90d2">
-    <link type="text/css" rel="stylesheet" href="../../shop2015/css/amazeui.min.css?v=20150831">
-    <link type="text/css" rel="stylesheet" href="../../shop2015/css/app.css?v=20150831">
-    <link type="text/css" rel="stylesheet" href="../../shop2015/css/myorder.css?v=20150831">
+    <link type="text/css" rel="stylesheet" href="/shop2015PC/css/amazeui.min.css?v=20150831">
+    <link type="text/css" rel="stylesheet" href="/shop2015PC/css/app.css?v=20150831">
+    <link type="text/css" rel="stylesheet" href="/shop2015PC/css/myorder.css?v=20150831">
 </head>
 <body>
 <div class="topbar wh" data-am-sticky>
@@ -67,6 +67,7 @@
             <input type="hidden" id="resultPage" name="resultPage" value="/search3"/>
             <input type="hidden" id="facetFields" name="facetFields" value="project_name"/>
             <input type="hidden" id="group" name="group" value="efeiyi"/>
+            <input type="hidden" id="priceUD" name="priceUD" value="0"/>
             <%-- End全文检索测试 --%>
             <div class="keywords">
                 <a href="">剪纸</a>
@@ -83,7 +84,7 @@
 <!-- //End--header-->
 <div class="wh nav-new bdb-1">
     <div class="hd">
-        <div class="cate">
+        <div class="cate" id="cate">
             <div class="ld"><h2>非遗商品分类<i class="icon-new"></i></h2></div>
             <div class="allsort" style="display: none;">
                 <div class="item">
@@ -108,10 +109,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -123,10 +124,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -138,10 +139,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -153,10 +154,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -168,10 +169,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -183,10 +184,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -198,10 +199,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -213,10 +214,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -228,10 +229,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -243,10 +244,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -258,10 +259,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -363,12 +364,16 @@
                 </li>
                 <li class="line"><i class="icon"></i></li>
                 <li class="active">
-                    <c:if test="${searchParamBean.priceUD == 0}">
+                    <a href="javascript:void(0)" title="价  格" onclick="sortForward2('product_model_price')">价  格
+                        <i id="priceUD${searchParamBean.priceUD}"
+                           class="icon <c:if test='${searchParamBean.priceUD == 0}'>arrow-up</c:if><c:if test='${searchParamBean.priceUD != 0}'>arrow-down</c:if>"></i>
+                    </a>
+                    <%--<c:if test="${searchParamBean.priceUD == 0}">
                         <a href="javascript:void(0)" title="价  格" onclick="sortForward2('product_model_price')">价  格<i id="priceUD${searchParamBean.priceUD}" class="icon arrow-up"></i></a>
                     </c:if>
                     <c:if test="${searchParamBean.priceUD != 0}">
                         <a href="javascript:void(0)" title="价  格" onclick="sortForward2('product_model_price')">价  格<i id="priceUD${searchParamBean.priceUD}" class="icon arrow-down"></i></a>
-                    </c:if>
+                    </c:if>--%>
                 </li>
                 <li class="line"><i class="icon"></i></li>
                 <li class="active">
@@ -415,136 +420,16 @@
                     <c:forEach items="${searchParamBean.searchResultList}" var="result">
                         <li>
                             <a href="http://192.168.1.57/ef-website/product/productModel/${result.id}" target="_blank" title="">
-                                <%--<img class="imgfilter" src="../../shop2015/upload/category-1.jpg" alt="">--%>
-                                <img class="imgfilter" src="http://ec-efeiyi.oss-cn-beijing.aliyuncs.com/${result.picture_url}" alt="">
-                                <p class="wh name">${result.product_name}[<c:if test="${result.frequent != 1}">${result.specification}</c:if>]</p>
+                                    <img class="imgfilter" src="http://pro.efeiyi.com/${result.picture_url}" alt="">
+                                    <%--<img class="imgfilter" src="http://ec-efeiyi.oss-cn-beijing.aliyuncs.com/${result.picture_url}" alt="">--%>
+                                <p class="wh name">${result.product_name}<c:if test="${result.frequent != 1}">[${result.specification}]</c:if></p>
                                 <p class="wh price">￥${result.product_model_price}</p>
                             </a>
                         </li>
                     </c:forEach>
-                    <%--<li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="">
-                            <img class="imgfilter" src="../shop2015/upload/category-1.jpg" alt="">
-                            <p class="wh name">太极八卦砚</p>
-                            <p class="wh price">￥1500000</p>
-                        </a>
-                    </li>--%>
                 </ul>
-
             </div>
-            <!-- //End--list-pro-->
-            <%--<div class="pages wh">--%>
             <div style="clear: both">
-                <%--<ul class="am-pagination am-pagination-centered">
-                    <li><a href="">1</a></li>
-                    <li class="am-active"><a href="#">2</a></li>
-                    <li class="am-disabled bigRound"><a href="#">最后一页</a></li>
-                </ul>--%>
                 <c:url value="/search.do" var="url"/>
                 <ming800:pcPageList bean="${searchParamBean.pageEntity}" url="${url}">
                     <ming800:pcPageParam name="q" value="${searchParamBean.q}"/><%-- 记录检索关键字 --%>
@@ -650,22 +535,22 @@
             <div class="info">Copyright © 2012-2022 永新华韵文化发展有限公司版权所有-京ICP备15032511号-1</div>
         </div>
         <div class="wh authentication">
-            <a href="http://www.miitbeian.gov.cn" target="_blank" title="网站域名备案"> <img class="imgfilter" src="../shop2015/images/authentication-1.png" alt="网站域名备案"></a>
-            <a href="http://www.baic.gov.cn/" target="_blank" title="企业信用信息备案"> <img class="imgfilter" src="../shop2015/images/authentication-2.png" alt="企业信用信息备案"></a>
-            <a href="/scripts/images/license.jpg" target="_blank" title="企业营业执照"> <img class="imgfilter" src="../shop2015/images/authentication-3.png" alt="企业营业执照 "></a>
+            <a href="http://www.miitbeian.gov.cn" target="_blank" title="网站域名备案"> <img class="imgfilter" src="/shop2015PC/images/authentication-1.png" alt="网站域名备案"></a>
+            <a href="http://www.baic.gov.cn/" target="_blank" title="企业信用信息备案"> <img class="imgfilter" src="/shop2015PC/images/authentication-2.png" alt="企业信用信息备案"></a>
+            <a href="/scripts/images/license.jpg" target="_blank" title="企业营业执照"> <img class="imgfilter" src="/shop2015PC/images/authentication-3.png" alt="企业营业执照 "></a>
         </div>
     </div>
 </div>
 <!--//End--footernew-->
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="../../shop2015/js/jquery.min.js"></script>
+<script src="/shop2015PC/js/jquery.min.js"></script>
 <!--<![endif]-->
 <!--[if lte IE 8 ]>
 <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
 <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
-<script src="../../shop2015/js/system.js"></script>
+<script src="/shop2015PC/js/system.js"></script>
 <!--<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>-->
 
 <script type="text/javascript">
@@ -697,7 +582,6 @@
         facetForward(url)
     }
 </script>
-
 
 </body>
 </html>

@@ -31,9 +31,9 @@
     <!-- Tile icon for Win8 (144x144 + tile color) -->
     <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
     <meta name="msapplication-TileColor" content="#0e90d2">
-    <link type="text/css" rel="stylesheet" href="../shop2015/css/amazeui.min.css?v=20150831">
-    <link type="text/css" rel="stylesheet" href="../shop2015/css/app.css?v=20150831">
-    <link type="text/css" rel="stylesheet" href="../shop2015/css/myorder.css?v=20150831">
+    <link type="text/css" rel="stylesheet" href="/shop2015PC/css/amazeui.min.css?v=20150831">
+    <link type="text/css" rel="stylesheet" href="/shop2015PC/css/app.css?v=20150831">
+    <link type="text/css" rel="stylesheet" href="/shop2015PC/css/myorder.css?v=20150831">
 </head>
 <body>
 <div class="topbar wh" data-am-sticky>
@@ -114,10 +114,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -129,10 +129,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -144,10 +144,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -159,10 +159,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -174,10 +174,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -189,10 +189,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -204,10 +204,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -219,10 +219,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -234,10 +234,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -249,10 +249,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -264,10 +264,10 @@
                         </div>
                         <!-- //End--links-->
                         <div class="reco">
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
-                            <a href="" title=""> <img class="imgfilter" src="../shop2015/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
+                            <a href="" title=""> <img class="imgfilter" src="/shop2015PC/upload/B010102_03.jpg" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -286,11 +286,11 @@
 <div class="wh focus-new">
     <div class="hd">
         <ul class="slider-main">
-            <li style="display: block;"> <img src="../shop2015/upload/b1.jpg" width="1280" height="481" alt=""/></li>
-            <li> <img src="../shop2015/upload/b2.jpg" width="1280" height="481" alt=""/></li>
-            <li> <img src="../shop2015/upload/b3.jpg" width="1280" height="481" alt=""/></li>
-            <li> <img src="../shop2015/upload/b4.jpg" width="1280" height="481" alt=""/></li>
-            <li> <img src="../shop2015/upload/b5.jpg" width="1280" height="481" alt=""/></li>
+            <li style="display: block;"> <img src="/shop2015PC/upload/b1.jpg" width="1280" height="481" alt=""/></li>
+            <li> <img src="/shop2015PC/upload/b2.jpg" width="1280" height="481" alt=""/></li>
+            <li> <img src="/shop2015PC/upload/b3.jpg" width="1280" height="481" alt=""/></li>
+            <li> <img src="/shop2015PC/upload/b4.jpg" width="1280" height="481" alt=""/></li>
+            <li> <img src="/shop2015PC/upload/b5.jpg" width="1280" height="481" alt=""/></li>
         </ul>
         <ul class="slider-nav">
             <li class="active"></li>
@@ -307,18 +307,18 @@
 <div class="homenew hd">
     <div class="deduce ae">
         <ul class="list-top ae">
-            <li><a href="#" target="_blank"><img class="imgfilter" src="../shop2015/upload/homenew1-1.jpg"></a></li>
-            <li><a href="#" target="_blank"><img class="imgfilter" src="../shop2015/upload/homenew1-2.jpg"></a></li>
-            <li><a href="#" target="_blank"><img class="imgfilter" src="../shop2015/upload/homenew1-3.jpg"></a></li>
-            <li><a href="#" target="_blank"><img class="imgfilter" src="../shop2015/upload/homenew1-4.jpg"></a></li>
-            <li><a href="#" target="_blank"><img class="imgfilter" src="../shop2015/upload/homenew1-5.jpg"></a></li>
-            <li><a href="#" target="_blank"><img class="imgfilter" src="../shop2015/upload/homenew1-6.jpg"></a></li>
+            <li><a href="#" target="_blank"><img class="imgfilter" src="/shop2015PC/upload/homenew1-1.jpg"></a></li>
+            <li><a href="#" target="_blank"><img class="imgfilter" src="/shop2015PC/upload/homenew1-2.jpg"></a></li>
+            <li><a href="#" target="_blank"><img class="imgfilter" src="/shop2015PC/upload/homenew1-3.jpg"></a></li>
+            <li><a href="#" target="_blank"><img class="imgfilter" src="/shop2015PC/upload/homenew1-4.jpg"></a></li>
+            <li><a href="#" target="_blank"><img class="imgfilter" src="/shop2015PC/upload/homenew1-5.jpg"></a></li>
+            <li><a href="#" target="_blank"><img class="imgfilter" src="/shop2015PC/upload/homenew1-6.jpg"></a></li>
         </ul>
         <ul class="list-bottom ae">
             <li>
                 <a href="#" target="_blank">
                     <strong>静幽</strong>
-                    <img class="imgfilter" src="../shop2015/upload/homenew2-1.jpg">
+                    <img class="imgfilter" src="/shop2015PC/upload/homenew2-1.jpg">
                 </a>
                 <span class="money"><em>￥</em><font>1500</font></span>
                 <span class="fiery">热卖</span>
@@ -326,7 +326,7 @@
             <li>
                 <a href="#" target="_blank">
                     <strong>静幽</strong>
-                    <img class="imgfilter" src="../shop2015/upload/homenew2-2.jpg">
+                    <img class="imgfilter" src="/shop2015PC/upload/homenew2-2.jpg">
                 </a>
                 <span class="money"><em>￥</em><font>1500</font></span>
                 <span class="fiery">热卖</span>
@@ -334,7 +334,7 @@
             <li>
                 <a href="#" target="_blank">
                     <strong>静幽</strong>
-                    <img class="imgfilter" src="../shop2015/upload/homenew2-3.jpg">
+                    <img class="imgfilter" src="/shop2015PC/upload/homenew2-3.jpg">
                 </a>
                 <span class="money"><em>￥</em><font>1500</font></span>
                 <span class="fiery">热卖</span>
@@ -342,7 +342,7 @@
             <li>
                 <a href="#" target="_blank">
                     <strong>静幽</strong>
-                    <img class="imgfilter" src="../shop2015/upload/homenew2-4.jpg">
+                    <img class="imgfilter" src="/shop2015PC/upload/homenew2-4.jpg">
                 </a>
                 <span class="money"><em>￥</em><font>1500</font></span>
                 <span class="fiery">热卖</span>
@@ -350,7 +350,7 @@
             <li>
                 <a href="#" target="_blank">
                     <strong>婉约如玉青瓷</strong>
-                    <img class="imgfilter" src="../shop2015/upload/homenew2-5.jpg">
+                    <img class="imgfilter" src="/shop2015PC/upload/homenew2-5.jpg">
                 </a>
                 <span class="money"><em>￥</em><font>1500</font></span>
                 <span class="fiery">热卖</span>
@@ -358,7 +358,7 @@
             <li>
                 <a href="#" target="_blank">
                     <strong>静幽</strong>
-                    <img class="imgfilter" src="../shop2015/upload/homenew2-6.jpg">
+                    <img class="imgfilter" src="/shop2015PC/upload/homenew2-6.jpg">
                 </a>
                 <span class="money"><em>￥</em><font>1500</font></span>
                 <span class="fiery">热卖</span>
@@ -366,7 +366,7 @@
             <li>
                 <a href="#" target="_blank">
                     <strong>静幽</strong>
-                    <img class="imgfilter" src="../shop2015/upload/homenew2-7.jpg">
+                    <img class="imgfilter" src="/shop2015PC/upload/homenew2-7.jpg">
                 </a>
                 <span class="money"><em>￥</em><font>1500</font></span>
                 <span class="fiery">热卖</span>
@@ -374,7 +374,7 @@
             <li>
                 <a href="#" target="_blank">
                     <strong>静幽</strong>
-                    <img class="imgfilter" src="../shop2015/upload/homenew2-8.jpg">
+                    <img class="imgfilter" src="/shop2015PC/upload/homenew2-8.jpg">
                 </a>
                 <span class="money"><em>￥</em><font>1500</font></span>
                 <span class="fiery">热卖</span>
@@ -382,7 +382,7 @@
             <li>
                 <a href="#" target="_blank">
                     <strong>静幽</strong>
-                    <img class="imgfilter" src="../shop2015/upload/homenew2-9.jpg">
+                    <img class="imgfilter" src="/shop2015PC/upload/homenew2-9.jpg">
                 </a>
                 <span class="money"><em>￥</em><font>1500</font></span>
                 <span class="fiery">热卖</span>
@@ -390,7 +390,7 @@
             <li>
                 <a href="#" target="_blank">
                     <strong>静幽</strong>
-                    <img class="imgfilter" src="../shop2015/upload/homenew2-10.jpg">
+                    <img class="imgfilter" src="/shop2015PC/upload/homenew2-10.jpg">
                 </a>
                 <span class="money"><em>￥</em><font>1500</font></span>
                 <span class="fiery">热卖</span>
@@ -426,56 +426,56 @@
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-1.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-1.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-2.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-2.jpg">
                     </a>
                     <span class="imgfilter" class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-3.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-3.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-4.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-4.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-5.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-5.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-6.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-6.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-7.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-7.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-8.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-8.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
@@ -507,56 +507,56 @@
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-1.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-1.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-2.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-2.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-3.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-3.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-4.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-4.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-5.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-5.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-6.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-6.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-7.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-7.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-8.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-8.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
@@ -588,56 +588,56 @@
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-1.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-1.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-2.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-2.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-3.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-3.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-4.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-4.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-5.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-5.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-6.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-6.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-7.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-7.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
                 <li>
                     <a href="#" target="_blank">
                         <strong>静幽</strong>
-                        <img class="imgfilter" src="../shop2015/upload/homenew3-8.jpg">
+                        <img class="imgfilter" src="/shop2015PC/upload/homenew3-8.jpg">
                     </a>
                     <span class="cat-money"><em>￥</em><font>1500</font></span>
                 </li>
@@ -732,23 +732,23 @@
             <div class="info">Copyright © 2012-2022 永新华韵文化发展有限公司版权所有-京ICP备15032511号-1</div>
         </div>
         <div class="wh authentication">
-            <a href="http://www.miitbeian.gov.cn" target="_blank" title="网站域名备案"> <img class="imgfilter" src="../shop2015/images/authentication-1.png" alt="网站域名备案"></a>
-            <a href="http://www.baic.gov.cn/" target="_blank" title="企业信用信息备案"> <img class="imgfilter" src="../shop2015/images/authentication-2.png" alt="企业信用信息备案"></a>
-            <a href="/scripts/images/license.jpg" target="_blank" title="企业营业执照"> <img class="imgfilter" src="../shop2015/images/authentication-3.png" alt="企业营业执照 "></a>
+            <a href="http://www.miitbeian.gov.cn" target="_blank" title="网站域名备案"> <img class="imgfilter" src="/shop2015PC/images/authentication-1.png" alt="网站域名备案"></a>
+            <a href="http://www.baic.gov.cn/" target="_blank" title="企业信用信息备案"> <img class="imgfilter" src="/shop2015PC/images/authentication-2.png" alt="企业信用信息备案"></a>
+            <a href="/scripts/images/license.jpg" target="_blank" title="企业营业执照"> <img class="imgfilter" src="/shop2015PC/images/authentication-3.png" alt="企业营业执照 "></a>
         </div>
     </div>
 </div>
 <!--//End--footernew-->
 
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="../shop2015/js/jquery.min.js"></script>
+<script src="/shop2015PC/js/jquery.min.js"></script>
 <!--<![endif]-->
 <!--[if lte IE 8 ]>
 <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
 <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
-<script src="../shop2015/js/system.js"></script>
+<script src="/shop2015PC/js/system.js"></script>
 <!--<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>-->
 
 </body>
