@@ -16,6 +16,7 @@
         <module>xh-system</module>
         <module>xh-website</module>
         <module>xh-model</module>
+        <module>jh-system</module>
     </modules>
 
     <repositories>
