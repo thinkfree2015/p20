@@ -16,8 +16,8 @@ public class VirtualOrderPlan extends VirtualPlan{
     private Integer orderCountLimitFloor;
     private Integer orderCountLimitCeil;
     private List<VirtualProductModel> virtualProductModelList;
-    private Date peakTime;
-    private Integer standardDeviation; //标准差
+    private Date peakTime;//均值小时
+    private Integer standardDeviation; //标准差小时
 
     @Column(name = "count_limit_floor")
     public Integer getOrderCountLimitFloor() {

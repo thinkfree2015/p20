@@ -17,7 +17,6 @@ import java.util.Date;
  */
 public class BatchInitListener implements ServletContextListener {
 
-    private SessionFactory sessionFactory = (SessionFactory) ApplicationContextUtil.getApplicationContext().getBean("sessionFactory");
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {

@@ -75,7 +75,7 @@ public class MyTimerTask extends TimerTask {
                 continue;
             }
 
-            SubTimer subTimer = new SubTimer();
+            subTimer = new SubTimer();
             subTimer.setTimer(new Timer());
             subTimer.setTimerTask(subTimerTask);
             SuperTimer.getInstance().getSubTimerMap().put(virtualPlan.getId(), subTimer);
