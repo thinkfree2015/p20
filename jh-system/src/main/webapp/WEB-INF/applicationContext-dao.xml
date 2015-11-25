@@ -14,7 +14,7 @@
         http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
         ">
 
-    <!--<context:component-scan base-package="com.efeiyi.pal"/>-->
+    <context:component-scan base-package="com.efeiyi.jh"/>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
@@ -76,13 +76,13 @@
     <!--<bean id="modalServiceManagerImpl" class="com.efeiyi.pal.system.base.service.impl.ModalServiceManagerImpl"/>-->
     <!--<bean id="modalDaoHibernate" class="com.efeiyi.pal.system.base.dao.hibernate.ModalDaoHibernate"/>-->
 
-    <!--&lt;!&ndash;userDao用于spring security&ndash;&gt;-->
-    <!--<bean id="userDao" class="com.efeiyi.pal.system.organization.dao.hibernate.UserDaoHibernate">-->
-        <!--<property name="sessionFactory" ref="sessionFactory"/>-->
-    <!--</bean>-->
-    <!--<bean id="userLoginManager" class="com.efeiyi.pal.system.organization.service.UserLoginManager">-->
-        <!--<property name="userLoginDao" ref="userDao"/>-->
-    <!--</bean>-->
+    <!--userDao用于spring security-->
+    <bean id="userDao" class="com.efeiyi.jh.login.dao.hibernate.UserDaoHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="userLoginManager" class="com.efeiyi.jh.login.service.UserLoginManager">
+        <property name="userLoginDao" ref="userDao"/>
+    </bean>
 
     <!--<bean id="autoSerialManager" class="com.efeiyi.pal.system.label.labelService.impl.AutoSerialManagerImpl" />-->
     <!--</bean>-->

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmenu id="commonMenu">
+<jmenu id="virtualData">
 
-    <jnode id="palManager" url="/main.do?jnodeId=palManager" text_zh_CN="成品宝管理">
-        <jnode url="" id="orderManager" access="admin,manager" state="closed"  text_zh_CN="查询管理">
+    <jnode id="orderAndCustomer" url="/main.do?jnodeId=orderAndCustomer" text_zh_CN="订单与消费者">
+        <jnode url="" id="checkManager" access="admin,manager" state="closed"  text_zh_CN="查询管理">
             <jnode url="/basic/xm.do?qm=plistLabelCheckRecord_default"  access="admin,manager" text_zh_CN="防伪查询记录">
                 <match url="/basic/xm.do?qm=plistLabelCheckRecord_default"/>
                 <match url="/basic/xm.do?qm=plistLabelCheckRecord_label"/>
@@ -13,7 +13,7 @@
             </jnode>
         </jnode>
 
-        <jnode url="" id="orderManager" access="admin,manager" state="closed"  text_zh_CN="标签管理">
+        <jnode url="" id="labelManager" access="admin,manager" state="closed"  text_zh_CN="标签管理">
 
             <jnode url="/basic/xm.do?qm=plistPurchaseOrder_default" access="admin,manager" text_zh_CN="订单管理">
                 <match url="/basic/xm.do?qm=plistPurchaseOrder_default"/>
@@ -41,7 +41,7 @@
             </jnode>
         </jnode>
 
-        <jnode url="" id="orderManager" access="admin,manager" state="closed"  text_zh_CN="商品管理">
+        <jnode url="" id="productManager" access="admin,manager" state="closed"  text_zh_CN="商品管理">
             <jnode url="/basic/xm.do?qm=plistProduct_default"  access="admin,manager" text_zh_CN="商品管理">
                 <match url="/basic/xm.do?qm=plistProduct_default"/>
                 <match url="/basic/xm.do?qm=formProduct&amp;product=product"/>
@@ -61,7 +61,7 @@
             </jnode>
         </jnode>
 
-        <jnode url="" id="productManager" access="admin,manager" state="closed"  text_zh_CN="系统管理">
+        <jnode url="" id="systemManager" access="admin,manager" state="closed"  text_zh_CN="系统管理">
             <jnode url="/basic/xm.do?qm=plistTenant_default" access="admin" text_zh_CN="商户管理">
                 <match url="/basic/xm.do?qm=plistTenant_default"/>
                 <match url="/basic/xm.do?qm=formTenant&amp;tenant=tenant"/>
@@ -80,6 +80,46 @@
                 <!--<match url="removeUser"/>-->
                 <!--<match url="saveOrUpdateUser"/>-->
             </jnode>
+        </jnode>
+    </jnode>
+
+    <jnode id="productAndSeller" url="/main.do?jnodeId=productAndSeller" text_zh_CN="商品与商家">
+        <jnode url="" id="productAndSellerManager" access="admin,manager" state="closed" text_zh_CN="商品与商家10">
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="商品与商家20"/>
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="商品与商家21"/>
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="商品与商家22"/>
+        </jnode>
+    </jnode>
+
+    <jnode id="master" url="/main.do?jnodeId=master" text_zh_CN="大师">
+        <jnode url="" id="masterManager" access="admin,manager" state="closed"  text_zh_CN="大师10">
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="大师20"/>
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="大师21"/>
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="大师22"/>
+        </jnode>
+    </jnode>
+
+    <jnode id="crafts" url="/main.do?jnodeId=crafts" text_zh_CN="工艺">
+        <jnode url="" id="craftsManager" access="admin,manager" state="closed"  text_zh_CN="工艺10">
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="工艺20"/>
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="工艺21"/>
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="工艺22"/>
+        </jnode>
+    </jnode>
+
+    <jnode id="baseManagement" url="/main.do?jnodeId=baseManagement" text_zh_CN="基础管理">
+        <jnode url="" id="baseManager" access="admin,manager" state="closed"  text_zh_CN="基础管理10">
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="基础管理20"/>
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="基础管理21"/>
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="基础管理22"/>
+        </jnode>
+    </jnode>
+
+    <jnode id="systemManagement" url="/main.do?jnodeId=systemManagement" text_zh_CN="系统管理">
+        <jnode url="" id="systemManager" access="admin,manager" state="closed"  text_zh_CN="系统管理10">
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="系统管理20"/>
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="系统管理21"/>
+            <jnode url="/basic/xm.do" access="admin,manager" text_zh_CN="系统管理22"/>
         </jnode>
     </jnode>
 
