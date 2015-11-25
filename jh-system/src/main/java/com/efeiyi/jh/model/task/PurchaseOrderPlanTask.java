@@ -1,6 +1,7 @@
 package com.efeiyi.jh.model.task;
 
 
+import com.efeiyi.jh.model.entity.VirtualOrderPlan;
 import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.ming800.core.util.ApplicationContextUtil;
 import org.hibernate.Query;
@@ -11,17 +12,14 @@ import java.util.*;
 /**
  * Created by Administrator on 2015/11/20.
  */
-public class PurchaseOrderPlanTask extends TimerTask{
+public class PurchaseOrderPlanTask extends AbstractTimerTask{
+
+    private VirtualOrderPlan virtualOrderPlan;
 
     private SessionFactory sessionFactory = (SessionFactory) ApplicationContextUtil.getApplicationContext().getBean("sessionFactory");
 
     public void execute() {
 
-        Query listQuery = sessionFactory.openSession().createQuery("from VirtualPlan where status = '1'");
-        List<VirtualPlan> virtualPlanList = listQuery.list();
-
-//        PurchasePlan purchasePlan = (PurchasePlan)plan;
-//
 //        int memberCount = 0;
 //        for(MemberPlan memberPlan : purchasePlan.getMemberPlanList()){
 //            memberCount += memberPlan.getMemberCount();
@@ -34,9 +32,9 @@ public class PurchaseOrderPlanTask extends TimerTask{
 //        final CountDownLatch latch = new CountDownLatch(totalMemberCount);
 //        int averageHour = purchasePlan.getAverageTime();
 //        int peakHour = purchasePlan.getPeakTime();
-
-
-
+//
+//
+//
 //        Random random = new Random();
 //        Long[] d = new Long[memberCount];
 //        Calendar calendar = Calendar.getInstance();
@@ -75,6 +73,7 @@ public class PurchaseOrderPlanTask extends TimerTask{
 //                shutdownTimer.cancel();
 //            }
 //        }, 3000);
+        System.out.println(virtualOrderPlan);
     }
 
     @Override
@@ -94,4 +93,8 @@ public class PurchaseOrderPlanTask extends TimerTask{
         System.out.println("一个循环结束.........................");
     }
 
+    @Override
+    public void setVirtualPlan(VirtualPlan virtualPlan) {
+        this.virtualOrderPlan = (VirtualOrderPlan)virtualPlan;
+    }
 }

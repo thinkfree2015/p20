@@ -69,9 +69,10 @@ public class SuperTimerTask extends TimerTask {
                 continue;
             }
 
-            TimerTask subTimerTask = null;
+            AbstractTimerTask subTimerTask = null;
             try {
-                subTimerTask = (TimerTask) Class.forName(virtualPlan.getImplementClass()).newInstance();
+                subTimerTask = (AbstractTimerTask) Class.forName(virtualPlan.getImplementClass()).newInstance();
+                subTimerTask.setVirtualPlan(virtualPlan);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.err.println("没找到对应的定时任务处理类!!serial :" + virtualPlan.getSerial() + " description:" + virtualPlan.getDescription());

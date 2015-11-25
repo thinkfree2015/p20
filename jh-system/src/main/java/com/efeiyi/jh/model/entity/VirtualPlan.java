@@ -125,4 +125,5 @@ public class VirtualPlan {
     public void setImplementClass(String implementClass) {
         this.implementClass = implementClass;
     }
+
 }
