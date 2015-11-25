@@ -3,12 +3,13 @@ package com.efeiyi.jh.handler.impl;
 import com.efeiyi.jh.model.VirtualPlan;
 import com.efeiyi.jh.handler.PlanHandler;
 
+import java.util.TimerTask;
+
 /**
  * Created by Administrator on 2015/11/20.
  */
-public class PurchaseOrderPlanHandler implements PlanHandler {
+public class PurchaseOrderPlanHandler extends TimerTask{
 
-    @Override
     public void execute(VirtualPlan plan) {
 
 ////        PurchasePlan purchasePlan = (PurchasePlan)plan;
@@ -68,4 +69,8 @@ public class PurchaseOrderPlanHandler implements PlanHandler {
 //        }, 3000);
     }
 
+    @Override
+    public void run() {
+        System.out.println("running..........................................");
+    }
 }

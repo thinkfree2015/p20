@@ -14,16 +14,17 @@ import java.util.Date;
 public class VirtualPlan {
 
     private String id;
-    private String serial;
+    private Integer serial;
     private String status;
     private Date createDatetime;
     private String planType;
-    private Date startDatetime;
-    private Date endDatetime;
-    private boolean running;
-    private String implementHandler;
+    private Date startTime;
+    private Date endTime;
+    private Date startDate;
+    private Date endDate;
+    private String implementClass;
     private String description;
-
+@Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -44,11 +45,11 @@ public class VirtualPlan {
     }
 
     @Column(name="serial")
-    public String getSerial() {
+    public Integer getSerial() {
         return serial;
     }
 
-    public void setSerial(String serial) {
+    public void setSerial(Integer serial) {
         this.serial = serial;
     }
 
@@ -79,35 +80,47 @@ public class VirtualPlan {
         this.planType = planType;
     }
 
-    public Date getStartDatetime() {
-        return startDatetime;
+    @Column(name="start_time")
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStartDatetime(Date startDatetime) {
-        this.startDatetime = startDatetime;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+    @Column(name="end_time")
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public Date getEndDatetime() {
-        return endDatetime;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
-    public void setEndDatetime(Date endDatetime) {
-        this.endDatetime = endDatetime;
+    @Column(name="start_date")
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public boolean isRunning() {
-        return running;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public void setRunning(boolean running) {
-        this.running = running;
+    @Column(name="end_date")
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public String getImplementHandler() {
-        return implementHandler;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    public void setImplementHandler(String implementHandler) {
-        this.implementHandler = implementHandler;
+    @Column(name="implements_class")
+    public String getImplementClass() {
+        return implementClass;
+    }
+
+    public void setImplementClass(String implementClass) {
+        this.implementClass = implementClass;
     }
 }

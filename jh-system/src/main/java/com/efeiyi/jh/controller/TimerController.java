@@ -38,14 +38,14 @@ public class TimerController {
         return new ModelAndView("/main");
     }
 
-    @RequestMapping("/start.do")
-    public ModelAndView startPlan() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-
-       Timer timer = new Timer();
-
-        timer.schedule(new MyTimerTask(),0);
-
-        return new ModelAndView("/main");
-    }
+//    @RequestMapping("/start.do")
+//    public ModelAndView startPlan() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+//
+//       Timer timer = new Timer();
+//
+//        timer.schedule(new MyTimerTask(),0);
+//
+//        return new ModelAndView("/main");
+//    }
 
 }

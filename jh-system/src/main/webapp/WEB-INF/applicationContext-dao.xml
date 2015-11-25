@@ -35,7 +35,6 @@
             <list>
                 <value>com.ming800.**.model</value>
                 <value>com.efeiyi.**.model</value>
-                <value>com.efeiyi.**.service</value>
             </list>
         </property>
     </bean>

@@ -65,9 +65,9 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-    <!--<listener>-->
-        <!--<listener-class>com.efeiyi.jh.listener.BatchInitListener</listener-class>-->
-    <!--</listener>-->
+    <listener>
+        <listener-class>com.efeiyi.jh.listener.BatchInitListener</listener-class>
+    </listener>
 
     <jsp-config>
         <!--增加自定义标签 -->
