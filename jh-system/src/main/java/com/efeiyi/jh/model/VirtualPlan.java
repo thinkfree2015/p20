@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "virtual_plan")
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class VirtualPlan {
 
     private String id;
@@ -24,7 +24,8 @@ public class VirtualPlan {
     private Date endDate;
     private String implementClass;
     private String description;
-@Column(name = "description")
+
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -44,7 +45,7 @@ public class VirtualPlan {
         this.id = id;
     }
 
-    @Column(name="serial")
+    @Column(name = "serial")
     public Integer getSerial() {
         return serial;
     }
@@ -53,7 +54,7 @@ public class VirtualPlan {
         this.serial = serial;
     }
 
-    @Column(name="status")
+    @Column(name = "status")
     public String getStatus() {
         return status;
     }
@@ -62,7 +63,7 @@ public class VirtualPlan {
         this.status = status;
     }
 
-    @Column(name="create_datetime")
+    @Column(name = "create_datetime")
     public Date getCreateDatetime() {
         return createDatetime;
     }
@@ -71,7 +72,7 @@ public class VirtualPlan {
         this.createDatetime = createDatetime;
     }
 
-    @Column(name="plan_type")
+    @Column(name = "plan_type")
     public String getPlanType() {
         return planType;
     }
@@ -80,7 +81,7 @@ public class VirtualPlan {
         this.planType = planType;
     }
 
-    @Column(name="start_time")
+    @Column(name = "start_time")
     public Date getStartTime() {
         return startTime;
     }
@@ -88,7 +89,8 @@ public class VirtualPlan {
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
-    @Column(name="end_time")
+
+    @Column(name = "end_time")
     public Date getEndTime() {
         return endTime;
     }
@@ -97,7 +99,7 @@ public class VirtualPlan {
         this.endTime = endTime;
     }
 
-    @Column(name="start_date")
+    @Column(name = "start_date")
     public Date getStartDate() {
         return startDate;
     }
@@ -106,7 +108,7 @@ public class VirtualPlan {
         this.startDate = startDate;
     }
 
-    @Column(name="end_date")
+    @Column(name = "end_date")
     public Date getEndDate() {
         return endDate;
     }
@@ -115,7 +117,7 @@ public class VirtualPlan {
         this.endDate = endDate;
     }
 
-    @Column(name="implements_class")
+    @Column(name = "implements_class")
     public String getImplementClass() {
         return implementClass;
     }

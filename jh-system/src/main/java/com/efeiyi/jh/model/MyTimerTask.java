@@ -1,11 +1,9 @@
-package com.efeiyi.jh.service;
+package com.efeiyi.jh.model;
 
-import com.efeiyi.jh.model.VirtualPlan;
 import com.ming800.core.util.ApplicationContextUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,9 +47,9 @@ public class MyTimerTask extends TimerTask {
         for (VirtualPlan virtualPlan : virtualPlanList) {
 
             //停掉前一天的
-            Timer subTimer = MyTimer.getInstance().getSubTimerMap().remove(virtualPlan.getId());
+            SubTimer subTimer = SuperTimer.getInstance().getSubTimerMap().remove(virtualPlan.getId());
             if (subTimer != null) {
-                subTimer.cancel();
+                subTimer.getTimer().cancel();
             }
 
             //执行日期以外的跳过
@@ -59,7 +57,7 @@ public class MyTimerTask extends TimerTask {
                 continue;
             }
 
-            //执行时间以外的跳过
+            //执行时间以外的跳过,当前时间超过starttime的立即启动
             String[] subTaskStartTime = timeFormat.format(virtualPlan.getStartTime()).split(",");
             String[] subTaskEndTime = timeFormat.format(virtualPlan.getEndTime()).split(",");
             startCalendarComparator.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]), Integer.parseInt(subTaskStartTime[0]), Integer.parseInt(subTaskStartTime[1]), Integer.parseInt(subTaskStartTime[2]));
@@ -68,19 +66,21 @@ public class MyTimerTask extends TimerTask {
                 continue;
             }
 
-            TimerTask subTimerTasker = null;
+            TimerTask subTimerTask = null;
             try {
-                subTimerTasker = (TimerTask) Class.forName(virtualPlan.getImplementClass()).newInstance();
+                subTimerTask = (TimerTask) Class.forName(virtualPlan.getImplementClass()).newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
                 System.err.println("没找到对应的定时任务处理类!!serial :" + virtualPlan.getSerial() + " description:" + virtualPlan.getDescription());
                 continue;
             }
 
-            subTimer = new Timer();
-            MyTimer.getInstance().getSubTimerMap().put(virtualPlan.getId(), subTimer);
+            SubTimer subTimer = new SubTimer();
+            subTimer.setTimer(new Timer());
+            subTimer.setTimerTask(subTimerTask);
+            SuperTimer.getInstance().getSubTimerMap().put(virtualPlan.getId(), subTimer);
             long delay = 0;
-            subTimer.schedule(subTimerTasker, (delay = startCalendarComparator.getTimeInMillis() - nowDate.getTime()) < 0 ? 0 : delay, MyTimer.getInstance().getTaskExecuteCycle());
+            subTimer.getTimer().schedule(subTimerTask, (delay = startCalendarComparator.getTimeInMillis() - nowDate.getTime()) < 0 ? 0 : delay, SuperTimer.getInstance().getTaskExecuteCycle());
             System.out.println(virtualPlan.getSerial() + "启动定时：" + (delay < 0 ? 0 : delay) + "毫秒后启动");
         }
         session.close();
