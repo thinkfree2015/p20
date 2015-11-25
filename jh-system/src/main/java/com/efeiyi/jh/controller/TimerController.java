@@ -1,6 +1,6 @@
 package com.efeiyi.jh.controller;
 
-import com.efeiyi.jh.model.VirtualPlan;
+import com.efeiyi.jh.model.entity.VirtualPlan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
