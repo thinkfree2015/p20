@@ -23,7 +23,7 @@ public class PurchaseOrderViewLabelHandler implements DoHandler {
     public ModelMap handle(ModelMap modelMap, HttpServletRequest request) throws Exception {
 
         String purchaseOrderId = request.getParameter("id");
-        if (purchaseOrderId == null || "".equals(purchaseOrderId)) {
+        if (purchaseOrderId == null || "".equals(purchaseOrderId.trim())) {
             throw new Exception("订单Id为空");
         }
         PurchaseOrder purchaseOrder = (PurchaseOrder) baseManager.getObject(PurchaseOrder.class.getName(), purchaseOrderId);

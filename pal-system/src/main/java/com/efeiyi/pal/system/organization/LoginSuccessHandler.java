@@ -1,6 +1,5 @@
 package com.efeiyi.pal.system.organization;
 
-
 import com.ming800.core.base.service.BaseManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

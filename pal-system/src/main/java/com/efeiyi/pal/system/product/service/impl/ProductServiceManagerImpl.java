@@ -3,7 +3,6 @@ package com.efeiyi.pal.system.product.service.impl;
 import com.efeiyi.pal.organization.model.Tenant;
 import com.efeiyi.pal.product.model.Product;
 import com.efeiyi.pal.product.model.ProductSeries;
-import com.efeiyi.pal.product.model.TenantProductSeries;
 import com.efeiyi.pal.system.product.dao.ProductDao;
 import com.efeiyi.pal.system.product.service.ProductServiceManager;
 import org.springframework.beans.factory.annotation.Autowired;

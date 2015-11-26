@@ -31,7 +31,7 @@ public class LabelController {
     public ModelAndView saveLabelList(HttpServletRequest request) throws Exception {
 
         String labelBatchId = request.getParameter("labelBatchId");
-        if (labelBatchId == null || labelBatchId.equals("")) {
+        if (labelBatchId == null || labelBatchId.trim().equals("")) {
             throw new Exception("labelBatchId不能为空");
         }
         LabelBatch labelBatch = (LabelBatch) baseManager.getObject(LabelBatch.class.getName(), labelBatchId);

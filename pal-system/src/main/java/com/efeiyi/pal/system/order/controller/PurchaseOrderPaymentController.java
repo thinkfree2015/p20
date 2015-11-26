@@ -43,7 +43,7 @@ public class PurchaseOrderPaymentController {
 
         String orderPaymentId = request.getParameter("id");
         String type = "new";
-        if (orderPaymentId != null && !orderPaymentId.equals("")) {
+        if (orderPaymentId != null && !orderPaymentId.trim().equals("")) {
             type = "edit";
             purchaseOrderPayment = (PurchaseOrderPayment) baseManager.getObject(PurchaseOrderPayment.class.getName(), orderPaymentId);
         }

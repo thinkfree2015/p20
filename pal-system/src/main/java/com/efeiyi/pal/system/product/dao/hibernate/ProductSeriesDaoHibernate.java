@@ -1,7 +1,6 @@
 package com.efeiyi.pal.system.product.dao.hibernate;
 
 import com.efeiyi.pal.product.model.ProductSeriesPropertyName;
-import com.efeiyi.pal.product.model.TenantProductSeries;
 import com.efeiyi.pal.system.product.dao.ProductSeriesDao;
 import org.hibernate.Query;
 import org.hibernate.Session;

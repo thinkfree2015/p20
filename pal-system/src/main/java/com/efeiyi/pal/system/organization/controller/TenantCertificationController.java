@@ -48,7 +48,7 @@ public class TenantCertificationController {
 
         String tenantCertificationId = request.getParameter("id");
         String type = "new";
-        if (tenantCertificationId != null && !tenantCertificationId.equals("")) {
+        if (tenantCertificationId != null && !tenantCertificationId.trim().equals("")) {
             type = "edit";
             tenantCertification = (TenantCertification) baseManager.getObject(TenantCertification.class.getName(), tenantCertificationId);
         }

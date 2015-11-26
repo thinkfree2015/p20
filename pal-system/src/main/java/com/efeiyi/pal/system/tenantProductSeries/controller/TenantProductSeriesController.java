@@ -29,7 +29,7 @@ public class TenantProductSeriesController {
     public ModelAndView saveTenantProductSeries(ModelMap modelMap, HttpServletRequest request) throws Exception{
 
         String tenantProductSeriesId = request.getParameter("id");
-        if (tenantProductSeriesId == null || tenantProductSeriesId.equals("")) {
+        if (tenantProductSeriesId == null || tenantProductSeriesId.trim().equals("")) {
             throw new Exception("商户系列溯源信息Id不能为空");
         }
         TenantProductSeries tenantProductSeries = (TenantProductSeries) baseManager.getObject(TenantProductSeries.class.getName(), tenantProductSeriesId);

@@ -35,7 +35,7 @@ public class ProductSeriesController {
 
         String productSeriesId = request.getParameter("id");
         String type = "new";
-        if (productSeriesId != null && !productSeriesId.equals("")) {
+        if (productSeriesId != null && !productSeriesId.trim().equals("")) {
             type = "edit";
             productSeries = (ProductSeries) baseManager.getObject(ProductSeries.class.getName(), productSeriesId);
         }

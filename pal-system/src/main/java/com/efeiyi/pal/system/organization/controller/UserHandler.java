@@ -26,7 +26,7 @@ public class UserHandler implements DoHandler {
 
         String userId = request.getParameter("id");
         String type = "new";
-        if (userId != null && !userId.equals("")) {
+        if (userId != null && !userId.trim().equals("")) {
             type = "edit";
             user = (User) baseManager.getObject(User.class.getName(), userId);
         }
