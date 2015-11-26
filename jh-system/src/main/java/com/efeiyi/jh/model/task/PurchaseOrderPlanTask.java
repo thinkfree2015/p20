@@ -1,86 +1,32 @@
 package com.efeiyi.jh.model.task;
 
 
+import com.efeiyi.ec.purchase.model.PurchaseOrder;
 import com.efeiyi.jh.model.entity.VirtualOrderPlan;
 import com.efeiyi.jh.model.entity.VirtualPlan;
+import com.efeiyi.jh.model.entity.VirtualProductModel;
+import com.efeiyi.jh.model.entity.VirtualUser;
+import com.efeiyi.jh.model.timer.SubTimer;
+import com.efeiyi.jh.model.timer.SuperTimer;
 import com.ming800.core.util.ApplicationContextUtil;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
  * Created by Administrator on 2015/11/20.
  */
-public class PurchaseOrderPlanTask extends AbstractTimerTask{
+public class PurchaseOrderPlanTask extends AbstractTimerTask {
 
     private VirtualOrderPlan virtualOrderPlan;
-
-    private SessionFactory sessionFactory = (SessionFactory) ApplicationContextUtil.getApplicationContext().getBean("sessionFactory");
-
-    public void execute() {
-
-//        int memberCount = 0;
-//        for(MemberPlan memberPlan : purchasePlan.getMemberPlanList()){
-//            memberCount += memberPlan.getMemberCount();
-//        }
-//
-//        final SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
-//        final Timer timer = new Timer();
-//        final Timer shutdownTimer = new Timer();
-//        final int totalMemberCount = memberCount;
-//        final CountDownLatch latch = new CountDownLatch(totalMemberCount);
-//        int averageHour = purchasePlan.getAverageTime();
-//        int peakHour = purchasePlan.getPeakTime();
-//
-//
-//
-//        Random random = new Random();
-//        Long[] d = new Long[memberCount];
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(2015, 11 - 1, 23, peakHour, 30, 00);
-//        long now = System.currentTimeMillis();
-//        long future = calendar.getTimeInMillis();
-//        long futureFromNow = future - now;
-//        System.out.println(format.format(new Date(future)));
-//
-//        //
-//        for (int x = 0; x < memberCount; x++) {
-//            d[x] = (long) (random.nextGaussian() * 60 * 60 * 1000) * averageHour / 2  + futureFromNow;
-//        }
-//        Arrays.sort(d);
-//
-//        for (int x = 0; x < memberCount; x++) {
-//            timer.schedule(new TimerTask() {
-//                @Override
-//                public void run() {
-//                    System.out.println("买了一个！! " + format.format(new Date()));
-//                    latch.countDown();
-//                }
-//            }, d[x] >= 0 ? d[x] : 0);
-//        }
-//        shutdownTimer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                try {
-//                    System.out.println("latch await!" + format.format(new Date()));
-//                    latch.await();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                System.out.println("latch end!" + format.format(new Date()));
-//                timer.cancel();
-//                shutdownTimer.cancel();
-//            }
-//        }, 3000);
-        System.out.println(virtualOrderPlan);
-    }
 
     @Override
     public boolean cancel() {
         System.out.println("PurchaseOrderPlanTask cancelling............................................");
 
-        sessionFactory.close();
         return super.cancel();
     }
 
@@ -88,13 +34,57 @@ public class PurchaseOrderPlanTask extends AbstractTimerTask{
     public void run() {
         System.out.println("running..........................................");
 
-        execute();
+        Random random = new Random();
+        Integer totalOrderCount = 0;
+
+        for (VirtualProductModel virtualProductModel : virtualOrderPlan.getVirtualProductModelList()) {
+            totalOrderCount += virtualProductModel.getRandomCount();
+        }
+        Long[] randomOrderTimePoint = new Long[totalOrderCount];
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy,MM,dd,HH,mm,ss");
+        Calendar futureCalendar = Calendar.getInstance();
+        String[] nowArray = dateFormat.format(futureCalendar.getTime()).split(",");
+        String[] peakTimeArray = dateFormat.format(virtualOrderPlan.getPeakTime()).split(",");
+        futureCalendar.set(Integer.parseInt(nowArray[0]), Integer.parseInt(nowArray[1]) - 1, Integer.parseInt(nowArray[2]), Integer.parseInt(peakTimeArray[3]), Integer.parseInt(peakTimeArray[4]), Integer.parseInt(peakTimeArray[5]));
+        long now = System.currentTimeMillis();
+        long future = futureCalendar.getTimeInMillis();
+        long futureFromNow = future - now;
+
+        for (int x = 0; x < randomOrderTimePoint.length; x++) {
+            randomOrderTimePoint[x] = (long) (random.nextGaussian() * 60 * 60 * 1000) * virtualOrderPlan.getStandardDeviation() + futureFromNow;
+        }
+        Arrays.sort(randomOrderTimePoint);
+
+        for (int x = 0; x < randomOrderTimePoint.length; x++) {
+            SuperTimer.getInstance().getSubTimerMap().get(virtualOrderPlan).getTimer().schedule(new VirtualPurchase(), randomOrderTimePoint[x] >= 0 ? randomOrderTimePoint[x] : 0);
+        }
 
         System.out.println("一个循环结束.........................");
     }
 
     @Override
     public void setVirtualPlan(VirtualPlan virtualPlan) {
-        this.virtualOrderPlan = (VirtualOrderPlan)virtualPlan;
+        this.virtualOrderPlan = (VirtualOrderPlan) virtualPlan;
+    }
+
+    class VirtualPurchase extends AbstractTimerTask {
+
+        private VirtualOrderPlan virtualOrderPlan;
+
+        @Override
+        public void run() {
+            System.out.println(new Date() + ":买了一个！！！！！！！！！！！");
+            PurchaseOrder purchaseOrder = new PurchaseOrder();
+            purchaseOrder.setCreateDatetime(new Date());
+            getSession().saveOrUpdate(PurchaseOrder.class.getName(), purchaseOrder);
+        }
+
+        @Override
+        public void setVirtualPlan(VirtualPlan virtualPlan) {
+            this.virtualOrderPlan = (VirtualOrderPlan)virtualPlan;
+        }
     }
 }
+
+

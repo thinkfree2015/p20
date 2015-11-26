@@ -50,7 +50,7 @@ public class SuperTimerTask extends TimerTask {
         for (VirtualPlan virtualPlan : virtualPlanList) {
 
             //停掉前一天的
-            SubTimer subTimer = SuperTimer.getInstance().getSubTimerMap().remove(virtualPlan.getId());
+            SubTimer subTimer = SuperTimer.getInstance().getSubTimerMap().remove(virtualPlan);
             if (subTimer != null) {
                 subTimer.getTimer().cancel();
             }
@@ -81,8 +81,8 @@ public class SuperTimerTask extends TimerTask {
 
             subTimer = new SubTimer(new Timer(),new Timer());
             subTimer.setTimerTask(subTimerTask);
-            subTimer.setStopTimerTask(new StopTimerTask(subTimer));
-            SuperTimer.getInstance().getSubTimerMap().put(virtualPlan.getId(), subTimer);
+            subTimer.setStopTimerTask(new StopTimerTask(virtualPlan));
+            SuperTimer.getInstance().getSubTimerMap().put(virtualPlan, subTimer);
 
             long delay;
             subTimer.getTimer().schedule(subTimerTask, (delay = startCalendarComparator.getTimeInMillis() - nowDate.getTime()) < 0 ? 0 : delay);

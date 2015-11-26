@@ -14,6 +14,7 @@ public class VirtualOrderPlan extends VirtualPlan{
     private Integer orderCountLimitFloor;
     private Integer orderCountLimitCeil;
     private List<VirtualProductModel> virtualProductModelList;
+    private VirtualUserPlan virtualUserPlan;
     private Date peakTime;//均值小时
     private Integer standardDeviation; //标准差小时
     private String progress;
@@ -36,11 +37,11 @@ public class VirtualOrderPlan extends VirtualPlan{
     }
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "virtualOrderPlan")
-    public List<VirtualProductModel> getProductModelList() {
+    public List<VirtualProductModel> getVirtualProductModelList() {
         return virtualProductModelList;
     }
 
-    public void setProductModelList(List<VirtualProductModel> virtualProductModelList) {
+    public void setVirtualProductModelList(List<VirtualProductModel> virtualProductModelList) {
         this.virtualProductModelList = virtualProductModelList;
     }
 
@@ -69,5 +70,15 @@ public class VirtualOrderPlan extends VirtualPlan{
 
     public void setProgress(String progress) {
         this.progress = progress;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "virtual_user_plan_id")
+    public VirtualUserPlan getVirtualUserPlan() {
+        return virtualUserPlan;
+    }
+
+    public void setVirtualUserPlan(VirtualUserPlan virtualUserPlan) {
+        this.virtualUserPlan = virtualUserPlan;
     }
 }

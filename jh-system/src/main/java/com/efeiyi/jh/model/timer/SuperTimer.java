@@ -1,6 +1,8 @@
 package com.efeiyi.jh.model.timer;
 
 
+import com.efeiyi.jh.model.entity.VirtualPlan;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -12,7 +14,7 @@ public class SuperTimer {
 
     private static SuperTimer superTimer;
     private Timer timer = new Timer();
-    private Map<String, SubTimer> subTimerMap = new HashMap<String, SubTimer>();
+    private Map<VirtualPlan, SubTimer> subTimerMap = new HashMap<VirtualPlan, SubTimer>();
     private long taskExecuteCycle = 86400000;
 
     public long getTaskExecuteCycle() {
@@ -32,7 +34,7 @@ public class SuperTimer {
         return superTimer;
     }
 
-    public Map<String, SubTimer> getSubTimerMap() {
+    public Map<VirtualPlan, SubTimer> getSubTimerMap() {
         return subTimerMap;
     }
 

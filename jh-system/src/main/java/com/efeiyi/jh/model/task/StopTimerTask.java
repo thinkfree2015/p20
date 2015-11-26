@@ -1,27 +1,33 @@
 package com.efeiyi.jh.model.task;
 
+import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.efeiyi.jh.model.timer.SubTimer;
-
-import java.util.TimerTask;
+import com.efeiyi.jh.model.timer.SuperTimer;
 
 /**
  * Created by Administrator on 2015/11/25.
  */
-public class StopTimerTask extends TimerTask {
+public class StopTimerTask extends AbstractTimerTask {
 
-    private SubTimer subTimer;
+    private VirtualPlan virtualPlan;
 
-    public StopTimerTask(SubTimer subTimer) {
-        this.subTimer = subTimer;
+    public StopTimerTask(VirtualPlan virtualPlan) {
+        this.virtualPlan = virtualPlan;
     }
 
     @Override
     public void run() {
+        SubTimer subTimer = SuperTimer.getInstance().getSubTimerMap().get(virtualPlan);
         subTimer.getTimerTask().cancel();
         subTimer.getTimer().cancel();
         subTimer.getStopTimer().cancel();
         subTimer.getStopTimerTask().cancel();
 
+    }
+
+    @Override
+    public void setVirtualPlan(VirtualPlan virtualPlan) {
+        this.virtualPlan = virtualPlan;
     }
 
     @Override
