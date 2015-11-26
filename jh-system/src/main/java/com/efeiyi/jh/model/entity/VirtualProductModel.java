@@ -1,4 +1,4 @@
-package com.efeiyi.jh.model;
+package com.efeiyi.jh.model.entity;
 
 import com.efeiyi.ec.product.model.ProductModel;
 import org.hibernate.annotations.GenericGenerator;
@@ -14,6 +14,7 @@ public class VirtualProductModel {
 
     private String id;
     private ProductModel productModel;
+    private Integer randomCount;
     private VirtualOrderPlan virtualOrderPlan;
 
     @Id
@@ -45,5 +46,14 @@ public class VirtualProductModel {
 
     public void setVirtualOrderPlan(VirtualOrderPlan virtualOrderPlan) {
         this.virtualOrderPlan = virtualOrderPlan;
+    }
+
+    @Column(name = "random_count")
+    public Integer getRandomCount() {
+        return randomCount;
+    }
+
+    public void setRandomCount(Integer randomCount) {
+        this.randomCount = randomCount;
     }
 }

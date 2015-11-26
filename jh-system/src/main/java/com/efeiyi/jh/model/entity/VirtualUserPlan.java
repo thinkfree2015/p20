@@ -1,4 +1,4 @@
-package com.efeiyi.jh.model;
+package com.efeiyi.jh.model.entity;
 
 import javax.persistence.*;
 import java.util.List;

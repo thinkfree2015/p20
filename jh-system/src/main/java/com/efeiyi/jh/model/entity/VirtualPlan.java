@@ -1,5 +1,6 @@
-package com.efeiyi.jh.model;
+package com.efeiyi.jh.model.entity;
 
+import com.google.common.base.Objects;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -124,5 +125,18 @@ public class VirtualPlan {
 
     public void setImplementClass(String implementClass) {
         this.implementClass = implementClass;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VirtualPlan that = (VirtualPlan) o;
+        return Objects.equal(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

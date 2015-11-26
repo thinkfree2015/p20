@@ -1,9 +1,7 @@
 package com.efeiyi.jh.listener;
 
-import com.efeiyi.jh.model.SuperTimer;
-import com.efeiyi.jh.model.MyTimerTask;
-import com.ming800.core.util.ApplicationContextUtil;
-import org.hibernate.SessionFactory;
+import com.efeiyi.jh.model.timer.SuperTimer;
+import com.efeiyi.jh.model.task.SuperTimerTask;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -21,7 +19,7 @@ public class BatchInitListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         try {
-            MyTimerTask.getInstance().run();
+            SuperTimerTask.getInstance().run();
 
             Calendar todayStartTime = Calendar.getInstance();
             DateFormat dateFormat = new SimpleDateFormat("yyyy,MM,dd,HH,mm,ss");
@@ -31,7 +29,7 @@ public class BatchInitListener implements ServletContextListener {
             Date tomorrowStartTime = new Date(todayStartTime.getTimeInMillis() + SuperTimer.getInstance().getTaskExecuteCycle());
 
             //定时到明日0时每24小时一次
-            SuperTimer.getInstance().getTimer().scheduleAtFixedRate(MyTimerTask.getInstance(), tomorrowStartTime, SuperTimer.getInstance().getTaskExecuteCycle());
+            SuperTimer.getInstance().getTimer().scheduleAtFixedRate(SuperTimerTask.getInstance(), tomorrowStartTime, SuperTimer.getInstance().getTaskExecuteCycle());
         } catch (Exception e) {
             System.err.println("任务启动监听出现异常！！！！！！！！！！！！！！！！！");
             e.printStackTrace();
