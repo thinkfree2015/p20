@@ -22,7 +22,7 @@ public class ProductViewLabelHandler implements DoHandler {
     public ModelMap handle(ModelMap modelMap, HttpServletRequest request) throws Exception {
 
         String productId = request.getParameter("id");
-        if (productId == null || productId.equals("")) {
+        if (productId == null || productId.trim().equals("")) {
             throw new Exception("商品Id为空");
         }
         Product product = (Product) baseManager.getObject(Product.class.getName(), productId);

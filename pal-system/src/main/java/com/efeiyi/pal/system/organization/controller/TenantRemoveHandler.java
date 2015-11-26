@@ -22,7 +22,7 @@ public class TenantRemoveHandler implements DoHandler {
     @Override
     public ModelMap handle(ModelMap modelMap, HttpServletRequest request) throws Exception {
         String tenantId = request.getParameter("id");
-        if (tenantId == null || "".equals(tenantId)) {
+        if (tenantId == null || "".equals(tenantId.trim())) {
             throw new Exception("非遗项目Id不能为空");
         }
         Tenant tenant = (Tenant) baseManager.getObject(Tenant.class.getName(), tenantId);

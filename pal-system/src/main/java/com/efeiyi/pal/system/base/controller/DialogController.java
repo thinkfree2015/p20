@@ -317,7 +317,7 @@ public class DialogController {
 
         String productSeriesId = request.getParameter("id");
         String type = "new";
-        if (productSeriesId != null && !productSeriesId.equals("")) {
+        if (productSeriesId != null && !productSeriesId.trim().equals("")) {
             type = "edit";
             productSeries = (ProductSeries) baseManager.getObject(ProductSeries.class.getName(), productSeriesId);
         }
@@ -381,21 +381,21 @@ public class DialogController {
         String cityId = request.getParameter("city.id");
         String districtId = request.getParameter("district.id");
 
-        if (provinceId == null || "".equals(provinceId)){
+        if (provinceId == null || "".equals(provinceId.trim())){
             tenant.setProvince(null);
         }else {
             AddressProvince province = (AddressProvince) baseManager.getObject(AddressProvince.class.getName(), provinceId);
             tenant.setProvince(province);
         }
 
-        if (cityId == null || "".equals(cityId)){
+        if (cityId == null || "".equals(cityId.trim())){
             tenant.setCity(null);
         }else {
             AddressCity city = (AddressCity) baseManager.getObject(AddressCity.class.getName(), cityId);
             tenant.setCity(city);
         }
 
-        if (districtId == null || "".equals(districtId)){
+        if (districtId == null || "".equals(districtId.trim())){
             tenant.setDistrict(null);
         }else {
             AddressDistrict district = (AddressDistrict) baseManager.getObject(AddressDistrict.class.getName(), districtId);

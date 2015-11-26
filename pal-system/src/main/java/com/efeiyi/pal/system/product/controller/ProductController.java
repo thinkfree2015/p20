@@ -45,7 +45,7 @@ public class ProductController {
 
         String productId = request.getParameter("id");
         String type = "new";
-        if (productId != null && !productId.equals("")) {
+        if (productId != null && !productId.trim().equals("")) {
             type = "edit";
             product = (Product) baseManager.getObject(Product.class.getName(), productId);
         }
@@ -63,7 +63,7 @@ public class ProductController {
     public ModelAndView editProductSeriesProperty(ModelMap modelMap, HttpServletRequest request) throws Exception {
 
         String productId = request.getParameter("productId");
-        if (productId == null || productId.equals("")) {
+        if (productId == null || productId.trim().equals("")) {
             throw new Exception("class com.efeiyi.pal.system.product.controller.ProductController editProductSeriesProperty method: productId id null ");
         }
         Product product = (Product) baseManager.getObject(Product.class.getName(), productId);

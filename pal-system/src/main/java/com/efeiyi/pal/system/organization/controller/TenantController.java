@@ -30,7 +30,6 @@ public class TenantController {
     private BaseManager baseManager;
     private ProductSeriesServiceManager productSeriesServiceManager = (ProductSeriesServiceManager) ApplicationContextUtil.getApplicationContext().getBean("productSeriesServiceManagerImpl");
 
-
     @RequestMapping("/saveTenant.do")
     public ModelAndView saveTenant(ModelMap modelMap, HttpServletRequest request) throws Exception {
         Tenant tenant = new Tenant();

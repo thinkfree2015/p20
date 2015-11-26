@@ -2,18 +2,18 @@
 <jmenu id="virtualData">
 
     <jnode id="orderAndCustomer" url="/main.do?jnodeId=orderAndCustomer" text_zh_CN="订单与消费者">
-        <jnode url="" id="checkManager" access="admin,manager" state="closed"  text_zh_CN="查询管理">
-            <jnode url="/basic/xm.do?qm=plistLabelCheckRecord_default"  access="admin,manager" text_zh_CN="防伪查询记录">
-                <match url="/basic/xm.do?qm=plistLabelCheckRecord_default"/>
-                <match url="/basic/xm.do?qm=plistLabelCheckRecord_label"/>
+        <jnode url="" id="checkManager" access="admin,manager" state="closed"  text_zh_CN="虚拟数据系统">
+            <jnode url="/basic/xm.do?qm=plistVirtualPlan_default"  access="admin,manager" text_zh_CN="虚拟数据列表">
+                <match url="/basic/xm.do?qm=formVirtualPlan&amp;VirtualPlan=VirtualPlan"/>
+                <!--<match url="/basic/xm.do?qm=plistLabelCheckRecord_label"/>
                 <match url="/basic/xm.do?qm=viewLabel&amp;record=record"/>
                 <match url="/basic/xm.do?qm=viewLabelBatch&amp;record=record"/>
                 <match url="/basic/xm.do?qm=viewProduct&amp;record=record"/>
-                <match url="/basic/xm.do?qm=viewTenant&amp;record=record"/>
+                <match url="/basic/xm.do?qm=viewTenant&amp;record=record"/>-->
             </jnode>
         </jnode>
 
-        <jnode url="" id="labelManager" access="admin,manager" state="closed"  text_zh_CN="标签管理">
+        <!--<jnode url="" id="labelManager" access="admin,manager" state="closed"  text_zh_CN="标签管理">
 
             <jnode url="/basic/xm.do?qm=plistPurchaseOrder_default" access="admin,manager" text_zh_CN="订单管理">
                 <match url="/basic/xm.do?qm=plistPurchaseOrder_default"/>
@@ -74,13 +74,13 @@
 
             <jnode url="/basic/xm.do?qm=plistUser_default"  access="admin,manager" text_zh_CN="用户管理">
                 <match url="/basic/xm.do?qm=plistUser_default"/>
-                <!--<match url="listUser_default"/>-->
+                &lt;!&ndash;<match url="listUser_default"/>&ndash;&gt;
                 <match url="/basic/xm.do?qm=formUser"/>
                 <match url="/basic/xm.do?qm=viewUser&amp;user=user"/>
-                <!--<match url="removeUser"/>-->
-                <!--<match url="saveOrUpdateUser"/>-->
+                &lt;!&ndash;<match url="removeUser"/>&ndash;&gt;
+                &lt;!&ndash;<match url="saveOrUpdateUser"/>&ndash;&gt;
             </jnode>
-        </jnode>
+        </jnode>-->
     </jnode>
 
     <jnode id="productAndSeller" url="/main.do?jnodeId=productAndSeller" text_zh_CN="商品与商家">

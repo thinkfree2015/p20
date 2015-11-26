@@ -32,7 +32,7 @@ public class PurchaseOrderLabelController {
 
         String orderLabelId = request.getParameter("id");
         String type = "new";
-        if (orderLabelId != null && !orderLabelId.equals("")) {
+        if (orderLabelId != null && !orderLabelId.trim().equals("")) {
             type = "edit";
             purchaseOrderLabel = (PurchaseOrderLabel) baseManager.getObject(PurchaseOrderLabel.class.getName(), orderLabelId);
         }

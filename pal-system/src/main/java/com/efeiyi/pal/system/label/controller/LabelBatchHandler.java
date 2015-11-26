@@ -29,7 +29,7 @@ public class LabelBatchHandler implements DoHandler {
 
         String labelBatchId = request.getParameter("id");
         String type = "new";
-        if (labelBatchId != null && !"".equals(labelBatchId)) {
+        if (labelBatchId != null && !"".equals(labelBatchId.trim())) {
             type = "edit";
             labelBatch = (LabelBatch) baseManager.getObject(LabelBatch.class.getName(), labelBatchId);
         }

@@ -32,7 +32,7 @@ public class ProductPropertyValueController {
         request.setCharacterEncoding("utf-8");
 
         String productId = request.getParameter("product.id");
-        if (productId == null || "".equals(productId)) {
+        if (productId == null || "".equals(productId.trim())) {
             throw new Exception("productId不能为空");
         }
 
@@ -73,7 +73,7 @@ public class ProductPropertyValueController {
 
             String value = request.getParameter("value"+i);
 
-            if (value == null || "".equals(value)){
+            if (value == null || "".equals(value.trim())){
                 continue;
             }
             String newValue = new String (value.getBytes("utf-8"), "utf-8");
