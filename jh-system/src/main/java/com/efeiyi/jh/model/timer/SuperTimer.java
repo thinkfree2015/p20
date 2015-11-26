@@ -2,6 +2,9 @@ package com.efeiyi.jh.model.timer;
 
 
 import com.efeiyi.jh.model.entity.VirtualPlan;
+import com.ming800.core.util.ApplicationContextUtil;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +19,7 @@ public class SuperTimer {
     private Timer timer = new Timer();
     private Map<VirtualPlan, SubTimer> subTimerMap = new HashMap<VirtualPlan, SubTimer>();
     private long taskExecuteCycle = 86400000;
+
 
     public long getTaskExecuteCycle() {
         return taskExecuteCycle;

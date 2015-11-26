@@ -66,7 +66,7 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <listener>
-        <listener-class>com.efeiyi.jh.listener.BatchInitListener</listener-class>
+        <listener-class>com.efeiyi.jh.listener.PlanInitListener</listener-class>
     </listener>
 
     <jsp-config>

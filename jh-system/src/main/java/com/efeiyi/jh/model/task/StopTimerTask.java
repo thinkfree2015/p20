@@ -7,7 +7,7 @@ import com.efeiyi.jh.model.timer.SuperTimer;
 /**
  * Created by Administrator on 2015/11/25.
  */
-public class StopTimerTask extends AbstractTimerTask {
+public class StopTimerTask extends MyTimerTask {
 
     private VirtualPlan virtualPlan;
 
@@ -17,12 +17,11 @@ public class StopTimerTask extends AbstractTimerTask {
 
     @Override
     public void run() {
-        SubTimer subTimer = SuperTimer.getInstance().getSubTimerMap().get(virtualPlan);
+        SubTimer subTimer = SuperTimer.getInstance().getSubTimerMap().remove(virtualPlan);
         subTimer.getTimerTask().cancel();
         subTimer.getTimer().cancel();
         subTimer.getStopTimer().cancel();
         subTimer.getStopTimerTask().cancel();
-
     }
 
     @Override

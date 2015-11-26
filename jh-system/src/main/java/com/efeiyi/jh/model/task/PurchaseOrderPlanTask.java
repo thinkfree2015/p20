@@ -1,16 +1,10 @@
 package com.efeiyi.jh.model.task;
 
 
-import com.efeiyi.ec.purchase.model.PurchaseOrder;
 import com.efeiyi.jh.model.entity.VirtualOrderPlan;
 import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.efeiyi.jh.model.entity.VirtualProductModel;
-import com.efeiyi.jh.model.entity.VirtualUser;
-import com.efeiyi.jh.model.timer.SubTimer;
 import com.efeiyi.jh.model.timer.SuperTimer;
-import com.ming800.core.util.ApplicationContextUtil;
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,7 +13,7 @@ import java.util.*;
 /**
  * Created by Administrator on 2015/11/20.
  */
-public class PurchaseOrderPlanTask extends AbstractTimerTask {
+public class PurchaseOrderPlanTask extends MyTimerTask {
 
     private VirtualOrderPlan virtualOrderPlan;
 
@@ -57,7 +51,7 @@ public class PurchaseOrderPlanTask extends AbstractTimerTask {
         Arrays.sort(randomOrderTimePoint);
 
         for (int x = 0; x < randomOrderTimePoint.length; x++) {
-            SuperTimer.getInstance().getSubTimerMap().get(virtualOrderPlan).getTimer().schedule(new VirtualPurchase(), randomOrderTimePoint[x] >= 0 ? randomOrderTimePoint[x] : 0);
+            SuperTimer.getInstance().getSubTimerMap().get(virtualOrderPlan).getTimer().schedule(new VirtualPurchaseActionTask(), randomOrderTimePoint[x] >= 0 ? randomOrderTimePoint[x] : 0);
         }
 
         System.out.println("一个循环结束.........................");
@@ -66,24 +60,6 @@ public class PurchaseOrderPlanTask extends AbstractTimerTask {
     @Override
     public void setVirtualPlan(VirtualPlan virtualPlan) {
         this.virtualOrderPlan = (VirtualOrderPlan) virtualPlan;
-    }
-
-    class VirtualPurchase extends AbstractTimerTask {
-
-        private VirtualOrderPlan virtualOrderPlan;
-
-        @Override
-        public void run() {
-            System.out.println(new Date() + ":买了一个！！！！！！！！！！！");
-            PurchaseOrder purchaseOrder = new PurchaseOrder();
-            purchaseOrder.setCreateDatetime(new Date());
-            getSession().saveOrUpdate(PurchaseOrder.class.getName(), purchaseOrder);
-        }
-
-        @Override
-        public void setVirtualPlan(VirtualPlan virtualPlan) {
-            this.virtualOrderPlan = (VirtualOrderPlan)virtualPlan;
-        }
     }
 }
 

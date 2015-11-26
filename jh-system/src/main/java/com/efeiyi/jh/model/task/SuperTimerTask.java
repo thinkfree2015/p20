@@ -1,12 +1,11 @@
 package com.efeiyi.jh.model.task;
 
+import com.efeiyi.jh.model.service.SessionHolder;
 import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.efeiyi.jh.model.timer.SubTimer;
 import com.efeiyi.jh.model.timer.SuperTimer;
 import com.ming800.core.util.ApplicationContextUtil;
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,7 +16,7 @@ import java.util.*;
  */
 public class SuperTimerTask extends TimerTask {
     private static SuperTimerTask superTimerTask;
-    private SessionFactory sessionFactory = (SessionFactory) ApplicationContextUtil.getApplicationContext().getBean("sessionFactory");
+    private SessionHolder sessionHolder  = (SessionHolder) ApplicationContextUtil.getApplicationContext().getBean("mySession");
 
     private SuperTimerTask() {
     }
@@ -40,8 +39,9 @@ public class SuperTimerTask extends TimerTask {
         Date nowDate = new Date();
         String[] date = dateFormat.format(nowDate).split(",");
 
-        Session session = sessionFactory.openSession();
-        Query listQuery = session.createQuery("from VirtualPlan where status = '1'");
+//        Session session = sessionHolder.getSession();
+
+        Query listQuery = sessionHolder.getSession().createQuery("from VirtualPlan where status = '1'");
         List<VirtualPlan> virtualPlanList = listQuery.list();
 
         DateFormat timeFormat = new SimpleDateFormat("HH,mm,ss");
@@ -69,9 +69,9 @@ public class SuperTimerTask extends TimerTask {
                 continue;
             }
 
-            AbstractTimerTask subTimerTask = null;
+            MyTimerTask subTimerTask = null;
             try {
-                subTimerTask = (AbstractTimerTask) Class.forName(virtualPlan.getImplementClass()).newInstance();
+                subTimerTask = (MyTimerTask) Class.forName(virtualPlan.getImplementClass()).newInstance();
                 subTimerTask.setVirtualPlan(virtualPlan);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -84,10 +84,12 @@ public class SuperTimerTask extends TimerTask {
             subTimer.setStopTimerTask(new StopTimerTask(virtualPlan));
             SuperTimer.getInstance().getSubTimerMap().put(virtualPlan, subTimer);
 
-            long delay;
-            subTimer.getTimer().schedule(subTimerTask, (delay = startCalendarComparator.getTimeInMillis() - nowDate.getTime()) < 0 ? 0 : delay);
-            subTimer.getStopTimer().schedule(subTimer.getStopTimerTask(), endCalendarComparator.getTimeInMillis() - nowDate.getTime());
+            long delay = startCalendarComparator.getTimeInMillis() - nowDate.getTime();
+            long stopperDelay = endCalendarComparator.getTimeInMillis() - nowDate.getTime();
+            subTimer.getTimer().schedule(subTimerTask, delay < 0 ? 0 : delay);
+            subTimer.getStopTimer().schedule(subTimer.getStopTimerTask(), stopperDelay < 0 ? 0 : stopperDelay);
             System.out.println(virtualPlan.getSerial() + "启动定时：" + (delay < 0 ? 0 : delay) + "毫秒后启动");
+            System.out.println(virtualPlan.getSerial() + "关闭定时：" + (stopperDelay < 0 ? 0 : stopperDelay) + "毫秒后启动");
         }
 
     }
