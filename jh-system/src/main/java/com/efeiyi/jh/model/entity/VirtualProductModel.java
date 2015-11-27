@@ -14,7 +14,9 @@ public class VirtualProductModel {
 
     private String id;
     private ProductModel productModel;
-    private Integer randomCount;
+    private Integer randomAmount;
+    private Integer amountFloor;
+    private Integer amountCeil;
     private VirtualOrderPlan virtualOrderPlan;
 
     @Id
@@ -48,12 +50,29 @@ public class VirtualProductModel {
         this.virtualOrderPlan = virtualOrderPlan;
     }
 
-    @Column(name = "random_count")
-    public Integer getRandomCount() {
-        return randomCount;
+    @Column(name = "random_amount")
+    public Integer getRandomAmount() {
+        return randomAmount;
     }
 
-    public void setRandomCount(Integer randomCount) {
-        this.randomCount = randomCount;
+    public void setRandomAmount(Integer randomAmount) {
+        this.randomAmount = randomAmount;
+    }
+
+    @Column(name = "amount_floor")
+    public Integer getAmountFloor() {
+        return amountFloor;
+    }
+
+    public void setAmountFloor(Integer amountFloor) {
+        this.amountFloor = amountFloor;
+    }
+    @Column(name = "amount_ceil")
+    public Integer getAmountCeil() {
+        return amountCeil;
+    }
+
+    public void setAmountCeil(Integer amountCeil) {
+        this.amountCeil = amountCeil;
     }
 }

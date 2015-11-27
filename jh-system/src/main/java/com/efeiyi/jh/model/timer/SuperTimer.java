@@ -17,7 +17,8 @@ public class SuperTimer {
 
     private static SuperTimer superTimer;
     private Timer timer = new Timer();
-    private Map<VirtualPlan, SubTimer> subTimerMap = new HashMap<VirtualPlan, SubTimer>();
+    private Map<VirtualPlan, SubTimer> subTimerTaskMap = new HashMap<VirtualPlan, SubTimer>();
+    private Map<VirtualPlan, Object> subTaskTempStoreMap = new HashMap<VirtualPlan, Object>();
     private long taskExecuteCycle = 86400000;
 
 
@@ -38,10 +39,13 @@ public class SuperTimer {
         return superTimer;
     }
 
-    public Map<VirtualPlan, SubTimer> getSubTimerMap() {
-        return subTimerMap;
+    public Map<VirtualPlan, SubTimer> getSubTimerTaskMap() {
+        return subTimerTaskMap;
     }
 
     public Timer getTimer(){return timer;}
 
+    public Map<VirtualPlan, Object> getSubTaskTempStoreMap() {
+        return subTaskTempStoreMap;
+    }
 }

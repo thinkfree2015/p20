@@ -17,7 +17,6 @@ public class VirtualOrderPlan extends VirtualPlan{
     private VirtualUserPlan virtualUserPlan;
     private Date peakTime;//均值小时
     private Integer standardDeviation; //标准差小时
-    private String progress;
     private List<VirtualPurchaseOrder> vitualPurchaseOrderList;
 
     @Column(name = "count_limit_floor")
@@ -62,15 +61,6 @@ public class VirtualOrderPlan extends VirtualPlan{
 
     public void setStandardDeviation(Integer standardDeviation) {
         this.standardDeviation = standardDeviation;
-    }
-
-    @Column(name = "progress_status")
-    public String getProgress() {
-        return progress;
-    }
-
-    public void setProgress(String progress) {
-        this.progress = progress;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -14,12 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class TimerController {
 
 
-    @RequestMapping("/makeVirtualMemeber.do")
+    @RequestMapping("/makeVirtualMember.do")
     public ModelAndView makeVirtualMemeber(VirtualPlan plan ) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 
-//        PlanHandler planHandler = (PlanHandler)Class.forName("com.efeiyi.it.handler.impl.MemberPlanHandler").newInstance();
-//
-//        planHandler.execute(plan);
 
         return new ModelAndView("/main");
     }
@@ -27,9 +24,6 @@ public class TimerController {
     @RequestMapping("/makeVirtualOrder.do")
     public ModelAndView makeVirtualOrder(VirtualPlan plan ) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 
-//        PlanHandler planHandler = (PlanHandler)Class.forName("com.efeiyi.it.handler.impl.PurchaseOrderPlanHandler").newInstance();
-//
-//        planHandler.execute(plan);
 
         return new ModelAndView("/main");
     }

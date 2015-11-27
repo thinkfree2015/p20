@@ -1,5 +1,6 @@
 package com.efeiyi.jh.model.task;
 
+import com.efeiyi.jh.model.PlanConst;
 import com.efeiyi.jh.model.service.SessionHolder;
 import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.efeiyi.jh.model.timer.SubTimer;
@@ -39,7 +40,7 @@ public class CoreTaskScheduler extends TimerTask {
         Date nowDate = new Date();
         String[] date = dateFormat.format(nowDate).split(",");
 
-        Query listQuery = sessionHolder.getSession().createQuery("from VirtualPlan where status = '1'");
+        Query listQuery = sessionHolder.getSession().createQuery("from VirtualPlan where status = " + PlanConst.planStatusNormal);
         List<VirtualPlan> virtualPlanList = listQuery.list();
 
         DateFormat timeFormat = new SimpleDateFormat("HH,mm,ss");
@@ -48,7 +49,7 @@ public class CoreTaskScheduler extends TimerTask {
         for (VirtualPlan virtualPlan : virtualPlanList) {
 
             //停掉前一天的
-            SubTimer subTimer = SuperTimer.getInstance().getSubTimerMap().remove(virtualPlan);
+            SubTimer subTimer = SuperTimer.getInstance().getSubTimerTaskMap().remove(virtualPlan);
             if (subTimer != null) {
                 subTimer.getTimer().cancel();
             }
@@ -80,7 +81,7 @@ public class CoreTaskScheduler extends TimerTask {
             subTimer = new SubTimer(new Timer(),new Timer());
             subTimer.setTimerTask(subTimerTask);
             subTimer.setStopTimerTask(new SubTaskStopper(virtualPlan));
-            SuperTimer.getInstance().getSubTimerMap().put(virtualPlan, subTimer);
+            SuperTimer.getInstance().getSubTimerTaskMap().put(virtualPlan, subTimer);
 
             long delay = startCalendarComparator.getTimeInMillis() - nowDate.getTime();
             long stopperDelay = endCalendarComparator.getTimeInMillis() - nowDate.getTime();

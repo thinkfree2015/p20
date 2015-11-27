@@ -17,7 +17,7 @@ public class SubTaskStopper extends BaseTimerTask {
 
     @Override
     public void run() {
-        SubTimer subTimer = SuperTimer.getInstance().getSubTimerMap().remove(virtualPlan);
+        SubTimer subTimer = SuperTimer.getInstance().getSubTimerTaskMap().remove(virtualPlan);
         subTimer.getTimerTask().cancel();
         subTimer.getTimer().cancel();
         subTimer.getStopTimer().cancel();

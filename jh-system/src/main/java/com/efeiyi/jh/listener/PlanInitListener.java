@@ -1,9 +1,7 @@
 package com.efeiyi.jh.listener;
 
-import com.efeiyi.jh.model.service.SessionHolder;
 import com.efeiyi.jh.model.task.CoreTaskScheduler;
 import com.efeiyi.jh.model.timer.SuperTimer;
-import com.ming800.core.util.ApplicationContextUtil;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -42,9 +40,5 @@ public class PlanInitListener implements ServletContextListener {
     }
 
     @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-//        SuperTimer.getInstance().getTimer().cancel();
-//        SessionHolder sessionHolder  = (SessionHolder) ApplicationContextUtil.getApplicationContext().getBean("mySession");
-//        sessionHolder.getSession().close();
-    }
+    public void contextDestroyed(ServletContextEvent sce) {}
 }

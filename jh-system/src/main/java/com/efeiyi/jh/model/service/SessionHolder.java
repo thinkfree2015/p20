@@ -17,9 +17,9 @@ public class SessionHolder {
     private Session session;
 
     public Session getSession() {
-        if(session == null){
+        if(session == null || !session.isOpen()){
             synchronized (this){
-                if(session == null){
+                if(session == null || !session.isOpen()){
                     session = sessionFactory.openSession();
                     session.setCacheMode(CacheMode.IGNORE);
                 }
