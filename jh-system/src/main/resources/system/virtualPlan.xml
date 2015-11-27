@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module name="VirtualPlan" label="虚拟计划" version="" package="com.efeiyi.jh.model" path="">
+<module name="VirtualPlan" label="虚拟计划" version="" package="com.efeiyi.jh.model.entity" path="">
     <entities>
-        <entity name="PCVirtualPlan" label="虚拟计划" model="com.efeiyi.jh.model.VirtualPlan">
+        <entity name="PCVirtualPlan" label="虚拟计划" model="com.efeiyi.jh.model.entity.VirtualPlan">
             <fields>
                 <field name="status" label="状态" inputType="text">
                     <statusType fieldName="status">
@@ -18,6 +18,8 @@
                         <item label="点赞" value="praise"/>
                         <item label="收藏" value="collect"/>
                         <item label="人气" value="popularity"/>
+                        <item label="商品" value="product"/>
+                        <item label="用户" value="user"/>
                     </statusType>
                 </field>
             </fields>
