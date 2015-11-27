@@ -9,18 +9,10 @@ import java.util.TimerTask;
 /**
  * Created by Administrator on 2015/11/25.
  */
-public class MyTimerTask extends TimerTask {
+public abstract  class BaseTimerTask extends TimerTask {
 
     protected SessionHolder sessionHolder = ((SessionHolder) ApplicationContextUtil.getApplicationContext().getBean("sessionHolder"));
 
-    public void setVirtualPlan(VirtualPlan virtualPlan){}
+    public abstract void setVirtualPlan(VirtualPlan virtualPlan);
 
-
-    @Override
-    public void run() {}
-
-    @Override
-    public boolean cancel() {
-        return super.cancel();
-    }
 }

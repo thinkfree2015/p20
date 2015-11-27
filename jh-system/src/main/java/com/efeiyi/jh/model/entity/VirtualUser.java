@@ -1,6 +1,7 @@
 package com.efeiyi.jh.model.entity;
 
 import com.efeiyi.ec.organization.model.MyUser;
+import com.efeiyi.ec.organization.model.User;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ public class VirtualUser {
 
     private VirtualUserPlan virtualUserPlan;
     private String id;
-    private MyUser user;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "virtual_user_plan_id")
@@ -39,11 +40,11 @@ public class VirtualUser {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    public MyUser getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(MyUser user) {
+    public void setUser(User user) {
         this.user = user;
     }
 }

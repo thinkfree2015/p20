@@ -7,11 +7,11 @@ import com.efeiyi.jh.model.timer.SuperTimer;
 /**
  * Created by Administrator on 2015/11/25.
  */
-public class StopTimerTask extends MyTimerTask {
+public class SubTaskStopper extends BaseTimerTask {
 
     private VirtualPlan virtualPlan;
 
-    public StopTimerTask(VirtualPlan virtualPlan) {
+    public SubTaskStopper(VirtualPlan virtualPlan) {
         this.virtualPlan = virtualPlan;
     }
 
@@ -31,7 +31,7 @@ public class StopTimerTask extends MyTimerTask {
 
     @Override
     public boolean cancel() {
-        System.out.println("stopTimerTask cancelling.........................");
+        System.out.println("SubTaskStopper cancelling.........................");
         return super.cancel();
     }
 }

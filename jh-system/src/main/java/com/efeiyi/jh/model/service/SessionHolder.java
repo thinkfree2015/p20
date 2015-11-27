@@ -1,5 +1,6 @@
 package com.efeiyi.jh.model.service;
 
+import org.hibernate.CacheMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class SessionHolder {
             synchronized (this){
                 if(session == null){
                     session = sessionFactory.openSession();
+                    session.setCacheMode(CacheMode.IGNORE);
                 }
             }
         }

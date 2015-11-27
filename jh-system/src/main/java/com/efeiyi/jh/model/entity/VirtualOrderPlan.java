@@ -18,6 +18,7 @@ public class VirtualOrderPlan extends VirtualPlan{
     private Date peakTime;//均值小时
     private Integer standardDeviation; //标准差小时
     private String progress;
+    private List<VirtualPurchaseOrder> vitualPurchaseOrderList;
 
     @Column(name = "count_limit_floor")
     public Integer getOrderCountLimitFloor() {
@@ -80,5 +81,14 @@ public class VirtualOrderPlan extends VirtualPlan{
 
     public void setVirtualUserPlan(VirtualUserPlan virtualUserPlan) {
         this.virtualUserPlan = virtualUserPlan;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "virtualOrderPlan")
+    public List<VirtualPurchaseOrder> getVitualPurchaseOrderList() {
+        return vitualPurchaseOrderList;
+    }
+
+    public void setVitualPurchaseOrderList(List<VirtualPurchaseOrder> vitualPurchaseOrderList) {
+        this.vitualPurchaseOrderList = vitualPurchaseOrderList;
     }
 }

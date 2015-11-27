@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * Created by Administrator on 2015/11/20.
  */
-public class PurchaseOrderPlanTask extends MyTimerTask {
+public class PurchaseOrderPlanTask extends BaseTimerTask {
 
     private VirtualOrderPlan virtualOrderPlan;
 
@@ -51,7 +51,7 @@ public class PurchaseOrderPlanTask extends MyTimerTask {
         Arrays.sort(randomOrderTimePoint);
 
         for (int x = 0; x < randomOrderTimePoint.length; x++) {
-            SuperTimer.getInstance().getSubTimerMap().get(virtualOrderPlan).getTimer().schedule(new VirtualPurchaseActionTask(), randomOrderTimePoint[x] >= 0 ? randomOrderTimePoint[x] : 0);
+            SuperTimer.getInstance().getSubTimerMap().get(virtualOrderPlan).getTimer().schedule(new VirtualPurchaseActionGenerator(), randomOrderTimePoint[x] >= 0 ? randomOrderTimePoint[x] : 0);
         }
 
         System.out.println("一个循环结束.........................");

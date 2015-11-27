@@ -39,7 +39,7 @@ public class TimerController {
 //
 //       Timer timer = new Timer();
 //
-//        timer.schedule(new MyTimerTask(),0);
+//        timer.schedule(new BaseTimerTask(),0);
 //
 //        return new ModelAndView("/main");
 //    }

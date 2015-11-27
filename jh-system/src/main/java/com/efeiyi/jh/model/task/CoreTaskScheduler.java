@@ -14,22 +14,22 @@ import java.util.*;
 /**
  * Created by Administrator on 2015/11/23.
  */
-public class SuperTimerTask extends TimerTask {
-    private static SuperTimerTask superTimerTask;
+public class CoreTaskScheduler extends TimerTask {
+    private static CoreTaskScheduler coreTaskScheduler;
     private SessionHolder sessionHolder  = (SessionHolder) ApplicationContextUtil.getApplicationContext().getBean("mySession");
 
-    private SuperTimerTask() {
+    private CoreTaskScheduler() {
     }
 
-    public static SuperTimerTask getInstance() {
-        if (superTimerTask == null) {
-            synchronized (SuperTimerTask.class) {
-                if (superTimerTask == null) {
-                    superTimerTask = new SuperTimerTask();
+    public static CoreTaskScheduler getInstance() {
+        if (coreTaskScheduler == null) {
+            synchronized (CoreTaskScheduler.class) {
+                if (coreTaskScheduler == null) {
+                    coreTaskScheduler = new CoreTaskScheduler();
                 }
             }
         }
-        return superTimerTask;
+        return coreTaskScheduler;
     }
 
     @Override
@@ -38,8 +38,6 @@ public class SuperTimerTask extends TimerTask {
         DateFormat dateFormat = new SimpleDateFormat("yyyy,MM,dd");
         Date nowDate = new Date();
         String[] date = dateFormat.format(nowDate).split(",");
-
-//        Session session = sessionHolder.getSession();
 
         Query listQuery = sessionHolder.getSession().createQuery("from VirtualPlan where status = '1'");
         List<VirtualPlan> virtualPlanList = listQuery.list();
@@ -69,9 +67,9 @@ public class SuperTimerTask extends TimerTask {
                 continue;
             }
 
-            MyTimerTask subTimerTask = null;
+            BaseTimerTask subTimerTask = null;
             try {
-                subTimerTask = (MyTimerTask) Class.forName(virtualPlan.getImplementClass()).newInstance();
+                subTimerTask = (BaseTimerTask) Class.forName(virtualPlan.getImplementClass()).newInstance();
                 subTimerTask.setVirtualPlan(virtualPlan);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -81,7 +79,7 @@ public class SuperTimerTask extends TimerTask {
 
             subTimer = new SubTimer(new Timer(),new Timer());
             subTimer.setTimerTask(subTimerTask);
-            subTimer.setStopTimerTask(new StopTimerTask(virtualPlan));
+            subTimer.setStopTimerTask(new SubTaskStopper(virtualPlan));
             SuperTimer.getInstance().getSubTimerMap().put(virtualPlan, subTimer);
 
             long delay = startCalendarComparator.getTimeInMillis() - nowDate.getTime();
