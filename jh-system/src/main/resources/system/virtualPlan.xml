@@ -5,11 +5,11 @@
             <fields>
                 <field name="status" label="状态" inputType="text">
                     <statusType fieldName="status">
-                        <item label="已取消" value="0"/>
-                        <item label="未开始" value="1"/>
-                        <item label="运行中" value="2"/>
-                        <item label="暂停" value="3"/>
-                        <item label="完成" value="4"/>
+                        <item label="已删除" value="0"/>
+                        <item label="停止" value="1"/>
+                        <item label="运行中" value="3"/>
+                        <item label="暂停" value="5"/>
+                        <item label="完成" value="9"/>
                     </statusType>
                 </field>
                 <field name="planType" label="对象" inputType="text">
@@ -18,7 +18,7 @@
                         <item label="点赞" value="praise"/>
                         <item label="收藏" value="collect"/>
                         <item label="人气" value="popularity"/>
-                        <item label="商品" value="product"/>
+                        <!--<item label="商品" value="product"/>-->
                         <item label="用户" value="user"/>
                     </statusType>
                 </field>

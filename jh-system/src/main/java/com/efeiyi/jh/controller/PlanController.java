@@ -11,18 +11,32 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/plan")
-public class TimerController {
+public class PlanController {
 
 
-    @RequestMapping("/makeVirtualMember.do")
-    public ModelAndView makeVirtualMemeber(VirtualPlan plan ) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    @RequestMapping("/saveOrEditVirtualUser.do")
+    public ModelAndView saveOrEditVirtualUser(VirtualPlan plan ) {
 
 
         return new ModelAndView("/main");
     }
 
-    @RequestMapping("/makeVirtualOrder.do")
-    public ModelAndView makeVirtualOrder(VirtualPlan plan ) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    @RequestMapping("/saveOrEditPlan.do")
+    public ModelAndView saveOrEditPlan(VirtualPlan plan )  {
+
+
+        return new ModelAndView("/main");
+    }
+
+    @RequestMapping("/startOrPausePlan.do")
+    public ModelAndView startOrPausePlan(VirtualPlan plan ){
+
+
+        return new ModelAndView("/main");
+    }
+
+    @RequestMapping("/deletePlan.do")
+    public ModelAndView deletePlan(VirtualPlan plan ) {
 
 
         return new ModelAndView("/main");

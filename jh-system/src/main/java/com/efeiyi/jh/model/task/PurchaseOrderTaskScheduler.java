@@ -37,9 +37,10 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
         sessionHolder.getSession().saveOrUpdate(virtualOrderPlan);
         sessionHolder.getSession().flush();
 
+        //生成ProductModel随机productModel
+        productModelList = generateProductModelList();
+
         Random random = new Random();
-        //生成ProductModel随机数
-        productModelList = generateProductModelList(random);
 
         //生成随机时间点
         Long[] randomOrderTimePoint = new Long[productModelList.size()];
@@ -75,15 +76,15 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
         this.virtualOrderPlan = (VirtualOrderPlan) sessionHolder.getSession().get(VirtualOrderPlan.class, virtualPlan.getId());
     }
 
-    private List<ProductModel> generateProductModelList(Random random) {
+    private List<ProductModel> generateProductModelList() {
 
         List<ProductModel> virtualProductModelList = new ArrayList<>();
 
         for (VirtualProductModel virtualProductModel : virtualOrderPlan.getVirtualProductModelList()) {
-            int randomAmount = random.nextInt(virtualProductModel.getAmountCeil() - virtualProductModel.getAmountFloor() + 1) + virtualProductModel.getAmountFloor();
-            virtualProductModel.setRandomAmount(randomAmount);
+//            int randomAmount = random.nextInt(virtualProductModel.getAmountCeil() - virtualProductModel.getAmountFloor() + 1) + virtualProductModel.getAmountFloor();
+//            virtualProductModel.setRandomAmount(randomAmount);
             //生成ProductModel池子
-            List<ProductModel> subVirtualProductModelList = generateSubProductModelPool(virtualProductModel,randomAmount);
+            List<ProductModel> subVirtualProductModelList = generateSubProductModelPool(virtualProductModel,virtualProductModel.getRandomAmount());
             virtualProductModelList.addAll(subVirtualProductModelList);
             sessionHolder.getSession().saveOrUpdate(virtualProductModel);
         }
@@ -94,11 +95,15 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
 
     private List<ProductModel> generateSubProductModelPool(VirtualProductModel virtualProductModel, int randomAmount) {
 
-        List<ProductModel> SubVirtualProductModelList = new LinkedList<>();
+        List<ProductModel> subVirtualProductModelList = new LinkedList<>();
         for(int x = 0; x < randomAmount; x++){
-            SubVirtualProductModelList.add(virtualProductModel.getProductModel());
+            subVirtualProductModelList.add(virtualProductModel.getProductModel());
         }
-        return SubVirtualProductModelList;
+        return subVirtualProductModelList;
+    }
+
+    public List<ProductModel> getProductModelList() {
+        return productModelList;
     }
 }
 

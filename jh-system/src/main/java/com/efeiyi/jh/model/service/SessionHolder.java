@@ -4,6 +4,7 @@ import org.hibernate.CacheMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class SessionHolder {
 
     @Autowired
+    @Qualifier("scheduleSessionFactory")
     private SessionFactory sessionFactory;
     private Session session;
 

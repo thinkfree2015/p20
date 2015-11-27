@@ -21,14 +21,14 @@
 </div>
 <hr/>
 <div class="am-g">
-    <form action="<c:url value=''/>" method="post" enctype="multipart/form-data" class="am-form am-form-horizontal">
+    <form action="<c:url value='/plan/savePlan.do'/>" method="post" enctype="multipart/form-data" class="am-form am-form-horizontal">
         <input type="hidden" name="id" value="${object.id}">
         <input type="hidden" name="status" value="${object.status}"/>
 
         <div class="am-form-group">
             <label for="name" class="am-u-sm-3 am-form-label">虚拟数据批次名<small>*</small></label>
             <div class="am-u-sm-9">
-                <input type="text" name="name" id="name"
+                <input type="text" name="description" id="name"
                        title="虚拟数据批次名" placeholder="虚拟数据批次名"
                        value="${object.description}" required="true">
             </div>
