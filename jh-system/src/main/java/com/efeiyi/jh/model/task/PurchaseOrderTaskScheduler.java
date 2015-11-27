@@ -38,8 +38,9 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
         sessionHolder.getSession().flush();
 
         //生成ProductModel随机productModel
-        productModelList = generateProductModelList();
-
+        if(productModelList == null) {
+            productModelList = generateProductModelList();
+        }
         Random random = new Random();
 
         //生成随机时间点
@@ -104,6 +105,10 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
 
     public List<ProductModel> getProductModelList() {
         return productModelList;
+    }
+
+    public void setProductModelList(List<ProductModel> productModelList) {
+        this.productModelList = productModelList;
     }
 }
 
