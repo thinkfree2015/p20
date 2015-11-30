@@ -78,7 +78,7 @@ public class CoreTaskScheduler extends TimerTask {
                 subTimerTask.setVirtualPlan(virtualPlan);
             } catch (Exception e) {
                 e.printStackTrace();
-                System.err.println("没找到对应的定时任务处理类!!serial :" + virtualPlan.getSerial() + " description:" + virtualPlan.getDescription());
+                System.err.println("ClassNotFound!!serial :" + virtualPlan.getSerial() + " description:" + virtualPlan.getDescription());
                 continue;
             }
             subTimer = new SubTimer(new Timer(),subTimerTask,new Timer(),new SubTaskStopper(virtualPlan));
@@ -88,8 +88,8 @@ public class CoreTaskScheduler extends TimerTask {
             long stopperDelay = endCalendarComparator.getTimeInMillis() - nowDate.getTime();
             subTimer.getTimer().schedule(subTimerTask, delay < 0 ? 0 : delay);
             subTimer.getStopTimer().schedule(subTimer.getStopTimerTask(), stopperDelay < 0 ? 0 : stopperDelay);
-            System.out.println(virtualPlan.getSerial() + "启动定时：" + (delay < 0 ? 0 : delay) + "毫秒后启动");
-            System.out.println(virtualPlan.getSerial() + "关闭定时：" + (stopperDelay < 0 ? 0 : stopperDelay) + "毫秒后启动");
+            System.out.println(virtualPlan.getSerial() + "timer launch after " + (delay < 0 ? 0 : delay) + " millis seconds");
+            System.out.println(virtualPlan.getSerial() + "timer off after" + (stopperDelay < 0 ? 0 : stopperDelay) + " millis seconds");
         }
     }
 }

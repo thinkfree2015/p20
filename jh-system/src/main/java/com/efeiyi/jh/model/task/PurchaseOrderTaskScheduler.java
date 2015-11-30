@@ -32,7 +32,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
 
     @Override
     public void run() {
-        System.out.println("定时生成订单安排中..........................................");
+        System.out.println(" Purchase order arranging..........................................");
         virtualOrderPlan.setStatus(PlanConst.planStatusStarted);
         sessionHolder.getSession().saveOrUpdate(virtualOrderPlan);
         sessionHolder.getSession().flush();
@@ -70,7 +70,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
                     .schedule(new VirtualPurchaseOrderGenerator(productModelList, virtualOrderPlan), randomOrderTimePoint[x]);
         }
 
-        System.out.println("定时生成订单安排结束.........................");
+        System.out.println("Purchase arranging done.........................");
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.efeiyi.jh.model.task;
 
 import com.efeiyi.ec.product.model.ProductModel;
 import com.efeiyi.ec.purchase.model.PurchaseOrder;
+import com.efeiyi.ec.purchase.model.PurchaseOrderPayment;
 import com.efeiyi.ec.purchase.model.PurchaseOrderProduct;
 import com.efeiyi.jh.model.entity.*;
 
@@ -48,10 +49,19 @@ public class VirtualPurchaseOrderGenerator extends BaseTimerTask {
         virtualPurchaseOrder.setPurchaseOrder(purchaseOrder);
         virtualPurchaseOrder.setVirtualOrderPlan(virtualOrderPlan);
 
-        System.out.println(new Date() + ":" + virtualUser.getUser().getName() + "买了一个" + purchaseOrderProduct.getProductModel().getName());
+        PurchaseOrderPayment purchaseOrderPayment = new PurchaseOrderPayment();
+        purchaseOrderPayment.setUser(virtualUser.getUser());
+        purchaseOrderPayment.setStatus("1");
+        purchaseOrderPayment.setPurchaseOrder(purchaseOrder);
+        purchaseOrderPayment.setCreateDateTime(new Date());
+        purchaseOrderPayment.setPayWay("4");
+        purchaseOrderPayment.setPaymentAmount(productModel.getPrice());
+
+        System.out.println(new Date() + ":" + virtualUser.getUser().getUsername() + "purchase a " + purchaseOrderProduct.getProductModel().getName());
         sessionHolder.getSession().saveOrUpdate(purchaseOrder);
         sessionHolder.getSession().saveOrUpdate(purchaseOrderProduct);
         sessionHolder.getSession().saveOrUpdate(virtualPurchaseOrder);
+        sessionHolder.getSession().saveOrUpdate(purchaseOrderPayment);
         sessionHolder.getSession().flush();
     }
 
