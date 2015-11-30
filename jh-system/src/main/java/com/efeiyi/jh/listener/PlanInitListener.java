@@ -21,7 +21,7 @@ public class PlanInitListener implements ServletContextListener {
         try {
             //刚启动执行一次
             CoreTaskScheduler coreTaskScheduler = CoreTaskScheduler.getInstance();
-            coreTaskScheduler.run();
+//            coreTaskScheduler.run();//刚启动不执行了，手动启动
 
             Calendar todayStartTime = Calendar.getInstance();
             DateFormat dateFormat = new SimpleDateFormat("yyyy,MM,dd,HH,mm,ss");

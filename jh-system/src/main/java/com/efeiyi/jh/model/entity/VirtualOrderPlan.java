@@ -11,29 +11,29 @@ import java.util.List;
 @Table(name = "virtual_order_plan")
 public class VirtualOrderPlan extends VirtualPlan{
 
-    private Integer orderCountLimitFloor;
-    private Integer orderCountLimitCeil;
+    private Integer orderAmountFloor;
+    private Integer orderAmountCeil;
     private List<VirtualProductModel> virtualProductModelList;
     private VirtualUserPlan virtualUserPlan;
     private Date peakTime;//均值小时
     private Integer standardDeviation; //标准差小时
-    private List<VirtualPurchaseOrder> vitualPurchaseOrderList;
+    private List<VirtualPurchaseOrder> virtualPurchaseOrderList;
 
-    @Column(name = "count_limit_floor")
-    public Integer getOrderCountLimitFloor() {
-        return orderCountLimitFloor;
+    @Column(name = "amount_floor")
+    public Integer getOrderAmountFloor() {
+        return orderAmountFloor;
     }
 
-    public void setOrderCountLimitFloor(Integer orderCountLimitFloor) {
-        this.orderCountLimitFloor = orderCountLimitFloor;
+    public void setOrderAmountFloor(Integer orderAmountFloor) {
+        this.orderAmountFloor = orderAmountFloor;
     }
-    @Column(name = "count_limit_ceil")
-    public Integer getOrderCountLimitCeil() {
-        return orderCountLimitCeil;
+    @Column(name = "amount_ceil")
+    public Integer getOrderCountCeil() {
+        return orderAmountCeil;
     }
 
-    public void setOrderCountLimitCeil(Integer orderCountLimitCeil) {
-        this.orderCountLimitCeil = orderCountLimitCeil;
+    public void setOrderCountCeil(Integer orderAmountCeil) {
+        this.orderAmountCeil = orderAmountCeil;
     }
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "virtualOrderPlan")
@@ -74,11 +74,11 @@ public class VirtualOrderPlan extends VirtualPlan{
     }
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "virtualOrderPlan")
-    public List<VirtualPurchaseOrder> getVitualPurchaseOrderList() {
-        return vitualPurchaseOrderList;
+    public List<VirtualPurchaseOrder> getVirtualPurchaseOrderList() {
+        return virtualPurchaseOrderList;
     }
 
-    public void setVitualPurchaseOrderList(List<VirtualPurchaseOrder> vitualPurchaseOrderList) {
-        this.vitualPurchaseOrderList = vitualPurchaseOrderList;
+    public void setVirtualPurchaseOrderList(List<VirtualPurchaseOrder> virtualPurchaseOrderList) {
+        this.virtualPurchaseOrderList = virtualPurchaseOrderList;
     }
 }

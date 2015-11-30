@@ -41,12 +41,14 @@ public class VirtualPurchaseOrderGenerator extends BaseTimerTask {
         PurchaseOrderProduct purchaseOrderProduct = new PurchaseOrderProduct();
         purchaseOrderProduct.setPurchaseOrder(purchaseOrder);
         purchaseOrderProduct.setProductModel(productModel);
+        purchaseOrderProduct.setPurchaseAmount(1);
+        purchaseOrderProduct.setPurchasePrice(productModel.getPrice());
 
         VirtualPurchaseOrder virtualPurchaseOrder = new VirtualPurchaseOrder();
         virtualPurchaseOrder.setPurchaseOrder(purchaseOrder);
         virtualPurchaseOrder.setVirtualOrderPlan(virtualOrderPlan);
 
-        System.out.println(new Date() + ":买了一个！！！！！！！！！！！");
+        System.out.println(new Date() + ":" + virtualUser.getUser().getName() + "买了一个" + purchaseOrderProduct.getProductModel().getName());
         sessionHolder.getSession().saveOrUpdate(purchaseOrder);
         sessionHolder.getSession().saveOrUpdate(purchaseOrderProduct);
         sessionHolder.getSession().saveOrUpdate(virtualPurchaseOrder);

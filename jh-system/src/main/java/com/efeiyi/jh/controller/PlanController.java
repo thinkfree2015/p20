@@ -1,7 +1,9 @@
 package com.efeiyi.jh.controller;
 
+import com.efeiyi.jh.model.PlanConst;
 import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.efeiyi.jh.model.task.CoreTaskScheduler;
+import com.efeiyi.jh.model.timer.SubTimer;
 import com.efeiyi.jh.model.timer.SuperTimer;
 import com.ming800.core.base.service.BaseManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +45,10 @@ public class PlanController {
 
         List<VirtualPlan> virtualPlanList = new ArrayList<>();
         virtualPlan = (VirtualPlan)baseManager.getObject(VirtualPlan.class.getName(), virtualPlan.getId());
-
-        virtualPlanList.add(virtualPlan);
-        CoreTaskScheduler.getInstance().execute(virtualPlanList);
+        if(!PlanConst.planStatusStarted.equals(virtualPlan.getStatus())) {
+            virtualPlanList.add(virtualPlan);
+            CoreTaskScheduler.getInstance().execute(virtualPlanList);
+        }
         modelMap.addAttribute(virtualPlan);
         return new ModelAndView("redirect:" + request.getParameter("resultPage"), modelMap);
     }
@@ -54,7 +57,10 @@ public class PlanController {
     public ModelAndView pausePlan(VirtualPlan virtualPlan, ModelMap modelMap,HttpServletRequest request) {
 
         virtualPlan = (VirtualPlan)baseManager.getObject(VirtualPlan.class.getName(), virtualPlan.getId());
-        SuperTimer.getInstance().getSubTimerTaskMap().get(virtualPlan).cancel();
+        SubTimer subTimer = SuperTimer.getInstance().getSubTimerTaskMap().get(virtualPlan);
+        if(subTimer != null){
+            subTimer.cancel();
+        }
         modelMap.addAttribute(virtualPlan);
         return new ModelAndView("redirect:" + request.getParameter("resultPage"),modelMap);
     }

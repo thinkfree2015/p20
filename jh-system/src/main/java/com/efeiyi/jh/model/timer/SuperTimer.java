@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Administrator on 2015/11/25.
@@ -18,7 +19,7 @@ public class SuperTimer {
     private static SuperTimer superTimer;
     private Timer timer = new Timer();
     private Map<VirtualPlan, SubTimer> subTimerTaskMap = new HashMap<VirtualPlan, SubTimer>();
-    private Map<VirtualPlan, Object> subTaskTempStoreMap = new HashMap<VirtualPlan, Object>();
+    private Map<VirtualPlan, Object> subTaskTempStoreMap = new ConcurrentHashMap<VirtualPlan, Object>();
     private long taskExecuteCycle = 86400000;
 
 

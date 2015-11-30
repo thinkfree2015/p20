@@ -83,14 +83,10 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
         List<ProductModel> virtualProductModelList = new ArrayList<>();
 
         for (VirtualProductModel virtualProductModel : virtualOrderPlan.getVirtualProductModelList()) {
-//            int randomAmount = random.nextInt(virtualProductModel.getAmountCeil() - virtualProductModel.getAmountFloor() + 1) + virtualProductModel.getAmountFloor();
-//            virtualProductModel.setRandomAmount(randomAmount);
             //生成ProductModel池子
             List<ProductModel> subVirtualProductModelList = generateSubProductModelPool(virtualProductModel,virtualProductModel.getRandomAmount());
             virtualProductModelList.addAll(subVirtualProductModelList);
-//            sessionHolder.getSession().saveOrUpdate(virtualProductModel);
         }
-//        sessionHolder.getSession().flush();
 
         return virtualProductModelList;
     }
