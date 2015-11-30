@@ -1,7 +1,7 @@
 package com.efeiyi.jh.model.task;
 
 import com.efeiyi.jh.model.PlanConst;
-import com.efeiyi.jh.model.service.SessionHolder;
+import com.efeiyi.jh.service.SessionHolder;
 import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.efeiyi.jh.model.timer.SubTimer;
 import com.efeiyi.jh.model.timer.SuperTimer;
@@ -36,12 +36,16 @@ public class CoreTaskScheduler extends TimerTask {
     @Override
     public void run() {
 
+        Query listQuery = sessionHolder.getSession().createQuery("from VirtualPlan where status = " + PlanConst.planStatusNormal);
+        List<VirtualPlan> virtualPlanList = listQuery.list();
+        execute(virtualPlanList);
+
+    }
+
+    public void execute(List<VirtualPlan> virtualPlanList){
         DateFormat dateFormat = new SimpleDateFormat("yyyy,MM,dd");
         Date nowDate = new Date();
         String[] date = dateFormat.format(nowDate).split(",");
-
-        Query listQuery = sessionHolder.getSession().createQuery("from VirtualPlan where status = " + PlanConst.planStatusNormal);
-        List<VirtualPlan> virtualPlanList = listQuery.list();
 
         DateFormat timeFormat = new SimpleDateFormat("HH,mm,ss");
         Calendar startCalendarComparator = Calendar.getInstance();
@@ -51,7 +55,7 @@ public class CoreTaskScheduler extends TimerTask {
             //停掉前一天的
             SubTimer subTimer = SuperTimer.getInstance().getSubTimerTaskMap().remove(virtualPlan);
             if (subTimer != null) {
-                subTimer.getTimer().cancel();
+                subTimer.cancel();
             }
 
             //执行日期以外的跳过
@@ -77,10 +81,7 @@ public class CoreTaskScheduler extends TimerTask {
                 System.err.println("没找到对应的定时任务处理类!!serial :" + virtualPlan.getSerial() + " description:" + virtualPlan.getDescription());
                 continue;
             }
-
-            subTimer = new SubTimer(new Timer(),new Timer());
-            subTimer.setTimerTask(subTimerTask);
-            subTimer.setStopTimerTask(new SubTaskStopper(virtualPlan));
+            subTimer = new SubTimer(new Timer(),subTimerTask,new Timer(),new SubTaskStopper(virtualPlan));
             SuperTimer.getInstance().getSubTimerTaskMap().put(virtualPlan, subTimer);
 
             long delay = startCalendarComparator.getTimeInMillis() - nowDate.getTime();
@@ -90,6 +91,5 @@ public class CoreTaskScheduler extends TimerTask {
             System.out.println(virtualPlan.getSerial() + "启动定时：" + (delay < 0 ? 0 : delay) + "毫秒后启动");
             System.out.println(virtualPlan.getSerial() + "关闭定时：" + (stopperDelay < 0 ? 0 : stopperDelay) + "毫秒后启动");
         }
-
     }
 }

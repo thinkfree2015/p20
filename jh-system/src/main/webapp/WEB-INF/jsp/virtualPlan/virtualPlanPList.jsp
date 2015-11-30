@@ -50,12 +50,12 @@
                                     class="am-icon-trash-o"></span> 删除
                             </button>
                             <button onclick="window.location.href='<c:url
-                                    value="/basic/xm.do?qm=formUser&id=${user.id}"/>'"
+                                    value="/plan/pausePlan.do?id=${plan.id}&resultPage=/basic/xm.do?qm=plistVirtualPlan_default"/>'"
                                     class="am-btn am-btn-default am-btn-xs am-hide-sm-only"><span
                                     class="am-icon-edit"></span> 暂停任务
                             </button>
                             <button onclick="window.location.href='<c:url
-                                    value="/basic/xm.do?qm=removeUser&id=${user.id}"/>'"
+                                    value="/plan//startPlan.do?id=${plan.id}&resultPage=/basic/xm.do?qm=plistVirtualPlan_default"/>'"
                                     class="am-btn am-btn-default am-btn-xs am-hide-sm-only"><span
                                     class="am-icon-trash-o"></span> 开始任务
                             </button>

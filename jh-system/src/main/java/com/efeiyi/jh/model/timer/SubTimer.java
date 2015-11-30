@@ -1,5 +1,8 @@
 package com.efeiyi.jh.model.timer;
 
+import com.efeiyi.jh.model.task.BaseTimerTask;
+import com.efeiyi.jh.model.task.SubTaskStopper;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,9 +16,14 @@ public class SubTimer {
     private Timer stopTimer;
     private TimerTask stopTimerTask;
 
-    public SubTimer(Timer timer,Timer stopTimer){
+    public SubTimer(Timer timer, BaseTimerTask timerTask, Timer stopTimer, SubTaskStopper stopTimerTask) {
         this.timer = timer;
+        this.timerTask = timerTask;
         this.stopTimer = stopTimer;
+        this.stopTimerTask = stopTimerTask;
+    }
+
+    public SubTimer() {
     }
 
     public Timer getTimer() {
@@ -48,5 +56,15 @@ public class SubTimer {
 
     public void setStopTimerTask(TimerTask stopTimerTask) {
         this.stopTimerTask = stopTimerTask;
+    }
+
+    public boolean cancel() {
+        if (timerTask == null || timer == null || stopTimer == null || stopTimerTask == null) {
+            System.err.println("failed to end task...................");
+            return false;
+        }
+        stopTimerTask.run();
+        System.out.println("task ended...................");
+        return true;
     }
 }

@@ -105,7 +105,7 @@
     <bean id="userLoginManager" class="com.efeiyi.jh.login.service.UserLoginManager">
         <property name="userLoginDao" ref="userDao"/>
     </bean>
-    <bean id="mySession" class="com.efeiyi.jh.model.service.SessionHolder" >
+    <bean id="mySession" class="com.efeiyi.jh.service.SessionHolder" >
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 </beans>

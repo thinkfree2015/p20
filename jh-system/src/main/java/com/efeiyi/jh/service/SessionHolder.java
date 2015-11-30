@@ -1,4 +1,4 @@
-package com.efeiyi.jh.model.service;
+package com.efeiyi.jh.service;
 
 import org.hibernate.CacheMode;
 import org.hibernate.Session;

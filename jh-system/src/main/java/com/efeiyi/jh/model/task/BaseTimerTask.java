@@ -1,6 +1,6 @@
 package com.efeiyi.jh.model.task;
 
-import com.efeiyi.jh.model.service.SessionHolder;
+import com.efeiyi.jh.service.SessionHolder;
 import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.ming800.core.util.ApplicationContextUtil;
 

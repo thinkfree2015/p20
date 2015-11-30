@@ -38,7 +38,8 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
         sessionHolder.getSession().flush();
 
         //生成ProductModel随机productModel
-        if(productModelList == null) {
+        productModelList = (List<ProductModel>)SuperTimer.getInstance().getSubTaskTempStoreMap().remove(virtualOrderPlan);
+        if(productModelList == null || productModelList.isEmpty()) {
             productModelList = generateProductModelList();
         }
         Random random = new Random();
@@ -87,9 +88,9 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
             //生成ProductModel池子
             List<ProductModel> subVirtualProductModelList = generateSubProductModelPool(virtualProductModel,virtualProductModel.getRandomAmount());
             virtualProductModelList.addAll(subVirtualProductModelList);
-            sessionHolder.getSession().saveOrUpdate(virtualProductModel);
+//            sessionHolder.getSession().saveOrUpdate(virtualProductModel);
         }
-        sessionHolder.getSession().flush();
+//        sessionHolder.getSession().flush();
 
         return virtualProductModelList;
     }
