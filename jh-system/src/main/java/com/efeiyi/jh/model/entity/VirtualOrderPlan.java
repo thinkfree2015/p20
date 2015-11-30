@@ -28,11 +28,11 @@ public class VirtualOrderPlan extends VirtualPlan{
         this.orderAmountFloor = orderAmountFloor;
     }
     @Column(name = "amount_ceil")
-    public Integer getOrderCountCeil() {
+    public Integer getOrderAmountCeil() {
         return orderAmountCeil;
     }
 
-    public void setOrderCountCeil(Integer orderAmountCeil) {
+    public void setOrderAmountCeil(Integer orderAmountCeil) {
         this.orderAmountCeil = orderAmountCeil;
     }
 
