@@ -60,7 +60,7 @@ public class VirtualPurchaseOrderGenerator extends BaseTimerTask {
         purchaseOrderPayment.setPayWay("4");
         purchaseOrderPayment.setPaymentAmount(productModel.getPrice());
 
-        System.out.println(new Date() + ":" + virtualUser.getUser().getUsername() + " purchase a " + purchaseOrderProduct.getProductModel().getName());
+        logger.info(new Date() + ":" + virtualUser.getUser().getUsername() + " purchase a " + purchaseOrderProduct.getProductModel().getName());
         session.saveOrUpdate(purchaseOrder);
         session.saveOrUpdate(purchaseOrderProduct);
         session.saveOrUpdate(virtualPurchaseOrder);

@@ -22,7 +22,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
 
     @Override
     public boolean cancel() {
-        System.out.println("PurchaseOrderTaskScheduler cancelling............................................");
+        logger.info("PurchaseOrderTaskScheduler cancelling............................................");
         SuperTimer.getInstance().getSubTaskTempStoreMap().put(virtualOrderPlan, productModelList);
         if(session == null || !session.isOpen()){
             session = sessionFactory.openSession();
@@ -79,7 +79,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
 
     @Override
     public void run() {
-        System.out.println(" Purchase order arranging..........................................");
+        logger.info(" Purchase order arranging..........................................");
         try {
             execute();
         } catch (Exception e) {
@@ -89,7 +89,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
                 session.close();
             }
         }
-        System.out.println("Purchase arranging done.........................");
+        logger.info("Purchase arranged.........................");
     }
 
     @Override

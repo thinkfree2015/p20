@@ -20,11 +20,11 @@ public class SuperTimer {
     private Timer timer = new Timer();
     private Map<VirtualPlan, SubTimer> subTimerTaskMap = new HashMap<VirtualPlan, SubTimer>();
     private Map<VirtualPlan, Object> subTaskTempStoreMap = new ConcurrentHashMap<VirtualPlan, Object>();
-    private long taskExecuteCycle = 86400000;
+    private long taskExecutionCycle = 86400000;
 
 
-    public long getTaskExecuteCycle() {
-        return taskExecuteCycle;
+    public long getTaskExecutionCycle() {
+        return taskExecutionCycle;
     }
 
     private SuperTimer(){}

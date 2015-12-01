@@ -2,6 +2,7 @@ package com.efeiyi.jh.model.timer;
 
 import com.efeiyi.jh.model.task.BaseTimerTask;
 import com.efeiyi.jh.model.task.SubTaskStopper;
+import org.apache.log4j.Logger;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,6 +16,7 @@ public class SubTimer {
     private TimerTask timerTask;
     private Timer stopTimer;
     private SubTaskStopper stopTimerTask;
+    private Logger logger = Logger.getLogger(SubTimer.class);
 
     public SubTimer(Timer timer, BaseTimerTask timerTask, Timer stopTimer, SubTaskStopper stopTimerTask) {
         this.timer = timer;
@@ -59,12 +61,12 @@ public class SubTimer {
     }
 
     public boolean cancel() {
-        if (timerTask == null || timer == null || stopTimer == null || stopTimerTask == null) {
-            System.err.println("failed to end task...................");
+        if (/*timerTask == null ||*/ timer == null || stopTimer == null /*|| stopTimerTask == null*/) {
+            logger.error("SubTask " + timerTask.getClass().getName() + " failed to end...................");
             return false;
         }
         stopTimerTask.cancel();
-        System.out.println("subTask ended...................");
+        logger.info("SubTask " + timerTask.getClass().getName() +  " ended...................");
         return true;
     }
 }
