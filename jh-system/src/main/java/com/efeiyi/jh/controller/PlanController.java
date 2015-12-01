@@ -6,6 +6,7 @@ import com.efeiyi.jh.model.task.CoreTaskScheduler;
 import com.efeiyi.jh.model.timer.SubTimer;
 import com.efeiyi.jh.model.timer.SuperTimer;
 import com.ming800.core.base.service.BaseManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -47,7 +48,7 @@ public class PlanController {
         virtualPlan = (VirtualPlan)baseManager.getObject(VirtualPlan.class.getName(), virtualPlan.getId());
         if(!PlanConst.planStatusStarted.equals(virtualPlan.getStatus())) {
             virtualPlanList.add(virtualPlan);
-            CoreTaskScheduler.getInstance().execute(virtualPlanList);
+            CoreTaskScheduler.getInstance().run();
         }
         modelMap.addAttribute(virtualPlan);
         return new ModelAndView("redirect:" + request.getParameter("resultPage"), modelMap);
@@ -72,14 +73,13 @@ public class PlanController {
         return new ModelAndView("/main");
     }
 
-//    @RequestMapping("/start.do")
-//    public ModelAndView startPlan() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-//
-//       Timer timer = new Timer();
-//
-//        timer.schedule(new BaseTimerTask(),0);
-//
-//        return new ModelAndView("/main");
-//    }
+    @RequestMapping("/logger.do")
+    public ModelAndView startPlan() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+
+        Logger logger = Logger.getLogger(PlanController.class);
+
+        logger.info("----------------------------------");
+        return new ModelAndView("/main");
+    }
 
 }

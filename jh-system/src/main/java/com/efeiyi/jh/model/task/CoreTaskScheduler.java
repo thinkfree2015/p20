@@ -1,11 +1,9 @@
 package com.efeiyi.jh.model.task;
 
 import com.efeiyi.jh.model.PlanConst;
-import com.efeiyi.jh.service.SessionHolder;
 import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.efeiyi.jh.model.timer.SubTimer;
 import com.efeiyi.jh.model.timer.SuperTimer;
-import com.ming800.core.util.ApplicationContextUtil;
 import org.hibernate.Query;
 
 import java.text.DateFormat;
@@ -15,9 +13,9 @@ import java.util.*;
 /**
  * Created by Administrator on 2015/11/23.
  */
-public class CoreTaskScheduler extends TimerTask {
+public class CoreTaskScheduler extends BaseTimerTask {
     private static CoreTaskScheduler coreTaskScheduler;
-    private SessionHolder sessionHolder  = (SessionHolder) ApplicationContextUtil.getApplicationContext().getBean("mySession");
+    private List<VirtualPlan> virtualPlanList;
 
     private CoreTaskScheduler() {
     }
@@ -35,14 +33,24 @@ public class CoreTaskScheduler extends TimerTask {
 
     @Override
     public void run() {
-
-        Query listQuery = sessionHolder.getSession().createQuery("from VirtualPlan where status = " + PlanConst.planStatusNormal);
-        List<VirtualPlan> virtualPlanList = listQuery.list();
-        execute(virtualPlanList);
+        if (session == null || !session.isOpen()) {
+            session = sessionFactory.openSession();
+        }
+        try {
+            Query listQuery = session.createQuery("from VirtualPlan where status = " + PlanConst.planStatusNormal);
+            virtualPlanList = listQuery.list();
+            execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
 
     }
 
-    public void execute(List<VirtualPlan> virtualPlanList){
+    public void execute() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy,MM,dd");
         Date nowDate = new Date();
         String[] date = dateFormat.format(nowDate).split(",");
@@ -81,15 +89,19 @@ public class CoreTaskScheduler extends TimerTask {
                 System.err.println("ClassNotFound!!serial :" + virtualPlan.getSerial() + " description:" + virtualPlan.getDescription());
                 continue;
             }
-            subTimer = new SubTimer(new Timer(),subTimerTask,new Timer(),new SubTaskStopper(virtualPlan));
+            subTimer = new SubTimer(new Timer(), subTimerTask, new Timer(), new SubTaskStopper(virtualPlan));
             SuperTimer.getInstance().getSubTimerTaskMap().put(virtualPlan, subTimer);
 
             long delay = startCalendarComparator.getTimeInMillis() - nowDate.getTime();
             long stopperDelay = endCalendarComparator.getTimeInMillis() - nowDate.getTime();
             subTimer.getTimer().schedule(subTimerTask, delay < 0 ? 0 : delay);
             subTimer.getStopTimer().schedule(subTimer.getStopTimerTask(), stopperDelay < 0 ? 0 : stopperDelay);
-            System.out.println(virtualPlan.getSerial() + "timer launch after " + (delay < 0 ? 0 : delay) + " millis seconds");
-            System.out.println(virtualPlan.getSerial() + "timer off after" + (stopperDelay < 0 ? 0 : stopperDelay) + " millis seconds");
+            System.out.println(virtualPlan.getSerial() + " timer launch after " + (delay < 0 ? 0 : delay) + " millis seconds");
+            System.out.println(virtualPlan.getSerial() + " timer off after " + (stopperDelay < 0 ? 0 : stopperDelay) + " millis seconds");
         }
+    }
+
+    @Override
+    public void setVirtualPlan(VirtualPlan virtualPlan) {
     }
 }

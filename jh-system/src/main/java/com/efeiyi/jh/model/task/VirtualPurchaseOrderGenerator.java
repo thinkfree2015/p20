@@ -19,15 +19,18 @@ public class VirtualPurchaseOrderGenerator extends BaseTimerTask {
     private List<ProductModel> productModelList;
 
 
-    public VirtualPurchaseOrderGenerator(List<ProductModel> productModelList,VirtualOrderPlan virtualOrderPlan){
+    public VirtualPurchaseOrderGenerator(List<ProductModel> productModelList, VirtualOrderPlan virtualOrderPlan) {
         super();
         this.productModelList = productModelList;
-        this.virtualOrderPlan = virtualOrderPlan;
+        setVirtualPlan(virtualOrderPlan);
     }
 
-    @Override
-    public void run() {
+    public void execute() {
         Random random = new Random();
+        if(session == null){
+            session = sessionFactory.openSession();
+        }
+        virtualOrderPlan = (VirtualOrderPlan)session.get(VirtualOrderPlan.class,virtualOrderPlan.getId());
         ProductModel productModel = productModelList.remove(random.nextInt(productModelList.size()));
         List<VirtualUser> virtualUserList = virtualOrderPlan.getVirtualUserPlan().getVirtualUserList();
         VirtualUser virtualUser = virtualUserList.remove(random.nextInt(virtualUserList.size()));
@@ -57,16 +60,30 @@ public class VirtualPurchaseOrderGenerator extends BaseTimerTask {
         purchaseOrderPayment.setPayWay("4");
         purchaseOrderPayment.setPaymentAmount(productModel.getPrice());
 
-        System.out.println(new Date() + ":" + virtualUser.getUser().getUsername() + "purchase a " + purchaseOrderProduct.getProductModel().getName());
-        sessionHolder.getSession().saveOrUpdate(purchaseOrder);
-        sessionHolder.getSession().saveOrUpdate(purchaseOrderProduct);
-        sessionHolder.getSession().saveOrUpdate(virtualPurchaseOrder);
-        sessionHolder.getSession().saveOrUpdate(purchaseOrderPayment);
-        sessionHolder.getSession().flush();
+        System.out.println(new Date() + ":" + virtualUser.getUser().getUsername() + " purchase a " + purchaseOrderProduct.getProductModel().getName());
+        session.saveOrUpdate(purchaseOrder);
+        session.saveOrUpdate(purchaseOrderProduct);
+        session.saveOrUpdate(virtualPurchaseOrder);
+        session.saveOrUpdate(purchaseOrderPayment);
+        session.flush();
+    }
+
+    @Override
+    public void run() {
+        try {
+            if(session == null || !session.isOpen()) {
+                session = sessionFactory.openSession();
+            }
+            execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public void setVirtualPlan(VirtualPlan virtualPlan) {
-        this.virtualOrderPlan = (VirtualOrderPlan)virtualPlan;
+        virtualOrderPlan = (VirtualOrderPlan) virtualPlan;
     }
 }

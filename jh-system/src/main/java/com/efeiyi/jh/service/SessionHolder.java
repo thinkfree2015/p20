@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 /**
  * Created by Administrator on 2015/11/26.
  */
+@Deprecated
 @Service
 public class SessionHolder {
 

@@ -17,14 +17,12 @@ public class SubTaskStopper extends BaseTimerTask {
 
     @Override
     public void run() {
-        SubTimer subTimer = SuperTimer.getInstance().getSubTimerTaskMap().remove(virtualPlan);
-        if(subTimer != null) {
-            synchronized (subTimer) {
-                subTimer.getTimerTask().cancel();
-                subTimer.getTimer().cancel();
-                subTimer.getStopTimer().cancel();
-                subTimer.getStopTimerTask().cancel();
-            }
+        try {
+            execute();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            super.cancel();
         }
     }
 
@@ -34,8 +32,22 @@ public class SubTaskStopper extends BaseTimerTask {
     }
 
     @Override
+    public void execute() {
+        this.cancel();
+    }
+
+    @Override
     public boolean cancel() {
         System.out.println("SubTaskStopper cancelling.........................");
-        return super.cancel();
+        SubTimer subTimer = SuperTimer.getInstance().getSubTimerTaskMap().remove(virtualPlan);
+        if(subTimer != null) {
+            synchronized (subTimer) {
+                subTimer.getTimerTask().cancel();
+                subTimer.getTimer().cancel();
+                subTimer.getStopTimer().cancel();
+                subTimer.getStopTimerTask().cancel();
+            }
+        }
+        return true;
     }
 }

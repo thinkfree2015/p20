@@ -23,23 +23,27 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
     @Override
     public boolean cancel() {
         System.out.println("PurchaseOrderTaskScheduler cancelling............................................");
-        SuperTimer.getInstance().getSubTaskTempStoreMap().put(virtualOrderPlan,productModelList);
+        SuperTimer.getInstance().getSubTaskTempStoreMap().put(virtualOrderPlan, productModelList);
+        if(session == null || !session.isOpen()){
+            session = sessionFactory.openSession();
+            virtualOrderPlan = (VirtualOrderPlan)session.get(VirtualOrderPlan.class,virtualOrderPlan.getId());
+        }
+
         virtualOrderPlan.setStatus(PlanConst.planStatusNormal);
-        sessionHolder.getSession().saveOrUpdate(virtualOrderPlan);
-        sessionHolder.getSession().flush();
+        session.saveOrUpdate(virtualOrderPlan);
+        session.flush();
         return super.cancel();
     }
 
-    @Override
-    public void run() {
-        System.out.println(" Purchase order arranging..........................................");
+    public void execute() {
+
         virtualOrderPlan.setStatus(PlanConst.planStatusStarted);
-        sessionHolder.getSession().saveOrUpdate(virtualOrderPlan);
-        sessionHolder.getSession().flush();
+        session.saveOrUpdate(virtualOrderPlan);
+        session.flush();
 
         //生成ProductModel随机productModel
-        productModelList = (List<ProductModel>)SuperTimer.getInstance().getSubTaskTempStoreMap().remove(virtualOrderPlan);
-        if(productModelList == null || productModelList.isEmpty()) {
+        productModelList = (List<ProductModel>) SuperTimer.getInstance().getSubTaskTempStoreMap().remove(virtualOrderPlan);
+        if (productModelList == null || productModelList.isEmpty()) {
             productModelList = generateProductModelList();
         }
         Random random = new Random();
@@ -70,12 +74,30 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
                     .schedule(new VirtualPurchaseOrderGenerator(productModelList, virtualOrderPlan), randomOrderTimePoint[x]);
         }
 
+
+    }
+
+    @Override
+    public void run() {
+        System.out.println(" Purchase order arranging..........................................");
+        try {
+            execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
         System.out.println("Purchase arranging done.........................");
     }
 
     @Override
     public void setVirtualPlan(VirtualPlan virtualPlan) {
-        this.virtualOrderPlan = (VirtualOrderPlan) sessionHolder.getSession().get(VirtualOrderPlan.class, virtualPlan.getId());
+        if (session == null) {
+            session = sessionFactory.openSession();
+        }
+        this.virtualOrderPlan = (VirtualOrderPlan) session.get(VirtualOrderPlan.class, virtualPlan.getId());
     }
 
     private List<ProductModel> generateProductModelList() {
@@ -84,7 +106,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
 
         for (VirtualProductModel virtualProductModel : virtualOrderPlan.getVirtualProductModelList()) {
             //生成ProductModel池子
-            List<ProductModel> subVirtualProductModelList = generateSubProductModelPool(virtualProductModel,virtualProductModel.getRandomAmount());
+            List<ProductModel> subVirtualProductModelList = generateSubProductModelPool(virtualProductModel, virtualProductModel.getRandomAmount());
             virtualProductModelList.addAll(subVirtualProductModelList);
         }
 
@@ -94,7 +116,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
     private List<ProductModel> generateSubProductModelPool(VirtualProductModel virtualProductModel, int randomAmount) {
 
         List<ProductModel> subVirtualProductModelList = new LinkedList<>();
-        for(int x = 0; x < randomAmount; x++){
+        for (int x = 0; x < randomAmount; x++) {
             subVirtualProductModelList.add(virtualProductModel.getProductModel());
         }
         return subVirtualProductModelList;

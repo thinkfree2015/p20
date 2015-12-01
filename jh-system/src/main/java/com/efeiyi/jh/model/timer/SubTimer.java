@@ -14,7 +14,7 @@ public class SubTimer {
     private Timer timer;
     private TimerTask timerTask;
     private Timer stopTimer;
-    private TimerTask stopTimerTask;
+    private SubTaskStopper stopTimerTask;
 
     public SubTimer(Timer timer, BaseTimerTask timerTask, Timer stopTimer, SubTaskStopper stopTimerTask) {
         this.timer = timer;
@@ -54,7 +54,7 @@ public class SubTimer {
         return stopTimerTask;
     }
 
-    public void setStopTimerTask(TimerTask stopTimerTask) {
+    public void setStopTimerTask(SubTaskStopper stopTimerTask) {
         this.stopTimerTask = stopTimerTask;
     }
 
@@ -63,7 +63,7 @@ public class SubTimer {
             System.err.println("failed to end task...................");
             return false;
         }
-        stopTimerTask.run();
+        stopTimerTask.cancel();
         System.out.println("subTask ended...................");
         return true;
     }

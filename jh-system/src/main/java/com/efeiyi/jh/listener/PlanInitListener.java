@@ -1,7 +1,14 @@
 package com.efeiyi.jh.listener;
 
+import com.efeiyi.jh.model.PlanConst;
+import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.efeiyi.jh.model.task.CoreTaskScheduler;
+import com.efeiyi.jh.model.timer.SubTimer;
 import com.efeiyi.jh.model.timer.SuperTimer;
+import com.ming800.core.util.ApplicationContextUtil;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -9,6 +16,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/11/24.
@@ -34,11 +43,41 @@ public class PlanInitListener implements ServletContextListener {
             SuperTimer.getInstance().getTimer().scheduleAtFixedRate(coreTaskScheduler, tomorrowStartTime, SuperTimer.getInstance().getTaskExecuteCycle());
 
         } catch (Exception e) {
-            System.err.println("任务启动监听出现异常！！！！！！！！！！！！！！！！！");
+            System.err.println("Daily timer & timerTask failed to set......................");
             e.printStackTrace();
         }
     }
 
     @Override
-    public void contextDestroyed(ServletContextEvent sce) {}
+    public void contextDestroyed(ServletContextEvent sce) {
+        resetTaskStatus();
+        clearGlobalMap();
+        stopCoreScheduler();
+    }
+
+    private void stopCoreScheduler() {
+        SuperTimer.getInstance().getTimer().cancel();
+        CoreTaskScheduler.getInstance().cancel();
+    }
+
+    private void clearGlobalMap() {
+        for(Map.Entry entry : SuperTimer.getInstance().getSubTimerTaskMap().entrySet()){
+            ((SubTimer)entry.getValue()).cancel();
+        }
+        SuperTimer.getInstance().getSubTimerTaskMap().clear();
+        SuperTimer.getInstance().getSubTaskTempStoreMap().clear();
+    }
+
+    private void resetTaskStatus() {
+        SessionFactory sessionFactory = ((SessionFactory) ApplicationContextUtil.getApplicationContext().getBean("scheduleSessionFactory"));
+        Session session = sessionFactory.openSession();
+        Query listQuery = session.createQuery("from VirtualPlan ");
+        List<VirtualPlan> virtualPlanList = listQuery.list();
+        for(VirtualPlan virtualPlan : virtualPlanList){
+            virtualPlan.setStatus(PlanConst.planStatusNormal);
+            session.saveOrUpdate(virtualPlan);
+        }
+        session.flush();
+        session.close();
+    }
 }
