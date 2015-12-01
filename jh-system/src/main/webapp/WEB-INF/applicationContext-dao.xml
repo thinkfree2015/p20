@@ -98,6 +98,9 @@
     <!--<bean id="modalServiceManagerImpl" class="com.efeiyi.pal.system.base.service.impl.ModalServiceManagerImpl"/>-->
     <!--<bean id="modalDaoHibernate" class="com.efeiyi.pal.system.base.dao.hibernate.ModalDaoHibernate"/>-->
 
+    <!-- 获取序列号 -->
+    <bean id="autoSerialManager" class="com.efeiyi.jh.service.AutoSerialManagerImpl" />
+
     <!--userDao用于spring security-->
     <bean id="userDao" class="com.efeiyi.jh.login.dao.hibernate.UserDaoHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>

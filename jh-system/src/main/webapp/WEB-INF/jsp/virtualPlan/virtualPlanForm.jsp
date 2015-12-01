@@ -12,6 +12,7 @@
 <html>
 <head>
     <title>虚拟数据批次信息</title>
+    <script src="<c:url value='/DatePicker/WdatePicker.js'/>"></script>
 </head>
 <body>
 <div class="am-cf am-padding">
@@ -21,14 +22,18 @@
 </div>
 <hr/>
 <div class="am-g">
-    <form action="<c:url value='/plan/savePlan.do'/>" method="post" enctype="multipart/form-data" class="am-form am-form-horizontal">
+    <form id="vPlanForm" onsubmit="return startLessThanEnd('vPlanForm')"
+          <%--action="<c:url value='/plan/saveOrEditPlan.do'/>"--%>
+          action="<c:url value='/basic/xm.do?qm=saveOrUpdateVirtualPlan'/>"
+          method="post" enctype="multipart/form-data" class="am-form am-form-horizontal">
         <input type="hidden" name="id" value="${object.id}">
+        <input type="hidden" name="serial" value="${object.serial}"/>
         <input type="hidden" name="status" value="${object.status}"/>
 
         <div class="am-form-group">
-            <label for="name" class="am-u-sm-3 am-form-label">虚拟数据批次名<small>*</small></label>
+            <label for="description" class="am-u-sm-3 am-form-label">虚拟数据批次名<small>*</small></label>
             <div class="am-u-sm-9">
-                <input type="text" name="description" id="name"
+                <input type="text" name="description" id="description"
                        title="虚拟数据批次名" placeholder="虚拟数据批次名"
                        value="${object.description}" required="true">
             </div>
@@ -37,26 +42,50 @@
         <div class="am-form-group">
             <label for="planType" class="am-u-sm-3 am-form-label">虚拟数据对象<small>*</small></label>
             <div class="am-u-sm-9" style="margin-top: 8px">
-                <ming800:status name="planType" dataType="PCVirtualPlan.planType"
-                                checkedValue="${object.planType}" type="radio"/>
+                <ming800:status name="planTypeSelect" dataType="PCVirtualPlan.planType"
+                                checkedValue="${object.planType}" onclick="javascript:objectChange(this)" required="required" type="radio"/>
+                <input type="hidden" name="planType" id="planType" title="虚拟数据对象" required="true" value="${object.planType}">
             </div>
         </div>
 
-        <div class="am-form-group">
+        <%--<div class="am-form-group">
             <label class="am-u-sm-3 am-form-label">单件商品订单总量区间<small>*</small></label>
             <div class="am-u-sm-9">
                 <input type="text" style="width: auto; float: left" placeholder="0" value="" required="true">
                 <span style="width: auto; float: left; font-family:'应用字体 Regular', '应用字体'; margin-left: 10px; margin-top: 4px">至</span>
                 <input type="text" style="width: auto; float: left; margin-left: 10px" placeholder="0" value="" required="true">
             </div>
+        </div>--%>
+
+        <div class="am-form-group">
+            <label class="am-u-sm-3 am-form-label">任务截止日期<small>*</small></label>
+            <div class="am-u-sm-9">
+                <input type="text" name="startDate" id="startDate" style="width: auto; float: left"
+                       title="开始日期" class="am-form-field" data-am-datepicker
+                       value="<fmt:formatDate value='${object.startDate}'  pattern='yyyy-MM-dd'/>" required="true" readonly/>
+
+                <span style="width: auto; float: left; font-family:'应用字体 Regular', '应用字体'; margin-left: 10px; margin-top: 4px">至</span>
+
+                <input type="text" name="endDate" id="endDate" style="width: auto; float: left; margin-left: 10px"
+                       title="结束日期" class="am-form-field" data-am-datepicker
+                       value="<fmt:formatDate value='${object.endDate}'  pattern='yyyy-MM-dd'/>" required="true" readonly/>
+            </div>
         </div>
 
         <div class="am-form-group">
             <label class="am-u-sm-3 am-form-label">任务运行时间<small>*</small></label>
             <div class="am-u-sm-9">
-                <input type="text" style="width: auto; float: left" placeholder="" value="" required="true">
+                <input class="Wdate" onClick="WdatePicker({dateFmt:'HH:mm:ss'})"
+                       type="text" style="width: auto; float: left; height: 35px"
+                       name="startTime" id="startTime" title="开始时间"
+                       placeholder="" value="${object.endDate}" required="true">
+
                 <span style="width: auto; float: left; font-family:'应用字体 Regular', '应用字体'; margin-left: 10px; margin-top: 4px">至</span>
-                <input type="text" style="width: auto; float: left; margin-left: 10px" placeholder="" value="" required="true">
+
+                <input class="Wdate" onClick="WdatePicker({dateFmt:'HH:mm:ss'})"
+                       type="text" style="width: auto; float: left; margin-left: 10px; height: 35px"
+                       name="endTime" id="endTime" title="结束时间"
+                       placeholder="" value="${object.endDate}" required="true">
             </div>
         </div>
 
@@ -156,5 +185,37 @@
 
     </form>
 </div>
+
+<script>
+    function objectChange(obj){
+        var val = obj.value;
+        $("#planType").val(val);
+    }
+    function startLessThanEnd(val){
+        if(afterSubmitForm(val) /*&& dateCheck() && timeCheck()*/){
+            return true;
+        }
+        return false;
+    }
+    function dateCheck(){
+        var sd = $("#startDate").val();
+        var ed = $("#endDate").val();
+        if(ed<=sd){
+            alert("任务开始日期应该小于结束日期");
+            return false;
+        }
+        return true;
+    }
+    function timeCheck(){
+        var st = $("#startTime").val();
+        var et = $("#endTime").val();
+        if(et<=st){
+            alert("任务运行开始时间应该小于结束时间");
+            return false;
+        }
+        return true;
+    }
+</script>
+
 </body>
 </html>

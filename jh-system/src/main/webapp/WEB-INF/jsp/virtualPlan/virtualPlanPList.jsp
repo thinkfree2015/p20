@@ -69,17 +69,17 @@
                 </td>
                 <td>关联数量</td>
                 <td>已完成数量</td>
-                <td><%--起始日期--%>
-                    <fmt:formatDate value="${plan.startDate}" pattern="yyyy-MM-dd"/>
+                <td><%--起始日期--%>${plan.startDate}
+                    <%--<fmt:formatDate value="${plan.startDate}" pattern="yyyy-MM-dd"/>--%>
                 </td>
-                <td><%--终止日期--%>
-                    <fmt:formatDate value="${plan.endDate}" pattern="yyyy-MM-dd"/>
+                <td><%--终止日期--%>${plan.endDate}
+                    <%--<fmt:formatDate value="${plan.endDate}" pattern="yyyy-MM-dd"/>--%>
                 </td>
-                <td><%--起始时间--%>
-                    <fmt:formatDate value="${plan.startTime}" pattern="HH:mm:ss"/>
+                <td><%--起始时间--%>${plan.startTime}
+                    <%--<fmt:formatDate value="${plan.startTime}" pattern="HH:mm:ss"/>--%>
                 </td>
-                <td><%--终止时间--%>
-                    <fmt:formatDate value="${plan.endTime}" pattern="HH:mm:ss"/>
+                <td><%--终止时间--%>${plan.endTime}
+                    <%--<fmt:formatDate value="${plan.endTime}" pattern="HH:mm:ss"/>--%>
                 </td>
                 <td>
                     <ming800:status name="status" dataType="PCVirtualPlan.status" checkedValue="${plan.status}"

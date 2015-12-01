@@ -6,9 +6,10 @@
                 <field name="status" label="状态" inputType="text">
                     <statusType fieldName="status">
                         <item label="已删除" value="0"/>
-                        <item label="停止" value="1"/>
+                        <item label="已建立" value="1"/>
                         <item label="运行中" value="3"/>
                         <item label="暂停" value="5"/>
+                        <item label="停止" value="7"/>
                         <item label="完成" value="9"/>
                     </statusType>
                 </field>
@@ -29,7 +30,15 @@
                         <condition name="status" defaultValue="0" operation="ne"/>
                     </query>
                 </do>
-                <do name="formVirtualPlan" label="认证信息" access="" result="/virtualPlan/virtualPlanForm"/>
+                <do name="formVirtualPlan" label="虚拟数据" access="" result="/virtualPlan/virtualPlanForm"/>
+                <do name="saveOrUpdateVirtualPlan" label="新建或更新虚拟计划" access="" result="redirect:/basic/xm.do?qm=plistVirtualPlan_default"
+                    execute="com.efeiyi.jh.Handler.VirtualPlanHandler">
+                    <page>
+                        <fields>
+                            <field name="createDatetime" label="创建时间" defaultValue="${CURRENT_DATETIME}" inputType="default"/>
+                        </fields>
+                    </page>
+                </do>
             </does>
         </entity>
     </entities>

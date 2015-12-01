@@ -15,14 +15,14 @@ import java.util.Date;
 public class VirtualPlan {
 
     private String id;
-    private Integer serial;
+    private String serial;
     private String status;
     private Date createDatetime;
     private String planType;
-    private Date startTime;
-    private Date endTime;
-    private Date startDate;
-    private Date endDate;
+    private String startTime;
+    private String endTime;
+    private String startDate;
+    private String endDate;
     private String implementClass;
     private String description;
 
@@ -47,11 +47,11 @@ public class VirtualPlan {
     }
 
     @Column(name = "serial")
-    public Integer getSerial() {
+    public String getSerial() {
         return serial;
     }
 
-    public void setSerial(Integer serial) {
+    public void setSerial(String serial) {
         this.serial = serial;
     }
 
@@ -83,38 +83,38 @@ public class VirtualPlan {
     }
 
     @Column(name = "start_time")
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
     @Column(name = "end_time")
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
     @Column(name = "start_date")
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
     @Column(name = "end_date")
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 

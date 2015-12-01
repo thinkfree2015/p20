@@ -6,8 +6,10 @@ import com.efeiyi.jh.model.task.CoreTaskScheduler;
 import com.efeiyi.jh.model.timer.SubTimer;
 import com.efeiyi.jh.model.timer.SuperTimer;
 import com.ming800.core.base.service.BaseManager;
+import com.ming800.core.p.service.AutoSerialManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,10 @@ import java.util.*;
 public class PlanController {
 
     @Autowired
-    BaseManager baseManager;
+    private BaseManager baseManager;
+    @Autowired
+    @Qualifier("autoSerialManager")
+    private AutoSerialManager autoSerialManager;
 
     @RequestMapping("/saveOrEditVirtualUser.do")
     public ModelAndView saveOrEditVirtualUser(VirtualPlan plan) {
@@ -35,10 +40,18 @@ public class PlanController {
     }
 
     @RequestMapping("/saveOrEditPlan.do")
-    public ModelAndView saveOrEditPlan(VirtualPlan plan) {
+    public ModelAndView saveOrEditPlan(VirtualPlan plan) throws Exception{
+        String virtualPlanId = plan.getId();
+        if (virtualPlanId.isEmpty() || virtualPlanId.trim().equals("")){
+            String serial = autoSerialManager.nextSerial("virtualPlan");
+            plan.setSerial(serial);
+            plan.setStatus("1");
+            plan.setCreateDatetime(new Date());
+        }
 
-
-        return new ModelAndView("/main");
+        baseManager.saveOrUpdate(plan.getClass().getName(), plan);
+        String resultPage = "redirect:/basic/xm.do?qm=plistVirtualPlan_default";
+        return new ModelAndView(resultPage);
     }
 
     @RequestMapping("/startPlan.do")
