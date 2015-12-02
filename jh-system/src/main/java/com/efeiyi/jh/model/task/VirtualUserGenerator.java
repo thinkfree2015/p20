@@ -6,6 +6,7 @@ import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.efeiyi.jh.model.entity.VirtualUser;
 import com.efeiyi.jh.model.entity.VirtualUserPlan;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -16,7 +17,7 @@ public class VirtualUserGenerator extends BaseTimerTask {
     private String[] prefixes = {"134", "135", "136", "137", "138", "139", "150", "151", "152", "158", "159", "157", "182", "187", "188", "147", "130", "131", "132", "155", "156", "185", "186", "133", "153", "180", "189"};
 
 
-    public void execute() {
+    public void execute(List<VirtualPlan> virtualPlanList) {
         //瞬时任务已启动
         virtualUserPlan = (VirtualUserPlan) session.get(VirtualUserPlan.class, virtualUserPlan.getId());
         virtualUserPlan.setStatus(PlanConst.planStatusStarted);
@@ -49,7 +50,7 @@ public class VirtualUserGenerator extends BaseTimerTask {
             session = sessionFactory.openSession();
         }
         try {
-            execute();
+            execute(null);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

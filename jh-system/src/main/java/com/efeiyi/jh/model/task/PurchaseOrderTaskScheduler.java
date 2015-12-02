@@ -35,7 +35,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
         return super.cancel();
     }
 
-    public void execute() {
+    public void execute(List<VirtualPlan> virtualPlanList) {
 
         virtualOrderPlan.setStatus(PlanConst.planStatusStarted);
         session.saveOrUpdate(virtualOrderPlan);
@@ -68,7 +68,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
             if (randomOrderTimePoint[x] < 0) {
                 continue;
             }
-            SuperTimer.getInstance().getSubTimerTaskMap()
+            SuperTimer.getInstance().getSubTimerMap()
                     .get(virtualOrderPlan)
                     .getTimer()
                     .schedule(new VirtualPurchaseOrderGenerator(productModelList, virtualOrderPlan), randomOrderTimePoint[x]);
@@ -81,7 +81,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
     public void run() {
         logger.info(" Purchase order arranging..........................................");
         try {
-            execute();
+            execute(null);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -61,12 +61,12 @@ public class SubTimer {
     }
 
     public boolean cancel() {
-        if (/*timerTask == null ||*/ timer == null || stopTimer == null /*|| stopTimerTask == null*/) {
-            logger.error("SubTask " + timerTask.getClass().getName() + " failed to end...................");
-            return false;
-        }
+//        if (timer == null || stopTimer == null) {
+//            logger.error("SubTask " + timerTask.getClass().getName() + " failed to end...................");
+//            return false;
+//        }
         stopTimerTask.cancel();
-        logger.info("SubTask " + timerTask.getClass().getName() +  " ended...................");
+        logger.info("SubTimer " + timerTask.getClass().getName() +  " ended...................");
         return true;
     }
 }

@@ -42,10 +42,10 @@ public class PlanInitListener implements ServletContextListener {
             Date tomorrowStartTime = new Date(todayStartTime.getTimeInMillis() + SuperTimer.getInstance().getTaskExecutionCycle());
 
             //定时到明日0时每24小时一次
-            SuperTimer.getInstance().getTimer().scheduleAtFixedRate(coreTaskScheduler, tomorrowStartTime, SuperTimer.getInstance().getTaskExecutionCycle());
+            SuperTimer.getInstance().getCoreTaskTimer().scheduleAtFixedRate(coreTaskScheduler, tomorrowStartTime, SuperTimer.getInstance().getTaskExecutionCycle());
 
         } catch (Exception e) {
-            logger.error("CoreTimer & SubTimerTask failed to set......................");
+            logger.info("CoreTimer & SubTimerTask failed to set......................");
             e.printStackTrace();
         }
     }
@@ -53,23 +53,14 @@ public class PlanInitListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         resetTaskStatus();
-        clearGlobalMap();
         stopCoreScheduler();
         logger.info("CoreTimer & SubTimerTask destroyed......................");
     }
 
     private void stopCoreScheduler() {
-        SuperTimer.getInstance().getTimer().cancel();
+        SuperTimer.getInstance().cancel();
         //task不必另外cancel
 //        CoreTaskScheduler.getInstance().cancel();
-    }
-
-    private void clearGlobalMap() {
-        for (Map.Entry entry : SuperTimer.getInstance().getSubTimerTaskMap().entrySet()) {
-            ((SubTimer) entry.getValue()).cancel();
-        }
-        SuperTimer.getInstance().getSubTimerTaskMap().clear();
-        SuperTimer.getInstance().getSubTaskTempStoreMap().clear();
     }
 
     private void resetTaskStatus() {

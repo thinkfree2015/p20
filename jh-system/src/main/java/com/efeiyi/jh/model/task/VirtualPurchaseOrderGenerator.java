@@ -25,7 +25,7 @@ public class VirtualPurchaseOrderGenerator extends BaseTimerTask {
         setVirtualPlan(virtualOrderPlan);
     }
 
-    public void execute() {
+    public void execute(List<VirtualPlan> virtualPlanList) {
         Random random = new Random();
         if(session == null){
             session = sessionFactory.openSession();
@@ -74,7 +74,7 @@ public class VirtualPurchaseOrderGenerator extends BaseTimerTask {
             if(session == null || !session.isOpen()) {
                 session = sessionFactory.openSession();
             }
-            execute();
+            execute(null);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.util.List;
 import java.util.TimerTask;
 
 /**
@@ -19,6 +20,6 @@ public abstract class BaseTimerTask extends TimerTask {
 
     public abstract void setVirtualPlan(VirtualPlan virtualPlan);
 
-    public abstract void execute();
+    public abstract void execute(List<VirtualPlan> virtualPlanList);
 
 }

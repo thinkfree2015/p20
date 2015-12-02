@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class CoreTaskScheduler extends BaseTimerTask {
     private static CoreTaskScheduler coreTaskScheduler;
-    private List<VirtualPlan> virtualPlanList;
+//    private List<VirtualPlan> virtualPlanList;
 
     private CoreTaskScheduler() {
     }
@@ -39,21 +39,21 @@ public class CoreTaskScheduler extends BaseTimerTask {
         }
         try {
             Query listQuery = session.createQuery("from VirtualPlan where status = " + PlanConst.planStatusNormal);
-            virtualPlanList = listQuery.list();
-            execute();
-        } catch (Exception e) {
+            List<VirtualPlan> virtualPlanList = listQuery.list();
+            execute(virtualPlanList);
+        } catch (Throwable e) {
             logger.error("CoreTimer throws Exception:" + e.getMessage());
             e.printStackTrace();
         } finally {
             if (session != null) {
                 session.close();
             }
-            logger.info("CoreTimer finish one cycle.......");
+            logger.info("CoreTimer executed.......");
         }
 
     }
 
-    public void execute() {
+    public void execute(List<VirtualPlan> virtualPlanList) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date nowDate = new Date();
         String[] date = dateFormat.format(nowDate).split("-");
@@ -64,12 +64,12 @@ public class CoreTaskScheduler extends BaseTimerTask {
         for (VirtualPlan virtualPlan : virtualPlanList) {
 
             //停掉前一天的
-            SubTimer subTimer = SuperTimer.getInstance().getSubTimerTaskMap().remove(virtualPlan);
+            SubTimer subTimer = SuperTimer.getInstance().getSubTimerMap().remove(virtualPlan);
             if (subTimer != null) {
                 subTimer.cancel();
             }
 
-            //转一下日期
+            //转一下日期类型
             Date startDate = null;
             Date endDate = null;
             try{
@@ -85,7 +85,7 @@ public class CoreTaskScheduler extends BaseTimerTask {
                 continue;
             }
 
-            //执行时间以外的跳过,当前时间超过starttime的立即启动
+            //执行时间以外的跳过,当前时间超过startTime的立即启动
             String[] subTaskStartTime = virtualPlan.getStartTime().split(":");
             String[] subTaskEndTime = virtualPlan.getEndTime().split(":");
             startCalendarComparator.set(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]), Integer.parseInt(subTaskStartTime[0]), Integer.parseInt(subTaskStartTime[1]), Integer.parseInt(subTaskStartTime[2]));
@@ -98,13 +98,13 @@ public class CoreTaskScheduler extends BaseTimerTask {
             try {
                 subTimerTask = (BaseTimerTask) Class.forName(virtualPlan.getImplementClass()).newInstance();
                 subTimerTask.setVirtualPlan(virtualPlan);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
                 logger.error("ClassNotFound!!serial :" + virtualPlan.getSerial() + " description:" + virtualPlan.getDescription());
                 continue;
             }
             subTimer = new SubTimer(new Timer(), subTimerTask, new Timer(), new SubTaskStopper(virtualPlan));
-            SuperTimer.getInstance().getSubTimerTaskMap().put(virtualPlan, subTimer);
+            SuperTimer.getInstance().getSubTimerMap().put(virtualPlan, subTimer);
 
             long delay = startCalendarComparator.getTimeInMillis() - nowDate.getTime();
             long stopperDelay = endCalendarComparator.getTimeInMillis() - nowDate.getTime();
@@ -118,4 +118,5 @@ public class CoreTaskScheduler extends BaseTimerTask {
     @Override
     public void setVirtualPlan(VirtualPlan virtualPlan) {
     }
+
 }
