@@ -12,61 +12,57 @@ import java.util.TimerTask;
  */
 public class SubTimer {
 
-    private Timer timer;
-    private TimerTask timerTask;
-    private Timer stopTimer;
-    private SubTaskStopper stopTimerTask;
+    private Timer subTimer;
+    private TimerTask subTimerTask;
+    private Timer stopperTimer;
+    private SubTaskStopper stopperTimerTask;
     private Logger logger = Logger.getLogger(SubTimer.class);
 
-    public SubTimer(Timer timer, BaseTimerTask timerTask, Timer stopTimer, SubTaskStopper stopTimerTask) {
-        this.timer = timer;
-        this.timerTask = timerTask;
-        this.stopTimer = stopTimer;
-        this.stopTimerTask = stopTimerTask;
+    public SubTimer(Timer subTimer, BaseTimerTask subTimerTask, Timer stopperTimer, SubTaskStopper stopperTimerTask) {
+        this.subTimer = subTimer;
+        this.subTimerTask = subTimerTask;
+        this.stopperTimer = stopperTimer;
+        this.stopperTimerTask = stopperTimerTask;
     }
 
     public SubTimer() {
     }
 
-    public Timer getTimer() {
-        return timer;
+    public Timer getSubTimer() {
+        return subTimer;
     }
 
-    public void setTimer(Timer timer) {
-        this.timer = timer;
+    public void setSubTimer(Timer subTimer) {
+        this.subTimer = subTimer;
     }
 
     public TimerTask getTimerTask() {
-        return timerTask;
+        return subTimerTask;
     }
 
-    public void setTimerTask(TimerTask timerTask) {
-        this.timerTask = timerTask;
+    public void setSubTimerTask(TimerTask subTimerTask) {
+        this.subTimerTask = subTimerTask;
     }
 
-    public Timer getStopTimer() {
-        return stopTimer;
+    public Timer getStopperTimer() {
+        return stopperTimer;
     }
 
-    public void setStopTimer(Timer stopTimer) {
-        this.stopTimer = stopTimer;
+    public void setStopperTimer(Timer stopperTimer) {
+        this.stopperTimer = stopperTimer;
     }
 
     public TimerTask getStopTimerTask() {
-        return stopTimerTask;
+        return stopperTimerTask;
     }
 
-    public void setStopTimerTask(SubTaskStopper stopTimerTask) {
-        this.stopTimerTask = stopTimerTask;
+    public void setStopperTimerTask(SubTaskStopper stopperTimerTask) {
+        this.stopperTimerTask = stopperTimerTask;
     }
 
     public boolean cancel() {
-//        if (timer == null || stopTimer == null) {
-//            logger.error("SubTask " + timerTask.getClass().getName() + " failed to end...................");
-//            return false;
-//        }
-        stopTimerTask.cancel();
-        logger.info("SubTimer " + timerTask.getClass().getName() +  " ended...................");
+        stopperTimerTask.cancel();
+        logger.info("SubTimerTask " + subTimerTask.getClass().getName() +  " ended...................");
         return true;
     }
 }

@@ -108,8 +108,8 @@ public class CoreTaskScheduler extends BaseTimerTask {
 
             long delay = startCalendarComparator.getTimeInMillis() - nowDate.getTime();
             long stopperDelay = endCalendarComparator.getTimeInMillis() - nowDate.getTime();
-            subTimer.getTimer().schedule(subTimerTask, delay < 0 ? 0 : delay);
-            subTimer.getStopTimer().schedule(subTimer.getStopTimerTask(), stopperDelay < 0 ? 0 : stopperDelay);
+            subTimer.getSubTimer().schedule(subTimerTask, delay < 0 ? 0 : delay);
+            subTimer.getStopperTimer().schedule(subTimer.getStopTimerTask(), stopperDelay < 0 ? 0 : stopperDelay);
             logger.info(virtualPlan.getSerial() + " timer launch after " + (delay < 0 ? 0 : delay) + " millis seconds");
             logger.info(virtualPlan.getSerial() + " timer off after " + (stopperDelay < 0 ? 0 : stopperDelay) + " millis seconds");
         }

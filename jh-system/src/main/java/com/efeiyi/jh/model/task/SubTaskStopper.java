@@ -44,14 +44,15 @@ public class SubTaskStopper extends BaseTimerTask {
         SubTimer subTimer = SuperTimer.getInstance().getSubTimerMap().remove(virtualPlan);
         if(subTimer != null) {
             synchronized (subTimer) {
-//                subTimer.getTimerTask().cancel();
-                subTimer.getTimer().cancel();
+                subTimer.getSubTimer().cancel();
                 logger.info("SubTaskTimer cancelled.........................");
-                subTimer.getStopTimer().cancel();
-                logger.info("SubTaskStopper cancelled.........................");
-//                subTimer.getStopTimerTask().cancel();
+                subTimer.getTimerTask().cancel();
+                logger.info("SubTask cancelled.........................");
+                subTimer.getStopperTimer().cancel();
+                logger.info("StopperTimer cancelled.........................");
             }
         }
+        logger.info("StopperTimerTask cancelled.........................");
         return super.cancel();
     }
 }
