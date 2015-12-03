@@ -70,7 +70,7 @@
         <ul class="bd tnav">
             <li>
                 <a href="javascript:void(0);"
-                   onclick="facetForward('<c:url value="/search.do?q=${searchParamBean.q}&resultPage=${searchParamBean.resultPage}&queryFacet=${searchParamBean.queryFacet}&priceUD=0"/>')"
+                   onclick="facetForward('<c:url value="/search.do?q=${searchParamBean.q}&resultPage=${searchParamBean.resultPage}&queryFacet=${searchParamBean.queryFacet}&priceUD=0&fq=${searchParamBean.fq}"/>')"
                    title="综 合">综 合</a>
             </li>
             <li>销 量</li>
@@ -80,7 +80,11 @@
                        class="<c:if test='${searchParamBean.priceUD == 0}'>icon-a1</c:if><c:if test='${searchParamBean.priceUD != 0}'>icon-a2</c:if>"></i>
                 </a>
             </li>
-            <li>筛 选</li>
+            <li>
+                <a href="javascript:void(0);"
+                   onclick="facetForward('<c:url value="/search.do?q=${searchParamBean.q}&resultPage=/filterCondition&queryFacet=${searchParamBean.queryFacet}&priceUD=0&fq=${searchParamBean.fq}"/>')"
+                   title="筛 选">筛 选</a>
+            </li>
         </ul>
         <!-- //End-->
         <ul class="ul-list">
@@ -140,15 +144,16 @@
     }
 
     var priceUD = ${searchParamBean.priceUD};
+    var sf = "${searchParamBean.sortField}";
     function sortForward4(sortField) {
         var sortOrder = "asc";
-        if(priceUD == 0){
+        if(priceUD == 0 && sf != ""){
             sortOrder = "";
             priceUD = 1;
         }else{
             priceUD = 0;
         }
-        var url = "<c:url value='/search.do?q=${searchParamBean.q}&resultPage=${searchParamBean.resultPage}&queryFacet=${searchParamBean.queryFacet}&sortField='/>" + sortField + "&sortOrder=" + sortOrder + "&priceUD=" + priceUD;
+        var url = "<c:url value='/search.do?q=${searchParamBean.q}&resultPage=${searchParamBean.resultPage}&queryFacet=${searchParamBean.queryFacet}&sortField='/>" + sortField + "&sortOrder=" + sortOrder + "&fq=${searchParamBean.fq}" + "&priceUD=" + priceUD;
         facetForward(url)
     }
 
@@ -187,18 +192,19 @@
         var sortField = "${searchParamBean.sortField}";//排序字段
         var sortOrder = "${searchParamBean.sortOrder}";//排序方式desc/asc
         var group = "efeiyi";//common配置文件分组
+        var fq = "${searchParamBean.fq}";//价格区间
         var priceUD = "${searchParamBean.priceUD}";//价格排序图标方向
-        var url1 = "/search.do?q="+q+"&resultPage="+resultPage+
+        var url = "/search.do?q="+q+"&resultPage="+resultPage+
                   "&queryFacet="+queryFacet+"&facetFieldJson="+facetFieldJson+
                   "&queryFacetJson="+queryFacetJson+"&sortField="+sortField+
-                  "&sortOrder="+sortOrder+"&group="+group+"&priceUD="+priceUD+
+                  "&sortOrder="+sortOrder+"&group="+group+"&priceUD="+priceUD+"&fq="+fq+
                   "&pageEntity.index="+pageIndex+"&pageEntity.size="+size;
 
         if(dynamicTag) {
             dynamicTag = false;
             $.ajax({
                 type: "get",
-                url: url1,
+                url: url,
                 cache: false,
                 success: function (data) {
                     data = data.replace( /^\s*/, '');
