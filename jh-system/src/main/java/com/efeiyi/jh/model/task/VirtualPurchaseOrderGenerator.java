@@ -25,7 +25,7 @@ public class VirtualPurchaseOrderGenerator extends BaseTimerTask {
         setVirtualPlan(virtualOrderPlan);
     }
 
-    public void execute() {
+    public void execute(List<VirtualPlan> virtualPlanList) {
         Random random = new Random();
         if(session == null){
             session = sessionFactory.openSession();
@@ -60,7 +60,7 @@ public class VirtualPurchaseOrderGenerator extends BaseTimerTask {
         purchaseOrderPayment.setPayWay("4");
         purchaseOrderPayment.setPaymentAmount(productModel.getPrice());
 
-        System.out.println(new Date() + ":" + virtualUser.getUser().getUsername() + " purchase a " + purchaseOrderProduct.getProductModel().getName());
+        logger.info(new Date() + ":" + virtualUser.getUser().getUsername() + " purchase a " + purchaseOrderProduct.getProductModel().getName());
         session.saveOrUpdate(purchaseOrder);
         session.saveOrUpdate(purchaseOrderProduct);
         session.saveOrUpdate(virtualPurchaseOrder);
@@ -74,7 +74,7 @@ public class VirtualPurchaseOrderGenerator extends BaseTimerTask {
             if(session == null || !session.isOpen()) {
                 session = sessionFactory.openSession();
             }
-            execute();
+            execute(null);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

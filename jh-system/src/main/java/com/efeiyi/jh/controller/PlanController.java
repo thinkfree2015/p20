@@ -61,7 +61,7 @@ public class PlanController {
         virtualPlan = (VirtualPlan)baseManager.getObject(VirtualPlan.class.getName(), virtualPlan.getId());
         if(!PlanConst.planStatusStarted.equals(virtualPlan.getStatus())) {
             virtualPlanList.add(virtualPlan);
-            CoreTaskScheduler.getInstance().run();
+            CoreTaskScheduler.getInstance().execute(virtualPlanList);
         }
         modelMap.addAttribute(virtualPlan);
         return new ModelAndView("redirect:" + request.getParameter("resultPage"), modelMap);
@@ -71,7 +71,7 @@ public class PlanController {
     public ModelAndView pausePlan(VirtualPlan virtualPlan, ModelMap modelMap,HttpServletRequest request) {
 
         virtualPlan = (VirtualPlan)baseManager.getObject(VirtualPlan.class.getName(), virtualPlan.getId());
-        SubTimer subTimer = SuperTimer.getInstance().getSubTimerTaskMap().get(virtualPlan);
+        SubTimer subTimer = SuperTimer.getInstance().getSubTimerMap().get(virtualPlan);
         if(subTimer != null){
             subTimer.cancel();
         }
@@ -91,7 +91,7 @@ public class PlanController {
 
         Logger logger = Logger.getLogger(PlanController.class);
 
-        logger.info("----------------------------------");
+        logger.error("----------------------------------");
         return new ModelAndView("/main");
     }
 

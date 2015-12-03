@@ -22,7 +22,6 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
 
     @Override
     public boolean cancel() {
-        System.out.println("PurchaseOrderTaskScheduler cancelling............................................");
         SuperTimer.getInstance().getSubTaskTempStoreMap().put(virtualOrderPlan, productModelList);
         if(session == null || !session.isOpen()){
             session = sessionFactory.openSession();
@@ -32,10 +31,12 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
         virtualOrderPlan.setStatus(PlanConst.planStatusNormal);
         session.saveOrUpdate(virtualOrderPlan);
         session.flush();
+        session.close();
+        logger.info("PurchaseOrderTaskScheduler cancelled............................................");
         return super.cancel();
     }
 
-    public void execute() {
+    public void execute(List<VirtualPlan> virtualPlanList) {
 
         virtualOrderPlan.setStatus(PlanConst.planStatusStarted);
         session.saveOrUpdate(virtualOrderPlan);
@@ -68,9 +69,9 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
             if (randomOrderTimePoint[x] < 0) {
                 continue;
             }
-            SuperTimer.getInstance().getSubTimerTaskMap()
+            SuperTimer.getInstance().getSubTimerMap()
                     .get(virtualOrderPlan)
-                    .getTimer()
+                    .getSubTimer()
                     .schedule(new VirtualPurchaseOrderGenerator(productModelList, virtualOrderPlan), randomOrderTimePoint[x]);
         }
 
@@ -79,9 +80,9 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
 
     @Override
     public void run() {
-        System.out.println(" Purchase order arranging..........................................");
+        logger.info(" Purchase order arranging..........................................");
         try {
-            execute();
+            execute(null);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -89,7 +90,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
                 session.close();
             }
         }
-        System.out.println("Purchase arranging done.........................");
+        logger.info("Purchase arranged.........................");
     }
 
     @Override

@@ -2,9 +2,7 @@ package com.efeiyi.jh.model.timer;
 
 
 import com.efeiyi.jh.model.entity.VirtualPlan;
-import com.ming800.core.util.ApplicationContextUtil;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,22 +15,25 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SuperTimer {
 
     private static SuperTimer superTimer;
-    private Timer timer = new Timer();
-    private Map<VirtualPlan, SubTimer> subTimerTaskMap = new HashMap<VirtualPlan, SubTimer>();
+    private Timer coreTaskTimer = new Timer();
+    private Map<VirtualPlan, SubTimer> subTimerMap = new HashMap<VirtualPlan, SubTimer>();
     private Map<VirtualPlan, Object> subTaskTempStoreMap = new ConcurrentHashMap<VirtualPlan, Object>();
-    private long taskExecuteCycle = 86400000;
+    private long taskExecutionCycle = 86400000;
+//    private long taskExecutionCycle = 86400;
+    private Logger logger = Logger.getLogger(SuperTimer.class);
 
 
-    public long getTaskExecuteCycle() {
-        return taskExecuteCycle;
+    public long getTaskExecutionCycle() {
+        return taskExecutionCycle;
     }
 
-    private SuperTimer(){}
+    private SuperTimer() {
+    }
 
-    public static SuperTimer getInstance(){
-        if(superTimer == null){
-            synchronized (SuperTimer.class){
-                if(superTimer == null){
+    public static SuperTimer getInstance() {
+        if (superTimer == null) {
+            synchronized (SuperTimer.class) {
+                if (superTimer == null) {
                     superTimer = new SuperTimer();
                 }
             }
@@ -40,13 +41,23 @@ public class SuperTimer {
         return superTimer;
     }
 
-    public Map<VirtualPlan, SubTimer> getSubTimerTaskMap() {
-        return subTimerTaskMap;
+    public Map<VirtualPlan, SubTimer> getSubTimerMap() {
+        return subTimerMap;
     }
 
-    public Timer getTimer(){return timer;}
+    public Timer getCoreTaskTimer() {
+        return coreTaskTimer;
+    }
 
     public Map<VirtualPlan, Object> getSubTaskTempStoreMap() {
         return subTaskTempStoreMap;
+    }
+
+    public void cancel() {
+        for (Map.Entry<VirtualPlan, SubTimer> subTimer : subTimerMap.entrySet()) {
+            subTimer.getValue().cancel();
+        }
+        coreTaskTimer.cancel();
+        logger.info("SuperTimer cancelled.........");
     }
 }

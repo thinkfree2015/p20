@@ -2,9 +2,11 @@ package com.efeiyi.jh.model.task;
 
 import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.ming800.core.util.ApplicationContextUtil;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.util.List;
 import java.util.TimerTask;
 
 /**
@@ -14,8 +16,10 @@ public abstract class BaseTimerTask extends TimerTask {
 
     protected SessionFactory sessionFactory = ((SessionFactory) ApplicationContextUtil.getApplicationContext().getBean("scheduleSessionFactory"));
     protected Session session;
+    protected static Logger logger = Logger.getLogger(BaseTimerTask.class);
 
     public abstract void setVirtualPlan(VirtualPlan virtualPlan);
-    public abstract void execute();
+
+    public abstract void execute(List<VirtualPlan> virtualPlanList);
 
 }
