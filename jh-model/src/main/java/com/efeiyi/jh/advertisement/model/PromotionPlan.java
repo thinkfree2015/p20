@@ -89,7 +89,7 @@ public class PromotionPlan {
         this.createDatetime = createDatetime;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "promoterPlan")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "promotionPlan")
     public List<PromotionPurchaseRecord> getPromotionPurchaseRecordList() {
         return promotionPurchaseRecordList;
     }
@@ -107,11 +107,11 @@ public class PromotionPlan {
         this.status = status;
     }
 
+    @Column(name = "rd_days")
     public Integer getRdDays() {
         return rdDays;
     }
 
-    @Column(name = "rd_days")
     public void setRdDays(Integer rdDays) {
         this.rdDays = rdDays;
     }
