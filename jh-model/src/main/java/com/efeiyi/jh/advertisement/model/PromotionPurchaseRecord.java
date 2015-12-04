@@ -48,7 +48,7 @@ public class PromotionPurchaseRecord {
     }
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "promotion_user_record")
+    @JoinColumn(name = "promotion_user_record_id")
     public PromotionUserRecord getPromotionUserRecord() {
         return promotionUserRecord;
     }
