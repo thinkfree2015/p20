@@ -9,11 +9,12 @@ import javax.persistence.*;
  * Created by Administrator on 2015/12/3.
  */
 @Entity
-@Table(name = "promoter_record")
-public class PromoterRecord {
+@Table(name = "promotion_purchase_record")
+public class PromotionPurchaseRecord {
     private String id;
     private PurchaseOrder purchaseOrder;
-    private PromoterPlan promoterPlan;
+    private PromotionPlan promotionPlan;
+    private PromotionUserRecord promotionUserRecord;
 
     @Id
     @GenericGenerator(name = "id", strategy = "com.ming800.core.p.model.M8idGenerator")
@@ -37,12 +38,22 @@ public class PromoterRecord {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "promoter_plan_id")
-    public PromoterPlan getPromoterPlan() {
-        return promoterPlan;
+    @JoinColumn(name = "promotion_plan_id")
+    public PromotionPlan getPromotionPlan() {
+        return promotionPlan;
     }
 
-    public void setPromoterPlan(PromoterPlan promoterPlan) {
-        this.promoterPlan = promoterPlan;
+    public void setPromotionPlan(PromotionPlan promotionPlan) {
+        this.promotionPlan = promotionPlan;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "promotion_user_record")
+    public PromotionUserRecord getPromotionUserRecord() {
+        return promotionUserRecord;
+    }
+
+    public void setPromotionUserRecord(PromotionUserRecord promotionUserRecord) {
+        this.promotionUserRecord = promotionUserRecord;
     }
 }

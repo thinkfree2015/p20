@@ -10,8 +10,8 @@ import java.util.List;
  * Created by Administrator on 2015/12/3.
  */
 @Entity
-@Table(name = "promoter_plan")
-public class PromoterPlan {
+@Table(name = "promotion_plan")
+public class PromotionPlan {
 
     private String id;
     private String identifier;
@@ -21,7 +21,8 @@ public class PromoterPlan {
     private String urlDescription;
     private Date createDatetime;
     private String status;
-    private List<PromoterRecord> promoterRecordList;
+    private Integer rdDays;
+    private List<PromotionPurchaseRecord> promotionPurchaseRecordList;
 
     @Id
     @GenericGenerator(name = "id", strategy = "com.ming800.core.p.model.M8idGenerator")
@@ -87,20 +88,31 @@ public class PromoterPlan {
     public void setCreateDatetime(Date createDatetime) {
         this.createDatetime = createDatetime;
     }
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "promoterPlan")
-    public List<PromoterRecord> getPromoterRecordList() {
-        return promoterRecordList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "promoterPlan")
+    public List<PromotionPurchaseRecord> getPromotionPurchaseRecordList() {
+        return promotionPurchaseRecordList;
     }
 
-    public void setPromoterRecordList(List<PromoterRecord> promoterRecordList) {
-        this.promoterRecordList = promoterRecordList;
+    public void setPromotionPurchaseRecordList(List<PromotionPurchaseRecord> promotionPurchaseRecordList) {
+        this.promotionPurchaseRecordList = promotionPurchaseRecordList;
     }
 
+    @Column(name = "status")
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getRdDays() {
+        return rdDays;
+    }
+
+    @Column(name = "rd_days")
+    public void setRdDays(Integer rdDays) {
+        this.rdDays = rdDays;
     }
 }

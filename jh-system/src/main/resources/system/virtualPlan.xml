@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module name="VirtualPlan" label="虚拟计划" version="" package="com.efeiyi.jh.model.entity" path="">
+<module name="VirtualPlan" label="虚拟计划" version="" package="com.efeiyi.jh.model" path="">
     <entities>
         <entity name="PCVirtualPlan" label="虚拟计划" model="com.efeiyi.jh.plan.model.VirtualPlan">
             <fields>
