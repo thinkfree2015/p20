@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Administrator on 2015/12/3.
  */
 @Entity
-@Table(name = "promoter")
+@Table(name = "promoter_plan")
 public class PromoterPlan {
 
     private String id;
