@@ -87,7 +87,7 @@ public class PromoterPlan {
     public void setCreateDatetime(Date createDatetime) {
         this.createDatetime = createDatetime;
     }
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "promoter")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "promoterPlan")
     public List<PromoterRecord> getPromoterRecordList() {
         return promoterRecordList;
     }

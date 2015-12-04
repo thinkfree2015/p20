@@ -27,7 +27,7 @@ public class PromoterRecord {
     }
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchaset_order_id")
+    @JoinColumn(name = "purchase_order_id")
     public PurchaseOrder getPurchaseOrder() {
         return purchaseOrder;
     }
@@ -37,7 +37,7 @@ public class PromoterRecord {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "promoter_id")
+    @JoinColumn(name = "promoter_plan_id")
     public PromoterPlan getPromoterPlan() {
         return promoterPlan;
     }
