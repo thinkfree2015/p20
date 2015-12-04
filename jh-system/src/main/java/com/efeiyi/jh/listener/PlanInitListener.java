@@ -1,10 +1,9 @@
 package com.efeiyi.jh.listener;
 
 import com.efeiyi.jh.model.PlanConst;
-import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.efeiyi.jh.model.task.CoreTaskScheduler;
-import com.efeiyi.jh.model.timer.SubTimer;
 import com.efeiyi.jh.model.timer.SuperTimer;
+import com.efeiyi.jh.plan.model.VirtualPlan;
 import com.ming800.core.util.ApplicationContextUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
@@ -18,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2015/11/24.

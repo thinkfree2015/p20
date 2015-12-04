@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module name="VirtualPlan" label="虚拟计划" version="" package="com.efeiyi.jh.model.entity" path="">
     <entities>
-        <entity name="PCVirtualPlan" label="虚拟计划" model="com.efeiyi.jh.model.entity.VirtualPlan">
+        <entity name="PCVirtualPlan" label="虚拟计划" model="com.efeiyi.jh.plan.model.VirtualPlan">
             <fields>
                 <field name="status" label="状态" inputType="text">
                     <statusType fieldName="status">

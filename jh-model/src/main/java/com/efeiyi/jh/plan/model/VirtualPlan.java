@@ -1,4 +1,4 @@
-package com.efeiyi.jh.model.entity;
+package com.efeiyi.jh.plan.model;
 
 import com.google.common.base.Objects;
 import org.hibernate.annotations.GenericGenerator;

@@ -4,7 +4,10 @@ import com.efeiyi.ec.product.model.ProductModel;
 import com.efeiyi.ec.purchase.model.PurchaseOrder;
 import com.efeiyi.ec.purchase.model.PurchaseOrderPayment;
 import com.efeiyi.ec.purchase.model.PurchaseOrderProduct;
-import com.efeiyi.jh.model.entity.*;
+import com.efeiyi.jh.plan.model.VirtualOrderPlan;
+import com.efeiyi.jh.plan.model.VirtualPlan;
+import com.efeiyi.jh.plan.model.VirtualPurchaseOrder;
+import com.efeiyi.jh.plan.model.VirtualUser;
 
 import java.util.Date;
 import java.util.List;

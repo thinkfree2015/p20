@@ -1,7 +1,7 @@
 package com.efeiyi.jh.model.timer;
 
 
-import com.efeiyi.jh.model.entity.VirtualPlan;
+import com.efeiyi.jh.plan.model.VirtualPlan;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;

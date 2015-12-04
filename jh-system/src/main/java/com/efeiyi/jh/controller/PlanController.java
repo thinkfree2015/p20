@@ -1,10 +1,10 @@
 package com.efeiyi.jh.controller;
 
 import com.efeiyi.jh.model.PlanConst;
-import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.efeiyi.jh.model.task.CoreTaskScheduler;
 import com.efeiyi.jh.model.timer.SubTimer;
 import com.efeiyi.jh.model.timer.SuperTimer;
+import com.efeiyi.jh.plan.model.VirtualPlan;
 import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.p.service.AutoSerialManager;
 import org.apache.log4j.Logger;

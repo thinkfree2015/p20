@@ -1,4 +1,4 @@
-package com.efeiyi.jh.model.entity;
+package com.efeiyi.jh.plan.model;
 
 import com.efeiyi.ec.purchase.model.PurchaseOrder;
 import org.hibernate.annotations.GenericGenerator;

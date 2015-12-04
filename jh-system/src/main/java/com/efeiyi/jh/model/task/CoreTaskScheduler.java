@@ -1,9 +1,9 @@
 package com.efeiyi.jh.model.task;
 
 import com.efeiyi.jh.model.PlanConst;
-import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.efeiyi.jh.model.timer.SubTimer;
 import com.efeiyi.jh.model.timer.SuperTimer;
+import com.efeiyi.jh.plan.model.VirtualPlan;
 import org.hibernate.Query;
 
 import java.text.DateFormat;

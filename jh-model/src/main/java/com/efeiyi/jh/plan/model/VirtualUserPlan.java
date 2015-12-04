@@ -1,4 +1,4 @@
-package com.efeiyi.jh.model.entity;
+package com.efeiyi.jh.plan.model;
 
 import javax.persistence.*;
 import java.util.List;

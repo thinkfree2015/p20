@@ -1,6 +1,5 @@
 package com.efeiyi.jh.Handler;
 
-import com.efeiyi.jh.model.entity.VirtualPlan;
 import com.ming800.core.base.dao.XdoDao;
 import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.base.util.XDoUtil;
@@ -8,6 +7,7 @@ import com.ming800.core.does.model.Do;
 import com.ming800.core.does.service.DoHandler;
 import com.ming800.core.p.service.AutoSerialManager;
 import com.ming800.core.util.ApplicationContextUtil;
+import com.efeiyi.jh.plan.model.VirtualPlan;
 import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpServletRequest;

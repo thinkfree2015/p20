@@ -2,9 +2,9 @@ package com.efeiyi.jh.model.task;
 
 import com.efeiyi.ec.organization.model.User;
 import com.efeiyi.jh.model.PlanConst;
-import com.efeiyi.jh.model.entity.VirtualPlan;
-import com.efeiyi.jh.model.entity.VirtualUser;
-import com.efeiyi.jh.model.entity.VirtualUserPlan;
+import com.efeiyi.jh.plan.model.VirtualPlan;
+import com.efeiyi.jh.plan.model.VirtualUser;
+import com.efeiyi.jh.plan.model.VirtualUserPlan;
 
 import java.util.List;
 import java.util.Random;

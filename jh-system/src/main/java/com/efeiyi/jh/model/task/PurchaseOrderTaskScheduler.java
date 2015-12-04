@@ -3,10 +3,10 @@ package com.efeiyi.jh.model.task;
 
 import com.efeiyi.ec.product.model.ProductModel;
 import com.efeiyi.jh.model.PlanConst;
-import com.efeiyi.jh.model.entity.VirtualOrderPlan;
-import com.efeiyi.jh.model.entity.VirtualPlan;
-import com.efeiyi.jh.model.entity.VirtualProductModel;
 import com.efeiyi.jh.model.timer.SuperTimer;
+import com.efeiyi.jh.plan.model.VirtualOrderPlan;
+import com.efeiyi.jh.plan.model.VirtualPlan;
+import com.efeiyi.jh.plan.model.VirtualProductModel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

@@ -1,6 +1,5 @@
-package com.efeiyi.jh.model.entity;
+package com.efeiyi.jh.plan.model;
 
-import com.efeiyi.ec.organization.model.MyUser;
 import com.efeiyi.ec.organization.model.User;
 import org.hibernate.annotations.GenericGenerator;
 

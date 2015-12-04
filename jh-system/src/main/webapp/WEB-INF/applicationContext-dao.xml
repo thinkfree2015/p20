@@ -52,6 +52,10 @@
                 <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
                 <prop key="hibernate.jdbc.batch_size">50</prop>
                 <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+                <!-- 能不能终结MySQL的8小时必杀？-->
+                <prop key="hibernate.connection.autoReconnect">true</prop>
+                <prop key="hibernate.connection.autoReconnectForPools">true</prop>
+                <prop key="hibernate.connection.is-connection-validation-required">true</prop>
             </props>
         </property>
         <property name="packagesToScan">
