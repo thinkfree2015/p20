@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class PromoterRecord {
     private String id;
     private PurchaseOrder purchaseOrder;
-    private Promoter promoter;
+    private PromoterPlan promoterPlan;
 
     @Id
     @GenericGenerator(name = "id", strategy = "com.ming800.core.p.model.M8idGenerator")
@@ -38,11 +38,11 @@ public class PromoterRecord {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "promoter_id")
-    public Promoter getPromoter() {
-        return promoter;
+    public PromoterPlan getPromoterPlan() {
+        return promoterPlan;
     }
 
-    public void setPromoter(Promoter promoter) {
-        this.promoter = promoter;
+    public void setPromoterPlan(PromoterPlan promoterPlan) {
+        this.promoterPlan = promoterPlan;
     }
 }

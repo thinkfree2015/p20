@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "promoter")
-public class Promoter {
+public class PromoterPlan {
 
     private String id;
     private String identifier;
