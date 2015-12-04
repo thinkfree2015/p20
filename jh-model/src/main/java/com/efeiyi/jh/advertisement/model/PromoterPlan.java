@@ -20,6 +20,7 @@ public class PromoterPlan {
     private String urlMark;
     private String urlDescription;
     private Date createDatetime;
+    private String status;
     private List<PromoterRecord> promoterRecordList;
 
     @Id
@@ -93,5 +94,13 @@ public class PromoterPlan {
 
     public void setPromoterRecordList(List<PromoterRecord> promoterRecordList) {
         this.promoterRecordList = promoterRecordList;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
