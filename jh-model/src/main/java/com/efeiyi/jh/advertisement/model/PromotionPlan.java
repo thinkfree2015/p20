@@ -1,6 +1,8 @@
 package com.efeiyi.jh.advertisement.model;
 
+import com.efeiyi.ec.purchase.model.PurchaseOrder;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,6 +25,7 @@ public class PromotionPlan {
     private String status;
     private Integer rdDays;
     private List<PromotionPurchaseRecord> promotionPurchaseRecordList;
+    private List<PromotionUserRecord> promotionUserRecordList;
 
     @Id
     @GenericGenerator(name = "id", strategy = "com.ming800.core.p.model.M8idGenerator")
@@ -96,6 +99,15 @@ public class PromotionPlan {
 
     public void setPromotionPurchaseRecordList(List<PromotionPurchaseRecord> promotionPurchaseRecordList) {
         this.promotionPurchaseRecordList = promotionPurchaseRecordList;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "promotionPlan")
+    public List<PromotionUserRecord> getPromotionUserRecordList() {
+        return promotionUserRecordList;
+    }
+
+    public void setPromotionUserRecordList(List<PromotionUserRecord> promotionUserRecordList) {
+        this.promotionUserRecordList = promotionUserRecordList;
     }
 
     @Column(name = "status")
