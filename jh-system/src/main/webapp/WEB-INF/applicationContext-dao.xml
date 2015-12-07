@@ -102,8 +102,8 @@
     <!--<bean id="modalServiceManagerImpl" class="com.efeiyi.pal.system.base.service.impl.ModalServiceManagerImpl"/>-->
     <!--<bean id="modalDaoHibernate" class="com.efeiyi.pal.system.base.dao.hibernate.ModalDaoHibernate"/>-->
 
-    <bean id="promotionPlanManagerImpl" class="com.efeiyi.jh.Handler.service.impl.PromotionPlanManagerImpl"/>
-    <bean id="promotionPlanDao" class="com.efeiyi.jh.Handler.dao.hibernate.PromotionPlanDaoHibernate"/>
+    <bean id="promotionPlanManagerImpl" class="com.efeiyi.jh.service.PromotionPlan.impl.PromotionPlanManagerImpl"/>
+    <bean id="promotionPlanDao" class="com.efeiyi.jh.dao.PromotionPlan.hibernate.PromotionPlanDaoHibernate"/>
 
     <!-- 获取序列号 -->
     <bean id="autoSerialManager" class="com.efeiyi.jh.service.AutoSerialManagerImpl" />
