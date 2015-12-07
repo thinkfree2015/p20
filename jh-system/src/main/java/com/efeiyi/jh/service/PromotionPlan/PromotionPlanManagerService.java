@@ -1,16 +1,16 @@
-package com.efeiyi.jh.Handler.dao;
+package com.efeiyi.jh.service.PromotionPlan;
 
 import com.efeiyi.jh.advertisement.model.PromotionPlan;
 
 /**
  * Created by Administrator on 2015/12/7.
- * 返利链接 Dao
+ * 返利链接 Service 获取注册量   订单数量    支付总额
  */
-public interface PromotionPlanDao {
+public interface PromotionPlanManagerService {
 
     /**
-     * 获取订单数量
-     * @param promotionPlan 返利链接
+     * 过去订单数量
+     * @param promotionPlan
      * @return 订单数量
      * @throws Exception
      */
@@ -19,7 +19,7 @@ public interface PromotionPlanDao {
     /**
      * 获取支付总额
      * @param promotionPlan 返利链接
-     * @return 总额
+     * @return 支付总额
      * @throws Exception
      */
     String getZFE(PromotionPlan promotionPlan)throws Exception;

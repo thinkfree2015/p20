@@ -1,8 +1,8 @@
-package com.efeiyi.jh.Handler.service.impl;
+package com.efeiyi.jh.service.PromotionPlan.impl;
 
-import com.efeiyi.jh.Handler.dao.PromotionPlanDao;
-import com.efeiyi.jh.Handler.service.PromotionPlanManagerService;
 import com.efeiyi.jh.advertisement.model.PromotionPlan;
+import com.efeiyi.jh.dao.PromotionPlan.PromotionPlanDao;
+import com.efeiyi.jh.service.PromotionPlan.PromotionPlanManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
 package com.efeiyi.jh.Handler;
 
-import com.efeiyi.jh.Handler.service.PromotionPlanManagerService;
 import com.efeiyi.jh.advertisement.model.PromotionPlan;
 import com.efeiyi.jh.advertisement.model.PromotionPlanElement;
+import com.efeiyi.jh.service.PromotionPlan.PromotionPlanManagerService;
 import com.ming800.core.does.model.PageInfo;
 import com.ming800.core.does.service.DoHandler;
 import com.ming800.core.util.ApplicationContextUtil;

@@ -1,8 +1,7 @@
-package com.efeiyi.jh.Handler.dao.hibernate;
+package com.efeiyi.jh.dao.PromotionPlan.hibernate;
 
-import com.efeiyi.ec.purchase.model.PurchaseOrder;
-import com.efeiyi.jh.Handler.dao.PromotionPlanDao;
 import com.efeiyi.jh.advertisement.model.PromotionPlan;
+import com.efeiyi.jh.dao.PromotionPlan.PromotionPlanDao;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
