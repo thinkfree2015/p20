@@ -2,31 +2,14 @@ package com.efeiyi.util;
 
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import com.efeiyi.util.AesException;
-import com.efeiyi.util.WXEncrypt;
-import com.ming800.core.taglib.PageEntity;
-import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.*;
 import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.common.params.GroupParams;
-import org.apache.solr.common.util.NamedList;
-import org.aspectj.lang.annotation.Before;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 public class Test {
     static String encodingAesKey = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG";
