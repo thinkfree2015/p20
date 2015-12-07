@@ -81,6 +81,9 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
     @Override
     public void run() {
         logger.info(" Purchase order arranging..........................................");
+        if (session == null || !session.isOpen()) {
+            session = sessionFactory.openSession();
+        }
         try {
             execute(null);
         } catch (Exception e) {
