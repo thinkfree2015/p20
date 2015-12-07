@@ -35,6 +35,7 @@
             <groupId>com.efeiyi.ec</groupId>
             <artifactId>jh-model</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
