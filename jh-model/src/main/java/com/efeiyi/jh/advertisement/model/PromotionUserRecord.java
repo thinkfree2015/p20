@@ -14,7 +14,8 @@ import java.util.Date;
 public class PromotionUserRecord {
 
     private String id;
-    private PromotionPlan promotionPlan;
+    private PromotionPlan latestPromotionPlan;//最后一次通过营销渠道进入的plan
+    private PromotionPlan promotionPlan;//最初注册或首次通过营销渠道进入时的plan
     private User user;
     private Date rdEndDate;
 
@@ -56,5 +57,15 @@ public class PromotionUserRecord {
 
     public void setRdEndDate(Date rdEndDate) {
         this.rdEndDate = rdEndDate;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "latest_promotion_plan_id")
+    public PromotionPlan getLatestPromotionPlan() {
+        return latestPromotionPlan;
+    }
+
+    public void setLatestPromotionPlan(PromotionPlan latestPromotionPlan) {
+        this.latestPromotionPlan = latestPromotionPlan;
     }
 }
