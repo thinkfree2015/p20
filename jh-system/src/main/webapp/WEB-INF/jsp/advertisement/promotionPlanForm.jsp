@@ -21,8 +21,7 @@
 </div>
 <hr/>
 <div class="am-g">
-    <form <%--id="pPlanForm" onsubmit="return startLessThanEnd('vPlanForm')"--%>
-          <%--action="<c:url value='/plan/saveOrEditPlan.do'/>"--%>
+    <form id="pPlanForm" onsubmit="return afterSubmitForm('pPlanForm')"
           action="<c:url value='/basic/xm.do?qm=saveOrUpdatePromotionPlan'/>"
           method="post" enctype="multipart/form-data" class="am-form am-form-horizontal">
         <input type="hidden" name="id" value="${object.id}">
@@ -49,8 +48,9 @@
         <div class="am-form-group">
             <label for="name" class="am-u-sm-3 am-form-label">分享渠道<small>*</small></label>
             <div class="am-u-sm-9" style="width: 240px;float: left">
-                <ming800:status name="name" dataType="PCPromotionPlan.name"
-                                checkedValue="${object.name}" required="required" type="select"/>
+                <ming800:status name="nameSelect" dataType="PCPromotionPlan.name"
+                                checkedValue="${object.name}" onclick="javascript:nameChange(this)" required="required" type="select"/>
+                <input type="hidden" name="name" id="name" title="分享渠道" required="true" value="${object.name}">
             </div>
         </div>
 
@@ -59,7 +59,7 @@
             <div class="am-u-sm-9">
                 <input type="number" name="rdDays" id="rdDays" style="width: 210px; float: left"
                        title="广告认定效果期" placeholder="广告认定效果期" min="1" max="366"
-                       value="${object.urlMark}" required="true"><span style="margin-left: 4px;margin-top: 3px;float: left">天</span>
+                       value="${object.rdDays}" required="true"><span style="margin-left: 4px;margin-top: 3px;float: left">天</span>
             </div>
         </div>
 
@@ -71,6 +71,15 @@
 
     </form>
 </div>
-
+<script>
+    function nameChange(obj){
+        var val = obj.value;
+        if (val != null && val != ""){
+            $("#name").val(val);
+        }else{
+            $("#name").val(null);
+        }
+    }
+</script>
 </body>
 </html>

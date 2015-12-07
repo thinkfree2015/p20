@@ -32,35 +32,35 @@
             <td>支付总额</td>
             <td>创建时间</td>
         </tr>
-        <c:forEach items="${requestScope.pageInfo.list}" var="promoter">
+        <c:forEach items="${PPEList}" var="PPE">
             <tr>
                 <td>
                     <div class="am-btn-toolbar">
                         <div class="am-btn-group am-btn-group-xs" style="width: 100%;">
                             <button onclick="window.location.href='<c:url
-                                    value="/basic/xm.do?qm=formPromotionPlan&id=${promoter.id}"/>'"
+                                    value="/basic/xm.do?qm=formPromotionPlan&rebate=rebate&id=${PPE.promotionPlan.id}"/>'"
                                     class="am-btn am-btn-default am-btn-xs am-hide-sm-only"><span
                                     class="am-icon-edit"></span> 编辑
                             </button>
                             <button onclick="window.location.href='<c:url
-                                    value="/basic/xm.do?qm=removePromotionPlan&id=${promoter.id}"/>'"
+                                    value="/basic/xm.do?qm=removePromotionPlan&id=${PPE.promotionPlan.id}"/>'"
                                     class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span
                                     class="am-icon-trash-o"></span> 删除
                             </button>
                         </div>
                     </div>
                 </td>
-                <td>${promoter.urlDescription}</td>
-                <td>${promoter.urlMark}</td>
+                <td>${PPE.promotionPlan.urlDescription}</td>
+                <td>${PPE.promotionPlan.urlMark}</td>
                 <td>
                     <ming800:status name="name" dataType="PCPromotionPlan.name"
-                                    checkedValue="${promoter.name}" type="normal"/>
+                                    checkedValue="${PPE.promotionPlan.name}" type="normal"/>
                 </td>
-                <td>${ZCL}</td>
-                <td>${DDS}</td>
-                <td>${ZFE}</td>
+                <td>${PPE.ZCL}</td>
+                <td>${PPE.DDL}</td>
+                <td>${PPE.ZFE}</td>
                 <td>
-                    <fmt:formatDate value="${promoter.createDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                    <fmt:formatDate value="${PPE.promotionPlan.createDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                 </td>
             </tr>
         </c:forEach>

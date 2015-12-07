@@ -5,7 +5,7 @@
             <fields>
                 <field name="name" label="分享渠道" inputType="text">
                     <statusType fieldName="name">
-                        <item label="请选择"/>
+                        <item label="请选择" value=""/>
                         <item label="内部员工" value="1"/>
                         <item label="合作伙伴" value="3"/>
                         <item label="其他" value="5"/>

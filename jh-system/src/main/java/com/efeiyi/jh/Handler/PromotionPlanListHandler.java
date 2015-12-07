@@ -1,13 +1,16 @@
 package com.efeiyi.jh.Handler;
 
-import com.ming800.core.base.dao.XdoDao;
-import com.ming800.core.base.service.BaseManager;
+import com.efeiyi.jh.Handler.service.PromotionPlanManagerService;
+import com.efeiyi.jh.advertisement.model.PromotionPlan;
+import com.efeiyi.jh.advertisement.model.PromotionPlanElement;
+import com.ming800.core.does.model.PageInfo;
 import com.ming800.core.does.service.DoHandler;
-import com.ming800.core.p.service.AutoSerialManager;
 import com.ming800.core.util.ApplicationContextUtil;
 import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/7/23.
@@ -15,17 +18,40 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class PromotionPlanListHandler implements DoHandler {
 
-    private BaseManager baseManager = (BaseManager) ApplicationContextUtil.getApplicationContext().getBean("baseManagerImpl");
-    private XdoDao xdoDao = (XdoDao) ApplicationContextUtil.getApplicationContext().getBean("xdoDaoSupport");
-    private AutoSerialManager autoSerialManager = (AutoSerialManager) ApplicationContextUtil.getApplicationContext().getBean("autoSerialManager") ;
+    private PromotionPlanManagerService promotionPlanManagerService = (PromotionPlanManagerService) ApplicationContextUtil.getApplicationContext().getBean("promotionPlanManagerImpl");
 
     @Override
     public ModelMap handle(ModelMap modelMap, HttpServletRequest request) throws Exception {
-
-        modelMap.put("ZCL", 10);
-        modelMap.put("DDS", 1000);
-        modelMap.put("ZFE", 10000);
+        modelMap.put("PPEList", getPromotionPlanElementList(modelMap));
         return modelMap;
+    }
+
+    private List<PromotionPlanElement> getPromotionPlanElementList(ModelMap modelMap) throws Exception {
+        List<PromotionPlanElement> ppeList = new ArrayList<>();
+        List<PromotionPlan> promotionPlanList = ((PageInfo)modelMap.get("pageInfo")).getList();
+
+        if (!promotionPlanList.isEmpty()){
+            for (PromotionPlan pp:promotionPlanList){
+                PromotionPlanElement promotionPlanElement = new PromotionPlanElement();
+                promotionPlanElement.setPromotionPlan(pp);
+                if (!pp.getPromotionUserRecordList().isEmpty()){//设置注册量
+                    promotionPlanElement.setZCL(String.valueOf(pp.getPromotionUserRecordList().size()));
+                }
+
+                if (!pp.getPromotionPurchaseRecordList().isEmpty()){//设置订单数、支付总额
+                    promotionPlanElement = setDDLAndZFE(promotionPlanElement, pp);
+                }
+                ppeList.add(promotionPlanElement);
+            }
+        }
+
+        return ppeList;
+    }
+
+    private PromotionPlanElement setDDLAndZFE(PromotionPlanElement promotionPlanElement, PromotionPlan promotionPlan) throws Exception {
+        promotionPlanElement.setDDL(promotionPlanManagerService.getDDL(promotionPlan));//设置订单数
+        promotionPlanElement.setZFE(promotionPlanManagerService.getZFE(promotionPlan));//设置支付总额
+        return promotionPlanElement;
     }
 
 }
