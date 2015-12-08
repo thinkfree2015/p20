@@ -11,6 +11,7 @@
         <jnode url="" id="rebateManager" access="admin,manager" state="closed"  text_zh_CN="返利管理">
             <jnode url="/basic/xm.do?qm=plistPromotionPlan_default"  access="admin,manager" text_zh_CN="返利列表">
                 <match url="/basic/xm.do?qm=formPromotionPlan&amp;rebate=rebate"/>
+                <match url="/promotionPlan/getZCLInfo.do"/>
             </jnode>
         </jnode>
 

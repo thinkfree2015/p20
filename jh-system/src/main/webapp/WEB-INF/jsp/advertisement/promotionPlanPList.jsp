@@ -56,8 +56,12 @@
                     <ming800:status name="name" dataType="PCPromotionPlan.name"
                                     checkedValue="${PPE.promotionPlan.name}" type="normal"/>
                 </td>
-                <td>${PPE.ZCL}</td>
-                <td>${PPE.DDL}</td>
+                <td>
+                    <a href="<c:url value="/promotionPlan/getZCLInfo.do?id=${PPE.promotionPlan.id}"/>">${PPE.ZCL}</a>
+                </td>
+                <td>
+                    <a href="<c:url value="/promotionPlan/getDDLInfo.do?id=${PPE.promotionPlan.id}"/>">${PPE.DDL}</a>
+                </td>
                 <td>${PPE.ZFE}</td>
                 <td>
                     <fmt:formatDate value="${PPE.promotionPlan.createDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>

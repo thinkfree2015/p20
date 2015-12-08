@@ -1,7 +1,10 @@
 package com.efeiyi.jh.dao.PromotionPlan.hibernate;
 
+import com.efeiyi.ec.organization.model.User;
+import com.efeiyi.ec.purchase.model.PurchaseOrder;
 import com.efeiyi.jh.advertisement.model.PromotionPlan;
 import com.efeiyi.jh.dao.PromotionPlan.PromotionPlanDao;
+import com.ming800.core.taglib.PageEntity;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -58,6 +61,26 @@ public class PromotionPlanDaoHibernate implements PromotionPlanDao {
             return list.get(0).toString();
         }
         return null;
+    }
+
+    @Override
+    public List<User> getZCLInfomation(PromotionPlan promotionPlan, PageEntity pageEntity) throws Exception {
+        String hql = "select u from User u, PromotionUserRecord pur where pur.user = u and pur.promotionPlan = :promotionPlan";
+        Query query = this.getSession().createQuery(hql)
+                .setParameter("promotionPlan", promotionPlan)
+                .setFirstResult(pageEntity.getrIndex())
+                .setMaxResults(pageEntity.getSize());
+        return query.list();
+    }
+
+    @Override
+    public List<PurchaseOrder> getDDLInfomation(PromotionPlan promotionPlan, PageEntity pageEntity) throws Exception {
+        String hql = "select po from PurchaseOrder po, PromotionPurchaseRecord ppr where ppr.purchaseOrder = po and ppr.promotionPlan = :promotionPlan";
+        Query query = this.getSession().createQuery(hql)
+                .setParameter("promotionPlan", promotionPlan)
+                .setFirstResult(pageEntity.getrIndex())
+                .setMaxResults(pageEntity.getSize());
+        return query.list();
     }
 
 }
