@@ -49,7 +49,7 @@ public class PromotionPlanController {
         }
 
         List<User> userList = promotionPlanManagerService.getZCLInfomation(promotionPlan, pageEntity);
-        pageEntity.setCount(userList.size());
+        pageEntity.setCount(promotionPlan.getPromotionUserRecordList().size());
         modelMap.put("userList", userList);
         modelMap.put("pageEntity", pageEntity);
 
@@ -75,7 +75,7 @@ public class PromotionPlanController {
         }
 
         List<PurchaseOrder> orderList = promotionPlanManagerService.getDDLInfomation(promotionPlan, pageEntity);
-        pageEntity.setCount(orderList.size());
+        pageEntity.setCount(Integer.parseInt(promotionPlanManagerService.getDDL(promotionPlan)));
         modelMap.put("orderList", orderList);
         modelMap.put("pageEntity", pageEntity);
 

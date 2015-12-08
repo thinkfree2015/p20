@@ -53,7 +53,7 @@
     </table>
 </div>
 <div style="clear: both">
-    <c:url value="/promotionPlan/getZCLInfo.do" var="url"/>
+    <c:url value="/promotionPlan/getDDLInfo.do" var="url"/>
     <ming800:pcPageList bean="${pageEntity}" url="${url}">
         <ming800:pcPageParam name="id" value="${promotionPlanId}"/>
     </ming800:pcPageList>
