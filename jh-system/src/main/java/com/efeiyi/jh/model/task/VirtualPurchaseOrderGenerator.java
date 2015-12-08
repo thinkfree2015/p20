@@ -8,6 +8,7 @@ import com.efeiyi.jh.plan.model.VirtualOrderPlan;
 import com.efeiyi.jh.plan.model.VirtualPlan;
 import com.efeiyi.jh.plan.model.VirtualPurchaseOrder;
 import com.efeiyi.jh.plan.model.VirtualUser;
+import org.hibernate.exception.GenericJDBCException;
 
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,7 @@ public class VirtualPurchaseOrderGenerator extends BaseTimerTask {
         if (session == null || !session.isOpen()) {
             session = sessionFactory.openSession();
         }
-        virtualOrderPlan = (VirtualOrderPlan)session.get(VirtualOrderPlan.class,virtualOrderPlan.getId());
+        virtualOrderPlan = (VirtualOrderPlan) session.get(VirtualOrderPlan.class, virtualOrderPlan.getId());
         ProductModel productModel = productModelList.remove(random.nextInt(productModelList.size()));
         List<VirtualUser> virtualUserList = virtualOrderPlan.getVirtualUserPlan().getVirtualUserList();
         VirtualUser virtualUser = virtualUserList.remove(random.nextInt(virtualUserList.size()));
@@ -74,9 +75,12 @@ public class VirtualPurchaseOrderGenerator extends BaseTimerTask {
     @Override
     public void run() {
         try {
-            if(session == null || !session.isOpen()) {
+            if (session == null || !session.isOpen()) {
                 session = sessionFactory.openSession();
             }
+            execute(null);
+        } catch (GenericJDBCException jdbcE) {
+            retrieveSessionFactory();
             execute(null);
         } catch (Exception e) {
             e.printStackTrace();

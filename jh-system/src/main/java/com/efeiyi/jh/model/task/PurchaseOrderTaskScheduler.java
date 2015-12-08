@@ -7,6 +7,7 @@ import com.efeiyi.jh.model.timer.SuperTimer;
 import com.efeiyi.jh.plan.model.VirtualOrderPlan;
 import com.efeiyi.jh.plan.model.VirtualPlan;
 import com.efeiyi.jh.plan.model.VirtualProductModel;
+import org.hibernate.exception.GenericJDBCException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,17 +24,25 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
     @Override
     public boolean cancel() {
         SuperTimer.getInstance().getSubTaskTempStoreMap().put(virtualOrderPlan, productModelList);
-        if(session == null || !session.isOpen()){
-            session = sessionFactory.openSession();
-            virtualOrderPlan = (VirtualOrderPlan)session.get(VirtualOrderPlan.class,virtualOrderPlan.getId());
+        try {
+            if (session == null || !session.isOpen()) {
+                session = sessionFactory.openSession();
+            }
+            resetPlanStatus();
+        } catch (GenericJDBCException jdbcE) {
+            retrieveSessionFactory();
+            resetPlanStatus();
         }
+        logger.info("PurchaseOrderTaskScheduler cancelled............................................");
+        return super.cancel();
+    }
 
+    private void resetPlanStatus() {
+        virtualOrderPlan = (VirtualOrderPlan) session.get(VirtualOrderPlan.class, virtualOrderPlan.getId());
         virtualOrderPlan.setStatus(PlanConst.planStatusNormal);
         session.saveOrUpdate(virtualOrderPlan);
         session.flush();
         session.close();
-        logger.info("PurchaseOrderTaskScheduler cancelled............................................");
-        return super.cancel();
     }
 
     public void execute(List<VirtualPlan> virtualPlanList) {
@@ -85,6 +94,9 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
             session = sessionFactory.openSession();
         }
         try {
+            execute(null);
+        } catch (GenericJDBCException jdbcE) {
+            retrieveSessionFactory();
             execute(null);
         } catch (Exception e) {
             e.printStackTrace();

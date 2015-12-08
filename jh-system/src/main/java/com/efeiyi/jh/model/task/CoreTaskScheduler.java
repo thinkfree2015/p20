@@ -4,8 +4,12 @@ import com.efeiyi.jh.model.PlanConst;
 import com.efeiyi.jh.model.timer.SubTimer;
 import com.efeiyi.jh.model.timer.SuperTimer;
 import com.efeiyi.jh.plan.model.VirtualPlan;
+import com.ming800.core.util.ApplicationContextUtil;
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.hibernate.exception.GenericJDBCException;
 
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -38,9 +42,10 @@ public class CoreTaskScheduler extends BaseTimerTask {
             session = sessionFactory.openSession();
         }
         try {
-            Query listQuery = session.createQuery("from VirtualPlan where status = " + PlanConst.planStatusNormal);
-            List<VirtualPlan> virtualPlanList = listQuery.list();
-            execute(virtualPlanList);
+            preExecute();
+        } catch (GenericJDBCException jdbcE) {
+            retrieveSessionFactory();
+            preExecute();
         } catch (Throwable e) {
             logger.error("CoreTimer throws Exception:" + e.getMessage());
             e.printStackTrace();
@@ -51,6 +56,13 @@ public class CoreTaskScheduler extends BaseTimerTask {
             logger.info("CoreTimer executed.......");
         }
 
+    }
+
+
+    private void preExecute() {
+        Query listQuery = session.createQuery("from VirtualPlan where status = " + PlanConst.planStatusNormal);
+        List<VirtualPlan> virtualPlanList = listQuery.list();
+        execute(virtualPlanList);
     }
 
     public void execute(List<VirtualPlan> virtualPlanList) {
@@ -72,10 +84,10 @@ public class CoreTaskScheduler extends BaseTimerTask {
             //转一下日期类型
             Date startDate = null;
             Date endDate = null;
-            try{
+            try {
                 startDate = dateFormat.parse(virtualPlan.getStartDate());
                 endDate = dateFormat.parse(virtualPlan.getEndDate());
-            }catch (Exception e){
+            } catch (Exception e) {
                 logger.error("parsing string to date failed.......");
                 e.printStackTrace();
             }

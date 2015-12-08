@@ -22,4 +22,10 @@ public abstract class BaseTimerTask extends TimerTask {
 
     public abstract void execute(List<VirtualPlan> virtualPlanList);
 
+    protected void retrieveSessionFactory() {
+        logger.error("retrieving sessionFactory............");
+        sessionFactory = ((SessionFactory) ApplicationContextUtil.getApplicationContext().getBean("scheduleSessionFactory"));
+        session = sessionFactory.openSession();
+    }
+
 }
