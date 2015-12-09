@@ -46,14 +46,14 @@ public class SubTaskStopper extends BaseTimerTask {
         if(subTimer != null) {
             synchronized (subTimer) {
                 subTimer.getSubTimer().cancel();
-                logger.info("SubTaskTimer cancelled.........................");
+                logger.info("SubTaskTimer cancelled.");
                 subTimer.getTimerTask().cancel();
-                logger.info("SubTask cancelled.........................");
+                logger.info("SubTask cancelled.");
                 subTimer.getStopperTimer().cancel();
-                logger.info("StopperTimer cancelled.........................");
+                logger.info("StopperTimer cancelled.");
             }
         }
-        logger.info("StopperTimerTask cancelled.........................");
+        logger.info("StopperTimerTask cancelled.");
         return super.cancel();
     }
 }

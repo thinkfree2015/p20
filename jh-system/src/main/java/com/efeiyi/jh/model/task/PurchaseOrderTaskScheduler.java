@@ -33,7 +33,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
             retrieveSessionFactory();
             resetPlanStatus();
         }
-        logger.info("PurchaseOrderTaskScheduler cancelled............................................");
+        logger.info("PurchaseOrderTaskScheduler cancelled.");
         return super.cancel();
     }
 
@@ -47,6 +47,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
 
     public void execute(List<VirtualPlan> virtualPlanList) {
 
+        virtualOrderPlan = (VirtualOrderPlan)session.get(VirtualOrderPlan.class,virtualOrderPlan.getId());
         virtualOrderPlan.setStatus(PlanConst.planStatusStarted);
         session.saveOrUpdate(virtualOrderPlan);
         session.flush();
@@ -89,7 +90,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
 
     @Override
     public void run() {
-        logger.info(" Purchase order arranging..........................................");
+        logger.info(" Purchase order arranging.");
         if (session == null || !session.isOpen()) {
             session = sessionFactory.openSession();
         }
@@ -105,7 +106,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
                 session.close();
             }
         }
-        logger.info("Purchase arranged.........................");
+        logger.info("Purchase arranged.");
     }
 
     @Override
