@@ -14,6 +14,13 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class VirtualPlan {
 
+    public static final String PLAN_TYPE_USER = "user";//虚拟计划对象--用户
+    public static final String PLAN_TYPE_ORDER = "order";//虚拟计划对象--订单
+    public static final String PLAN_TYPE_PRAISE = "praise";//虚拟计划对象--点赞
+    public static final String PLAN_TYPE_PRODUCT = "product";//虚拟计划对象--商品
+    public static final String PLAN_TYPE_COLLECT = "collect";//虚拟计划对象--收藏
+    public static final String PLAN_TYPE_POPULARITY = "popularity";//虚拟计划对象--人气
+
     private String id;
     private String serial;
     private String status;
