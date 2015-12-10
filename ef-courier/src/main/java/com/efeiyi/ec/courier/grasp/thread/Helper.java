@@ -32,6 +32,6 @@ public class Helper implements  Runnable {
 
     @Override
     public void run() {
-
+     System.out.println("beginNum:"+beginNum+"   "+"endNum:"+endNum);
     }
 }

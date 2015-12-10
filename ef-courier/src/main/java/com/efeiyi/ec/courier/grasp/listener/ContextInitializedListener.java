@@ -1,5 +1,6 @@
 package com.efeiyi.ec.courier.grasp.listener;
 
+import com.efeiyi.ec.courier.grasp.service.impl.ThreadManagerImpl;
 import com.efeiyi.ec.courier.model.Capture;
 import com.efeiyi.ec.courier.organization.util.ContextUtils;
 import org.springframework.beans.BeansException;
@@ -36,6 +37,7 @@ public class ContextInitializedListener implements ApplicationListener<ContextRe
                 if ("on".equals(exe)){//去抓取数据
                     log.info("数据开关已经打开");
                     System.out.println("数据开关:"+exe);
+                    ((ThreadManagerImpl)ContextUtils.getBean("threadManagerImpl")).startWork();
                 }else{
                     log.info("i don not  need do anything");
                 }
