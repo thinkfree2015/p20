@@ -47,7 +47,6 @@
                 <input type="hidden" name="planType" id="planType" title="虚拟数据对象" required="true" value="${object.planType}">
             </div>
         </div>
-
         <%--<div class="am-form-group">
             <label class="am-u-sm-3 am-form-label">单件商品订单总量区间<small>*</small></label>
             <div class="am-u-sm-9">
@@ -56,11 +55,10 @@
                 <input type="text" style="width: auto; float: left; margin-left: 10px" placeholder="0" value="" required="true">
             </div>
         </div>--%>
-
         <div class="am-form-group">
             <label class="am-u-sm-3 am-form-label">任务截止日期<small>*</small></label>
             <div class="am-u-sm-9">
-                <input type="text" name="startDate" id="startDate" style="width: auto; float: left"
+                <%--<input type="text" name="startDate" id="startDate" style="width: auto; float: left"
                        title="开始日期" class="am-form-field" data-am-datepicker
                        value="<fmt:formatDate value='${object.startDate}'  pattern='yyyy-MM-dd'/>" required="true" readonly/>
 
@@ -68,7 +66,18 @@
 
                 <input type="text" name="endDate" id="endDate" style="width: auto; float: left; margin-left: 10px"
                        title="结束日期" class="am-form-field" data-am-datepicker
-                       value="<fmt:formatDate value='${object.endDate}'  pattern='yyyy-MM-dd'/>" required="true" readonly/>
+                       value="<fmt:formatDate value='${object.endDate}'  pattern='yyyy-MM-dd'/>" required="true" readonly/>--%>
+                <input class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                       type="text" style="width: auto; float: left; height: 35px"
+                       name="startDate" id="startDate" title="开始日期"
+                       placeholder="" value="${object.startDate}" required="true" readonly>
+
+                <span style="width: auto; float: left; font-family:'应用字体 Regular', '应用字体'; margin-left: 10px; margin-top: 4px">至</span>
+
+                <input class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                       type="text" style="width: auto; float: left; margin-left: 10px; height: 35px"
+                       name="endDate" id="endDate" title="结束日期"
+                       placeholder="" value="${object.endDate}" required="true" readonly>
             </div>
         </div>
 
@@ -78,14 +87,14 @@
                 <input class="Wdate" onClick="WdatePicker({dateFmt:'HH:mm:ss'})"
                        type="text" style="width: auto; float: left; height: 35px"
                        name="startTime" id="startTime" title="开始时间"
-                       placeholder="" value="${object.endDate}" required="true">
+                       placeholder="" value="${object.startTime}" required="true" readonly>
 
                 <span style="width: auto; float: left; font-family:'应用字体 Regular', '应用字体'; margin-left: 10px; margin-top: 4px">至</span>
 
                 <input class="Wdate" onClick="WdatePicker({dateFmt:'HH:mm:ss'})"
                        type="text" style="width: auto; float: left; margin-left: 10px; height: 35px"
                        name="endTime" id="endTime" title="结束时间"
-                       placeholder="" value="${object.endDate}" required="true">
+                       placeholder="" value="${object.endTime}" required="true" readonly>
             </div>
         </div>
 

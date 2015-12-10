@@ -34,55 +34,57 @@
             <td>终止时间</td>
             <td>任务状态</td>
         </tr>
-        <c:forEach items="${requestScope.pageInfo.list}" var="plan">
+        <c:forEach items="${VPEList}" var="vpe">
             <tr>
                 <td>
                     <div class="am-btn-toolbar">
                         <div class="am-btn-group am-btn-group-xs" style="width: 100%;">
                             <button onclick="window.location.href='<c:url
-                                    value="/basic/xm.do?qm=formUser&id=${user.id}"/>'"
+                                    value="/basic/xm.do?qm=formVirtualPlan&VirtualPlan=VirtualPlan&id=${vpe.virtualPlan.id}"/>'"
                                     class="am-btn am-btn-default am-btn-xs am-hide-sm-only"><span
                                     class="am-icon-edit"></span> 编辑
                             </button>
                             <button onclick="window.location.href='<c:url
-                                    value="/basic/xm.do?qm=removeUser&id=${user.id}"/>'"
+                                    value="/basic/xm.do?qm=removeVirtualPlan&id=${vpe.virtualPlan.id}"/>'"
                                     class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span
                                     class="am-icon-trash-o"></span> 删除
                             </button>
                             <button onclick="window.location.href='<c:url
-                                    value="/plan/pausePlan.do?id=${plan.id}&resultPage=/basic/xm.do?qm=plistVirtualPlan_default"/>'"
+                                    value="/plan/pausePlan.do?id=${vpe.virtualPlan.id}&resultPage=/basic/xm.do?qm=plistVirtualPlan_default"/>'"
                                     class="am-btn am-btn-default am-btn-xs am-hide-sm-only"><span
                                     class="am-icon-edit"></span> 暂停任务
                             </button>
                             <button onclick="window.location.href='<c:url
-                                    value="/plan//startPlan.do?id=${plan.id}&resultPage=/basic/xm.do?qm=plistVirtualPlan_default"/>'"
+                                    value="/plan//startPlan.do?id=${vpe.virtualPlan.id}&resultPage=/basic/xm.do?qm=plistVirtualPlan_default"/>'"
                                     class="am-btn am-btn-default am-btn-xs am-hide-sm-only"><span
                                     class="am-icon-trash-o"></span> 开始任务
                             </button>
                         </div>
                     </div>
                 </td>
-                <td>${plan.serial}</td>
+                <td>${vpe.virtualPlan.serial}</td>
                 <td>
-                    <ming800:status name="status" dataType="PCVirtualPlan.planType" checkedValue="${plan.planType}"
+                    <ming800:status name="status" dataType="PCVirtualPlan.planType" checkedValue="${vpe.virtualPlan.planType}"
                                     type="normal"/>
                 </td>
-                <td>关联数量</td>
-                <td>已完成数量</td>
-                <td><%--起始日期--%>${plan.startDate}
+                <td><%--关联数量--%>${vpe.relation}</td>
+                <td><%--已完成数量--%><%--${vpe.complete}--%>
+                    <a href="<c:url value="/virtualPlan/getTypeObjectList.do?id=${vpe.virtualPlan.id}&type=${vpe.type}"/>">${vpe.complete}</a>
+                </td>
+                <td><%--起始日期--%>${vpe.virtualPlan.startDate}
                     <%--<fmt:formatDate value="${plan.startDate}" pattern="yyyy-MM-dd"/>--%>
                 </td>
-                <td><%--终止日期--%>${plan.endDate}
+                <td><%--终止日期--%>${vpe.virtualPlan.endDate}
                     <%--<fmt:formatDate value="${plan.endDate}" pattern="yyyy-MM-dd"/>--%>
                 </td>
-                <td><%--起始时间--%>${plan.startTime}
+                <td><%--起始时间--%>${vpe.virtualPlan.startTime}
                     <%--<fmt:formatDate value="${plan.startTime}" pattern="HH:mm:ss"/>--%>
                 </td>
-                <td><%--终止时间--%>${plan.endTime}
+                <td><%--终止时间--%>${vpe.virtualPlan.endTime}
                     <%--<fmt:formatDate value="${plan.endTime}" pattern="HH:mm:ss"/>--%>
                 </td>
                 <td>
-                    <ming800:status name="status" dataType="PCVirtualPlan.status" checkedValue="${plan.status}"
+                    <ming800:status name="status" dataType="PCVirtualPlan.status" checkedValue="${vpe.virtualPlan.status}"
                                     type="normal"/>
                 </td>
             </tr>
