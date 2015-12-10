@@ -11,7 +11,7 @@ end;
 
 
 create TABLE organization_address_city_copy AS
-SELECT * from organization_address_city
+SELECT * from organization_address_city;
 
 call addressSort();
 
@@ -47,9 +47,20 @@ create procedure INSERTSort()
 
       /* 关闭游标 */
       CLOSE rs;
- END
+ END;
 
+CREATE  TABLE  ef_company_freight(
+  id char(16) NOT NULL,
+  price varchar(3) DEFAULT NULL,
+  weight varchar(3) DEFAULT NULL,
+  times varchar(2) DEFAULT NULL,
+  from_city varchar(25) DEFAULT NULL,
+  to_city varchar(25) DEFAULT NULL,
+  name varchar(25) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+ALTER TABLE ef_company_freight
+ADD INDEX cf_index (from_city,to_city,weight) ;//创建联合索引
 
 
