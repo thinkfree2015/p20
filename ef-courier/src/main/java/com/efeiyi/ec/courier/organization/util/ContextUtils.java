@@ -37,7 +37,7 @@ public class ContextUtils {
         }
     }
 
-    public static Object getBean(String name) {
+    public static Object getBean(String name) throws  Exception{
         return getApplicationContext().getBean(name);
     }
 }
