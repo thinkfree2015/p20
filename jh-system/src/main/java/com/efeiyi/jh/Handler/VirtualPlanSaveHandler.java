@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by Administrator on 2015/7/23.
  * 新建或修改标签批次 Handler
  */
-public class VirtualPlanHandler implements DoHandler {
+public class VirtualPlanSaveHandler implements DoHandler {
 
     private BaseManager baseManager = (BaseManager) ApplicationContextUtil.getApplicationContext().getBean("baseManagerImpl");
     private XdoDao xdoDao = (XdoDao) ApplicationContextUtil.getApplicationContext().getBean("xdoDaoSupport");
