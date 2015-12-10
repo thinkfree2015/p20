@@ -12,7 +12,7 @@
     <artifactId>ef-courier</artifactId>
 
     <packaging>war</packaging>
-    <name>xh-system</name>
+    <name>ef-courier</name>
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
