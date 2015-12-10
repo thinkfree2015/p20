@@ -6,10 +6,7 @@ import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2015/12/10.
@@ -18,13 +15,24 @@ import java.util.Map;
 @Service
 public class spiderUtil {
     private Jsoup jsoup;
-    public List<Map<String,String>> parserHtml(String url)throws  Exception{
+    public List<Object>  parserHtml(String url)throws  Exception{
         Document doc = jsoup.connect(url).get();
         Elements elements = doc.select("tr[bgcolor=#FFFFFF]");
         List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+        Map<String,String> size = new HashMap<String,String>();
+        List<Object> dataList = new ArrayList<Object>();
+        int count =0;
         if(elements!=null&& !elements.isEmpty()){
 
             for (Element element : elements) {
+                if(count>=elements.size()-1){
+                    Elements childrenElements =element.select("a[href]");
+                    if(childrenElements!=null&& !childrenElements.isEmpty()){
+                        size.put("size",childrenElements.eq(0).text()!=null&& childrenElements.eq(0).text()!=""?childrenElements.eq(0).text():"");
+                        dataList.add(size);
+                    }
+                    break;
+                }
                 Map<String,String> map = new HashMap<String,String>();
                 Elements childrenElements =element.select("a[href]");
                 if(childrenElements!=null&& !childrenElements.isEmpty()){
@@ -44,11 +52,21 @@ public class spiderUtil {
                     map.put("times", "");
                 }
                 list.add(map);
+                count++;
             }
 
         }
-
-        return list;
+        dataList.add(list);
+       /* for (Object obj: dataList) {//解析返回数据
+            if(obj instanceof Map){
+                System.out.println(((Map)obj).get("size").toString());
+            }else if(obj instanceof List){
+                for( Map<String,String> map :(List<Map<String,String>>)obj){
+                    System.out.println(map.get("name")+"  "+map.get("price")+"   "+map.get("times"));
+                }
+            }
+        }*/
+        return dataList;
     }
 
 }
