@@ -1,0 +1,55 @@
+create procedure addressSort()
+ begin
+declare i int;
+SET i =1;
+WHILE i<=373 DO
+UPDATE organization_address_city SET sort = NULL WHERE id in (select 1 from organization_address_city_copy ORDER BY id ASC);
+set i=i+1;
+END WHILE;
+end;
+
+
+
+create TABLE organization_address_city_copy AS
+SELECT * from organization_address_city
+
+call addressSort();
+
+create procedure INSERTSort()
+  BEGIN
+       DECLARE Done INT DEFAULT 0;
+      DECLARE num INT DEFAULT 0;
+       DECLARE beginSort INT;
+
+      DECLARE cityName VARCHAR(30);
+       /* 声明游标 */
+       DECLARE rs CURSOR FOR SELECT city_name, sort FROM organization_address_city;
+       /* 异常处理 */
+       DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET Done = 1;
+
+      /* 打开游标 */
+      OPEN rs;
+
+      /* 逐个取出当前记录Sort字段的值，需要进行最大值的判断 */
+      FETCH NEXT FROM rs INTO cityName, beginSort;
+      /* 遍历数据表 */
+      REPEAT
+            IF  NOT Done THEN
+
+               /* 正常更新 */
+                  UPDATE organization_address_city SET sort = num + 1 WHERE city_name = cityName;
+              set num = num+1;
+            END IF;
+
+      FETCH NEXT FROM rs INTO cityName, beginSort;
+
+      UNTIL Done END REPEAT;
+
+      /* 关闭游标 */
+      CLOSE rs;
+ END
+
+
+
+
+
