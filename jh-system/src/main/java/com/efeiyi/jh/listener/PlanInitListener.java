@@ -43,7 +43,7 @@ public class PlanInitListener implements ServletContextListener {
             SuperTimer.getInstance().getCoreTaskTimer().scheduleAtFixedRate(coreTaskScheduler, tomorrowStartTime, SuperTimer.getInstance().getTaskExecutionCycle());
 
         } catch (Exception e) {
-            logger.info("CoreTimer & SubTimerTask failed to set......................");
+            logger.info("CoreTimer & SubTimerTask failed to set.");
             e.printStackTrace();
         }
     }
@@ -52,7 +52,7 @@ public class PlanInitListener implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent sce) {
         resetTaskStatus();
         stopCoreScheduler();
-        logger.info("CoreTimer & SubTimerTask destroyed......................");
+        logger.info("CoreTimer & SubTimerTask destroyed.");
     }
 
     private void stopCoreScheduler() {

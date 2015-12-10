@@ -37,7 +37,7 @@ public class CoreTaskScheduler extends BaseTimerTask {
 
     @Override
     public void run() {
-        logger.info("CoreTimer executing.......");
+        logger.info("CoreTimer executing.");
         if (session == null || !session.isOpen()) {
             session = sessionFactory.openSession();
         }
@@ -53,7 +53,7 @@ public class CoreTaskScheduler extends BaseTimerTask {
             if (session != null) {
                 session.close();
             }
-            logger.info("CoreTimer executed.......");
+            logger.info("CoreTimer executed.");
         }
 
     }
@@ -88,7 +88,7 @@ public class CoreTaskScheduler extends BaseTimerTask {
                 startDate = dateFormat.parse(virtualPlan.getStartDate());
                 endDate = dateFormat.parse(virtualPlan.getEndDate());
             } catch (Exception e) {
-                logger.error("parsing string to date failed.......");
+                logger.error("parsing string to date failed.");
                 e.printStackTrace();
             }
 
