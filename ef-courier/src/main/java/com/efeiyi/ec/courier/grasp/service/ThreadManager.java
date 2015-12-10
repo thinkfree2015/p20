@@ -5,4 +5,5 @@ package com.efeiyi.ec.courier.grasp.service;
  *
  */
 public interface ThreadManager {
+    void startWork() throws Exception;
 }

@@ -38,4 +38,6 @@ public class OrganizationConst {
 
     //线程池数量
     public static final Integer THREAD_POOL_CORE_COUNT = 10;  //核心线程数量
+
+    public static final String  EF_COURIER_BASE_URL ="http://www.chakd.com/index.php?action=search";//快递小帮手基本查询URL
 }
