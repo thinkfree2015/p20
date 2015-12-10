@@ -35,6 +35,7 @@ public class ContextInitializedListener implements ApplicationListener<ContextRe
             if (exe!=null && !"".equals(exe)){
                 if ("on".equals(exe)){//去抓取数据
                     log.info("数据开关已经打开");
+                    System.out.println("数据开关已经打开");
                 }else{
                     log.info("i don not  need do anything");
                 }
