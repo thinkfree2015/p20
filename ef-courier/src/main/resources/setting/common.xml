@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<common>
+
+    <wordValues>
+        <wordValue group=""  note=""/>
+    </wordValues>
+
+    <banners>
+        <banner   group="master.index" note="传承人首页轮播图" />
+    </banners>
+
+    <documents>
+        <document group="" template=".jsp" note="" />
+    </documents>
+
+    <recommends>
+        <recommend group="masterRecommended" recommendedModel="com.efeiyi.ec.master.model.Master" note="大师推荐" amount="10" />
+        <recommend group="masterWorkRecommended" recommendedModel="com.efeiyi.ec.master.model.MasterWork" note="大师作品推荐" amount="5" />
+    </recommends>
+
+    <searchs>
+        <search group="efeiyi" recommendedModel="com.ming800.core.p.model.CommonSearch" rows="12" defaultQ="all_name:" highLight="true"
+                highLightFields="product_name,specification" highLightSimplePre="&lt;font color='red'&gt;" highLightSimplePost="&lt;/font&gt;"
+                defType="edismax" qf="product_name^5 sub_name^3 specification^3 project_name^4 master_name^2" solrClientCount="5"
+                solrServerCoreUrl="http://192.168.1.57/solr/product" solrServerHost="192.168.1.57" username="" password="" port="80"/>
+    </searchs>
+</common>
