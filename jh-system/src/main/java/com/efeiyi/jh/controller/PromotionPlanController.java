@@ -3,7 +3,7 @@ package com.efeiyi.jh.controller;
 import com.efeiyi.ec.organization.model.User;
 import com.efeiyi.ec.purchase.model.PurchaseOrder;
 import com.efeiyi.jh.advertisement.model.PromotionPlan;
-import com.efeiyi.jh.service.PromotionPlan.PromotionPlanManagerService;
+import com.efeiyi.jh.service.promotionPlan.PromotionPlanManagerService;
 import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.taglib.PageEntity;
 import org.springframework.beans.factory.annotation.Autowired;
