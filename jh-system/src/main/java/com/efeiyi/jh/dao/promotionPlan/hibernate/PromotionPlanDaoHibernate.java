@@ -1,9 +1,9 @@
-package com.efeiyi.jh.dao.PromotionPlan.hibernate;
+package com.efeiyi.jh.dao.promotionPlan.hibernate;
 
 import com.efeiyi.ec.organization.model.User;
 import com.efeiyi.ec.purchase.model.PurchaseOrder;
 import com.efeiyi.jh.advertisement.model.PromotionPlan;
-import com.efeiyi.jh.dao.PromotionPlan.PromotionPlanDao;
+import com.efeiyi.jh.dao.promotionPlan.PromotionPlanDao;
 import com.ming800.core.taglib.PageEntity;
 import org.hibernate.Query;
 import org.hibernate.Session;

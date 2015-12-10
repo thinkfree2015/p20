@@ -1,4 +1,4 @@
-package com.efeiyi.jh.service.PromotionPlan;
+package com.efeiyi.jh.service.promotionPlan;
 
 import com.efeiyi.ec.organization.model.User;
 import com.efeiyi.ec.purchase.model.PurchaseOrder;

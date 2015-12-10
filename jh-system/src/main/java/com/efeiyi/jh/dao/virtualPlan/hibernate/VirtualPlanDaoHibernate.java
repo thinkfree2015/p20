@@ -1,10 +1,7 @@
-package com.efeiyi.jh.dao.VirtualPlan.hibernate;
+package com.efeiyi.jh.dao.virtualPlan.hibernate;
 
-import com.efeiyi.ec.organization.model.User;
-import com.efeiyi.ec.purchase.model.PurchaseOrder;
 import com.efeiyi.ec.purchase.model.PurchaseOrderProduct;
-import com.efeiyi.jh.advertisement.model.PromotionPlan;
-import com.efeiyi.jh.dao.VirtualPlan.VirtualPlanDao;
+import com.efeiyi.jh.dao.virtualPlan.VirtualPlanDao;
 import com.efeiyi.jh.plan.model.VirtualOrderPlan;
 import com.efeiyi.jh.plan.model.VirtualUser;
 import com.efeiyi.jh.plan.model.VirtualUserPlan;

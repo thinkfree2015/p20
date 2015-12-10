@@ -106,7 +106,7 @@
     <bean id="promotionPlanDao" class="com.efeiyi.jh.dao.promotionPlan.hibernate.PromotionPlanDaoHibernate"/>
 
     <bean id="virtualPlanManagerImpl" class="com.efeiyi.jh.service.virtualPlan.impl.VirtualPlanManagerImpl"/>
-    <bean id="virtualPlanDao" class="com.efeiyi.jh.dao.VirtualPlan.hibernate.VirtualPlanDaoHibernate"/>
+    <bean id="virtualPlanDao" class="com.efeiyi.jh.dao.virtualPlan.hibernate.VirtualPlanDaoHibernate"/>
 
     <!-- 获取序列号 -->
     <bean id="autoSerialManager" class="com.efeiyi.jh.service.AutoSerialManagerImpl" />

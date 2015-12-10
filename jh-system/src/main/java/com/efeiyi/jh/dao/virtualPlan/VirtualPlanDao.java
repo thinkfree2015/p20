@@ -1,4 +1,4 @@
-package com.efeiyi.jh.dao.VirtualPlan;
+package com.efeiyi.jh.dao.virtualPlan;
 
 import com.efeiyi.ec.purchase.model.PurchaseOrderProduct;
 import com.efeiyi.jh.plan.model.VirtualOrderPlan;
