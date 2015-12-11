@@ -86,13 +86,13 @@ public class PlanController {
         return new ModelAndView("/main");
     }
 
-    @RequestMapping("/logger.do")
-    public ModelAndView startPlan() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-
-        Logger logger = Logger.getLogger(PlanController.class);
-
-        logger.error("----------------------------------");
-        return new ModelAndView("/main");
-    }
+//    @RequestMapping("/logger.do")
+//    public ModelAndView startPlan() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+//
+//        Logger logger = Logger.getLogger(PlanController.class);
+//
+//        logger.error("----------------------------------");
+//        return new ModelAndView("/main");
+//    }
 
 }
