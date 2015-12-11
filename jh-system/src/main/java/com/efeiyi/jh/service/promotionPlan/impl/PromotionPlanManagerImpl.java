@@ -35,6 +35,11 @@ public class PromotionPlanManagerImpl implements PromotionPlanManagerService {
     }
 
     @Override
+    public String getSFE(PromotionPlan promotionPlan) throws Exception {
+        return promotionPlanDao.getSFE(promotionPlan);
+    }
+
+    @Override
     public List<User> getZCLInfomation(PromotionPlan promotionPlan, PageEntity pageEntity) throws Exception {
         return promotionPlanDao.getZCLInfomation(promotionPlan, pageEntity);
     }

@@ -46,8 +46,14 @@
                 </td>
                 <td>${order.total}</td>
                 <td>${order.originalPrice}</td>
-                <td>${order.payWay}</td>
-                <td>${order.orderStatus}</td>
+                <td>
+                    <ming800:status name="payWay" dataType="PCPurchaseOrder.payWay"
+                                    checkedValue="${order.payWay}" type="normal"/>
+                </td>
+                <td>
+                    <ming800:status name="orderStatus" dataType="PCPurchaseOrder.orderStatus"
+                                    checkedValue="${order.orderStatus}" type="normal"/>
+                </td>
             </tr>
         </c:forEach>
     </table>
