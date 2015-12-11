@@ -37,7 +37,7 @@ public class FreightSelectController {
             query.put("weight", weight);
             query.put("from",from);
             query.put("to", to);
-             list = baseManager.listObject(query);
+            list = baseManager.listObject(query);
         }
       return list;
     }
