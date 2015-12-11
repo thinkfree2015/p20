@@ -34,6 +34,7 @@
             <td>下单时间</td>
             <td>订单总价</td>
             <td>订单原价</td>
+            <td>实际支付</td>
             <td>支付方式</td>
             <td>订单状态</td>
         </tr>
@@ -46,6 +47,17 @@
                 </td>
                 <td>${order.total}</td>
                 <td>${order.originalPrice}</td>
+                <td>
+                    <c:set var="amount" value="0.00" scope="page"/>
+                    <c:forEach items="${order.purchaseOrderPaymentList}" var="payment">
+                        <c:forEach items="${payment.purchaseOrderPaymentDetailsList}" var="subPayment">
+                            <c:if test="${empty subPayment.coupon && not empty subPayment.transactionNumber}">
+                                <c:set var="amount" value="${amount = amount + subPayment.money}" scope="page"/>
+                            </c:if>
+                        </c:forEach>
+                    </c:forEach>
+                        ${amount}
+                </td>
                 <td>${order.payWay}</td>
                 <td>${order.orderStatus}</td>
             </tr>

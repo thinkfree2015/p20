@@ -47,7 +47,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
 
     public void execute(List<VirtualPlan> virtualPlanList) {
 
-        virtualOrderPlan = (VirtualOrderPlan)session.get(VirtualOrderPlan.class,virtualOrderPlan.getId());
+        virtualOrderPlan = (VirtualOrderPlan) session.get(VirtualOrderPlan.class, virtualOrderPlan.getId());
         virtualOrderPlan.setStatus(PlanConst.planStatusStarted);
         session.saveOrUpdate(virtualOrderPlan);
         session.flush();
@@ -56,6 +56,7 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
         productModelList = (List<ProductModel>) SuperTimer.getInstance().getSubTaskTempStoreMap().remove(virtualOrderPlan);
         if (productModelList == null || productModelList.isEmpty()) {
             productModelList = generateProductModelList();
+            logger.info("PurchaseOrderTaskScheduler is resuming task.");
         }
         Random random = new Random();
 
@@ -75,17 +76,16 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
         }
         Arrays.sort(randomOrderTimePoint);
 
-        for (int x = 0; x < randomOrderTimePoint.length; x++) {
-            if (randomOrderTimePoint[x] < 0) {
-                continue;
-            }
+        int count = 0;
+        for (int x = 0; x < randomOrderTimePoint.length && randomOrderTimePoint[x] >= 0; x++) {
             SuperTimer.getInstance().getSubTimerMap()
                     .get(virtualOrderPlan)
                     .getSubTimer()
                     .schedule(new VirtualPurchaseOrderGenerator(productModelList, virtualOrderPlan), randomOrderTimePoint[x]);
+            count++;
         }
 
-
+        logger.info("Ready to generate " + count + " virtual orders");
     }
 
     @Override
