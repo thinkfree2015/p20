@@ -30,7 +30,7 @@ public class PromotionPlanListHandler implements DoHandler {
         List<PromotionPlanElement> ppeList = new ArrayList<>();
         List<PromotionPlan> promotionPlanList = ((PageInfo)modelMap.get("pageInfo")).getList();
 
-        if (!promotionPlanList.isEmpty()){
+        if (promotionPlanList != null && !promotionPlanList.isEmpty()){
             for (PromotionPlan pp:promotionPlanList){
                 PromotionPlanElement promotionPlanElement = new PromotionPlanElement();
                 promotionPlanElement.setPromotionPlan(pp);
