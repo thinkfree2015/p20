@@ -33,10 +33,6 @@ public class PromotionPlanDaoHibernate implements PromotionPlanDao {
 
     @Override
     public String getDDL(PromotionPlan promotionPlan) throws Exception {
-        /*String hql = "select count(po.id) from PurchaseOrder po, PromotionPurchaseRecord ppr where ppr.purchaseOrder = po and ppr.promotionPlan = :promotionPlan and po.status = :status";
-        Query query = this.getSession().createQuery(hql)
-                .setParameter("promotionPlan", promotionPlan)
-                .setString("status", PurchaseOrder.ORDER_STATUS_FINISHED);*/
         String hql = "select count(po.id) from PurchaseOrder po, PromotionPurchaseRecord ppr where ppr.purchaseOrder = po and ppr.promotionPlan = :promotionPlan";
         Query query = this.getSession().createQuery(hql)
                 .setParameter("promotionPlan", promotionPlan);
@@ -49,16 +45,28 @@ public class PromotionPlanDaoHibernate implements PromotionPlanDao {
 
     @Override
     public String getZFE(PromotionPlan promotionPlan) throws Exception {
-        /*String hql = "select sum(po.originalPrice) from PurchaseOrder po, PromotionPurchaseRecord ppr where ppr.purchaseOrder = po and ppr.promotionPlan = :promotionPlan and po.status = :status";
+        /*String hql = "select sum(po.total) from PurchaseOrder po, PromotionPurchaseRecord ppr where ppr.purchaseOrder = po and ppr.promotionPlan = :promotionPlan and po.status = :status";
         Query query = this.getSession().createQuery(hql)
                 .setParameter("promotionPlan", promotionPlan)
                 .setString("status", PurchaseOrder.ORDER_STATUS_FINISHED);*/
-        String hql = "select sum(po.originalPrice) from PurchaseOrder po, PromotionPurchaseRecord ppr where ppr.purchaseOrder = po and ppr.promotionPlan = :promotionPlan";
+        String hql = "select sum(po.total) from PurchaseOrder po, PromotionPurchaseRecord ppr where ppr.purchaseOrder = po and ppr.promotionPlan = :promotionPlan";
         Query query = this.getSession().createQuery(hql)
                 .setParameter("promotionPlan", promotionPlan);
         List list = query.list();
         if (!list.isEmpty()){
             return list.get(0).toString();
+        }
+        return null;
+    }
+
+    @Override
+    public String getSFE(PromotionPlan promotionPlan) throws Exception {
+        String hql = "select sum(popd.money) from PurchaseOrderPaymentDetails popd, PromotionPurchaseRecord ppr where popd.purchaseOrderPayment.purchaseOrder = ppr.purchaseOrder and popd.coupon = null and popd.transactionNumber <> null and ppr.promotionPlan = :promotionPlan";
+        Query query = this.getSession().createQuery(hql)
+                .setParameter("promotionPlan", promotionPlan);
+        List list = query.list();
+        if (!list.isEmpty()){
+            return (String) list.get(0);
         }
         return null;
     }

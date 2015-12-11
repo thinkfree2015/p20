@@ -22,12 +22,19 @@ public interface PromotionPlanManagerService {
     String getDDL(PromotionPlan promotionPlan)throws Exception;
 
     /**
-     * 获取支付总额
+     * 获取订单总额
      * @param promotionPlan 返利链接
-     * @return 支付总额
+     * @return 订单总额
      * @throws Exception
      */
     String getZFE(PromotionPlan promotionPlan)throws Exception;
+
+    /**
+     * 获取实付金额
+     * @param promotionPlan 返利链接
+     * @return 实付金额
+     */
+    String getSFE(PromotionPlan promotionPlan) throws Exception;
 
     /**
      * 获取通过返利链接注册的用户

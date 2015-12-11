@@ -27,7 +27,7 @@ public class ThreadManagerImpl implements ThreadManager {
             if (i==OrganizationConst.THREAD_POOL_CORE_COUNT-1){
                 endNum=373;
             }else {
-                endNum = beginNum*40;
+                endNum = beginNum+40;
             }
 
         }

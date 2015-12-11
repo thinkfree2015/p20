@@ -29,7 +29,8 @@
             <td>分享渠道</td>
             <td>注册量</td>
             <td>订单数</td>
-            <td>支付总额</td>
+            <td>订单总额</td>
+            <td>实付总额</td>
             <td>创建时间</td>
         </tr>
         <c:forEach items="${PPEList}" var="PPE">
@@ -51,7 +52,7 @@
                     </div>
                 </td>
                 <td>${PPE.promotionPlan.urlDescription}</td>
-                <td>${PPE.promotionPlan.urlMark}</td>
+                <td>${PPE.promotionPlan.url}?pch=${PPE.promotionPlan.id}</td>
                 <td>
                     <ming800:status name="name" dataType="PCPromotionPlan.name"
                                     checkedValue="${PPE.promotionPlan.name}" type="normal"/>
@@ -63,6 +64,7 @@
                     <a href="<c:url value="/promotionPlan/getDDLInfo.do?id=${PPE.promotionPlan.id}"/>">${PPE.DDL}</a>
                 </td>
                 <td>${PPE.ZFE}</td>
+                <td>${PPE.SFE}</td>
                 <td>
                     <fmt:formatDate value="${PPE.promotionPlan.createDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                 </td>

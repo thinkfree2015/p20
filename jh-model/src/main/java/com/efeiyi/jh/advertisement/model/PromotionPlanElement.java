@@ -8,7 +8,8 @@ public class PromotionPlanElement {
     private PromotionPlan promotionPlan;//返利计划
     private String ZCL;//注册量
     private String DDL;//订单数量
-    private String ZFE;//支付总额
+    private String ZFE;//订单总额
+    private String SFE;//实付金额
 
     public PromotionPlan getPromotionPlan() {
         return promotionPlan;
@@ -40,5 +41,13 @@ public class PromotionPlanElement {
 
     public void setZFE(String ZFE) {
         this.ZFE = ZFE;
+    }
+
+    public String getSFE() {
+        return SFE;
+    }
+
+    public void setSFE(String SFE) {
+        this.SFE = SFE;
     }
 }

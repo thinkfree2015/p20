@@ -30,7 +30,7 @@ public class PromotionPlanListHandler implements DoHandler {
         List<PromotionPlanElement> ppeList = new ArrayList<>();
         List<PromotionPlan> promotionPlanList = ((PageInfo)modelMap.get("pageInfo")).getList();
 
-        if (!promotionPlanList.isEmpty()){
+        if (promotionPlanList != null && !promotionPlanList.isEmpty()){
             for (PromotionPlan pp:promotionPlanList){
                 PromotionPlanElement promotionPlanElement = new PromotionPlanElement();
                 promotionPlanElement.setPromotionPlan(pp);
@@ -38,8 +38,8 @@ public class PromotionPlanListHandler implements DoHandler {
                     promotionPlanElement.setZCL(String.valueOf(pp.getPromotionUserRecordList().size()));
                 }
 
-                if (!pp.getPromotionPurchaseRecordList().isEmpty()){//设置订单数、支付总额
-                    promotionPlanElement = setDDLAndZFE(promotionPlanElement, pp);
+                if (!pp.getPromotionPurchaseRecordList().isEmpty()){//设置订单数、订单总额、实付金额
+                    promotionPlanElement = setDDLAndZFEAndSFE(promotionPlanElement, pp);
                 }
                 ppeList.add(promotionPlanElement);
             }
@@ -48,9 +48,10 @@ public class PromotionPlanListHandler implements DoHandler {
         return ppeList;
     }
 
-    private PromotionPlanElement setDDLAndZFE(PromotionPlanElement promotionPlanElement, PromotionPlan promotionPlan) throws Exception {
+    private PromotionPlanElement setDDLAndZFEAndSFE(PromotionPlanElement promotionPlanElement, PromotionPlan promotionPlan) throws Exception {
         promotionPlanElement.setDDL(promotionPlanManagerService.getDDL(promotionPlan));//设置订单数
-        promotionPlanElement.setZFE(promotionPlanManagerService.getZFE(promotionPlan));//设置支付总额
+        promotionPlanElement.setZFE(promotionPlanManagerService.getZFE(promotionPlan));//设置订单总额
+        promotionPlanElement.setSFE(promotionPlanManagerService.getSFE(promotionPlan));//设置实付金额
         return promotionPlanElement;
     }
 

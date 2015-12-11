@@ -48,24 +48,7 @@
             <version>1.7.3</version>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>ef-courier</id>
-            <properties>
-                <db-assDriver>com.mysql.jdbc.Driver</db-assDriver>
-                <db-assPassword>yX798tcK3P5VZ7bUTbh+nQ==</db-assPassword>
-                <db-assUrl>jdbc:mysql://192.168.1.57/eCourier?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8</db-assUrl>
-                <db-assUsername>root</db-assUsername>
-                <db-assLevel>DEBUG</db-assLevel>
-                <dbAsspath>/tmp/logs/</dbAsspath>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
 
-
-    </profiles>
     <build>
         <finalName>ef-courier</finalName>
         <resources>
