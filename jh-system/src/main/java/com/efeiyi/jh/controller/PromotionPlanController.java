@@ -48,7 +48,7 @@ public class PromotionPlanController {
             pageEntity.setSize(Integer.parseInt(pageSize));
         }
 
-        List<User> userList = promotionPlanManagerService.getZCLInfomation(promotionPlan, pageEntity);
+        List<User> userList = promotionPlanManagerService.getZCLInformation(promotionPlan, pageEntity);
         pageEntity.setCount(promotionPlan.getPromotionUserRecordList().size());
         modelMap.put("userList", userList);
         modelMap.put("pageEntity", pageEntity);
@@ -74,7 +74,7 @@ public class PromotionPlanController {
             pageEntity.setSize(Integer.parseInt(pageSize));
         }
 
-        List<PurchaseOrder> orderList = promotionPlanManagerService.getDDLInfomation(promotionPlan, pageEntity);
+        List<PurchaseOrder> orderList = promotionPlanManagerService.getDDLInformation(promotionPlan, pageEntity);
         pageEntity.setCount(Integer.parseInt(promotionPlanManagerService.getDDL(promotionPlan)));
         modelMap.put("orderList", orderList);
         modelMap.put("pageEntity", pageEntity);

@@ -40,13 +40,13 @@ public class PromotionPlanManagerImpl implements PromotionPlanManagerService {
     }
 
     @Override
-    public List<User> getZCLInfomation(PromotionPlan promotionPlan, PageEntity pageEntity) throws Exception {
-        return promotionPlanDao.getZCLInfomation(promotionPlan, pageEntity);
+    public List<User> getZCLInformation(PromotionPlan promotionPlan, PageEntity pageEntity) throws Exception {
+        return promotionPlanDao.getZCLInformation(promotionPlan, pageEntity);
     }
 
     @Override
-    public List<PurchaseOrder> getDDLInfomation(PromotionPlan promotionPlan, PageEntity pageEntity) throws Exception {
-        return promotionPlanDao.getDDLInfomation(promotionPlan, pageEntity);
+    public List<PurchaseOrder> getDDLInformation(PromotionPlan promotionPlan, PageEntity pageEntity) throws Exception {
+        return promotionPlanDao.getDDLInformation(promotionPlan, pageEntity);
     }
 
 }

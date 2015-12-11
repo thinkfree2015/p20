@@ -43,7 +43,7 @@ public interface PromotionPlanManagerService {
      * @return 注册用户列表
      * @throws Exception
      */
-    List<User> getZCLInfomation(PromotionPlan promotionPlan, PageEntity pageEntity)throws Exception;
+    List<User> getZCLInformation(PromotionPlan promotionPlan, PageEntity pageEntity)throws Exception;
 
     /**
      * 获取通过返利链接购物的订单
@@ -52,5 +52,5 @@ public interface PromotionPlanManagerService {
      * @return 订单详情列表
      * @throws Exception
      */
-    List<PurchaseOrder> getDDLInfomation(PromotionPlan promotionPlan, PageEntity pageEntity)throws Exception;
+    List<PurchaseOrder> getDDLInformation(PromotionPlan promotionPlan, PageEntity pageEntity)throws Exception;
 }
