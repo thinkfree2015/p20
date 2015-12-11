@@ -43,9 +43,5 @@
                 </do>
             </does>
         </entity>
-
-        <entity name="PCVirtualUserPlan" label="虚拟用户计划" model="com.efeiyi.jh.plan.model.VirtualUserPlan">
-            <do name="saveOrUpdateVirtualUserPlan" label="保存虚拟用户计划" access="" result="redirect:/basic/xm.do?qm=plistVirtualPlan_default"/>
-        </entity>
     </entities>
 </module>

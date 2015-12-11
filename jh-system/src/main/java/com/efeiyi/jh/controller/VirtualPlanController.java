@@ -141,13 +141,6 @@ public class VirtualPlanController {
         return new ModelAndView("/virtualPlan/virtualUserPList");
     }
 
-    private ModelAndView virtualOrderView(ModelMap modelMap) throws Exception{
-        String planId = (String) modelMap.get("planId");
-        VirtualOrderPlan virtualOrderPlan = (VirtualOrderPlan)baseManager.getObject(VirtualOrderPlan.class.getName(), planId);
-        modelMap.put("object", virtualOrderPlan);
-        return new ModelAndView("/order/virtualPlanOrderView");
-    }
-
     private ModelAndView virtualUserView(ModelMap modelMap) throws Exception{
         String planId = (String) modelMap.get("planId");
         VirtualPlan virtualPlan = (VirtualPlan)baseManager.getObject(VirtualPlan.class.getName(), planId);
@@ -156,6 +149,15 @@ public class VirtualPlanController {
         modelMap.put("object", virtualUserPlan);
 
         return new ModelAndView("/user/virtualPlanUserView");
+    }
+
+    private ModelAndView virtualOrderView(ModelMap modelMap) throws Exception{
+        String planId = (String) modelMap.get("planId");
+        VirtualPlan virtualPlan = (VirtualPlan)baseManager.getObject(VirtualPlan.class.getName(), planId);
+        VirtualOrderPlan virtualOrderPlan = new VirtualOrderPlan();
+        BeanUtils.copyProperties(virtualOrderPlan, virtualPlan);
+        modelMap.put("object", virtualOrderPlan);
+        return new ModelAndView("/order/virtualPlanOrderView");
     }
 
 }
