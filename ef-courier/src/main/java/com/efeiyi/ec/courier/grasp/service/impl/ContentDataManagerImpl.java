@@ -11,6 +11,7 @@ import org.hibernate.CacheMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -23,11 +24,12 @@ import java.util.Map;
  * Created by Administrator on 2015/12/10.
  *
  */
+@Service
 public class ContentDataManagerImpl implements ContentDataManager {
     private static Logger log = Logger.getLogger(ContentDataManagerImpl.class);
 
     @Autowired
-    ContentDataDao contentDataDao;
+    private ContentDataDao contentDataDao;
 
 
     @Override
