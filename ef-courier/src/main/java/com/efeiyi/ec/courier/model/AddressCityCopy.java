@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "organization_address_city")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
-public class AddressCity implements Serializable {
+public class AddressCityCopy implements Serializable {
     private String id;
     private String name;
     private AddressProvince addressProvince;

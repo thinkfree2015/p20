@@ -10,6 +10,9 @@
         <param-value>classpath*:config/applicationContext-*.xml,/WEB-INF/applicationContext-*.xml</param-value>
     </context-param>
 
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
     <!--编码配置-->
     <filter>
@@ -37,14 +40,14 @@
 
 
 
-    <filter>
+  <!--  <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
     <!--懒加载配置-->
     <filter>
         <filter-name>lazyLoadingFilter</filter-name>
@@ -58,9 +61,6 @@
     </filter-mapping>
 
 
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
 
     <!-- 定义DispatcherServlet -->
     <servlet>
@@ -88,10 +88,10 @@
         <filter-name>sitemesh</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <listener>
+   <!-- <listener>
         <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
-    </listener>
+    </listener>-->
     <welcome-file-list>
-        <welcome-file>/base/home.do</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

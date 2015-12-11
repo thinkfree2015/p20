@@ -15,6 +15,9 @@ import java.util.*;
 @Service
 public class spiderUtil {
     private Jsoup jsoup;
+
+
+
     public List<Object>  parserHtml(String url)throws  Exception{
         Document doc = jsoup.connect(url).get();
         Elements elements = doc.select("tr[bgcolor=#FFFFFF]");
@@ -68,5 +71,11 @@ public class spiderUtil {
         }*/
         return dataList;
     }
+    public Jsoup getJsoup() {
+        return jsoup;
+    }
 
+    public void setJsoup(Jsoup jsoup) {
+        this.jsoup = jsoup;
+    }
 }
