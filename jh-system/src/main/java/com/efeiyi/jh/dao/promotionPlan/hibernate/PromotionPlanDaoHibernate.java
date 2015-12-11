@@ -66,7 +66,7 @@ public class PromotionPlanDaoHibernate implements PromotionPlanDao {
                 .setParameter("promotionPlan", promotionPlan);
         List list = query.list();
         if (!list.isEmpty()){
-            return (String) list.get(0);
+            return String.valueOf(list.get(0));
         }
         return null;
     }
