@@ -62,7 +62,9 @@
                         </div>
                     </div>
                 </td>
-                <td>${vpe.virtualPlan.serial}</td>
+                <td>
+                    <a href="<c:url value="/virtualPlan/getTypeObjectView.do?id=${vpe.virtualPlan.id}&type=${vpe.type}"/>">${vpe.virtualPlan.serial}</a>
+                </td>
                 <td>
                     <ming800:status name="status" dataType="PCVirtualPlan.planType" checkedValue="${vpe.virtualPlan.planType}"
                                     type="normal"/>
