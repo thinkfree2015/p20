@@ -13,13 +13,8 @@ import java.util.Map;
 public interface ContentDataManager {
 
 
-    void insertDataToDB(List<Map<String, String>> list);
 
-
-    String getCityName(int number);
-
-
-    void mergerUrl( String beginName, String endName, String weight, int pageNum) throws Exception;
+    void mergerUrl( String beginName, String endName, int weight, int pageNum) throws Exception;
 
 
     void getContentData(String sendUrl,Map<String,String> map) throws Exception;

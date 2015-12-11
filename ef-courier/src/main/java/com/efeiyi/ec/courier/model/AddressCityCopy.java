@@ -12,7 +12,7 @@ import java.io.Serializable;
  * Created by Administrator on 2014/12/11.
  */
 @Entity
-@Table(name = "organization_address_city")
+@Table(name = "ef_address_city")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class AddressCityCopy implements Serializable {
     private String id;
