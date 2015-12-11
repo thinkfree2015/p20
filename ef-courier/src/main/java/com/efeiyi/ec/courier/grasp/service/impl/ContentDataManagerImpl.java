@@ -6,6 +6,7 @@ import com.efeiyi.ec.courier.model.CompanyFreight;
 import com.efeiyi.ec.courier.organization.dao.hibernate.ContentDataDao;
 import com.efeiyi.ec.courier.organization.util.OrganizationConst;
 import com.efeiyi.ec.organization.model.AddressCity;
+import org.apache.log4j.Logger;
 import org.hibernate.CacheMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -23,6 +24,7 @@ import java.util.Map;
  *
  */
 public class ContentDataManagerImpl implements ContentDataManager {
+    private static Logger log = Logger.getLogger(ContentDataManagerImpl.class);
 
     @Autowired
     ContentDataDao contentDataDao;
@@ -65,39 +67,48 @@ public class ContentDataManagerImpl implements ContentDataManager {
         List<Object> list = spiderUtil.parserHtml(sendUrl);
         List<CompanyFreight> companyFreights = new ArrayList<CompanyFreight>();
         for (Object obj: list) {//解析返回数据
-            if(obj instanceof Map){
-               int pageSize = Integer.parseInt(((Map) obj).get("size").toString());
-                for(int j =2;j<=pageSize;j++){
-                    mergerUrl(mapArgs.get("beginName"),mapArgs.get("endName"),mapArgs.get("weight"),j);
+            if (obj instanceof Map) {
+                int pageSize = Integer.parseInt(((Map) obj).get("size").toString());
+                for (int j = 2; j <= pageSize; j++) {
+                    mergerUrl(mapArgs.get("beginName"), mapArgs.get("endName"), mapArgs.get("weight"), j);
                 }
-                System.out.println(((Map)obj).get("size").toString());
-            }else if(obj instanceof List){
-                  if (!((List<Map<String,String>>)obj).isEmpty()) {
-                      for (Map<String, String> map : (List<Map<String, String>>) obj) {
-                          CompanyFreight cf = new CompanyFreight();
-                          cf.setName(map.get("name"));
-                          cf.setPrice(map.get("price"));
-                          cf.setTimes(map.get("times"));
-                          companyFreights.add(cf);
-
-
-                          System.out.println(map.get("name") + "  " + map.get("price") + "   " + map.get("times"));
-                      }
-                  }
+                System.out.println(((Map) obj).get("size").toString());
+            } else if (obj instanceof List) {
+                if (!((List<Map<String, String>>) obj).isEmpty()) {
+                    for (Map<String, String> map : (List<Map<String, String>>) obj) {
+                        log.info("开始解析---->");
+                        CompanyFreight cf = new CompanyFreight();
+                        cf.setFrom(mapArgs.get("beginName"));
+                        cf.setTo(mapArgs.get("endName"));
+                        cf.setWeight(mapArgs.get("weight"));
+                        cf.setName(map.get("name"));
+                        cf.setPrice(map.get("price"));
+                        cf.setTimes(map.get("times"));
+                        companyFreights.add(cf);
+                        System.out.println(map.get("name") + "  " + map.get("price") + "   " + map.get("times"));
+                    }
+                }
             }
         }
+        //Thread.currentThread().sleep(1000);
         batchSaveObject(companyFreights);
+
+
     }
 
     @Override
     public void batchSaveObject(List<CompanyFreight> list)throws Exception{
         Session session = contentDataDao.getSession();
         session.setCacheMode(CacheMode.IGNORE);//关闭与二级缓存的交互
+        long time = System.currentTimeMillis();
+
         for(CompanyFreight companyFreight : list){
             session.saveOrUpdate(companyFreight);
         }
         session.flush();
         session.clear();
+
+        System.out.print("消耗时间--"+(System.currentTimeMillis()-time));
     }
 
     @Override
