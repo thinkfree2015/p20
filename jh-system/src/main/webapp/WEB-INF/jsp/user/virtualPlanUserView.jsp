@@ -20,7 +20,6 @@
 </div>
 <div class="am-g">
     <form action="<c:url value='/virtualPlan/saveVirtualUser.do'/>"
-            <%--action="<c:url value='/basic/xm.do?qm=saveOrUpdateVirtualUserPlan'/>"--%>
           method="post" enctype="multipart/form-data" class="am-form am-form-horizontal">
         <input type="hidden" name="id" value="${object.id}">
         <input type="hidden" name="status" value="${object.status}"/>
