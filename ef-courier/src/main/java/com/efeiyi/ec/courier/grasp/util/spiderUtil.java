@@ -19,7 +19,7 @@ public class spiderUtil {
 
 
     public List<Object>  parserHtml(String url)throws  Exception{
-        Document doc = jsoup.connect(url).get();
+        Document doc = jsoup.connect(url).timeout(5000).get();
         Elements elements = doc.select("tr[bgcolor=#FFFFFF]");
         List<Map<String,String>> list = new ArrayList<Map<String,String>>();
         Map<String,String> size = new HashMap<String,String>();

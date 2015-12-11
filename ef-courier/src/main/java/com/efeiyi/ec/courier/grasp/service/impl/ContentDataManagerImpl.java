@@ -6,6 +6,7 @@ import com.efeiyi.ec.courier.model.AddressCityCopy;
 import com.efeiyi.ec.courier.model.CompanyFreight;
 import com.efeiyi.ec.courier.organization.dao.hibernate.ContentDataDao;
 import com.efeiyi.ec.courier.organization.util.OrganizationConst;
+import com.ming800.core.base.service.BaseManager;
 import org.apache.log4j.Logger;
 import org.hibernate.CacheMode;
 import org.hibernate.Query;
@@ -31,7 +32,8 @@ public class ContentDataManagerImpl implements ContentDataManager {
     @Autowired
     private ContentDataDao contentDataDao;
 
-
+    @Autowired
+    private BaseManager baseManager;
     @Override
     public void mergerUrl(String beginName,String endName, int weight, int pageNum) throws Exception {
         String sendUrl = OrganizationConst.EF_COURIER_BASE_URL + "&start=" + URLEncoder.encode(beginName) +
@@ -95,12 +97,12 @@ public class ContentDataManagerImpl implements ContentDataManager {
         long time = System.currentTimeMillis();
 
         for(CompanyFreight companyFreight : list){
-            session.saveOrUpdate(companyFreight);
+            baseManager.saveOrUpdate(CompanyFreight.class.getName(),companyFreight);
         }
         session.flush();
         session.clear();
 
-        System.out.println("消耗时间--"+(System.currentTimeMillis()-time));
+        System.out.println("消耗时间--" + (System.currentTimeMillis() - time));
     }
 
     @Override
