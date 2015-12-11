@@ -1,8 +1,9 @@
 package com.efeiyi.ec.courier.grasp.service.impl;
 
 import com.efeiyi.ec.courier.grasp.service.ContentDataManager;
-import com.efeiyi.ec.courier.model.AddressCity;
+import com.efeiyi.ec.courier.grasp.util.spiderUtil;
 import com.efeiyi.ec.courier.organization.util.OrganizationConst;
+import com.efeiyi.ec.organization.model.AddressCity;
 import com.ming800.core.base.dao.XdoDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,6 +20,8 @@ public class ContentDataManagerImpl implements ContentDataManager {
 
     @Autowired
     XdoDao xdoDao;
+    @Autowired
+    spiderUtil spiderUtil;
 
     @Override
     public void insertDataToDB(List<Map<String, String>> list) {
