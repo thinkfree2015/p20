@@ -58,7 +58,7 @@ public class PromotionPlan {
 
     @Column(name = "url")
     public String getUrl() {
-        return url;
+        return url+"?pch="+id;
     }
 
     public void setUrl(String url) {

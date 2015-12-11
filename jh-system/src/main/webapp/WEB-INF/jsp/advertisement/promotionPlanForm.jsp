@@ -28,20 +28,20 @@
         <input type="hidden" name="status" value="${object.status}"/>
 
         <div class="am-form-group">
-            <label for="urlDescription" class="am-u-sm-3 am-form-label">连接名称<small>*</small></label>
+            <label for="urlDescription" class="am-u-sm-3 am-form-label">链接名称<small>*</small></label>
             <div class="am-u-sm-9">
                 <input type="text" name="urlDescription" id="urlDescription" style="width: auto"
-                       title="连接名称" placeholder="连接名称"
+                       title="链接名称" placeholder="链接名称"
                        value="${object.urlDescription}" required="true">
             </div>
         </div>
 
         <div class="am-form-group">
-            <label for="urlMark" class="am-u-sm-3 am-form-label">连接标识<small>*</small></label>
+            <label for="url" class="am-u-sm-3 am-form-label">链接地址<small>*</small></label>
             <div class="am-u-sm-9">
-                <input type="text" name="urlMark" id="urlMark" style="width: auto"
-                       title="连接标识" placeholder="连接标识"
-                       value="${object.urlMark}" required="true">
+                <input type="text" name="url" id="url" style="width: auto"
+                       title="链接地址" placeholder="链接地址"
+                       value="${object.url}" required="true">
             </div>
         </div>
 
