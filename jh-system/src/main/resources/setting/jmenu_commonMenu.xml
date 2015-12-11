@@ -5,6 +5,8 @@
         <jnode url="" id="checkManager" access="admin,manager" state="closed"  text_zh_CN="虚拟数据系统">
             <jnode url="/basic/xm.do?qm=plistVirtualPlan_default"  access="admin,manager" text_zh_CN="虚拟数据列表">
                 <match url="/basic/xm.do?qm=formVirtualPlan&amp;VirtualPlan=VirtualPlan"/>
+                <match url="/virtualPlan/getTypeObjectList.do"/>
+                <match url="/virtualPlan/getTypeObjectView.do"/>
             </jnode>
         </jnode>
 

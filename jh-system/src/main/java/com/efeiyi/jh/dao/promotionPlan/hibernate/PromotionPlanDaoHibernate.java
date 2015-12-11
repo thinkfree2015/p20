@@ -66,13 +66,13 @@ public class PromotionPlanDaoHibernate implements PromotionPlanDao {
                 .setParameter("promotionPlan", promotionPlan);
         List list = query.list();
         if (!list.isEmpty()){
-            return (String) list.get(0);
+            return String.valueOf(list.get(0));
         }
         return null;
     }
 
     @Override
-    public List<User> getZCLInfomation(PromotionPlan promotionPlan, PageEntity pageEntity) throws Exception {
+    public List<User> getZCLInformation(PromotionPlan promotionPlan, PageEntity pageEntity) throws Exception {
         String hql = "select u from User u, PromotionUserRecord pur where pur.user = u and pur.promotionPlan = :promotionPlan";
         Query query = this.getSession().createQuery(hql)
                 .setParameter("promotionPlan", promotionPlan)
@@ -82,7 +82,7 @@ public class PromotionPlanDaoHibernate implements PromotionPlanDao {
     }
 
     @Override
-    public List<PurchaseOrder> getDDLInfomation(PromotionPlan promotionPlan, PageEntity pageEntity) throws Exception {
+    public List<PurchaseOrder> getDDLInformation(PromotionPlan promotionPlan, PageEntity pageEntity) throws Exception {
         String hql = "select po from PurchaseOrder po, PromotionPurchaseRecord ppr where ppr.purchaseOrder = po and ppr.promotionPlan = :promotionPlan";
         Query query = this.getSession().createQuery(hql)
                 .setParameter("promotionPlan", promotionPlan)
