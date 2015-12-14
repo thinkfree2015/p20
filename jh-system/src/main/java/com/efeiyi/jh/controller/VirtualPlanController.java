@@ -148,7 +148,7 @@ public class VirtualPlanController {
         BeanUtils.copyProperties(virtualUserPlan, virtualPlan);
         modelMap.put("object", virtualUserPlan);
 
-        return new ModelAndView("/user/virtualPlanUserView");
+        return new ModelAndView("/virtualPlan/user/virtualPlanUserView");
     }
 
     private ModelAndView virtualOrderView(ModelMap modelMap) throws Exception{
@@ -157,7 +157,7 @@ public class VirtualPlanController {
         VirtualOrderPlan virtualOrderPlan = new VirtualOrderPlan();
         BeanUtils.copyProperties(virtualOrderPlan, virtualPlan);
         modelMap.put("object", virtualOrderPlan);
-        return new ModelAndView("/order/virtualPlanOrderView");
+        return new ModelAndView("/virtualPlan/order/virtualPlanOrderView");
     }
 
 }
