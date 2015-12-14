@@ -87,7 +87,6 @@ public class ContentDataManagerImpl implements ContentDataManager {
         Thread.currentThread().sleep(1000);
         batchSaveObject(companyFreights);
 
-
     }
 
     @Override
