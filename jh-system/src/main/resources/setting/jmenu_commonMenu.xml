@@ -30,6 +30,13 @@
                 <match url="/promotionPlan/getZCLInfo.do"/>
             </jnode>
         </jnode>
+
+        <jnode url="" id="giftOrderManager" access="admin,manager" state="closed"  text_zh_CN="零售礼品订单批量管理">
+            <jnode url="/basic/xm.do?qm=plistBatchGift_default"  access="admin,manager" text_zh_CN="大礼包">
+                <match url="/basic/xm.do?qm=plistBatchGift"/>
+                <match url="/basic/xm.do?qm=listBatchGift"/>
+            </jnode>
+        </jnode>
     </jnode>
 
     <jnode id="productAndSeller" url="/main.do?jnodeId=productAndSeller" text_zh_CN="商品与商家">
