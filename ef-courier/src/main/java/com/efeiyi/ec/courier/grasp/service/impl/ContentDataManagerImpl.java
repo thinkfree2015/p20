@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.CacheMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,62 +53,74 @@ public class ContentDataManagerImpl implements ContentDataManager {
 
     @Override
     public void getContentData(String sendUrl,Map<String,String> mapArgs) throws Exception {
-        spiderUtil spiderUtil = new spiderUtil();
-        List<Object> list = null;
         try{
-            list = spiderUtil.parserHtml(sendUrl);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        List<CompanyFreight> companyFreights = new ArrayList<CompanyFreight>();
-        for (Object obj: list) {//解析返回数据
-            if (obj instanceof Map) {
-                int pageSize = Integer.parseInt(((Map) obj).get("size").toString());
-                for (int j = 2; j <= pageSize; j++) {
-                    mergerUrl(mapArgs.get("beginName"), mapArgs.get("endName"), Integer.parseInt(mapArgs.get("weight")), j);
-                }
-                System.out.println(((Map) obj).get("size").toString());
-            } else if (obj instanceof List) {
-                if (!((List<Map<String, String>>) obj).isEmpty()) {
-                    for (Map<String, String> map : (List<Map<String, String>>) obj) {
-                        log.info("开始解析---->");
-                        CompanyFreight cf = new CompanyFreight();
-                        cf.setFrom(mapArgs.get("beginName"));
-                        cf.setTo(mapArgs.get("endName"));
-                        cf.setWeight(mapArgs.get("weight"));
-                        cf.setName(map.get("name"));
-                        cf.setPrice(map.get("price"));
-                        cf.setTimes(map.get("times"));
-                        companyFreights.add(cf);
-                        System.out.println(map.get("name") + "  " + map.get("price") + "   " + map.get("times"));
+            spiderUtil spiderUtil = new spiderUtil();
+            List<Object> list = null;
+            try{
+                list = spiderUtil.parserHtml(sendUrl);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            List<CompanyFreight> companyFreights = new ArrayList<CompanyFreight>();
+            for (Object obj: list) {//解析返回数据
+                if (obj instanceof List) {
+                    if (!((List<Map<String, String>>) obj).isEmpty()) {
+                        for (Map<String, String> map : (List<Map<String, String>>) obj) {
+                            log.info("开始解析---->");
+                            CompanyFreight cf = new CompanyFreight();
+                            cf.setFrom(mapArgs.get("beginName"));
+                            cf.setTo(mapArgs.get("endName"));
+                            cf.setWeight(mapArgs.get("weight"));
+                            cf.setName(map.get("name"));
+                            cf.setPrice(map.get("price"));
+                            cf.setTimes(map.get("times"));
+                            companyFreights.add(cf);
+                            System.out.println(map.get("name") + "  " + map.get("price") + "   " + map.get("times"));
+                        }
                     }
+                }else if (obj instanceof Map){
+                    int pageSize = Integer.parseInt(((Map) obj).get("size").toString());
+                    for (int j = 2; j <= pageSize; j++) {
+                        mergerUrl(mapArgs.get("beginName"), mapArgs.get("endName"), Integer.parseInt(mapArgs.get("weight")), j);
+                    }
+                    System.out.println(((Map) obj).get("size").toString());
                 }
             }
+            Thread.currentThread().sleep(1000);
+            batchSaveObject(companyFreights);
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
-        Thread.currentThread().sleep(1000);
-        batchSaveObject(companyFreights);
 
 
     }
 
     @Override
     public void batchSaveObject(List<CompanyFreight> list)throws Exception{
-        Session session = contentDataDao.getSession();
-        session.setCacheMode(CacheMode.IGNORE);//关闭与二级缓存的交互
-        long time = System.currentTimeMillis();
+        try{
+            Session session = contentDataDao.getSession();
+            session.setCacheMode(CacheMode.IGNORE);//关闭与二级缓存的交互
+            long time = System.currentTimeMillis();
 
-        for(CompanyFreight companyFreight : list){
-            baseManager.saveOrUpdate(CompanyFreight.class.getName(),companyFreight);
+            for(CompanyFreight companyFreight : list){
+                session.saveOrUpdate(companyFreight);
+                System.out.println(companyFreight.toString());
+            }
+            session.flush();
+            session.clear();
+            System.out.println("消耗时间--" + (System.currentTimeMillis() - time));
+        }catch(Exception e){
+            e.printStackTrace();
         }
-        session.flush();
-        session.clear();
 
-        System.out.println("消耗时间--" + (System.currentTimeMillis() - time));
+
+
     }
 
     @Override
     public void findCityList(int beginNum, int endNum) throws Exception{
-        Query querySub = contentDataDao.getSession().createQuery("from AddressCityCopy as a where a.sort between ? and ?");
+     /*   Query querySub = contentDataDao.getSession().createQuery("from AddressCityCopy as a where a.sort between ? and ?");
         querySub.setInteger(0,beginNum);
         querySub.setInteger(1,endNum);
         Query queryAll = contentDataDao.getSession().createQuery("from AddressCityCopy");
@@ -126,7 +139,8 @@ public class ContentDataManagerImpl implements ContentDataManager {
                     mergerUrl(subCity.getName(),allCity.getName(),i,1);
                 }
             }
-        }
+        }*/
+        mergerUrl("北京","北京",1,1);
     }
 
 }

@@ -19,7 +19,7 @@ public class ThreadManagerImpl implements ThreadManager {
 
     public void startWork() throws Exception{
         log.info("开始创建线程池");
-        ExecutorService pool = Executors.newFixedThreadPool(OrganizationConst.THREAD_POOL_CORE_COUNT);
+        /*ExecutorService pool = Executors.newFixedThreadPool(OrganizationConst.THREAD_POOL_CORE_COUNT);
         int beginNum =1,endNum =40;
         for(int i = 1; i <= OrganizationConst.THREAD_POOL_CORE_COUNT; i++) {
             pool.execute(new Thread(new Helper(beginNum,endNum)));
@@ -30,7 +30,10 @@ public class ThreadManagerImpl implements ThreadManager {
                 endNum = beginNum+40;
             }
 
-        }
+        }*/
+        ExecutorService pool = Executors.newFixedThreadPool(1);
+        int beginNum =1,endNum =2;
+        pool.execute(new Thread(new Helper(beginNum,endNum)));
         log.info("创建线程池完成");
         pool.shutdown();
         log.info("关闭线程池");

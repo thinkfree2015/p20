@@ -80,4 +80,17 @@ public class CompanyFreight implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "CompanyFreight{" +
+                "id='" + id + '\'' +
+                ", price='" + price + '\'' +
+                ", weight='" + weight + '\'' +
+                ", times='" + times + '\'' +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
