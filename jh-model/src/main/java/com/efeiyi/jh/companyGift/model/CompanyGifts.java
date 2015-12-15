@@ -23,7 +23,7 @@ public class CompanyGifts {
     private Product product;//选择的礼品
     private Integer amount;//礼品卡数量
     private String message;//祝福语
-    private String status;//状态 0假删  1正常
+    private String status;//状态 0假删  1正常  2已生成礼品卡
     private Date createDatetime;
 
     @Id
