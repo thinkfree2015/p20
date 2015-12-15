@@ -64,3 +64,4 @@ ALTER TABLE ef_company_freight
 ADD INDEX cf_index (from_city,to_city,weight) ;//创建联合索引
 
 
+TRUNCATE TABLE ef_company_freight;

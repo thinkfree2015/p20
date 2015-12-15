@@ -21,5 +21,5 @@ public interface ContentDataManager {
     void batchSaveObject(List<CompanyFreight> list)throws Exception;
 
 
-    void findCityList(int beginNum, int endNum)throws Exception;
+    Map findCityList(int beginNum, int endNum)throws Exception;
 }

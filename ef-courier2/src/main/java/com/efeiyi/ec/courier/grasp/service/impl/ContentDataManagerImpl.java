@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Administrator on 2015/12/10.
@@ -35,6 +37,8 @@ public class ContentDataManagerImpl implements ContentDataManager {
 
     @Autowired
     private BaseManager baseManager;
+
+    private Lock lock = new ReentrantLock();
     @Override
     public void mergerUrl(String beginName,String endName, int weight, int pageNum) throws Exception {
         String sendUrl = OrganizationConst.EF_COURIER_BASE_URL + "&start=" + URLEncoder.encode(beginName) +
@@ -87,10 +91,11 @@ public class ContentDataManagerImpl implements ContentDataManager {
             }
            if (!companyFreights.isEmpty())
             batchSaveObject(companyFreights);
-            //Thread.currentThread().sleep(1000);
+            Thread.currentThread().sleep(1000);
 
         }catch(Exception e){
             e.printStackTrace();
+        }finally {
         }
 
     }
@@ -100,7 +105,6 @@ public class ContentDataManagerImpl implements ContentDataManager {
         try{
             Session session = contentDataDao.getSession();
             session.setCacheMode(CacheMode.IGNORE);//关闭与二级缓存的交互
-            Transaction  tx =session.beginTransaction();
             long time = System.currentTimeMillis();
 
             for(CompanyFreight companyFreight : list){
@@ -109,7 +113,6 @@ public class ContentDataManagerImpl implements ContentDataManager {
                 //System.out.println(companyFreight.toString());
 
             }
-            tx.commit();
             session.flush();
             session.clear();
 
@@ -122,33 +125,53 @@ public class ContentDataManagerImpl implements ContentDataManager {
 
     }
 
+    public void batchSaveObjects(int beginNum, int endNum) throws Exception{
+            Map  map =findCityList(beginNum,endNum);
+        if (!map.isEmpty()){
+            List<AddressCityCopy> allList =(List<AddressCityCopy>)map.get("allList");
+            List<AddressCityCopy> subList =(List<AddressCityCopy>)map.get("subList");
+
+             for (int i = 1;i <= 5; i++){
+                for (AddressCityCopy subCity : subList){
+                    for (AddressCityCopy allCity : allList){
+                        mergerUrl(subCity.getName(),allCity.getName(),i,1);
+                    }
+                }
+            }
+            System.out.println("插入任务执行完成");
+        }
+
+    }
+
+
+
+
     @Override
-    public void findCityList(int beginNum, int endNum) throws Exception{
-       /* Query querySub = contentDataDao.getSession().createQuery("from AddressCityCopy as a where a.sort between ? and ?");
+    public Map findCityList(int beginNum, int endNum) throws Exception{
+        Map map = new HashMap();
+        try{
+        Query querySub = contentDataDao.getSession().createQuery("from AddressCityCopy as a where a.sort between ? and ?");
         querySub.setInteger(0,beginNum);
         querySub.setInteger(1,endNum);
         Query queryAll = contentDataDao.getSession().createQuery("from AddressCityCopy");
-        List<AddressCityCopy> allList = null;
-        List<AddressCityCopy> subList = null;
-        try{
-            allList = queryAll.list();
-            subList = querySub.list();
+        List<AddressCityCopy> allList =queryAll.list();
+        List<AddressCityCopy> subList = querySub.list();
+            map.put("allList",allList);
+            map.put("subList",subList);
+            /*for (int i = 1;i <= 5; i++){
+                for (AddressCityCopy subCity : subList){
+                    for (AddressCityCopy allCity : allList){
+                        mergerUrl(subCity.getName(),allCity.getName(),i,1);
+                    }
+                }
+            }*/
+            System.out.println("查询任务完成");
         }catch (Exception e){
            e.printStackTrace();
         }
 
-        for (int i = 1;i <= 5; i++){
-            for (AddressCityCopy subCity : subList){
-                for (AddressCityCopy allCity : allList){
-                    mergerUrl(subCity.getName(),allCity.getName(),i,1);
-                }
-            }
-        }*/
-        Session session = contentDataDao.getSessionFactory().openSession();
-        Transaction  tx = session.beginTransaction();
-        mergerUrl("北京","北京",1,1);
-        tx.commit();
-        session.close();
+    return  map;
+
     }
     private  String getEncoding(String str) {
 

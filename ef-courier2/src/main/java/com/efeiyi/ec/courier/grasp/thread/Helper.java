@@ -44,7 +44,7 @@ public class Helper implements  Runnable {
     private void exeBatchInsert(){
         log.info("begin exeBatchInsert:"+beginNum+"-->"+endNum);
         try{
-            ((ContentDataManagerImpl)ContextUtils.getBean("contentDataManagerImpl")).findCityList(beginNum, endNum);
+            ((ContentDataManagerImpl)ContextUtils.getBean("contentDataManagerImpl")).batchSaveObjects(beginNum, endNum);
         }catch(Exception e){
             log.error(e);
         }
