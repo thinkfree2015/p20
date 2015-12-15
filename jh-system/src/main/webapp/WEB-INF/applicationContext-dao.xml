@@ -108,6 +108,9 @@
     <bean id="virtualPlanManagerImpl" class="com.efeiyi.jh.service.virtualPlan.impl.VirtualPlanManagerImpl"/>
     <bean id="virtualPlanDao" class="com.efeiyi.jh.dao.virtualPlan.hibernate.VirtualPlanDaoHibernate"/>
 
+    <bean id="modalServiceManagerImpl" class="com.efeiyi.jh.service.companyGift.impl.ModalServiceManagerImpl"/>
+    <bean id="modalDaoHibernate" class="com.efeiyi.jh.dao.companyGift.hibernate.ModalDaoHibernate"/>
+
     <!-- 获取序列号 -->
     <bean id="autoSerialManager" class="com.efeiyi.jh.service.AutoSerialManagerImpl" />
 
@@ -118,7 +121,5 @@
     <bean id="userLoginManager" class="com.efeiyi.jh.login.service.UserLoginManager">
         <property name="userLoginDao" ref="userDao"/>
     </bean>
-    <bean id="mySession" class="com.efeiyi.jh.service.SessionHolder" >
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+
 </beans>

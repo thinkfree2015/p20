@@ -122,6 +122,23 @@ m8uDialog.openDialog = function (artDialogLogId, artDialogLogName, type, conditi
     dialog1(url, artDialogLogId, artDialogLogName, modalTitle, url2);
 };
 
+m8uDialog.openDialog2 = function (artDialogLogId, artDialogLogName, type, basePath) {
+    var modalTitle = "";
+    var url = basePath;
+    var url2 = "";
+    if (type == 'product') {       /*所有商品*/
+        url = url + '/gift/product/list/json';
+        url2 = basePath + '/gift/productLikesName/list/json?name=';
+        modalTitle = '选择商品';
+    } else if (type == 'user') {       /*所有用户*/
+        url = url + '/gift/user/list/json';
+        url2 = basePath + '/gift/userLikesName/list/json?name=';
+        modalTitle = '选择用户';
+    }
+
+    dialog1(url, artDialogLogId, artDialogLogName, modalTitle, url2);
+};
+
 function testAjaxSubmitForm(formId, url) {
     if (afterSubmitForm(formId)){
         $.ajax({
