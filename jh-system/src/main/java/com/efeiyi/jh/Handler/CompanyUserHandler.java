@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by Administrator on 2015/12/14.
  * 保存企业用户 Handler
  */
-public class UserHandler implements DoHandler {
+public class CompanyUserHandler implements DoHandler {
 
     private BaseManager baseManager = (BaseManager) ApplicationContextUtil.getApplicationContext().getBean("baseManagerImpl");
     private XdoDao xdoDao = (XdoDao) ApplicationContextUtil.getApplicationContext().getBean("xdoDaoSupport");

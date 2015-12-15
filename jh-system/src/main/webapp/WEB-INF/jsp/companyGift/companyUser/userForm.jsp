@@ -27,10 +27,10 @@
         <input type="hidden" name="status" value="${object.status}"/>
 
         <div class="am-form-group">
-            <label for="username" class="am-u-sm-3 am-form-label">企业用户名称<small>*</small></label>
+            <label for="name" class="am-u-sm-3 am-form-label">企业用户名称<small>*</small></label>
             <div class="am-u-sm-9">
-                <input type="text" name="username" id="username" title="企业用户名称" placeholder="企业用户名称"
-                       value="${object.username}" required="true">
+                <input type="text" name="name" id="name" title="企业用户名称" placeholder="企业用户名称"
+                       value="${object.name}" required="true">
             </div>
         </div>
 

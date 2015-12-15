@@ -15,7 +15,7 @@
 </head>
 <body style="height: auto">
 <div style="text-align: left;margin-left: 10px;">
-  <input onclick="window.location.href='<c:url value="/basic/xm.do?qm=formUser"/>'"
+  <input onclick="window.location.href='<c:url value="/basic/xm.do?qm=formUser&company=company"/>'"
          type="button" class="am-btn am-btn-default am-btn-xs"
          style="margin-top: 4px;margin-bottom: 6px;margin-left:2px;height: 35px;"
          value="新建企业用户"/>
@@ -45,7 +45,7 @@
             </div>
           </div>
         </td>
-        <td>${user.username}</td>
+        <td>${user.name}</td>
         <td>
           <ming800:status name="status" dataType="PCUser.status" checkedValue="${user.status}" type="normal"/>
         </td>

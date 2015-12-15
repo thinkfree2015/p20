@@ -21,9 +21,8 @@
             <jnode url="/basic/xm.do?qm=plistUser_default"  access="admin,manager" text_zh_CN="企业用户管理">
                 <match url="/basic/xm.do?qm=formUser&amp;company=company"/>
             </jnode>
-            <jnode url="/basic/xm.do?qm=plistPromotionPlan_default"  access="admin,manager" text_zh_CN="企业礼品管理">
-                <match url="/basic/xm.do?qm=formPromotionPlan&amp;company=company"/>
-                <match url="/promotionPlan/getZCLInfo.do"/>
+            <jnode url="/basic/xm.do?qm=plistCompanyGifts_default"  access="admin,manager" text_zh_CN="企业礼品管理">
+                <match url="/basic/xm.do?qm=formCompanyGifts&amp;gift=gift"/>
             </jnode>
             <jnode url="/basic/xm.do?qm=plistPromotionPlan_default"  access="admin,manager" text_zh_CN="礼品订单管理">
                 <match url="/basic/xm.do?qm=formPromotionPlan&amp;company=company"/>
