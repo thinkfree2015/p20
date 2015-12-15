@@ -1,8 +1,9 @@
-package com.efeiyi.ec.courier.grasp;
+package com.efeiyi.ec.courier.grasp.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.efeiyi.ec.courier.grasp.service.impl.ContentDataManagerImpl;
 import com.efeiyi.ec.courier.model.CompanyFreight;
-import com.efeiyi.ec.product.model.Product;
+import com.efeiyi.ec.courier.organization.util.ContextUtils;
 import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.does.model.XQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class FreightSelectController {
 
     @Autowired
     private BaseManager baseManager;
-    @RequestMapping(value = "/courier/search.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/com/efeiyi/ec/courier/search.do", method = RequestMethod.POST)
     @ResponseBody
     public List<CompanyFreight>  getfreightofcompanies(HttpServletRequest request,@RequestBody JSONObject jsonObj) throws Exception{
         List<CompanyFreight> list = new ArrayList<CompanyFreight>();
@@ -40,5 +41,11 @@ public class FreightSelectController {
             list = baseManager.listObject(query);
         }
       return list;
+    }
+
+    @RequestMapping(value = "/test.do")
+    @ResponseBody
+    public void test(HttpServletRequest request) throws Exception{
+        ((ContentDataManagerImpl) ContextUtils.getBean("contentDataManagerImpl")).findCityList(1,10);
     }
 }

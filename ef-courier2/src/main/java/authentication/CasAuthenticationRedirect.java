@@ -1,4 +1,4 @@
-package org.springframework.security.web.authentication;
+package authentication;
 
 import org.apache.commons.lang.StringUtils;
 

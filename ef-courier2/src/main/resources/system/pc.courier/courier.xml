@@ -5,7 +5,7 @@
     <entities>
         <entity name="CompanyFreight" label="运费"
                 basic="simple" others=""
-                model="com.efeiyi.ec.courier.model.CompanyFreight">
+                model="com.efeiyi.ec.com.efeiyi.ec.courier.model.CompanyFreight">
             <does>
                 <do name="listCompanyFreight" access="" label="Flow列表"
                     result="/flow/flowPList">

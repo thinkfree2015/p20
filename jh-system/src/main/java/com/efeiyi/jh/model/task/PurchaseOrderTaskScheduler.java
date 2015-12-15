@@ -75,14 +75,16 @@ public class PurchaseOrderTaskScheduler extends BaseTimerTask {
             randomOrderTimePoint[x] = (long) (random.nextGaussian() * 60 * 60 * 1000) * virtualOrderPlan.getStandardDeviation() + futureFromNow;
         }
         Arrays.sort(randomOrderTimePoint);
-
+        System.out.println(randomOrderTimePoint[randomOrderTimePoint.length - 1]);
         int count = 0;
-        for (int x = 0; x < randomOrderTimePoint.length && randomOrderTimePoint[x] >= 0; x++) {
-            SuperTimer.getInstance().getSubTimerMap()
-                    .get(virtualOrderPlan)
-                    .getSubTimer()
-                    .schedule(new VirtualPurchaseOrderGenerator(productModelList, virtualOrderPlan), randomOrderTimePoint[x]);
-            count++;
+        for (int x = 0; x < randomOrderTimePoint.length; x++) {
+            if(randomOrderTimePoint[x] >= 0) {
+                SuperTimer.getInstance().getSubTimerMap()
+                        .get(virtualOrderPlan)
+                        .getSubTimer()
+                        .schedule(new VirtualPurchaseOrderGenerator(productModelList, virtualOrderPlan), randomOrderTimePoint[x]);
+                count++;
+            }
         }
 
         logger.info("Ready to generate " + count + " virtual orders");

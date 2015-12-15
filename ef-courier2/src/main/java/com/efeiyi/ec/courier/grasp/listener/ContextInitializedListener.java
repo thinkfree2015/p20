@@ -3,14 +3,13 @@ package com.efeiyi.ec.courier.grasp.listener;
 import com.efeiyi.ec.courier.grasp.service.impl.ThreadManagerImpl;
 import com.efeiyi.ec.courier.model.Capture;
 import com.efeiyi.ec.courier.organization.util.ContextUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Service;
-
-import org.apache.log4j.Logger;
 
 /**
  * Created by Administrator on 2015/12/10.

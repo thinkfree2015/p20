@@ -12,10 +12,10 @@ import org.hibernate.CacheMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,7 +75,6 @@ public class ContentDataManagerImpl implements ContentDataManager {
                             cf.setPrice(map.get("price"));
                             cf.setTimes(map.get("times"));
                             companyFreights.add(cf);
-                            System.out.println(map.get("name") + "  " + map.get("price") + "   " + map.get("times"));
                         }
                     }
                 }else if (obj instanceof Map){
@@ -86,8 +85,9 @@ public class ContentDataManagerImpl implements ContentDataManager {
                     System.out.println(((Map) obj).get("size").toString());
                 }
             }
-            Thread.currentThread().sleep(1000);
+           if (!companyFreights.isEmpty())
             batchSaveObject(companyFreights);
+            //Thread.currentThread().sleep(1000);
 
         }catch(Exception e){
             e.printStackTrace();
@@ -100,14 +100,19 @@ public class ContentDataManagerImpl implements ContentDataManager {
         try{
             Session session = contentDataDao.getSession();
             session.setCacheMode(CacheMode.IGNORE);//关闭与二级缓存的交互
+            Transaction  tx =session.beginTransaction();
             long time = System.currentTimeMillis();
 
             for(CompanyFreight companyFreight : list){
+                //System.out.println(getEncoding(companyFreight.getName()));
                 session.saveOrUpdate(companyFreight);
-                System.out.println(companyFreight.toString());
+                //System.out.println(companyFreight.toString());
+
             }
+            tx.commit();
             session.flush();
             session.clear();
+
             System.out.println("消耗时间--" + (System.currentTimeMillis() - time));
         }catch(Exception e){
             e.printStackTrace();
@@ -119,7 +124,7 @@ public class ContentDataManagerImpl implements ContentDataManager {
 
     @Override
     public void findCityList(int beginNum, int endNum) throws Exception{
-     /*   Query querySub = contentDataDao.getSession().createQuery("from AddressCityCopy as a where a.sort between ? and ?");
+       /* Query querySub = contentDataDao.getSession().createQuery("from AddressCityCopy as a where a.sort between ? and ?");
         querySub.setInteger(0,beginNum);
         querySub.setInteger(1,endNum);
         Query queryAll = contentDataDao.getSession().createQuery("from AddressCityCopy");
@@ -132,14 +137,70 @@ public class ContentDataManagerImpl implements ContentDataManager {
            e.printStackTrace();
         }
 
-        for (int i = 1;i <= 10; i++){
+        for (int i = 1;i <= 5; i++){
             for (AddressCityCopy subCity : subList){
                 for (AddressCityCopy allCity : allList){
                     mergerUrl(subCity.getName(),allCity.getName(),i,1);
                 }
             }
         }*/
+        Session session = contentDataDao.getSessionFactory().openSession();
+        Transaction  tx = session.beginTransaction();
         mergerUrl("北京","北京",1,1);
+        tx.commit();
+        session.close();
     }
+    private  String getEncoding(String str) {
+
+        String encode = "ISO-8859-1";
+        try {
+            if (str.equals(new String(str.getBytes(encode), encode))) {
+                String s1 = encode;
+                return s1;
+            }
+        } catch (Exception exception1) {
+        }
+        encode = "UTF-8";
+        try {
+            if (str.equals(new String(str.getBytes(encode), encode))) {
+                String s2 = encode;
+                return s2;
+            }
+        } catch (Exception exception2) {
+        }
+        encode = "GBK";
+        try {
+            if (str.equals(new String(str.getBytes(encode), encode))) {
+                String s3 = encode;
+                return s3;
+            }
+        } catch (Exception exception3) {
+        }
+         encode = "GB2312";
+        try {
+            if (str.equals(new String(str.getBytes(encode), encode))) {
+                String s = encode;
+                return s;
+            }
+        } catch (Exception exception) {
+        }
+        return "";
+    }
+    public CompanyFreight convert(CompanyFreight companyFreight){
+        CompanyFreight companyFreight1 = new CompanyFreight();
+        try{
+            companyFreight1.setTo(    new String(companyFreight.getTo().getBytes("gb2312"),"utf-8"));
+            companyFreight1.setWeight(new String(companyFreight.getWeight().getBytes("gb2312"), "utf-8"));
+            companyFreight1.setPrice( new String(companyFreight.getPrice().getBytes("gb2312"), "utf-8"));
+            companyFreight1.setFrom(  new String(companyFreight.getFrom().getBytes("gb2312"), "utf-8"));
+            companyFreight1.setName(  new String(companyFreight.getName().getBytes("gb2312"), "utf-8"));
+            companyFreight1.setTimes( new String(companyFreight.getTimes().getBytes("gb2312"), "utf-8"));
+
+        }catch (Exception e){
+           e.printStackTrace();
+        }
+return  companyFreight1;
+    }
+
 
 }
