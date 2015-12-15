@@ -17,12 +17,12 @@ import java.util.Map;
  */
 @Service
 public class spiderUtil {
-    private Jsoup jsoup;
+    //private Jsoup jsoup;
 
 
 
     public List<Object>  parserHtml(String url)throws  Exception{
-        Document doc = jsoup.connect(url).timeout(5000).get();
+        Document doc = Jsoup.connect(url).timeout(8000).get();
         Elements elements = doc.select("tr[bgcolor=#FFFFFF]");
         List<Map<String,String>> list = new ArrayList<Map<String,String>>();
         Map<String,String> size = new HashMap<String,String>();
@@ -74,11 +74,11 @@ public class spiderUtil {
         }*/
         return dataList;
     }
-    public Jsoup getJsoup() {
+ /*   public Jsoup getJsoup() {
         return jsoup;
     }
 
     public void setJsoup(Jsoup jsoup) {
         this.jsoup = jsoup;
-    }
+    }*/
 }

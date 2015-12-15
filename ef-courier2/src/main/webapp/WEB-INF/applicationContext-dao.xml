@@ -41,8 +41,8 @@
         <tx:attributes>
             <tx:method name="get*" read-only="true" rollback-for="java.lang.Exception" propagation="REQUIRED"/>
             <tx:method name="list*" read-only="true" rollback-for="java.lang.Exception" propagation="REQUIRED"/>
-           <!-- <tx:method name="findCityList"  rollback-for="java.lang.Exception" propagation="REQUIRED"/>
-            <tx:method name="batchSaveObject"   propagation="NESTED"/>-->
+            <tx:method name="findCityList" read-only="true" rollback-for="java.lang.Exception" propagation="REQUIRED"/>
+            <tx:method name="batchSaveObject"   no-rollback-for="java.lang.Exception" propagation="NESTED"/>
             <tx:method name="*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
         </tx:attributes>
     </tx:advice>
