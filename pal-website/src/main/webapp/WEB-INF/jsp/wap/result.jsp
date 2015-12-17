@@ -26,7 +26,7 @@
     <!-- Tile icon for Win8 (144x144 + tile color) -->
     <meta name="msapplication-TileImage" content="<c:url value='/resources/assets/i/app-icon72x72@2x.png'/>">
     <meta name="msapplication-TileColor" content="#0e90d2">
-    <link rel="stylesheet" href="<c:url value='/css/amazeui.min.css'/>">
+    <link rel="stylesheet" href="<c:url value='/resources/assets/css/amazeui.min.css'/>">
     <link rel="stylesheet" href="<c:url value='/css/app.css'/>">
 </head>
 <body class="bgf7">
@@ -49,13 +49,13 @@
                 <ul>
                     <li><strong>非遗项目：</strong>
 
-                        <p>${product.productSeries.name}</p></li>
+                        <p style="padding-left:89px;float:left;">${product.productSeries.name}</p></li>
                     <li><strong>商户名称：</strong>
 
-                        <p>${product.tenant.name}</p></li>
+                        <p style="padding-left:89px;float:left;">${product.tenant.name}</p></li>
                     <li><strong>创作年代：</strong>
 
-                        <p><fmt:formatDate value="${product.madeYear}" pattern="yyyy年MM月"/></p></li>
+                        <p style="padding-left:89px;float:left;"><fmt:formatDate value="${product.madeYear}" pattern="yyyy年MM月"/></p></li>
                 </ul>
             </div>
         </div>
