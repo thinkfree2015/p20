@@ -51,7 +51,7 @@ public class PalConst {
 
     public String fakeLogo = "resources/upload/fake-logo.jpg";        //查为伪的logo
     public String trueLogo = "resources/upload/true-logo.jpg";        //查为真的logo
-    public String uploadImgBaseUrl = "http://pal.efeiyi.com/";
+    public String uploadImgBaseUrl = "http://master3.efeiyi.com/";
     public int _true = 1, _false = -1, _null = 0;   //查询真伪结果, 1真 -1伪 0不显示
 
 
