@@ -72,10 +72,10 @@
                 </div>
             </div>
             <!--//End-->
-            <c:if test="${not empty product.shoppingUrl}">
-                <div class="am-list-news-ft"><a class="am-list-news-more am-btn am-btn-default"
-                                                href="${product.shoppingUrl}">立即购买</a></div>
-            </c:if>
+        </c:if>
+        <c:if test="${not empty product.shoppingUrl}">
+            <div class="am-list-news-ft"><a class="am-list-news-more am-btn am-btn-default"
+                                            href="${product.shoppingUrl}">立即购买</a></div>
         </c:if>
     </c:if>
 </article>
