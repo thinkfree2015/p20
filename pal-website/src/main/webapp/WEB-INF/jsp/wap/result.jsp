@@ -37,7 +37,7 @@
 <article class="eslite">
     <div class="am-paragraph-default">
         <c:if test="${result.authenticity != -1}">
-            <div class="imglogo"><img src="<%=imgBasePath%><c:url value='${product.logo}@!'/><%= picForm%>"/></div>
+            <div class="imglogo"><img style="width:100%" src="<%=imgBasePath%><c:url value='${product.logo}@!'/><%= picForm%>"/></div>
         </c:if>
         <div class="tips">${result.msg}</div>
     </div>
