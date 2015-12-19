@@ -16,6 +16,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +42,9 @@ public class ContentDataManagerImpl implements ContentDataManager {
     private BaseManager baseManager;
 
     private Lock lock = new ReentrantLock();
+
+    FileWriter fw =null;
+    File f = null;
     @Override
     public void mergerUrl(String beginName,String endName, int weight, int pageNum) throws Exception {
         String sendUrl = OrganizationConst.EF_COURIER_BASE_URL + "&start=" + URLEncoder.encode(beginName) +
@@ -103,22 +109,26 @@ public class ContentDataManagerImpl implements ContentDataManager {
     @Override
     public void batchSaveObject(List<CompanyFreight> list)throws Exception{
         try{
-            Session session = contentDataDao.getSession();
+           /* Session session = contentDataDao.getSession();
             session.setCacheMode(CacheMode.IGNORE);//关闭与二级缓存的交互
-            long time = System.currentTimeMillis();
-
+            long time = System.currentTimeMillis();*/
+            fw = new FileWriter(f, true);
             for(CompanyFreight companyFreight : list){
                 //System.out.println(getEncoding(companyFreight.getName()));
-                session.saveOrUpdate(companyFreight);
+                //session.saveOrUpdate(companyFreight);
                 //System.out.println(companyFreight.toString());
-
+                fw.write(companyFreight.toString());
             }
-            session.flush();
-            session.clear();
+           /* session.flush();
+            session.clear();*/
 
-            System.out.println("消耗时间--" + (System.currentTimeMillis() - time));
+            //System.out.println("消耗时间--" + (System.currentTimeMillis() - time));
         }catch(Exception e){
             e.printStackTrace();
+        }finally {
+            if (fw!=null){
+                fw.close();
+            }
         }
 
 
@@ -127,6 +137,11 @@ public class ContentDataManagerImpl implements ContentDataManager {
 
     public void batchSaveObjects(int beginNum, int endNum) throws Exception{
             Map  map =findCityList(beginNum,endNum);
+        try {//如果文件存在，则追加内容；如果文件不存在，则创建文件
+             f=new File("d:\\courier"+beginNum+".txt");
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
         if (!map.isEmpty()){
             List<AddressCityCopy> allList =(List<AddressCityCopy>)map.get("allList");
             List<AddressCityCopy> subList =(List<AddressCityCopy>)map.get("subList");
@@ -136,11 +151,20 @@ public class ContentDataManagerImpl implements ContentDataManager {
                     for (AddressCityCopy allCity : allList){
                         mergerUrl(subCity.getName(),allCity.getName(),i,1);
                     }
+                    log.error(i+"kg "+subCity.getName()+" 插入任务执行完成===================================");
+                    System.out.println(i+"kg "+subCity.getName()+" 插入任务执行完成");
                 }
+                 log.error(i+"kg  插入任务执行完成===================================");
+                 System.out.println(i+"kg  插入任务执行完成");
             }
             System.out.println("插入任务执行完成");
         }
-
+   /*     try {//如果文件存在，则追加内容；如果文件不存在，则创建文件
+            f=new File("d:\\courier"+beginNum+".txt");
+            mergerUrl("北京","北京",1,1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
     }
 
 

@@ -41,7 +41,7 @@ public class ThreadManagerImpl implements ThreadManager {
 
 
         ExecutorService pool = Executors.newFixedThreadPool(1);
-        int beginNum =1,endNum =1;
+        int beginNum =101,endNum =200;
         pool.execute(new Thread(new Helper(beginNum,endNum)));
         log.info("创建线程池完成");
         pool.shutdown();

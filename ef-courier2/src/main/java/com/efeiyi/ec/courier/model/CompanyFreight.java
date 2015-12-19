@@ -83,14 +83,7 @@ public class CompanyFreight implements Serializable {
 
     @Override
     public String toString() {
-        return "CompanyFreight{" +
-                "id='" + id + '\'' +
-                ", price='" + price + '\'' +
-                ", weight='" + weight + '\'' +
-                ", times='" + times + '\'' +
-                ", from='" + from + '\'' +
-                ", to='" + to + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+        return  price+" "+weight+" "+times+" "+from+" "+to+" "+name+"\r\n";
+
     }
 }
