@@ -22,7 +22,7 @@
 <hr/>
 <div class="am-g">
   <form <%--id="pPlanForm" onsubmit="return afterSubmitForm('pPlanForm')"--%>
-        action="<c:url value='/basic/xm.do?qm=saveOrUpdateQuestion'/>"
+        action="<c:url value='/question/saveOrUpdateQuestion.do'/>"
         method="post" enctype="multipart/form-data" class="am-form am-form-horizontal">
     <input type="hidden" name="id" value="${object.id}">
     <input type="hidden" name="serial" value="${object.serial}"/>
