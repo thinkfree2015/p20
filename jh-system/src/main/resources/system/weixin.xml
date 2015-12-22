@@ -20,8 +20,7 @@
                 </do>
                 <do name="formQuestion" label="题目表单" access="" result="/question/questionForm"/>
                 <do name="removeQuestion" label="删除题目" access="" result="redirect:/basic/xm.do?qm=plistQuestion_default"/>
-                <do name="saveOrUpdateQuestion" label="新建或更新题目" access="" result="redirect:/basic/xm.do?qm=plistQuestion_default"
-                    excute="com.efeiyi.ec.system.yale.question.handler.QuestionFormHandler"/>
+                <do name="saveOrUpdateQuestion" label="新建或更新题目" access="" result="redirect:/basic/xm.do?qm=plistQuestion_default"/>
             </does>
         </entity>
     </entities>
