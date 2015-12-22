@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/12/22.
@@ -26,6 +27,7 @@ public class Question {
     private String status;// 0假删  1正常
     private String pictureUrl;
     private Date createDatetime;
+//    private List<ExaminationQuestion> examinationQuestionList;
 
     @Id
     @GenericGenerator(name = "id", strategy = "com.ming800.core.p.model.M8idGenerator")
@@ -136,4 +138,13 @@ public class Question {
     public void setCreateDatetime(Date createDatetime) {
         this.createDatetime = createDatetime;
     }
+
+//    @OneToMany(fetch = FetchType.LAZY,mappedBy = "question")
+//    public List<ExaminationQuestion> getExaminationQuestionList() {
+//        return examinationQuestionList;
+//    }
+//
+//    public void setExaminationQuestionList(List<ExaminationQuestion> examinationQuestionList) {
+//        this.examinationQuestionList = examinationQuestionList;
+//    }
 }
