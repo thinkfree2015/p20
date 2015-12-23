@@ -76,6 +76,7 @@ public class ContentDataManagerImpl implements ContentDataManager {
                 if (obj instanceof List) {
                     if (!((List<Map<String, String>>) obj).isEmpty()) {
                         for (Map<String, String> map : (List<Map<String, String>>) obj) {
+                            System.out.println("开始解析---->");
                             log.info("开始解析---->");
                             CompanyFreight cf = new CompanyFreight();
                             cf.setFrom(mapArgs.get("beginName"));
@@ -139,13 +140,14 @@ public class ContentDataManagerImpl implements ContentDataManager {
             Map  map =findCityList(beginNum,endNum);
         try {//如果文件存在，则追加内容；如果文件不存在，则创建文件
              f=new File("d:\\courier"+beginNum+".txt");
+            System.out.println("已创建文件d:\\courier"+beginNum+".txt");
           } catch (Exception e) {
             e.printStackTrace();
           }
         if (!map.isEmpty()){
             List<AddressCityCopy> allList =(List<AddressCityCopy>)map.get("allList");
             List<AddressCityCopy> subList =(List<AddressCityCopy>)map.get("subList");
-
+            System.out.println("开始跑任务了");
              for (int i = 1;i <= 5; i++){
                 for (AddressCityCopy subCity : subList){
                     for (AddressCityCopy allCity : allList){

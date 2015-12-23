@@ -1,11 +1,12 @@
 package com.efeiyi.ec.courier.grasp.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.efeiyi.ec.courier.grasp.util.FreightConstant;
 import com.efeiyi.ec.courier.model.Product;
 import com.efeiyi.ec.courier.organization.util.ContextUtils;
-import com.ming800.core.base.service.XdoManager;
-import com.ming800.core.does.service.DoManager;
+import com.ming800.core.util.DESEncryptUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -13,18 +14,21 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigDecimal;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
-
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.net.URLEncoder;
+import java.util.Map.Entry;
 /**
  * Created by Administrator on 2015/12/15.
  *
@@ -32,10 +36,6 @@ import java.security.MessageDigest;
 @Controller
 @RequestMapping("/freight")
 public class SeachFreightFromDepponController {
-    @Autowired
-    private DoManager doManager;
-    @Autowired
-    private XdoManager xdoManager;
 
     @RequestMapping(value ="/seachPrice.do", method = RequestMethod.POST)
     @ResponseBody
@@ -99,6 +99,27 @@ public class SeachFreightFromDepponController {
     }
 
 
+    @RequestMapping(value ="/getAddress.do")
+    @ResponseBody
+    public Map getAddressFromIp(HttpServletRequest request) throws Exception {
+        Map map = new LinkedHashMap<String, String>();
+        String URI = FreightConstant.SERVER_LOCATION_API_URI;
+        String ak = FreightConstant.SERVER_AK;
+        //String sn = getSignature();
+        //JSONObject json = readJsonFromUrl(URI+"?ak="+ak+"&sn="+sn+"&ip=124.127.112.226");
+        JSONObject json = readJsonFromUrl(URI+"?ak="+ak+"&coor=bd09ll");
+        System.out.println(json.toString());
+        System.out.println(((JSONObject) json.get("content")).get("address"));
+        map.put("province",((JSONObject)((JSONObject) json.get("content")).get("address_detail")).get("province"));
+        map.put("city",((JSONObject)((JSONObject) json.get("content")).get("address_detail")).get("city"));
+        return map;
+    }
+
+
+
+
+
+
 
     private static String md5(String s) throws Exception {
         MessageDigest md5 = MessageDigest.getInstance("MD5");
@@ -144,7 +165,7 @@ public class SeachFreightFromDepponController {
 
     public static void main(String[] args) throws Exception {
 
-        String jsonString = "{\"data\":{\"destCity\": \"北京市\",\"destDistrict\": \"\"," +
+     /*   String jsonString = "{\"data\":{\"destCity\": \"北京市\",\"destDistrict\": \"\"," +
                 "\"destProvince\": \"北京\",\"logisticCompanyID\": \"DEPPON\"," +
                 "\"originalCity\": \"上海市\",\"originalDistrict\": \"\",\"originalProvince\": \"上海\"},\"weight\"}";
 
@@ -193,6 +214,95 @@ public class SeachFreightFromDepponController {
                 System.out.println(obj.toString());
 
             }
+        }*/
+
+      /*  String URI = FreightConstant.SERVER_LOCATION_API_URI;
+        String ak = FreightConstant.SERVER_AK;
+        //String sn = getSignature();
+        //JSONObject json = readJsonFromUrl(URI+"?ak="+ak+"&sn="+sn+"&ip=124.127.112.226");
+        JSONObject json = readJsonFromUrl(URI+"?ak="+ak+"&ip=202.198.16.3&coor=bd09ll");
+        System.out.println(json.toString());
+        System.out.println(((JSONObject) json.get("content")).get("address"));
+        System.out.println(((JSONObject)((JSONObject) json.get("content")).get("address_detail")).get("province"));
+        System.out.println(((JSONObject)((JSONObject) json.get("content")).get("address_detail")).get("city"));*/
+
+
+
+
+
+        String key = "i am key,let me encrypt you! 1234haha";
+        String src = "efyWikiAppServer";
+
+        System.out.println("密钥:" + key);
+        System.out.println("明文:" + src);
+
+        String strEnc = DESEncryptUtil.encrypt(src, key);
+        System.out.println("加密�?,密文:" + strEnc);
+
+        String strDes = DESEncryptUtil.decrypt(strEnc, key);
+        System.out.println("解密�?,明文:" + strDes);
+    }
+
+    private static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
         }
+        return sb.toString();
+    }
+    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+        InputStream is = new URL(url).openStream();
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+            JSONObject json = JSONObject.parseObject(jsonText);
+            return json;
+        } finally {
+            is.close();
+        }
+    }
+
+
+    private static String getSignature() throws  Exception{
+        Map paramsMap = new LinkedHashMap<String, String>();
+        paramsMap.put("ak", FreightConstant.SERVER_AK);
+        String paramsStr = toQueryString(paramsMap);
+        String wholeStr = new String("/location/ip/?" + paramsStr + FreightConstant.SERVER_AK);
+        String tempStr = URLEncoder.encode(wholeStr, "UTF-8");
+
+        // 调用下面的MD5方法得到最后的sn签名7de5a22212ffaa9e326444c75a58f9a0
+        System.out.println(MD5(tempStr));
+        return MD5(tempStr);
+    }
+    // 来自stackoverflow的MD5计算方法，调用了MessageDigest库函数，并把byte数组结果转换成16进制
+    private static String MD5(String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest
+                    .getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100)
+                        .substring(1, 3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+        }
+        return null;
+    }
+    // 对Map内所有value作utf8编码，拼接返回结果
+    private static String toQueryString(Map<?, ?> data)
+            throws UnsupportedEncodingException {
+        StringBuffer queryString = new StringBuffer();
+        for (Entry<?, ?> pair : data.entrySet()) {
+            queryString.append(pair.getKey() + "=");
+            queryString.append(URLEncoder.encode((String) pair.getValue(),
+                    "UTF-8") + "&");
+        }
+        if (queryString.length() > 0) {
+            queryString.deleteCharAt(queryString.length() - 1);
+        }
+        return queryString.toString();
     }
 }
