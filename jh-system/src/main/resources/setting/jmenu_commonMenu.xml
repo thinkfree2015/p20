@@ -2,6 +2,21 @@
 <jmenu id="virtualData">
 
     <jnode id="orderAndCustomer" url="/main.do?jnodeId=orderAndCustomer" text_zh_CN="订单与消费者">
+        <jnode url="" id="questionManager" access="admin,manager" state="closed"  text_zh_CN="答题闯关活动">
+            <jnode url="/basic/xm.do?qm=plistQuestion_default"  access="admin,manager" text_zh_CN="题库管理">
+                <match url="/basic/xm.do?qm=formQuestion"/>
+                <!--<match url="/basic/xm.do?qm=listBatchGift"/>-->
+            </jnode>
+            <jnode url="/basic/xm.do?qm=plistBatchGift_default"  access="admin,manager" text_zh_CN="试卷管理">
+                <!--<match url="/basic/xm.do?qm=plistBatchGift"/>-->
+                <!--<match url="/basic/xm.do?qm=listBatchGift"/>-->
+            </jnode>
+            <jnode url="/basic/xm.do?qm=plistBatchGift_default"  access="admin,manager" text_zh_CN="答题排行">
+                <!--<match url="/basic/xm.do?qm=plistBatchGift"/>-->
+                <!--<match url="/basic/xm.do?qm=listBatchGift"/>-->
+            </jnode>
+        </jnode>
+
         <jnode url="" id="checkManager" access="admin,manager" state="closed"  text_zh_CN="虚拟数据系统">
             <jnode url="/basic/xm.do?qm=plistVirtualPlan_default"  access="admin,manager" text_zh_CN="虚拟数据列表">
                 <match url="/basic/xm.do?qm=formVirtualPlan&amp;VirtualPlan=VirtualPlan"/>
