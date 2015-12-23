@@ -10,13 +10,15 @@ import java.util.List;
  * Created by Administrator on 2015/12/22.
  */
 @Entity
-@Table(name = "yale_examination")
+@Table(name = "yale_weixin_examination")
 public class Examination {
     private String id;
     private String serial;
-    private Date createDatetime;
+    private String name;
     private int relayLimit;
     private Date expireDate;
+    private String status;// 0假删  1正常
+    private Date createDatetime;
     private List<ExaminationQuestion> examinationQuestionList;
 
     @Id
@@ -39,22 +41,13 @@ public class Examination {
         this.serial = serial;
     }
 
-    @Column(name = "create_datetime")
-    public Date getCreateDatetime() {
-        return createDatetime;
+    @Column(name = "name")
+    public String getName() {
+        return name;
     }
 
-    public void setCreateDatetime(Date createDatetime) {
-        this.createDatetime = createDatetime;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "examination")
-    public List<ExaminationQuestion> getExaminationQuestionList() {
-        return examinationQuestionList;
-    }
-
-    public void setExaminationQuestionList(List<ExaminationQuestion> examinationQuestionList) {
-        this.examinationQuestionList = examinationQuestionList;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Column(name = "relay_limit")
@@ -73,5 +66,32 @@ public class Examination {
 
     public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
+    }
+
+    @Column(name = "status")
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @Column(name = "create_datetime")
+    public Date getCreateDatetime() {
+        return createDatetime;
+    }
+
+    public void setCreateDatetime(Date createDatetime) {
+        this.createDatetime = createDatetime;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "examination")
+    public List<ExaminationQuestion> getExaminationQuestionList() {
+        return examinationQuestionList;
+    }
+
+    public void setExaminationQuestionList(List<ExaminationQuestion> examinationQuestionList) {
+        this.examinationQuestionList = examinationQuestionList;
     }
 }
