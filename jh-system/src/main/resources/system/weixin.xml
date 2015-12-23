@@ -20,7 +20,20 @@
                 </do>
                 <do name="formQuestion" label="题目表单" access="" result="/question/questionForm"/>
                 <do name="removeQuestion" label="删除题目" access="" result="redirect:/basic/xm.do?qm=plistQuestion_default"/>
-                <do name="saveOrUpdateQuestion" label="新建或更新题目" access="" result="redirect:/basic/xm.do?qm=plistQuestion_default"/>
+            </does>
+        </entity>
+
+        <entity name="PCExamination" label="题目" model="com.efeiyi.ec.yale.question.model.Examination">
+            <does>
+                <do name="plistExamination" access="" label="题目分页列表" result="/examination/examinationPList">
+                    <query name="default" label="默认" type="auto" orderBy="id:desc">
+                        <condition name="status" defaultValue="0" operation="ne"/>
+                    </query>
+                </do>
+                <do name="formExamination" label="题目表单" access="" result="/examination/examinationForm"/>
+                <do name="removeExamination" label="删除题目" access="" result="redirect:/basic/xm.do?qm=plistExamination_default"/>
+                <do name="saveOrUpdateExamination" label="新建或更新题目" access="" result="redirect:/basic/xm.do?qm=plistExamination_default"
+                    execute="com.efeiyi.ec.system.yale.question.handler.ExaminationHandler"/>
             </does>
         </entity>
     </entities>

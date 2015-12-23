@@ -24,6 +24,7 @@
         <intercept-url pattern="/basic/**" access="isAuthenticated()"/>
         <intercept-url pattern="/index.jsp" access="isAuthenticated()"/>
         <intercept-url pattern="/plan/**" access="isAuthenticated()"/>
+        <intercept-url pattern="/question/**" access="isAuthenticated()"/>
         <intercept-url pattern="//virtualPlan/**" access="isAuthenticated()"/>
         <anonymous key="cookie_key" username="ananoymous" granted-authority="anonymous,ROLE_ANONYMOUS"/>
         <form-login login-page="/login.jsp" login-processing-url="/j_spring_security_check"

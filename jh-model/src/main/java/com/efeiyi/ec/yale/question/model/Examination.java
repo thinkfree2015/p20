@@ -15,7 +15,8 @@ public class Examination {
     private String id;
     private String serial;
     private String name;
-    private int relayLimit;
+    private String url;//试卷链接
+    private Integer relayLimit;//
     private Date expireDate;
     private String status;// 0假删  1正常
     private Date createDatetime;
@@ -50,12 +51,21 @@ public class Examination {
         this.name = name;
     }
 
+    @Column(name = "examination_url")
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Column(name = "relay_limit")
-    public int getRelayLimit() {
+    public Integer getRelayLimit() {
         return relayLimit;
     }
 
-    public void setRelayLimit(int relayLimit) {
+    public void setRelayLimit(Integer relayLimit) {
         this.relayLimit = relayLimit;
     }
 
