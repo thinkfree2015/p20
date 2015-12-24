@@ -18,7 +18,7 @@ import java.util.Date;
  * 试卷新建更新 Handler
  */
 
-public class ExaminationHandler implements DoHandler {
+public class ExaminationFormHandler implements DoHandler {
 
     private XdoDao xdoDao = (XdoDao) ApplicationContextUtil.getApplicationContext().getBean("xdoDaoSupport");
     private BaseManager baseManager = (BaseManager) ApplicationContextUtil.getApplicationContext().getBean("baseManagerImpl");

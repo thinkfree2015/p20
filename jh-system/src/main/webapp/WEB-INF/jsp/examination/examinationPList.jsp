@@ -54,7 +54,9 @@
             </div>
           </div>
         </td>
-        <td>${examination.serial}</td>
+        <td>
+          <a href="<c:url value='/basic/xm.do?qm=viewExamination&id=${examination.id}'/>" title="试卷详情">${examination.serial}</a>
+        </td>
         <td>${examination.name}</td>
         <td></td><%--点击量--%>
         <td></td><%--答题人数--%>

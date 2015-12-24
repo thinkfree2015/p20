@@ -39,7 +39,7 @@ public class QuestionController {
 
         String questionId = request.getParameter("id");
         String type = "new";
-        if (questionId.isEmpty() && !questionId.trim().equals("")) {
+        if (!questionId.isEmpty() && !questionId.trim().equals("")) {
             type = "edit";
             question = (Question)baseManager.getObject(Question.class.getName(), questionId);
         }

@@ -21,7 +21,7 @@
 </div>
 <hr/>
 <div class="am-g">
-  <form <%--id="pPlanForm" onsubmit="return afterSubmitForm('pPlanForm')"--%>
+  <form name="qForm" onsubmit="return checkRadio()"
         action="<c:url value='/question/saveOrUpdateQuestion.do'/>"
         method="post" enctype="multipart/form-data" class="am-form am-form-horizontal">
     <input type="hidden" name="id" value="${object.id}">
@@ -126,5 +126,20 @@
 
   </form>
 </div>
+<script>
+    function checkRadio(){
+        var tag = false;
+        for(var i = 0; i < document.qForm.answerTrue.length; i++){
+            if(document.qForm.answerTrue[i].checked){
+                tag = true;
+                break;
+            }
+        }
+        if(!tag){
+            alert("请设置一个正确答案");
+        }
+        return tag;
+    }
+</script>
 </body>
 </html>
