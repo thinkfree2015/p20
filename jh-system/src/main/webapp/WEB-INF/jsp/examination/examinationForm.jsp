@@ -62,7 +62,8 @@
         <input class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
                type="text" style="height: 35px"
                name="expireDate" id="expireDate" title="答题时间" placeholder="答题时间"
-               value="${object.expireDate}" required="true" readonly>
+               value="<fmt:formatDate value='${object.expireDate}'  pattern='yyyy-MM-dd'/>"
+               required="true" readonly>
       </div>
     </div>
 
