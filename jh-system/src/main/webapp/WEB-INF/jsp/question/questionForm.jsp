@@ -36,7 +36,6 @@
                value="${object.questionName}" required="true">
       </div>
     </div>
-
     <div class="am-form-group">
       <label for="answerA" class="am-u-sm-3 am-form-label">答案A<small>*</small></label>
       <div class="am-u-sm-9">
@@ -48,7 +47,6 @@
                <c:if test="${object.answerTrue == 'A'}">checked</c:if>>设为正确答案
       </div>
     </div>
-
     <div class="am-form-group">
       <label for="answerB" class="am-u-sm-3 am-form-label">答案B<small>*</small></label>
       <div class="am-u-sm-9">
@@ -60,7 +58,6 @@
                <c:if test="${object.answerTrue == 'B'}">checked</c:if>>设为正确答案
       </div>
     </div>
-
     <div class="am-form-group">
       <label for="answerC" class="am-u-sm-3 am-form-label">答案C<small>*</small></label>
       <div class="am-u-sm-9">
@@ -72,7 +69,6 @@
                <c:if test="${object.answerTrue == 'C'}">checked</c:if>>设为正确答案
       </div>
     </div>
-
     <div class="am-form-group">
       <label for="answerD" class="am-u-sm-3 am-form-label">答案D<small>*</small></label>
       <div class="am-u-sm-9">
@@ -84,14 +80,6 @@
                <c:if test="${object.answerTrue == 'D'}">checked</c:if>>设为正确答案
       </div>
     </div>
-
-    <%--<div class="am-form-group">
-      <label for="answerTrue" class="am-u-sm-3 am-form-label">正确答案<small>*</small></label>
-      <div class="am-u-sm-9">
-        <ming800:status name="answerTrue" dataType="PCQuestion.answerTrue" checkedValue="${object.answerTrue}" type="radio"/>
-      </div>
-    </div>--%>
-
     <div class="am-form-group">
       <label for="answerKnowledge" class="am-u-sm-3 am-form-label">答案知识<small>*</small></label>
       <div class="am-u-sm-9">
