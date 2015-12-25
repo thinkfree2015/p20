@@ -29,10 +29,6 @@ public class QuestionController {
     @Autowired
     private AliOssUploadManager aliOssUploadManager;
 
-//    private ProductServiceManager productServiceManager = (ProductServiceManager) ApplicationContextUtil.getApplicationContext().getBean("productServiceManagerImpl");
-//    private BaseManager baseManager = (BaseManager) ApplicationContextUtil.getApplicationContext().getBean("baseManagerImpl");
-//    private AliOssUploadManager aliOssUploadManager = (AliOssUploadManager) ApplicationContextUtil.getApplicationContext().getBean("aliOssUploadManagerImpl");
-
     @RequestMapping("/saveOrUpdateQuestion.do")
     public ModelAndView saveProduct(HttpServletRequest request, MultipartRequest multipartRequest) throws Exception {
         Question question = new Question();
