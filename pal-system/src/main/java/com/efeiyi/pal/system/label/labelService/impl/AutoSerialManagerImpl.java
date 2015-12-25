@@ -47,7 +47,7 @@ public class AutoSerialManagerImpl extends com.ming800.core.p.service.impl.AutoS
 //        }
 
         //关注下是否会出现重复数据
-        synchronized (updateSerials) {
+        synchronized (this) {
             if(!updateSerials.isEmpty()) {
                 return updateSerials.poll().toString();
             }else{
