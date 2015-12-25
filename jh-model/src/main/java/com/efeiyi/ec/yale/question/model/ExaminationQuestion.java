@@ -13,6 +13,8 @@ public class ExaminationQuestion {
     private String id;
     private Examination examination;
     private Question question;
+    private int questionOrder;
+    private String answerStatus;// 1.正确 2.错误
 
     @Id
     @GenericGenerator(name = "id", strategy = "com.ming800.core.p.model.M8idGenerator")
@@ -43,5 +45,23 @@ public class ExaminationQuestion {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    @Column(name = "question_order")
+    public int getQuestionOrder() {
+        return questionOrder;
+    }
+
+    public void setQuestionOrder(int questionOrder) {
+        this.questionOrder = questionOrder;
+    }
+
+    @Column(name = "answer_status")
+    public String getAnswerStatus() {
+        return answerStatus;
+    }
+
+    public void setAnswerStatus(String answerStatus) {
+        this.answerStatus = answerStatus;
     }
 }

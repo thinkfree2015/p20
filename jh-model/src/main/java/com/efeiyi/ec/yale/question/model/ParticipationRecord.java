@@ -10,15 +10,16 @@ import java.util.List;
  * Created by Administrator on 2015/12/22.
  */
 @Entity
-@Table(name = "yale_participation_record")
+@Table(name = "yale_weixin_participation_record")
 public class ParticipationRecord {
     private String id;
     private ParticipationRecord creationRecord;
-    private String participator;
+//    private String participatorOpenId;
     private Date createDatetime;
     private String recordType;//记录类型：1.发起答题 2.协助答题
-    private String answerTrue;//1.正确 2.错误
+    private String answer;//1.正确 2.错误
     private List<ParticipationRecord> participationRecordList;
+    private Examination examination;
 
     @Id
     @GenericGenerator(name = "id", strategy = "com.ming800.core.p.model.M8idGenerator")
@@ -32,7 +33,7 @@ public class ParticipationRecord {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "yale_participation_record_id")
+    @JoinColumn(name = "yale_weixin_participation_record_id")
     public ParticipationRecord getCreationRecord() {
         return creationRecord;
     }
@@ -41,14 +42,14 @@ public class ParticipationRecord {
         this.creationRecord = creationRecord;
     }
 
-    @Column(name = "participator")
-    public String getParticipator() {
-        return participator;
-    }
-
-    public void setParticipator(String participator) {
-        this.participator = participator;
-    }
+//    @Column(name = "open_id")
+//    public String getParticipatorOpenId() {
+//        return participatorOpenId;
+//    }
+//
+//    public void setParticipatorOpenId(String participatorOpenId) {
+//        this.participatorOpenId = participatorOpenId;
+//    }
 
     @Column(name = "create_datetime")
     public Date getCreateDatetime() {
@@ -77,12 +78,22 @@ public class ParticipationRecord {
         this.participationRecordList = participationRecordList;
     }
 
-    @Column(name = "answer_true")
-    public String isAnswerTrue() {
-        return answerTrue;
+    @Column(name = "answer")
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setAnswerTrue(String answerTrue) {
-        this.answerTrue = answerTrue;
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "yale_weixin_examination_id")
+    public Examination getExamination() {
+        return examination;
+    }
+
+    public void setExamination(Examination examination) {
+        this.examination = examination;
     }
 }

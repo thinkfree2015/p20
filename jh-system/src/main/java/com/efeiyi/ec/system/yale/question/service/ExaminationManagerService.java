@@ -1,6 +1,7 @@
 package com.efeiyi.ec.system.yale.question.service;
 
 import com.efeiyi.ec.yale.question.model.Examination;
+import com.efeiyi.ec.yale.question.model.Question;
 
 import java.util.List;
 
@@ -24,4 +25,9 @@ public interface ExaminationManagerService {
      * @return 试卷未关联的题目列表
      */
     List getQuestionList(Examination examination)throws Exception;
+
+
+    List<Examination> generateNewExamination() throws Exception;
+
+    boolean checkStarted() throws Exception;
 }

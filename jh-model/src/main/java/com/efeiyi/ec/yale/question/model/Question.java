@@ -18,6 +18,7 @@ public class Question {
     private String id;
     private String serial;
     private String questionName;
+    private String questionContent;
     private String answerA;
     private String answerB;
     private String answerC;
@@ -139,12 +140,13 @@ public class Question {
         this.createDatetime = createDatetime;
     }
 
-//    @OneToMany(fetch = FetchType.LAZY,mappedBy = "question")
-//    public List<ExaminationQuestion> getExaminationQuestionList() {
-//        return examinationQuestionList;
-//    }
-//
-//    public void setExaminationQuestionList(List<ExaminationQuestion> examinationQuestionList) {
-//        this.examinationQuestionList = examinationQuestionList;
-//    }
+    @Column(name = "question_content")
+    public String getQuestionContent() {
+        return questionContent;
+    }
+
+    public void setQuestionContent(String questionContent) {
+        this.questionContent = questionContent;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.efeiyi.ec.yale.question.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,13 +15,10 @@ import java.util.List;
 public class Examination {
     private String id;
     private String serial;
-    private String name;
-    private String url;//试卷链接
-    private Integer relayLimit;//
-    private Date expireDate;
-    private String status;// 0假删  1正常
-    private Date createDatetime;
+    private String creatorOpenId;
     private List<ExaminationQuestion> examinationQuestionList;
+    private List<ParticipationRecord> participationRecordList;
+    private ExaminationEdition examinationEdition;
 
     @Id
     @GenericGenerator(name = "id", strategy = "com.ming800.core.p.model.M8idGenerator")
@@ -42,66 +40,41 @@ public class Examination {
         this.serial = serial;
     }
 
-    @Column(name = "name")
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Column(name = "examination_url")
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    @Column(name = "relay_limit")
-    public Integer getRelayLimit() {
-        return relayLimit;
-    }
-
-    public void setRelayLimit(Integer relayLimit) {
-        this.relayLimit = relayLimit;
-    }
-
-    @Column(name = "expire_date")
-    public Date getExpireDate() {
-        return expireDate;
-    }
-
-    public void setExpireDate(Date expireDate) {
-        this.expireDate = expireDate;
-    }
-
-    @Column(name = "status")
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    @Column(name = "create_datetime")
-    public Date getCreateDatetime() {
-        return createDatetime;
-    }
-
-    public void setCreateDatetime(Date createDatetime) {
-        this.createDatetime = createDatetime;
-    }
-
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "examination")
+    @OrderBy(value = "questionOrder asc")
     public List<ExaminationQuestion> getExaminationQuestionList() {
         return examinationQuestionList;
     }
 
     public void setExaminationQuestionList(List<ExaminationQuestion> examinationQuestionList) {
         this.examinationQuestionList = examinationQuestionList;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "yale_weixin_examination_edition_id")
+    public ExaminationEdition getExaminationEdition() {
+        return examinationEdition;
+    }
+
+    public void setExaminationEdition(ExaminationEdition examinationEdition) {
+        this.examinationEdition = examinationEdition;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "examination")
+    public List<ParticipationRecord> getParticipationRecordList() {
+        return participationRecordList;
+    }
+
+    public void setParticipationRecordList(List<ParticipationRecord> participationRecordList) {
+        this.participationRecordList = participationRecordList;
+    }
+
+    @Column(name = "creator_open_id")
+    public String getCreatorOpenId() {
+        return creatorOpenId;
+    }
+
+    public void setCreatorOpenId(String creatorOpenId) {
+        this.creatorOpenId = creatorOpenId;
     }
 }

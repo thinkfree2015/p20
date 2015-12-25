@@ -80,9 +80,9 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-    <listener>
-        <listener-class>com.efeiyi.jh.listener.PlanInitListener</listener-class>
-    </listener>
+    <!--<listener>-->
+        <!--<listener-class>com.efeiyi.jh.listener.PlanInitListener</listener-class>-->
+    <!--</listener>-->
     <listener>
         <listener-class>
             org.springframework.web.util.Log4jConfigListener
