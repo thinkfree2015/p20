@@ -7,9 +7,9 @@
                 <match url="/basic/xm.do?qm=formQuestion"/>
                 <!--<match url="/basic/xm.do?qm=listBatchGift"/>-->
             </jnode>
-            <jnode url="/basic/xm.do?qm=plistBatchGift_default"  access="admin,manager" text_zh_CN="试卷管理">
-                <!--<match url="/basic/xm.do?qm=plistBatchGift"/>-->
-                <!--<match url="/basic/xm.do?qm=listBatchGift"/>-->
+            <jnode url="/basic/xm.do?qm=plistExamination_default"  access="admin,manager" text_zh_CN="试卷管理">
+                <match url="/basic/xm.do?qm=formExamination"/>
+                <match url="/basic/xm.do?qm=viewExamination"/>
             </jnode>
             <jnode url="/basic/xm.do?qm=plistBatchGift_default"  access="admin,manager" text_zh_CN="答题排行">
                 <!--<match url="/basic/xm.do?qm=plistBatchGift"/>-->

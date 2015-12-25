@@ -8,7 +8,7 @@ import javax.persistence.*;
  * Created by Administrator on 2015/12/22.
  */
 @Entity
-@Table(name = "yale_examination_question")
+@Table(name = "yale_weixin_examination_question")
 public class ExaminationQuestion {
     private String id;
     private Examination examination;
