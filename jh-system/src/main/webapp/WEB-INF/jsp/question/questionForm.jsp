@@ -37,6 +37,14 @@
       </div>
     </div>
     <div class="am-form-group">
+      <label for="questionContent" class="am-u-sm-3 am-form-label">题目内容<small>*</small></label>
+      <div class="am-u-sm-9">
+        <textarea name="questionContent" id="questionContent"
+               title="题目名称" placeholder="题目名称"
+               required="true">${object.questionContent}</textarea>
+      </div>
+    </div>
+    <div class="am-form-group">
       <label for="answerA" class="am-u-sm-3 am-form-label">答案A<small>*</small></label>
       <div class="am-u-sm-9">
         <input type="text" name="answerA" id="answerA" style="width: auto;float: left"
