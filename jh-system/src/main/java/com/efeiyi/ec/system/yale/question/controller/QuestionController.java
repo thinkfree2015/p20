@@ -50,6 +50,7 @@ public class QuestionController {
 
     private Question setBaseProperty(Question question, HttpServletRequest request, String type) throws Exception {
         String questionName = request.getParameter("questionName");
+        String questionContent = request.getParameter("questionContent");
         String answerA = request.getParameter("answerA");
         String answerB = request.getParameter("answerB");
         String answerC = request.getParameter("answerC");
@@ -58,6 +59,7 @@ public class QuestionController {
         String answerKnowledge = request.getParameter("answerKnowledge");
 
         question.setQuestionName(questionName);
+        question.setQuestionContent(questionContent);
         question.setAnswerA(answerA);
         question.setAnswerB(answerB);
         question.setAnswerC(answerC);
