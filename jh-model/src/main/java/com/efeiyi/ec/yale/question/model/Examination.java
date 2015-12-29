@@ -15,7 +15,7 @@ import java.util.List;
 public class Examination {
     private String id;
     private String serial;
-    private String creatorOpenId;
+    private Participator participator;
     private List<ExaminationQuestion> examinationQuestionList;
     private List<ParticipationRecord> participationRecordList;
     private ExaminationEdition examinationEdition;
@@ -69,12 +69,14 @@ public class Examination {
         this.participationRecordList = participationRecordList;
     }
 
-    @Column(name = "creator_open_id")
-    public String getCreatorOpenId() {
-        return creatorOpenId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_user_id")
+    @Where(clause = "")
+    public Participator getParticipator() {
+        return participator;
     }
 
-    public void setCreatorOpenId(String creatorOpenId) {
-        this.creatorOpenId = creatorOpenId;
+    public void setParticipator(Participator participator) {
+        this.participator = participator;
     }
 }
