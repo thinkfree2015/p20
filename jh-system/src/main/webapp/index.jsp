@@ -33,7 +33,6 @@
 <br>
 <br>
 <br>
-<%--<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7f6aa253b75466dd&redirect_uri=http://pal.efeiyi.com/jh-system/answer/getTokenByCode.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect">点击开始答题</a>--%>
-<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7f6aa253b75466dd&redirect_uri=http://pal.efeiyi.com/jh-system/answer/getTokenByCode.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect">点击开始答题</a>
+<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7f6aa253b75466dd&redirect_uri=http://pal.efeiyi.com/jh-system/answer/saveOrGetUserByCode.do?resultPage=redirect:/jh-system/answer/start2Answer.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect">点击开始答题</a>
 </body>
 </html>

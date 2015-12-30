@@ -14,6 +14,7 @@ public class ExaminationQuestion {
     private Examination examination;
     private Question question;
     private int questionOrder;
+    private String answer;
     private String answerStatus;// 1.正确 2.错误
 
     @Id
@@ -63,5 +64,14 @@ public class ExaminationQuestion {
 
     public void setAnswerStatus(String answerStatus) {
         this.answerStatus = answerStatus;
+    }
+
+    @Column(name = "answer")
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }
