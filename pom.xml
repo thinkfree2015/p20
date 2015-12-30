@@ -18,7 +18,6 @@
         <module>xh-model</module>
         <module>jh-system</module>
         <module>jh-model</module>
-        <module>ef-courier</module>
     </modules>
 
     <repositories>

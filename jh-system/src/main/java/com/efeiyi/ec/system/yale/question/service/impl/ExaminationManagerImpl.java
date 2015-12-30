@@ -30,4 +30,14 @@ public class ExaminationManagerImpl implements ExaminationManagerService {
     public List getQuestionList(Examination examination) throws Exception {
         return examinationDao.getQuestionList(examination);
     }
+
+    @Override
+    public List<Examination> generateNewExamination() throws Exception {
+        return null;
+    }
+
+    @Override
+    public boolean checkStarted() throws Exception {
+        return false;
+    }
 }

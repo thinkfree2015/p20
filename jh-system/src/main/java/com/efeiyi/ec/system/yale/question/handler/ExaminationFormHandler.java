@@ -22,7 +22,7 @@ public class ExaminationFormHandler implements DoHandler {
 
     private XdoDao xdoDao = (XdoDao) ApplicationContextUtil.getApplicationContext().getBean("xdoDaoSupport");
     private BaseManager baseManager = (BaseManager) ApplicationContextUtil.getApplicationContext().getBean("baseManagerImpl");
-    private AutoSerialManager autoSerialManager = (AutoSerialManager) ApplicationContextUtil.getApplicationContext().getBean("autoSerialManagerImpl");
+//    private AutoSerialManager autoSerialManager = (AutoSerialManager) ApplicationContextUtil.getApplicationContext().getBean("autoSerialManagerImpl");
 
     @Override
     public ModelMap handle(ModelMap modelMap, HttpServletRequest request) throws Exception {
@@ -37,11 +37,11 @@ public class ExaminationFormHandler implements DoHandler {
         Do tempDo = (Do) modelMap.get("tempDo");
         examination = (Examination) XDoUtil.processSaveOrUpdateTempObject(tempDo, examination, Examination.class, request, type, xdoDao);
 
-        if ("new".equals(type)){
-            examination.setStatus("1");
-            examination.setSerial(autoSerialManager.nextSerial("examination"));
-            examination.setCreateDatetime(new Date());
-        }
+//        if ("new".equals(type)){
+//            examination.setStatus("1");
+//            examination.setSerial(autoSerialManager.nextSerial("examination"));
+//            examination.setCreateDatetime(new Date());
+//        }
 
         modelMap.put("object", examination);
         return modelMap;
