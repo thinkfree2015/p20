@@ -1,5 +1,6 @@
 package com.efeiyi.ec.system.yale.question.service.impl;
 
+import com.efeiyi.ec.organization.model.Consumer;
 import com.efeiyi.ec.system.yale.question.dao.ExaminationDao;
 import com.efeiyi.ec.system.yale.question.service.ExaminationManagerService;
 import com.efeiyi.ec.yale.question.model.*;
@@ -44,9 +45,9 @@ public class ExaminationManagerImpl implements ExaminationManagerService {
     }
 
     @Override
-    public Examination generateNewExamination(Participator participator,ExaminationEdition examinationEdition) throws Exception {
+    public Examination generateNewExamination(Consumer consumer,ExaminationEdition examinationEdition) throws Exception {
         Examination examination = new Examination();
-        examination.setParticipator(participator);
+        examination.setConsumer(consumer);
         examination.setSerial(autoSerialManager.nextSerial("purchaseOrder"));
         examination.setExaminationEdition(examinationEdition);
         baseManager.saveOrUpdate(Examination.class.getName(),examination);
@@ -64,9 +65,8 @@ public class ExaminationManagerImpl implements ExaminationManagerService {
 
         ParticipationRecord participationRecord = new ParticipationRecord();
         participationRecord.setCreateDatetime(new Date());
-        participationRecord.setParticipatorOpenId(participator.getId());
         participationRecord.setRecordType("1");
-        participationRecord.setParticipatorOpenId(participator.getOpenid());
+        participationRecord.setUnionid(consumer.getUnionid());
         baseManager.saveOrUpdate(ParticipationRecord.class.getName(),participationRecord);
 
         return examination;

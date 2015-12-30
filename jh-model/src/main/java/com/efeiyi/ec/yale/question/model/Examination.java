@@ -1,10 +1,10 @@
 package com.efeiyi.ec.yale.question.model;
 
+import com.efeiyi.ec.organization.model.Consumer;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,7 +15,7 @@ import java.util.List;
 public class Examination {
     private String id;
     private String serial;
-    private Participator participator;
+    private Consumer consumer;
     private List<ExaminationQuestion> examinationQuestionList;
     private List<ParticipationRecord> participationRecordList;
     private ExaminationEdition examinationEdition;
@@ -70,13 +70,13 @@ public class Examination {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_user_id")
+    @JoinColumn(name = "organization_consumer_id")
     @Where(clause = "")
-    public Participator getParticipator() {
-        return participator;
+    public Consumer getConsumer() {
+        return consumer;
     }
 
-    public void setParticipator(Participator participator) {
-        this.participator = participator;
+    public void setConsumer(Consumer consumer) {
+        this.consumer = consumer;
     }
 }

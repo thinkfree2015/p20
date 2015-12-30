@@ -14,7 +14,7 @@ import java.util.List;
 public class ParticipationRecord {
     private String id;
     private ParticipationRecord creationRecord;
-    private String participatorOpenId;
+    private String unionid;
     private Date createDatetime;
     private String recordType;//记录类型：1.发起答题 2.协助答题
     private String answer;//1.正确 2.错误
@@ -42,13 +42,13 @@ public class ParticipationRecord {
         this.creationRecord = creationRecord;
     }
 
-    @Column(name = "open_id")
-    public String getParticipatorOpenId() {
-        return participatorOpenId;
+    @Column(name = "unionid")
+    public String getUnionid() {
+        return unionid;
     }
 
-    public void setParticipatorOpenId(String participatorOpenId) {
-        this.participatorOpenId = participatorOpenId;
+    public void setUnionid(String unionid) {
+        this.unionid = unionid;
     }
 
     @Column(name = "create_datetime")

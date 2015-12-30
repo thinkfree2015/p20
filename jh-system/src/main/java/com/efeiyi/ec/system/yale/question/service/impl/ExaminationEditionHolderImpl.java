@@ -1,8 +1,8 @@
 package com.efeiyi.ec.system.yale.question.service.impl;
 
+import com.efeiyi.ec.system.yale.question.service.ExaminationEditionHolder;
 import com.efeiyi.ec.yale.question.model.ExaminationEdition;
 import com.ming800.core.base.service.BaseManager;
-import com.ming800.core.util.ApplicationContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Administrator on 2015/12/25.
  */
 @Service
-public class ExaminationEditionHolderImpl implements ExaminationEditionHolder{
+public class ExaminationEditionHolderImpl implements ExaminationEditionHolder {
 
     private LinkedList<ExaminationEdition> examinationEditionList = new LinkedList<ExaminationEdition>();
     @Autowired

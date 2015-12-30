@@ -1,9 +1,8 @@
 package com.efeiyi.ec.system.yale.question.service;
 
+import com.efeiyi.ec.organization.model.Consumer;
 import com.efeiyi.ec.yale.question.model.Examination;
 import com.efeiyi.ec.yale.question.model.ExaminationEdition;
-import com.efeiyi.ec.yale.question.model.Participator;
-import com.efeiyi.ec.yale.question.model.Question;
 
 import java.util.List;
 
@@ -29,6 +28,6 @@ public interface ExaminationManagerService {
     List getQuestionList(Examination examination)throws Exception;
 
 
-    Examination generateNewExamination(Participator participator,ExaminationEdition examinationEdition) throws Exception;
+    Examination generateNewExamination(Consumer consumer,ExaminationEdition examinationEdition) throws Exception;
 
 }

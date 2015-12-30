@@ -1,4 +1,4 @@
-package com.efeiyi.ec.system.yale.question.service.impl;
+package com.efeiyi.ec.system.yale.question.service;
 
 import com.efeiyi.ec.yale.question.model.ExaminationEdition;
 

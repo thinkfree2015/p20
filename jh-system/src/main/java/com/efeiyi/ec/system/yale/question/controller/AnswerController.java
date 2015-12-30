@@ -1,11 +1,11 @@
 package com.efeiyi.ec.system.yale.question.controller;
 
+import com.efeiyi.ec.organization.model.Consumer;
 import com.efeiyi.ec.system.yale.question.service.ExaminationManagerService;
-import com.efeiyi.ec.system.yale.question.service.WeixinLoginManager;
-import com.efeiyi.ec.system.yale.question.service.impl.ExaminationEditionHolder;
+import com.efeiyi.ec.system.yale.question.service.WxLoginManager;
+import com.efeiyi.ec.system.yale.question.service.ExaminationEditionHolder;
 import com.efeiyi.ec.yale.question.model.Examination;
 import com.efeiyi.ec.yale.question.model.ExaminationQuestion;
-import com.efeiyi.ec.yale.question.model.Participator;
 import com.ming800.core.base.service.BaseManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,20 +30,21 @@ public class AnswerController {
     @Autowired
     ExaminationEditionHolder examinationEditionHolder;
     @Autowired
-    WeixinLoginManager weixinLoginManager;
+    WxLoginManager weixinLoginManager;
 
     @RequestMapping("/start2Answer.do")
     public ModelAndView start2Answer(HttpServletRequest request, ModelMap modelMap) throws Exception {
         LinkedHashMap queryMap = new LinkedHashMap();
+        queryMap.put("unionid",request.getParameter("unionid"));
 //        System.out.println(request.getParameter("openid"));
-        Participator participator = (Participator) baseManager.getUniqueObjectByConditions("from Participator where openid =:openid", queryMap);
-        if(participator == null){
+        Consumer consumer = (Consumer) baseManager.getUniqueObjectByConditions("from Participator where unionid =:unionid", queryMap);
+        if(consumer == null){
             throw new Exception("请先登录微信");
         }
-        queryMap.put("participator", participator);
+        queryMap.put("consumer", consumer);
         queryMap.put("examinationEdition", examinationEditionHolder.getExaminationEditionList().get(0));
-        Examination examination = (Examination) baseManager.getUniqueObjectByConditions("from Examination where participator=:participator and examinationEdition=:examinationEdition", queryMap);
-        modelMap.addAttribute("examination", examination != null ? examination : examinationManagerService.generateNewExamination(participator,examinationEditionHolder.getExaminationEditionList().get(0)));
+        Examination examination = (Examination) baseManager.getUniqueObjectByConditions("from Examination where consumer=:consumer and examinationEdition=:examinationEdition", queryMap);
+        modelMap.addAttribute("examination", examination != null ? examination : examinationManagerService.generateNewExamination(consumer,examinationEditionHolder.getExaminationEditionList().get(0)));
 
         return new ModelAndView(request.getParameter("resultPage"), modelMap);
     }
@@ -80,8 +81,8 @@ public class AnswerController {
         String[] accessTokenAndOpenid = weixinLoginManager.getAccessToken(code);
 
         //用token获取user信息
-        Participator participator = weixinLoginManager.saveOrGetParticipator(accessTokenAndOpenid[0], accessTokenAndOpenid[1]);
-        modelMap.put("participator",participator);
+        Consumer consumer = weixinLoginManager.saveOrGetConsumer(accessTokenAndOpenid[0], accessTokenAndOpenid[1]);
+        modelMap.put("consumer",consumer);
         return new ModelAndView(request.getParameter("resultPage"),modelMap);
     }
 
