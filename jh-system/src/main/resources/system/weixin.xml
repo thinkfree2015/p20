@@ -38,5 +38,18 @@
                     execute="com.efeiyi.ec.system.yale.question.handler.ExaminationFormHandler"/>
             </does>
         </entity>
+
+        <entity name="PCQuestionSetting" label="试卷" model="com.efeiyi.ec.yale.question.model.QuestionSetting">
+            <does>
+                <do name="listQuestionSetting" access="" label="试卷分页列表" result="/questionSetting/questionSettingView"
+                    execute="com.efeiyi.ec.system.yale.question.handler.QuestionSettingViewHandler">
+                    <query name="default" label="默认" type="auto" orderBy="id:desc">
+                        <condition name="status" defaultValue="0" operation="ne"/>
+                    </query>
+                </do>
+                <do name="saveOrUpdateQuestionSetting" label="新建或更新试卷" access="" result="redirect:/basic/xm.do?qm=listQuestionSetting_default"
+                    execute="com.efeiyi.ec.system.yale.question.handler.QuestionSettingSaveHandler"/>
+            </does>
+        </entity>
     </entities>
 </module>
