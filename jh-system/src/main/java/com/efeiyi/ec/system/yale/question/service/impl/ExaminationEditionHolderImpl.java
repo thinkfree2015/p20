@@ -20,9 +20,9 @@ public class ExaminationEditionHolderImpl implements ExaminationEditionHolder {
     private BaseManager baseManager ;
 
     public List<ExaminationEdition> getExaminationEditionList() {
-        if (examinationEditionList == null) {
+        if (examinationEditionList.isEmpty()) {
             synchronized (this) {
-                if (examinationEditionList == null) {
+                if (examinationEditionList.isEmpty()) {
                     examinationEditionList.addAll(baseManager.listObject("from ExaminationEdition order by createDatetime desc"));
                 }
             }
