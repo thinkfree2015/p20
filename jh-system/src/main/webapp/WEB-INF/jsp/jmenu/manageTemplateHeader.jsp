@@ -1,4 +1,4 @@
-<%@ page import="com.efeiyi.jh.login.util.AuthorizationUtil" %>
+<%--<%@ page import="com.efeiyi.jh.login.util.AuthorizationUtil" %>--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <header class="am-topbar admin-header">
@@ -32,14 +32,14 @@
           <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
         </ul>
       </li>
-        <%
-            if (AuthorizationUtil.getUser().getId() != null) {
-        %>
+        <%--<%--%>
+            <%--if (AuthorizationUtil.getUser().getId() != null) {--%>
+        <%--%>--%>
         <li class="am-hide-sm-only"><a href="<c:url value="/j_spring_security_logout"/>" id="admin-fullscreen"><span
                 class="am-icon-power-off"></span> <span class="admin-fullText">退出系统</span></a></li>
-        <%
-            }
-        %>
+        <%--<%--%>
+            <%--}--%>
+        <%--%>--%>
     </ul>
   </div>
 </header>

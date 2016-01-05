@@ -329,7 +329,7 @@
     <tag>
         <description>pc:pagination</description>
         <name>pcPageList</name>
-        <tag-class>com.efeiyi.jh.taglib.PCPageList</tag-class>
+        <tag-class>com.efeiyi.ec.system.yale.question.taglib.PCPageList</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <description>request name space</description>

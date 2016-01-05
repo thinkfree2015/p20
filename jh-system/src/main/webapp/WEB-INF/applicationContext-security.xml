@@ -18,25 +18,25 @@
     <!--<intercept-url pattern="/**" access="ROLE_ADMIN"/>-->
     <!--</http>-->
 
-    <http realm="Contacts Realm" use-expressions="true">
-        <csrf disabled="true"/>
-        <intercept-url pattern="/main.do" access="isAuthenticated()"/>
-        <intercept-url pattern="/basic/**" access="isAuthenticated()"/>
-        <intercept-url pattern="/index.jsp" access="isAuthenticated()"/>
-        <intercept-url pattern="/plan/**" access="isAuthenticated()"/>
-        <intercept-url pattern="/question/**" access="isAuthenticated()"/>
-        <intercept-url pattern="//virtualPlan/**" access="isAuthenticated()"/>
-        <anonymous key="cookie_key" username="ananoymous" granted-authority="anonymous,ROLE_ANONYMOUS"/>
-        <form-login login-page="/login.jsp" login-processing-url="/j_spring_security_check"
-                    authentication-success-handler-ref="loginSuccessHandler"
-                    authentication-failure-handler-ref="loginFailureHandler"/>
-        <logout invalidate-session="true" logout-url="/j_spring_security_logout"
-                success-handler-ref="loginOutSuccessHandler"/>
+    <!--<http realm="Contacts Realm" use-expressions="true">-->
+        <!--<csrf disabled="true"/>-->
+        <!--<intercept-url pattern="/main.do" access="isAuthenticated()"/>-->
+        <!--<intercept-url pattern="/basic/**" access="isAuthenticated()"/>-->
+        <!--<intercept-url pattern="/index.jsp" access="isAuthenticated()"/>-->
+        <!--<intercept-url pattern="/plan/**" access="isAuthenticated()"/>-->
+        <!--<intercept-url pattern="/question/**" access="isAuthenticated()"/>-->
+        <!--<intercept-url pattern="//virtualPlan/**" access="isAuthenticated()"/>-->
+        <!--<anonymous key="cookie_key" username="ananoymous" granted-authority="anonymous,ROLE_ANONYMOUS"/>-->
+        <!--<form-login login-page="/login.jsp" login-processing-url="/j_spring_security_check"-->
+                    <!--authentication-success-handler-ref="loginSuccessHandler"-->
+                    <!--authentication-failure-handler-ref="loginFailureHandler"/>-->
+        <!--<logout invalidate-session="true" logout-url="/j_spring_security_logout"-->
+                <!--success-handler-ref="loginOutSuccessHandler"/>-->
 
-    </http>
-    <b:bean id="loginOutSuccessHandler" class="com.efeiyi.jh.login.LoginOutSuccessHandler"/>
-    <b:bean id="loginSuccessHandler" class="com.efeiyi.jh.login.LoginSuccessHandler"/>
-    <b:bean id="loginFailureHandler" class="com.efeiyi.jh.login.LoginFailureHandler"/>
+    <!--</http>-->
+    <!--<b:bean id="loginOutSuccessHandler" class="com.efeiyi.jh.login.LoginOutSuccessHandler"/>-->
+    <!--<b:bean id="loginSuccessHandler" class="com.efeiyi.jh.login.LoginSuccessHandler"/>-->
+    <!--<b:bean id="loginFailureHandler" class="com.efeiyi.jh.login.LoginFailureHandler"/>-->
 
     <!--<authentication-manager>-->
     <!--<authentication-provider>-->
@@ -45,9 +45,9 @@
     <!--</user-service>-->
     <!--</authentication-provider>-->
     <!--</authentication-manager>-->
-    <authentication-manager>
-        <authentication-provider user-service-ref="userLoginManager">
-            <password-encoder hash="sha"/>
-        </authentication-provider>
-    </authentication-manager>
+    <!--<authentication-manager>-->
+        <!--<authentication-provider user-service-ref="userLoginManager">-->
+            <!--<password-encoder hash="sha"/>-->
+        <!--</authentication-provider>-->
+    <!--</authentication-manager>-->
 </b:beans>

@@ -102,27 +102,27 @@
     <!--<bean id="modalServiceManagerImpl" class="com.efeiyi.pal.system.base.service.impl.ModalServiceManagerImpl"/>-->
     <!--<bean id="modalDaoHibernate" class="com.efeiyi.pal.system.base.dao.hibernate.ModalDaoHibernate"/>-->
 
-    <bean id="promotionPlanManagerImpl" class="com.efeiyi.jh.service.promotionPlan.impl.PromotionPlanManagerImpl"/>
-    <bean id="promotionPlanDao" class="com.efeiyi.jh.dao.promotionPlan.hibernate.PromotionPlanDaoHibernate"/>
+    <!--<bean id="promotionPlanManagerImpl" class="com.efeiyi.jh.service.promotionPlan.impl.PromotionPlanManagerImpl"/>-->
+    <!--<bean id="promotionPlanDao" class="com.efeiyi.jh.dao.promotionPlan.hibernate.PromotionPlanDaoHibernate"/>-->
 
-    <bean id="virtualPlanManagerImpl" class="com.efeiyi.jh.service.virtualPlan.impl.VirtualPlanManagerImpl"/>
-    <bean id="virtualPlanDao" class="com.efeiyi.jh.dao.virtualPlan.hibernate.VirtualPlanDaoHibernate"/>
+    <!--<bean id="virtualPlanManagerImpl" class="com.efeiyi.jh.service.virtualPlan.impl.VirtualPlanManagerImpl"/>-->
+    <!--<bean id="virtualPlanDao" class="com.efeiyi.jh.dao.virtualPlan.hibernate.VirtualPlanDaoHibernate"/>-->
 
-    <bean id="modalServiceManagerImpl" class="com.efeiyi.jh.service.companyGift.impl.ModalServiceManagerImpl"/>
-    <bean id="modalDaoHibernate" class="com.efeiyi.jh.dao.companyGift.hibernate.ModalDaoHibernate"/>
+    <!--<bean id="modalServiceManagerImpl" class="com.efeiyi.jh.service.companyGift.impl.ModalServiceManagerImpl"/>-->
+    <!--<bean id="modalDaoHibernate" class="com.efeiyi.jh.dao.companyGift.hibernate.ModalDaoHibernate"/>-->
 
-    <bean id="examinationManagerImpl" class="com.efeiyi.ec.system.yale.question.service.impl.ExaminationManagerImpl"/>
-    <bean id="examinationDaoHibernate" class="com.efeiyi.ec.system.yale.question.dao.hibernate.ExaminationDaoHibernate"/>
-    <!-- 获取序列号 -->
-    <bean id="autoSerialManager" class="com.efeiyi.jh.service.AutoSerialManagerImpl" />
+    <!--<bean id="examinationManagerImpl" class="com.efeiyi.ec.system.yale.question.service.impl.ExaminationManagerImpl"/>-->
+    <!--<bean id="examinationDaoHibernate" class="com.efeiyi.ec.system.yale.question.dao.hibernate.ExaminationDaoHibernate"/>-->
+    <!--&lt;!&ndash; 获取序列号 &ndash;&gt;-->
+    <!--<bean id="autoSerialManager" class="com.efeiyi.jh.service.AutoSerialManagerImpl" />-->
 
     <!--userDao用于spring security-->
-    <bean id="userDao" class="com.efeiyi.jh.login.dao.hibernate.UserDaoHibernate">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    <bean id="userLoginManager" class="com.efeiyi.jh.login.service.UserLoginManager">
-        <property name="userLoginDao" ref="userDao"/>
-    </bean>
+    <!--<bean id="userDao" class="com.efeiyi.jh.login.dao.hibernate.UserDaoHibernate">-->
+        <!--<property name="sessionFactory" ref="sessionFactory"/>-->
+    <!--</bean>-->
+    <!--<bean id="userLoginManager" class="com.efeiyi.jh.login.service.UserLoginManager">-->
+        <!--<property name="userLoginDao" ref="userDao"/>-->
+    <!--</bean>-->
     <!-- 获取历期答题-->
     <bean id="examinationEditionHolder" class="com.efeiyi.ec.system.yale.question.service.impl.ExaminationEditionHolderImpl" />
 </beans>
