@@ -50,7 +50,9 @@ public class WxQAManagerImpl implements WxQAManager {
         Session session = sessionFactory.getCurrentSession();
 
         for (ExaminationQuestion examinationQuestion : examination.getExaminationQuestionList()) {
-            if (examinationQuestion.getQuestion().getAnswerTrue().equals(examinationQuestion.getAnswer())) {
+            Question question = (Question)session.get(Question.class.getName(), examinationQuestion.getQuestion().getId());
+
+            if (question.getAnswerTrue().equals(examinationQuestion.getAnswer())) {
                 examinationQuestion.setAnswerStatus("1");
             } else {
                 examinationQuestion.setAnswerStatus("2");

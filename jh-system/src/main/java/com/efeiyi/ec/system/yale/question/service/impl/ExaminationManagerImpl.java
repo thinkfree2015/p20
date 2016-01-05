@@ -28,12 +28,6 @@ public class ExaminationManagerImpl implements ExaminationManagerService {
     @Qualifier("examinationDaoHibernate")
     private ExaminationDao examinationDao;
 
-    @Autowired
-    private AutoSerialManager autoSerialManager;
-
-    @Autowired
-    private BaseManager baseManager;
-
     @Override
     public List getExaminationQuestionList(Examination examination) throws Exception {
         return examinationDao.getExaminationQuestionList(examination);
