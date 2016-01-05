@@ -21,7 +21,7 @@
 </div>
 <hr/>
 <div class="am-g">
-  <form id="settingForm" onsubmit="return formValidate('settingForm')"
+  <form onsubmit="return formValidate()"
         action="<c:url value='/basic/xm.do?qm=saveOrUpdateQuestionSetting'/>"
         method="post" enctype="multipart/form-data" class="am-form am-form-horizontal">
     <input type="hidden" name="id" value="${questionSetting.id}">
@@ -176,19 +176,16 @@
       }
   }
 
-  function formValidate(val){
+  function formValidate(){
       var rank11 = $("#rank11").val();
       var rank12 = $("#rank12").val();
-      var prize10 = $("#prize10").val();
+
       var rank21 = $("#rank21").val();
       var rank22 = $("#rank22").val();
-      var prize20 = $("#prize20").val();
+
       var rank31 = $("#rank31").val();
       var rank32 = $("#rank32").val();
-      var prize30 = $("#prize30").val();
-      var commonPrizeTrue = $("#commonPrizeTrue").val();
-      var commonPrize = $("#commonPrize").val();
-      var couponUrl = $("#couponUrl").val();
+
 
       if(rank21.trim() != ""){
           if(rank12.trim() == ""){

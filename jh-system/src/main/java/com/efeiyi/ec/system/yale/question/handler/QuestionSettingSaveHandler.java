@@ -34,6 +34,9 @@ public class QuestionSettingSaveHandler implements DoHandler {
         qs = (QuestionSetting) XDoUtil.processSaveOrUpdateTempObject(tempDo, qs, qs.getClass(), request, type, xdoDao);
 
         String commonPrizeTrue = request.getParameter("commonPrizeTrue");
+        if (commonPrizeTrue == null || commonPrizeTrue.trim().equals("")){
+            commonPrizeTrue = "0";
+        }
         qs.setCommonPrizeTrue(commonPrizeTrue);
 
         modelMap.put("object", qs);
