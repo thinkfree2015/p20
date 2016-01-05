@@ -4,6 +4,7 @@ import com.efeiyi.ec.organization.model.Consumer;
 import com.efeiyi.ec.system.yale.question.service.WxQAManager;
 import com.efeiyi.ec.system.yale.question.service.ExaminationEditionHolder;
 import com.efeiyi.ec.yale.question.model.Examination;
+import com.efeiyi.ec.yale.question.model.ParticipationRecord;
 import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.p.model.WxCalledRecord;
 import com.ming800.core.util.CookieTool;
@@ -51,6 +52,26 @@ public class AnswerController {
         Examination examination = (Examination) baseManager.getUniqueObjectByConditions("from Examination where consumer=:consumer and examinationEdition=:examinationEdition", queryMap);
         modelMap.addAttribute("examination", examination != null ? examination : wxQAManager.generateNewExamination(consumer, examinationEditionHolder.getExaminationEditionList().get(0)));
 
+        return new ModelAndView(request.getParameter("resultPage"), modelMap);
+    }
+
+    @RequestMapping("/assistAnswer.do")
+    public ModelAndView assistAnswer(HttpServletRequest request, Examination examination, ModelMap modelMap) throws Exception {
+        String openid = request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
+        LinkedHashMap queryMap = new LinkedHashMap();
+        queryMap.put("openid", openid);
+        System.out.println("openid:" + openid + "   unionid:" + request.getParameter("unionid"));
+        WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey = 'wxqaopenid' and data =:openid", queryMap);
+        Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
+
+        ParticipationRecord participationRecord = new ParticipationRecord();
+        participationRecord.setCreateDatetime(new Date());
+        participationRecord.setRecordType("2");
+        participationRecord.setConsumer(consumer);
+        baseManager.saveOrUpdate(ParticipationRecord.class.getName(),participationRecord);
+
+
+        modelMap.put("examination",examination);
         return new ModelAndView(request.getParameter("resultPage"), modelMap);
     }
 
@@ -110,9 +131,9 @@ public class AnswerController {
         wxCalledRecord.setData(openid);
         wxCalledRecord.setAccessToken((String)map.get("refreshToken"));
         wxCalledRecord.setCreateDatetime(new Date());
-        //头像暂放callback。。。。
+        //头像暂放callback
         wxCalledRecord.setCallback(headimgurl);
-        //名字暂放请求来源。。。。
+        //名字暂放请求来源
         wxCalledRecord.setRequestSource(nickname);
         baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
 

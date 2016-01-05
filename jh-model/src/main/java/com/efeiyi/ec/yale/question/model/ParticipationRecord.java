@@ -1,5 +1,6 @@
 package com.efeiyi.ec.yale.question.model;
 
+import com.efeiyi.ec.organization.model.Consumer;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import java.util.List;
 public class ParticipationRecord {
     private String id;
     private ParticipationRecord creationRecord;
-    private String unionid;
+    private Consumer consumer;
     private Date createDatetime;
     private String recordType;//记录类型：1.发起答题 2.协助答题
     private String answer;//1.正确 2.错误
@@ -40,15 +41,6 @@ public class ParticipationRecord {
 
     public void setCreationRecord(ParticipationRecord creationRecord) {
         this.creationRecord = creationRecord;
-    }
-
-    @Column(name = "unionid")
-    public String getUnionid() {
-        return unionid;
-    }
-
-    public void setUnionid(String unionid) {
-        this.unionid = unionid;
     }
 
     @Column(name = "create_datetime")
@@ -95,5 +87,15 @@ public class ParticipationRecord {
 
     public void setExamination(Examination examination) {
         this.examination = examination;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "consumer_id")
+    public Consumer getConsumer() {
+        return consumer;
+    }
+
+    public void setConsumer(Consumer consumer) {
+        this.consumer = consumer;
     }
 }

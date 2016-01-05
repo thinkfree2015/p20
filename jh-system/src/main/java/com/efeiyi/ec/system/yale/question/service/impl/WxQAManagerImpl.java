@@ -52,11 +52,10 @@ public class WxQAManagerImpl implements WxQAManager {
         for (ExaminationQuestion examinationQuestion : examination.getExaminationQuestionList()) {
             if (examinationQuestion.getQuestion().getAnswerTrue().equals(examinationQuestion.getAnswer())) {
                 examinationQuestion.setAnswerStatus("1");
-                session.saveOrUpdate(examinationQuestion.getClass().getName(), examinationQuestion);
             } else {
-                modelMap.put("answerResult", false);
-                break;
+                examinationQuestion.setAnswerStatus("2");
             }
+            session.saveOrUpdate(examinationQuestion.getClass().getName(), examinationQuestion);
         }
     }
     @Transactional
@@ -84,7 +83,7 @@ public class WxQAManagerImpl implements WxQAManager {
         ParticipationRecord participationRecord = new ParticipationRecord();
         participationRecord.setCreateDatetime(new Date());
         participationRecord.setRecordType("1");
-        participationRecord.setUnionid(consumer.getUnionid());
+        participationRecord.setConsumer(consumer);
         session.saveOrUpdate(ParticipationRecord.class.getName(),participationRecord);
 
         return examination;
