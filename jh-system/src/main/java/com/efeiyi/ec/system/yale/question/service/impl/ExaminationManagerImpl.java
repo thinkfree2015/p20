@@ -44,32 +44,4 @@ public class ExaminationManagerImpl implements ExaminationManagerService {
         return examinationDao.getQuestionList(examination);
     }
 
-    @Override
-    public Examination generateNewExamination(Consumer consumer,ExaminationEdition examinationEdition) throws Exception {
-        Examination examination = new Examination();
-        examination.setConsumer(consumer);
-        examination.setSerial(autoSerialManager.nextSerial("purchaseOrder"));
-        examination.setExaminationEdition(examinationEdition);
-        baseManager.saveOrUpdate(Examination.class.getName(),examination);
-
-        List<Question> questionList = baseManager.listObject("from Question where status != 0",new LinkedHashMap());
-        Random random = new Random();
-        for(int x=0; x<examinationEdition.getQuestionCount(); x++){
-            Question question = questionList.get(random.nextInt());
-            ExaminationQuestion examinationQuestion = new ExaminationQuestion();
-            examinationQuestion.setQuestion(question);
-            examinationQuestion.setExamination(examination);
-            examinationQuestion.setQuestionOrder(x);
-            baseManager.saveOrUpdate(ExaminationQuestion.class.getName(),examinationQuestion);
-        }
-
-        ParticipationRecord participationRecord = new ParticipationRecord();
-        participationRecord.setCreateDatetime(new Date());
-        participationRecord.setRecordType("1");
-        participationRecord.setUnionid(consumer.getUnionid());
-        baseManager.saveOrUpdate(ParticipationRecord.class.getName(),participationRecord);
-
-        return examination;
-    }
-
 }

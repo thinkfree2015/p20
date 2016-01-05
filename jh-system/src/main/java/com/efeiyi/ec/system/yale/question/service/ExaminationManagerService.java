@@ -28,6 +28,4 @@ public interface ExaminationManagerService {
     List getQuestionList(Examination examination)throws Exception;
 
 
-    Examination generateNewExamination(Consumer consumer,ExaminationEdition examinationEdition) throws Exception;
-
 }

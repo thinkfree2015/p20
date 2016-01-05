@@ -1,11 +1,9 @@
 package com.efeiyi.ec.system.yale.question.controller;
 
 import com.efeiyi.ec.organization.model.Consumer;
-import com.efeiyi.ec.system.yale.question.service.ExaminationManagerService;
 import com.efeiyi.ec.system.yale.question.service.WxQAManager;
 import com.efeiyi.ec.system.yale.question.service.ExaminationEditionHolder;
 import com.efeiyi.ec.yale.question.model.Examination;
-import com.efeiyi.ec.yale.question.model.ExaminationQuestion;
 import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.p.model.WxCalledRecord;
 import com.ming800.core.util.CookieTool;
@@ -31,8 +29,6 @@ import java.util.Map;
 public class AnswerController {
 
     @Autowired
-    ExaminationManagerService examinationManagerService;
-    @Autowired
     BaseManager baseManager;
     @Autowired
     ExaminationEditionHolder examinationEditionHolder;
@@ -40,7 +36,7 @@ public class AnswerController {
     WxQAManager wxQAManager;
 
     @RequestMapping("/start2Answer.do")
-    public ModelAndView start2Answer(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
+    public ModelAndView start2Answer(HttpServletRequest request, /*HttpServletResponse response,*/ ModelMap modelMap) throws Exception {
         String openid = request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
 //        wxQAManager.saveOpenid2Cache(request,response,openid);
 
@@ -53,7 +49,7 @@ public class AnswerController {
         queryMap.put("consumer", consumer);
         queryMap.put("examinationEdition", examinationEditionHolder.getExaminationEditionList().get(0));
         Examination examination = (Examination) baseManager.getUniqueObjectByConditions("from Examination where consumer=:consumer and examinationEdition=:examinationEdition", queryMap);
-        modelMap.addAttribute("examination", examination != null ? examination : examinationManagerService.generateNewExamination(consumer, examinationEditionHolder.getExaminationEditionList().get(0)));
+        modelMap.addAttribute("examination", examination != null ? examination : wxQAManager.generateNewExamination(consumer, examinationEditionHolder.getExaminationEditionList().get(0)));
 
         return new ModelAndView(request.getParameter("resultPage"), modelMap);
     }
@@ -61,15 +57,8 @@ public class AnswerController {
     @RequestMapping("/commitAnswer.do")
     public ModelAndView commitAnswer(HttpServletRequest request, ModelMap modelMap, Examination examination) throws Exception {
 
-        for (ExaminationQuestion examinationQuestion : examination.getExaminationQuestionList()) {
-            if (examinationQuestion.getQuestion().getAnswerTrue().equals(examinationQuestion.getAnswer())) {
-                examinationQuestion.setAnswerStatus("1");
-                baseManager.saveOrUpdate(examinationQuestion.getClass().getName(), examinationQuestion);
-            } else {
-                modelMap.put("answerResult", false);
-                break;
-            }
-        }
+        wxQAManager.saveAnswer(examination,modelMap);
+
         modelMap.put("examination", examination);
         return new ModelAndView(request.getParameter("resultPage"), modelMap);
     }
