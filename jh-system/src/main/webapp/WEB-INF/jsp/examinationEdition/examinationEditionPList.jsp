@@ -11,61 +11,49 @@
 <%@ taglib prefix="ming800" uri="http://java.ming800.com/taglib" %>
 <html>
 <head>
-  <title>试卷管理</title>
+  <title>答题期次管理</title>
 </head>
 <body style="height: auto">
 <div style="text-align: left;margin-left: 10px;">
-  <input onclick="window.location.href='<c:url value="/basic/xm.do?qm=formExamination"/>'"
+  <input onclick="window.location.href='<c:url value="/basic/xm.do?qm=formExaminationEdition"/>'"
          type="button" class="am-btn am-btn-default am-btn-xs"
          style="margin-top: 4px;margin-bottom: 6px;margin-left:2px;height: 35px;"
-         value="新建试卷"/>
+         value="新建期次"/>
 </div>
 <div>
   <table class="am-table am-table-bordered am-table-radius am-table-striped">
     <tr style="text-align:left">
       <td>操作</td>
-      <td>试卷编号</td>
-      <td>试卷名称</td>
-      <td>点击量</td>
-      <td>答题人数</td>
-      <td>题目链接</td>
+      <td>期次名称</td>
       <td>答题时间</td>
+      <td>题目数量</td>
       <td>创建时间</td>
     </tr>
-    <c:forEach items="${requestScope.pageInfo.list}" var="examination">
+    <c:forEach items="${requestScope.pageInfo.list}" var="examEdition">
       <tr>
         <td>
           <div class="am-btn-toolbar">
             <div class="am-btn-group am-btn-group-xs" style="width: 100%;">
               <button onclick="window.location.href='<c:url
-                      value="/basic/xm.do?qm=formExamination&id=${examination.id}"/>'"
+                      value="/basic/xm.do?qm=formExaminationEdition&id=${examEdition.id}"/>'"
                       class="am-btn am-btn-default am-btn-xs am-hide-sm-only"><span
                       class="am-icon-edit"></span> 编辑
               </button>
               <button onclick="window.location.href='<c:url
-                      value="/basic/xm.do?qm=removeExamination&id=${examination.id}"/>'"
+                      value="/basic/xm.do?qm=removeExaminationEdition&id=${examEdition.id}"/>'"
                       class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span
                       class="am-icon-trash-o"></span> 删除
-              </button>
-              <button onclick="window.location.href='<c:url
-                      value=""/>'"
-                      class="am-btn am-btn-default am-btn-xs am-hide-sm-only">答题详情
               </button>
             </div>
           </div>
         </td>
+        <td><a href="<c:url value='/basic/xm.do?qm=viewExaminationEdition&id=${examEdition.id}'/>">${examEdition.name}</a></td>
         <td>
-          <a href="<c:url value='/basic/xm.do?qm=viewExamination&id=${examination.id}'/>" title="试卷详情">${examination.serial}</a>
+          <fmt:formatDate value="${examEdition.expireDate}" pattern="yyyy-MM-dd"/>
         </td>
-        <td>${examination.name}</td>
-        <td></td><%--点击量--%>
-        <td></td><%--答题人数--%>
-        <td>${examination.url}</td>
+        <td>${examEdition.questionCount}</td>
         <td>
-          <fmt:formatDate value="${examination.expireDate}" pattern="yyyy-MM-dd"/>
-        </td>
-        <td>
-          <fmt:formatDate value="${examination.createDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+          <fmt:formatDate value="${examEdition.createDatetime}" pattern="yyyy-MM-dd HH:mm:ss"/>
         </td>
       </tr>
     </c:forEach>

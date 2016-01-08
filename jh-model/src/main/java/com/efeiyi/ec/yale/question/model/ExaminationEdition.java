@@ -19,7 +19,7 @@ public class ExaminationEdition {
     private Date expireDate;
     private String status;// 0假删  1正常
     private Date createDatetime;
-    private int questionCount;
+    private Integer questionCount;
     private List<Examination> examinationList;
 
     @Id
@@ -87,13 +87,13 @@ public class ExaminationEdition {
         this.createDatetime = createDatetime;
     }
 
-    @Column(name = "count")
-    public int getQuestionCount() {
+    @Column(name = "question_count")
+    public Integer getQuestionCount() {
         //暂定5
         return 5;
     }
 
-    public void setQuestionCount(int questionCount) {
+    public void setQuestionCount(Integer questionCount) {
         this.questionCount = questionCount;
     }
 }

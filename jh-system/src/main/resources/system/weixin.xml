@@ -23,31 +23,30 @@
             </does>
         </entity>
 
-        <entity name="PCExamination" label="试卷" model="com.efeiyi.ec.yale.question.model.Examination">
+        <entity name="PCExamination" label="试卷" model="com.efeiyi.ec.yale.question.model.ExaminationEdition">
             <does>
-                <do name="plistExamination" access="" label="试卷分页列表" result="/examination/examinationPList">
+                <do name="plistExaminationEdition" access="" label="试卷分页列表" result="/examinationEdition/examinationEditionPList">
                     <query name="default" label="默认" type="auto" orderBy="id:desc">
                         <condition name="status" defaultValue="0" operation="ne"/>
                     </query>
                 </do>
-                <do name="formExamination" label="试卷表单" access="" result="/examination/examinationForm"/>
-                <do name="viewExamination" label="试卷详情" access="" result="/examination/examinationView"
-                    execute="com.efeiyi.ec.system.yale.question.handler.ExaminationViewHandler"/>
-                <do name="removeExamination" label="删除试卷" access="" result="redirect:/basic/xm.do?qm=plistExamination_default"/>
-                <do name="saveOrUpdateExamination" label="新建或更新试卷" access="" result="redirect:/basic/xm.do?qm=plistExamination_default"
-                    execute="com.efeiyi.ec.system.yale.question.handler.ExaminationFormHandler"/>
+                <do name="formExaminationEdition" label="试卷表单" access="" result="/examinationEdition/examinationEditionForm"/>
+                <do name="viewExaminationEdition" label="试卷详情" access="" result="/examinationEdition/examinationEditionView"/>
+                <do name="removeExaminationEdition" label="删除试卷" access="" result="redirect:/basic/xm.do?qm=plistExaminationEdition_default"/>
+                <do name="saveOrUpdateExaminationEdition" label="新建或更新试卷" access="" result="redirect:/basic/xm.do?qm=plistExaminationEdition_default"
+                    execute="com.efeiyi.ec.system.yale.question.handler.ExaminationFormEditionHandler"/>
             </does>
         </entity>
 
-        <entity name="PCQuestionSetting" label="试卷" model="com.efeiyi.ec.yale.question.model.QuestionSetting">
+        <entity name="PCQuestionSetting" label="答题设置" model="com.efeiyi.ec.yale.question.model.QuestionSetting">
             <does>
-                <do name="listQuestionSetting" access="" label="试卷分页列表" result="/questionSetting/questionSettingView"
+                <do name="listQuestionSetting" access="" label="答题设置" result="/questionSetting/questionSettingView"
                     execute="com.efeiyi.ec.system.yale.question.handler.QuestionSettingViewHandler">
                     <query name="default" label="默认" type="auto" orderBy="id:desc">
                         <condition name="status" defaultValue="0" operation="ne"/>
                     </query>
                 </do>
-                <do name="saveOrUpdateQuestionSetting" label="新建或更新试卷" access="" result="redirect:/basic/xm.do?qm=listQuestionSetting_default"
+                <do name="saveOrUpdateQuestionSetting" label="保存设置" access="" result="redirect:/basic/xm.do?qm=listQuestionSetting_default"
                     execute="com.efeiyi.ec.system.yale.question.handler.QuestionSettingSaveHandler"/>
             </does>
         </entity>
