@@ -14,18 +14,18 @@ import java.math.BigDecimal;
 public class QuestionSetting {
 
     private String id;
-    private Integer rank11;
-    private Integer rank12;
-    private BigDecimal prize10;
-    private Integer rank21;
-    private Integer rank22;
-    private BigDecimal prize20;
-    private Integer rank31;
-    private Integer rank32;
-    private BigDecimal prize30;
-    private BigDecimal commonPrize;
-    private String commonPrizeTrue;
-    private String couponUrl;
+    private Integer rank11;//阶段一开始  第1名到100名奖励10元，阶段一开始=1
+    private Integer rank12;//阶段一结束                     阶段一结束=100
+    private BigDecimal prize10;//阶段一奖励                 阶段一奖励=10
+    private Integer rank21;//阶段二开始
+    private Integer rank22;//阶段二结束
+    private BigDecimal prize20;//阶段二奖励
+    private Integer rank31;//阶段三开始
+    private Integer rank32;//阶段三结束
+    private BigDecimal prize30;//阶段三奖励
+    private BigDecimal commonPrize;//普通奖励
+    private String commonPrizeTrue;//是否启用普通奖  0不启用  1启用
+    private String couponUrl;//优惠券地址
     private String status;
 
     @Id

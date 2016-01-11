@@ -71,7 +71,7 @@ public class Examination {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_consumer_id")
-    @Where(clause = "")
+    @Where(clause = "status != 0")
     public Consumer getConsumer() {
         return consumer;
     }
