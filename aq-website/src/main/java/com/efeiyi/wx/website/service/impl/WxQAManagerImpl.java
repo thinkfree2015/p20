@@ -59,7 +59,18 @@ public class WxQAManagerImpl implements WxQAManager {
             }
             session.saveOrUpdate(eq.getClass().getName(), eq);
         }
+
+        Consumer consumer = (Consumer) modelMap.get("consumer");
+
+        ParticipationRecord participationRecord = new ParticipationRecord();
+        participationRecord.setCreateDatetime(new Date());
+        participationRecord.setRecordType("1");
+        participationRecord.setConsumer(consumer);
+        participationRecord.setExamination(examination);
+        session.saveOrUpdate(ParticipationRecord.class.getName(),participationRecord);
+
     }
+
     @Transactional
     @Override
     public Examination generateNewExamination(Consumer consumer,ExaminationEdition examinationEdition) throws Exception {
@@ -72,6 +83,7 @@ public class WxQAManagerImpl implements WxQAManager {
         session.saveOrUpdate(Examination.class.getName(),examination);
 
         List<Question> questionList = baseManager.listObject("from Question where status != 0",new LinkedHashMap());
+        List<ExaminationQuestion> eqList = new ArrayList<>();//已选取的题目列表
         List<Integer> indexList = new ArrayList<>();//已取到题目的序号
         Random random = new Random();
         for(int x=0; x<examinationEdition.getQuestionCount();){
@@ -89,13 +101,10 @@ public class WxQAManagerImpl implements WxQAManager {
             examinationQuestion.setExamination(examination);
             examinationQuestion.setQuestionOrder(x);
             session.saveOrUpdate(ExaminationQuestion.class.getName(),examinationQuestion);
+            eqList.add(examinationQuestion);
         }
 
-        ParticipationRecord participationRecord = new ParticipationRecord();
-        participationRecord.setCreateDatetime(new Date());
-        participationRecord.setRecordType("1");
-        participationRecord.setConsumer(consumer);
-        session.saveOrUpdate(ParticipationRecord.class.getName(),participationRecord);
+        examination.setExaminationQuestionList(eqList);
 
         return examination;
     }

@@ -50,13 +50,25 @@ public class AnswerController {
 
         WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey = 'wxqaopenid' and data =:openid", queryMap);
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
+        //清空queryMap以便后续使用
         queryMap.clear();
         queryMap.put("consumer", consumer);
         queryMap.put("examinationEdition", examinationEditionHolder.getExaminationEditionList().get(0));
-        Examination examination = (Examination) baseManager.getUniqueObjectByConditions("from Examination where consumer=:consumer and examinationEdition=:examinationEdition", queryMap);
-        modelMap.addAttribute("examination", examination != null ? examination : wxQAManager.generateNewExamination(consumer, examinationEditionHolder.getExaminationEditionList().get(0)));
+        String examStr = "from Examination where consumer=:consumer and examinationEdition=:examinationEdition";
+        Examination examination = (Examination) baseManager.getUniqueObjectByConditions(examStr, queryMap);
 
-        return new ModelAndView("/question/examination", modelMap);
+        examination = (examination != null ? examination : wxQAManager.generateNewExamination(consumer, examinationEditionHolder.getExaminationEditionList().get(0)));
+        modelMap.addAttribute("examination", examination);
+        modelMap.put("consumer", consumer);//用于答题完成后更新答题记录
+
+        //判断是否已经答题
+        queryMap.clear();
+        queryMap.put("consumer", consumer);
+        queryMap.put("examination", examination);
+        String pprStr = "from ParticipationRecord where consumer=:consumer and examination=:examination";
+        ParticipationRecord ppr = (ParticipationRecord) baseManager.getUniqueObjectByConditions(pprStr, queryMap);
+
+        return new ModelAndView((ppr == null? "/question/examination":"/question/examinationResult"), modelMap);
     }
 
     @RequestMapping("/assistAnswer.do")
@@ -86,6 +98,10 @@ public class AnswerController {
 
         String answerList = request.getParameter("answerList");
         modelMap.put("answerList", answerList);
+
+        String consumerId = request.getParameter("consumerId");
+        Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
+        modelMap.put("consumer", consumer);
 
         wxQAManager.saveAnswer(exam, modelMap);
 

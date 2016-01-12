@@ -24,7 +24,14 @@
         <c:set var="count" value="${count = count + 1}" scope="page"/>
       </c:if>
     </c:forEach>
-    <div class="add-head">你共有${count}道题回答错误？不过没关系，可以让好友帮助你，俗话说得好，众人拾柴火焰高嘛。</div>
+    <div class="add-head">
+      <c:if test="${count != 0}">
+        你共有${count}道题回答错误？不过没关系，可以让好友帮助你，俗话说得好，众人拾柴火焰高嘛。
+      </c:if>
+      <c:if test="${count == 0}">
+        哇塞，居然全对了!
+      </c:if>
+    </div>
     <div class="wea-bg"></div>
   </div>
   <div class="topic ae">
@@ -48,7 +55,9 @@
         </c:forEach>
       </ul>
       <div class="txc-btn">
-        <a href="" class="wechat-btn cart-ft">我&nbsp;要&nbsp;求&nbsp;助</a>
+        <c:if test="${count != 0}">
+          <a href="" class="wechat-btn cart-ft">我&nbsp;要&nbsp;求&nbsp;助</a>
+        </c:if>
         <a href=""  class="wechat-btn cart-ft">领&nbsp;取&nbsp;奖&nbsp;励</a>
       </div>
     </div>

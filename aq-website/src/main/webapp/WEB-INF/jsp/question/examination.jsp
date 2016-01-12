@@ -39,6 +39,7 @@
 <script>
   var answerList = "";
   var examId = "${examination.id}";
+  var consumerId = "${consumer.id}";
   function answerQuestion(val){
     if(answerList == ""){
       answerList = val;
@@ -56,8 +57,8 @@
         _this++;
         $(".topic").eq(_this).addClass("active").siblings().removeClass("active");
         if(_this == _index){
-          alert(answerList);
-          window.location.href="<c:url value='/answer/commitAnswer.do?examId='/>" + examId + "&answerList=" + answerList;
+          var url = "?examId="+ examId + "&answerList=" + answerList + "&consumerId=" + consumerId;
+          window.location.href="<c:url value='/answer/commitAnswer.do'/>" + url ;
         }
       });
     })();
