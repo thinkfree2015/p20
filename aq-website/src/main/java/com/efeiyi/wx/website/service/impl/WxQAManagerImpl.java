@@ -71,6 +71,34 @@ public class WxQAManagerImpl implements WxQAManager {
 
     }
 
+    @Override
+    public void saveHelpAnswer(Examination examination, ModelMap modelMap) {
+        Session session = sessionFactory.getCurrentSession();
+
+        String answerList = (String) modelMap.get("answerList");
+        String[] answers = answerList.split(",");
+
+        for (ExaminationQuestion eq: examination.getExaminationQuestionList()){
+            String answer = answers[eq.getQuestionOrder()-1];
+            eq.setAnswer(answer);
+            if (answer.equalsIgnoreCase(eq.getQuestion().getAnswerTrue())){
+                eq.setAnswerStatus("1");
+            }else {
+                eq.setAnswerStatus("2");
+            }
+            session.saveOrUpdate(eq.getClass().getName(), eq);
+        }
+
+        Consumer consumer = (Consumer) modelMap.get("consumer");
+
+        ParticipationRecord participationRecord = new ParticipationRecord();
+        participationRecord.setCreateDatetime(new Date());
+        participationRecord.setRecordType("2");
+        participationRecord.setConsumer(consumer);
+        participationRecord.setExamination(examination);
+        session.saveOrUpdate(ParticipationRecord.class.getName(),participationRecord);
+    }
+
     @Transactional
     @Override
     public Examination generateNewExamination(Consumer consumer,ExaminationEdition examinationEdition) throws Exception {

@@ -31,7 +31,12 @@
       <p><span>三、</span>打错的题目可以发送给好友求助，好友必须在当天24：00以前完成答题，否则无效；</p>
       <p><span>四、</span>e飞蚁保留对活动的最终解释权。</p>
     </div>
-    <div class="explain-btn"><a href="<c:url value='/answer/start2Answer.do?openid=123456'/>" class="wechat-btn">马上开始</a></div>
+    <div class="explain-btn">
+      <c:if test="${not empty examination}">
+        <a href="<c:url value='/answer/assistAnswer.do?openid=789&examId=${examination.id}'/>" class="wechat-btn">帮助好友</a>
+      </c:if>
+      <a href="<c:url value='/answer/start2Answer.do?openid=123456'/>" class="wechat-btn">马上开始</a>
+    </div>
     <div class="explain-bg"></div>
   </div>
 </div>

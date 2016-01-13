@@ -16,4 +16,6 @@ public interface WxQAManager {
     void saveOpenid2Cache(HttpServletRequest request, HttpServletResponse response, String openid) throws Exception;
     void saveAnswer(Examination examination, ModelMap modelMap) throws Exception;
     Examination generateNewExamination(Consumer consumer, ExaminationEdition examinationEdition) throws Exception;
+
+    void saveHelpAnswer(Examination examination, ModelMap modelMap);
 }

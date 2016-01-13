@@ -72,7 +72,7 @@ public class AnswerController {
     }
 
     @RequestMapping("/assistAnswer.do")
-    public ModelAndView assistAnswer(HttpServletRequest request, Examination examination, ModelMap modelMap) throws Exception {
+    public ModelAndView assistAnswer(HttpServletRequest request, ModelMap modelMap) throws Exception {
         String openid = request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("openid", openid);
@@ -80,15 +80,18 @@ public class AnswerController {
         WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey = 'wxqaopenid' and data =:openid", queryMap);
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
 
-        ParticipationRecord participationRecord = new ParticipationRecord();
-        participationRecord.setCreateDatetime(new Date());
-        participationRecord.setRecordType("2");
-        participationRecord.setConsumer(consumer);
-        baseManager.saveOrUpdate(ParticipationRecord.class.getName(),participationRecord);
+        String examId = request.getParameter("examId");
+        Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examId);
 
+        //判断是否已经答题
+        queryMap.clear();
+        queryMap.put("consumer", consumer);
+        queryMap.put("examination", examination);
+        String pprStr = "from ParticipationRecord where consumer=:consumer and examination=:examination";
+        ParticipationRecord ppr = (ParticipationRecord) baseManager.getUniqueObjectByConditions(pprStr, queryMap);
 
         modelMap.put("examination",examination);
-        return new ModelAndView(request.getParameter("resultPage"), modelMap);
+        return new ModelAndView((ppr == null? "/question/examinationHelp":"/question/examinationHelpResult"), modelMap);
     }
 
     @RequestMapping("/commitAnswer.do")
@@ -104,6 +107,24 @@ public class AnswerController {
         modelMap.put("consumer", consumer);
 
         wxQAManager.saveAnswer(exam, modelMap);
+
+        modelMap.put("examination", exam);
+        return new ModelAndView("/question/examinationResult", modelMap);
+    }
+
+    @RequestMapping("/commitHelpAnswer.do")
+    public ModelAndView commitHelpAnswer(HttpServletRequest request, ModelMap modelMap) throws Exception {
+        String examId = request.getParameter("examId");
+        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+
+        String answerList = request.getParameter("answerList");
+        modelMap.put("answerList", answerList);
+
+        String consumerId = request.getParameter("consumerId");
+        Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
+        modelMap.put("consumer", consumer);
+
+        wxQAManager.saveHelpAnswer(exam, modelMap);
 
         modelMap.put("examination", exam);
         return new ModelAndView("/question/examinationResult", modelMap);
