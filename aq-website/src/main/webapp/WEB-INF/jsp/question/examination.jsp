@@ -39,7 +39,7 @@
 <script>
   var answerList = "";
   var examId = "${examination.id}";
-  var consumerId = "${consumer.id}";
+  var consumerId = "${examination.consumer.id}";
   function answerQuestion(val){
     if(answerList == ""){
       answerList = val;
