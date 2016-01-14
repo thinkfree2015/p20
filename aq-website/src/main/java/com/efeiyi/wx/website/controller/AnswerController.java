@@ -135,6 +135,10 @@ public class AnswerController {
     public ModelAndView inquireProgress(HttpServletRequest request, ModelMap modelMap) {
         String examId = request.getParameter("examId");
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+        if (exam != null && exam.getStatus().equals("0")){
+            exam.setStatus("1");//试题 1已分享
+            baseManager.saveOrUpdate(exam.getClass().getName(), exam);
+        }
         modelMap.put("examination",exam);
 
         return new ModelAndView("/question/shareProgress", modelMap);
