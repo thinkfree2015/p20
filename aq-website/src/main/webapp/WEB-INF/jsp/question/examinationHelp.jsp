@@ -16,7 +16,7 @@
 <div class="wechat-bg">
   <div class="wechat-header ae">
     <div class="headline">
-      <div class="head-number">四</div>
+      <div class="head-number">${examination.examinationEdition.name}</div>
     </div>
     <div class="add-head">你的好友正在向你求助，据说智商和颜值是成正比的哦~</div>
     <div class="wea-bg"></div>

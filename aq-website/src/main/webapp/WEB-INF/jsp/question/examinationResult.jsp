@@ -88,17 +88,6 @@
           <div class="bg"></div>
         </div>
 
-        <div id="cover3" style="display: none" style="text-align: center">
-          <div class="text-co2">
-            <strong class="cov-titie">提示</strong>
-            <p class="covtext">
-              您还没有资格领取奖励,请将本页面分享给您的好友,请他们帮助你完成答题后在领取奖励!
-            </p>
-            <div class="ae" style="text-align: center"><a class="covbtn">确定</a></div>
-          </div>
-          <div class="bg"></div>
-        </div>
-
       </div>
     </div>
   </div>
@@ -137,9 +126,9 @@
   })
 
   function afterReward(){
-    var tag = ${count};
-    if(tag != 0){
-      $("#cover3").show();
+    var tag = '${count}';
+    if(tag != '0'){
+      $("#cover2").show();
       $(".custom-header").css("z-index", "0");
       return;
     }
@@ -147,19 +136,6 @@
   }
 </script>
 
-<style type="text/css">
-  #cover2 .text-co2 {
-    width: 282px;
-    height: 153px;
-    background: #fff;
-    border: 1px solid #c4c4c4;
-    position: absolute;
-    z-index: 10;
-    top: -42px;
-    left: 50%;
-    margin-left: -140px;
-  }
-</style>
 <script>
 
     var wx_share_title = "“微信答题”"; //分享标题

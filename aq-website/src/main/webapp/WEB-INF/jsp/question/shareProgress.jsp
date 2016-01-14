@@ -95,12 +95,7 @@
           <div class="text-co2">
             <strong class="cov-titie">提示</strong>
             <p class="covtext">
-              <c:if test="${count != 0}">
-                在浏览器中寻找分享按钮,将本页面分享给您的好友吧。
-              </c:if>
-              <c:if test="${count == 0}">
-                您已回答全部正确,请点击领取奖励!
-              </c:if>
+              在浏览器中寻找分享按钮,将本页面分享给您的好友吧。
             </p>
             <div class="ae" style="text-align: center"><a class="covbtn">确定</a></div>
           </div>
