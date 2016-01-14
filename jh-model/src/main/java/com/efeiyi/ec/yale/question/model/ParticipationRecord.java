@@ -1,5 +1,6 @@
 package com.efeiyi.ec.yale.question.model;
 
+import com.efeiyi.ec.balance.model.BalanceRecord;
 import com.efeiyi.ec.organization.model.Consumer;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -21,6 +22,7 @@ public class ParticipationRecord {
     private String answer;//1.正确 2.错误
     private List<ParticipationRecord> participationRecordList;
     private Examination examination;
+    private BalanceRecord balanceRecord;
 
     @Id
     @GenericGenerator(name = "id", strategy = "com.ming800.core.p.model.M8idGenerator")
@@ -97,5 +99,15 @@ public class ParticipationRecord {
 
     public void setConsumer(Consumer consumer) {
         this.consumer = consumer;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "balance_record_id")
+    public BalanceRecord getBalanceRecord() {
+        return balanceRecord;
+    }
+
+    public void setBalanceRecord(BalanceRecord balanceRecord) {
+        this.balanceRecord = balanceRecord;
     }
 }
