@@ -26,6 +26,6 @@ public class TestRedirectController {
         Random random = new Random();
         String openid = request.getParameter("openid");
         int unionid = random.nextInt(100000);
-        response.sendRedirect("http://" + request.getRemoteHost() + ":" + request.getServerPort() + "/answer/getUserInfo.do?openid=" + openid + "&unionid=" + unionid);
+        response.sendRedirect("http://" + request.getRemoteHost() + ":" + request.getServerPort() + "/answer/getUserInfo2.do?openid=" + openid + "&unionid=" + unionid);
     }
 }
