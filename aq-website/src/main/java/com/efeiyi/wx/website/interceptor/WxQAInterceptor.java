@@ -7,6 +7,7 @@ import com.ming800.core.p.model.WxCalledRecord;
 import com.ming800.core.util.CookieTool;
 import com.ming800.core.util.HttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +31,9 @@ public class WxQAInterceptor extends HandlerInterceptorAdapter {
         String openid;
         openid = (openid = request.getParameter("openid")) != null ? openid : (openid = (String) request.getSession().getAttribute("openid")) != null ? openid : (CookieTool.getCookieByName(request, "openid")) != null ? CookieTool.getCookieByName(request, "openid").getValue() : null;
         if (openid == null) {
-            HttpUtil.getHttpResponse("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=" + request.getContextPath() + "/answer/start2Answer.do&response_type=code&scope=snsapi_base&state=1#wechat_redirect", null);
-            return super.preHandle(request, response, handler);
+//            response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=" + request.getContextPath() + "/answer/start2Answer.do&response_type=code&scope=snsapi_base&state=1#wechat_redirect");
+            response.sendRedirect("http://" + request.getRemoteHost() + ":" + request.getServerPort() + "/redirect.do");
+            return false;
         }
         //微信访问过的记录写入session和cookie
         wxQAManager.saveOpenid2Cache(request,response,openid);
@@ -40,8 +42,26 @@ public class WxQAInterceptor extends HandlerInterceptorAdapter {
         queryMap.put("openid", openid);
         WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid", queryMap);
         if (wxCalledRecord == null) {
-            HttpUtil.getHttpResponse("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=" + request.getContextPath() + "/answer/getUserInfo.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect", null);
+//            response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=" + request.getContextPath() + "/answer/getUserInfo.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
+            response.sendRedirect( "http://" + request.getRemoteHost() + ":" + request.getServerPort() + "/redirect2.do?openid=" + openid);
+            return false;
         }
         return super.preHandle(request, response, handler);
     }
+
+//    @Override
+//    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+//        if(request.getAttribute("interceptor") != null) {
+//            response.sendRedirect("/answer/start2Answer.do?openid=" + request.getParameter("test"));
+//        }
+//        super.postHandle(request, response, handler, modelAndView);
+//    }
+//
+//    @Override
+//    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+//        if(request.getAttribute("interceptor") != null){
+//            response.sendRedirect("/answer/start2Answer.do?openid=" + request.getParameter("test"));
+//        }
+//        super.afterCompletion(request, response, handler, ex);
+//    }
 }

@@ -43,7 +43,9 @@ public class AnswerController {
     public ModelAndView start2Answer(HttpServletRequest request, /*HttpServletResponse response,*/ ModelMap modelMap) throws Exception {
         String openid = request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
 //        wxQAManager.saveOpenid2Cache(request,response,openid);
-
+        if (openid == null) {
+            return new ModelAndView("redirect: " + request.getContextPath() + "/answer/start2Answer.do");
+        }
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("openid", openid);
         System.out.println("openid:" + openid + "   unionid:" + request.getParameter("unionid"));
@@ -68,7 +70,7 @@ public class AnswerController {
         String pprStr = "from ParticipationRecord where consumer=:consumer and examination=:examination";
         ParticipationRecord ppr = (ParticipationRecord) baseManager.getUniqueObjectByConditions(pprStr, queryMap);
 
-        return new ModelAndView((ppr == null? "/question/examination":"/question/examinationResult"), modelMap);
+        return new ModelAndView((ppr == null ? "/question/examination" : "/question/examinationResult"), modelMap);
     }
 
     @RequestMapping("/assistAnswer.do")
@@ -90,8 +92,8 @@ public class AnswerController {
         String pprStr = "from ParticipationRecord where consumer=:consumer and examination=:examination";
         ParticipationRecord ppr = (ParticipationRecord) baseManager.getUniqueObjectByConditions(pprStr, queryMap);
 
-        modelMap.put("examination",examination);
-        return new ModelAndView((ppr == null? "/question/examinationHelp":"/question/examinationHelpResult"), modelMap);
+        modelMap.put("examination", examination);
+        return new ModelAndView((ppr == null ? "/question/examinationHelp" : "/question/examinationHelpResult"), modelMap);
     }
 
     @RequestMapping("/commitAnswer.do")
@@ -162,41 +164,63 @@ public class AnswerController {
     }
 
     @RequestMapping("/getUserInfo.do")
-    public ModelAndView getUserInfo(HttpServletRequest request,HttpServletResponse response) throws Exception{
+    public ModelAndView getUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         //用code取accessToken
-        String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx7f6aa253b75466dd&secret=04928de13ab23dca159d235ba6dc19ea&code=" + request.getParameter("code") + "&grant_type=authorization_code", null);
-        System.out.println(result);
-        Map map = JsonUtil.parseJsonStringToMap(result.toString());
-        String accessToken = (String) map.get("access_token");
-        String openid = (String) map.get("openid");
-        System.out.println("acess_token: " + accessToken + "\n" + "openid: " + openid);
-
-        //用accessToken取Info
-        result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid, null);
-        System.out.println(result);
-        map = JsonUtil.parseJsonStringToMap(result.toString());
-        String nickname = (String) map.get("nickname");
-        String headimgurl = (String) map.get("headimgurl");
-        System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
-
-        //保存用户
+//        String code = request.getParameter("code");
+//        if(code == null){
+//            return null;
+//        }
+//        String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx7f6aa253b75466dd&secret=04928de13ab23dca159d235ba6dc19ea&code=" + code + "&grant_type=authorization_code", null);
+//        System.out.println(result);
+//        Map map = JsonUtil.parseJsonStringToMap(result.toString());
+//        String accessToken = (String) map.get("access_token");
+//        String openid = (String) map.get("openid");
+//        System.out.println("acess_token: " + accessToken + "\n" + "openid: " + openid);
+//
+//        //用accessToken取Info
+//        result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid, null);
+//        System.out.println(result);
+//        map = JsonUtil.parseJsonStringToMap(result.toString());
+//        String nickname = (String) map.get("nickname");
+//        String headimgurl = (String) map.get("headimgurl");
+//        System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
+//
+//        //保存用户
+//        Consumer consumer = new Consumer();
+//        consumer.setUnionid((String) map.get("unionid"));
+//        baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
+//        WxCalledRecord wxCalledRecord = new WxCalledRecord();
+//        wxCalledRecord.setConsumerId(consumer.getId());
+//        wxCalledRecord.setDataKey("wxqaopenid");
+//        wxCalledRecord.setData(openid);
+//        wxCalledRecord.setAccessToken((String) map.get("refreshToken"));
+//        wxCalledRecord.setCreateDatetime(new Date());
+//        //头像暂放callback
+//        wxCalledRecord.setCallback(headimgurl);
+//        //名字暂放请求来源
+//        wxCalledRecord.setRequestSource(nickname);
+//        baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
+//
+//        wxQAManager.saveOpenid2Cache(request, response, openid);
+        String openid = request.getParameter("openid");
+        String unionid = request.getParameter("unionid");
         Consumer consumer = new Consumer();
-        consumer.setUnionid((String)map.get("unionid"));
+        consumer.setUnionid(unionid);
         baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
         WxCalledRecord wxCalledRecord = new WxCalledRecord();
         wxCalledRecord.setConsumerId(consumer.getId());
         wxCalledRecord.setDataKey("wxqaopenid");
         wxCalledRecord.setData(openid);
-        wxCalledRecord.setAccessToken((String)map.get("refreshToken"));
+        wxCalledRecord.setAccessToken("accesstoken");
         wxCalledRecord.setCreateDatetime(new Date());
         //头像暂放callback
-        wxCalledRecord.setCallback(headimgurl);
+        wxCalledRecord.setCallback("headimgurl");
         //名字暂放请求来源
-        wxCalledRecord.setRequestSource(nickname);
+        wxCalledRecord.setRequestSource("nickname");
         baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
 
-        wxQAManager.saveOpenid2Cache(request,response,openid);
+        wxQAManager.saveOpenid2Cache(request, response, openid);
         return new ModelAndView("redirect:/answer/start2Answer.do?openid=" + openid);
     }
 }

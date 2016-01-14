@@ -33,9 +33,9 @@
     </div>
     <div class="explain-btn">
       <c:if test="${not empty examination}">
-        <a href="<c:url value='/answer/assistAnswer.do?openid=789&examId=${examination.id}'/>" class="wechat-btn">帮助好友</a>
+        <a href="<c:url value='/answer/assistAnswer.do?examId=${examination.id}'/>" class="wechat-btn">帮助好友</a>
       </c:if>
-      <a href="<c:url value='/answer/start2Answer.do?openid=123456'/>" class="wechat-btn">马上开始</a>
+      <a href="<c:url value='/answer/start2Answer.do'/>" class="wechat-btn">马上开始</a>
     </div>
     <div class="explain-bg"></div>
   </div>
