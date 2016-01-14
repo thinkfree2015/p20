@@ -148,6 +148,7 @@ public class WxQAManagerImpl implements WxQAManager {
         examination.setConsumer(consumer);
         examination.setSerial(autoSerialManager.nextSerial("examination"));
         examination.setExaminationEdition(examinationEdition);
+        examination.setStatus("0");//初始化试卷状态 0未分享
         session.saveOrUpdate(Examination.class.getName(),examination);
 
         List<Question> questionList = baseManager.listObject("from Question where status != 0",new LinkedHashMap());

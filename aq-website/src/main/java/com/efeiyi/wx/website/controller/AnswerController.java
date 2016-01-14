@@ -67,7 +67,7 @@ public class AnswerController {
         queryMap.clear();
         queryMap.put("consumer", consumer);
         queryMap.put("examination", examination);
-        String pprStr = "from ParticipationRecord where consumer=:consumer and examination=:examination";
+        String pprStr = "from ParticipationRecord where consumer=:consumer and examination=:examination and recordType='1'";
         ParticipationRecord ppr = (ParticipationRecord) baseManager.getUniqueObjectByConditions(pprStr, queryMap);
 
         return new ModelAndView((ppr == null ? "/question/examination" : "/question/examinationResult"), modelMap);
@@ -147,10 +147,13 @@ public class AnswerController {
         return new ModelAndView("/question/questionDescription", modelMap);
     }
 
+    @RequestMapping("/inquireProgress.do")
+    public ModelAndView inquireProgress(HttpServletRequest request, ModelMap modelMap) {
+        String examId = request.getParameter("examId");
+        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+        modelMap.put("examination",exam);
 
-    public ModelAndView inquireProgress(HttpServletRequest request, ModelMap modelMap, Examination examination) {
-
-        return new ModelAndView(request.getParameter("resultPage"), modelMap);
+        return new ModelAndView("/question/shareProgress", modelMap);
     }
 
 

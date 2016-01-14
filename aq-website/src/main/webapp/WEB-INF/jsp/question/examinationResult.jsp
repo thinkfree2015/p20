@@ -55,8 +55,15 @@
         </c:forEach>
       </ul>
       <div class="txc-btn">
-        <a href="#" onclick="answerHelp()" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;求&nbsp;助</a>
-        <%--分享链接  <c:url value="/wx/startHelp.do?examId=${examination.id}"/>  --%>
+        <c:if test="${examination.status == '0'}">
+          <a href="#" onclick="answerHelp()" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;求&nbsp;助</a>
+          <%--分享链接  <c:url value="/wx/startHelp.do?examId=${examination.id}"/>  --%>
+        </c:if>
+
+        <c:if test="${examination.status == '1'}">
+          <a href="<c:url value='/answer/inquireProgress.do?examId=${examination.id}'/>"
+             class="wechat-btn cart-ft share">分&nbsp;享&nbsp;进&nbsp;度</a>
+        </c:if>
 
         <a href="#" onclick="afterReward()"  class="wechat-btn cart-ft">领&nbsp;取&nbsp;奖&nbsp;励</a>
 
@@ -108,8 +115,8 @@
   }
 
   function answerHelp(){
-    var count = ${count};
-    if(count == 0){
+    var count = '${count}';
+    if(count == '0'){
       $("#cover2").show();
       $(".custom-header").css("z-index", "0");
       return;

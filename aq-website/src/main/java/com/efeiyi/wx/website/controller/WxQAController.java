@@ -39,8 +39,8 @@ public class WxQAController {
         return new ModelAndView("/question/activityDescription");
     }
 
-    @RequestMapping("/descriptionReturn.do")
-    public ModelAndView descriptionReturn(HttpServletRequest request, ModelMap modelMap)throws Exception{
+    @RequestMapping("/shareReturn.do")
+    public ModelAndView shareReturn(HttpServletRequest request, ModelMap modelMap)throws Exception{
         String examId = request.getParameter("examId");
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
 
