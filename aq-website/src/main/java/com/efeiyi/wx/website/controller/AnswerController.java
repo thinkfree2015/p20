@@ -89,11 +89,12 @@ public class AnswerController {
         queryMap.clear();
         queryMap.put("consumer", consumer);
         queryMap.put("examination", examination);
-        String pprStr = "from ParticipationRecord where consumer=:consumer and examination=:examination";
+        String pprStr = "from ParticipationRecord where consumer=:consumer and examination=:examination and recordType='2'";
         ParticipationRecord ppr = (ParticipationRecord) baseManager.getUniqueObjectByConditions(pprStr, queryMap);
 
-        modelMap.put("examination", examination);
-        return new ModelAndView((ppr == null ? "/question/examinationHelp" : "/question/examinationHelpResult"), modelMap);
+        modelMap.put("consumer", consumer);
+        modelMap.put("examination",examination);
+        return new ModelAndView((ppr == null? "/question/examinationHelp":"/question/examinationHelpResult"), modelMap);
     }
 
     @RequestMapping("/commitAnswer.do")
@@ -126,10 +127,11 @@ public class AnswerController {
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
         modelMap.put("consumer", consumer);
 
-        wxQAManager.saveHelpAnswer(exam, modelMap);
+        List<ExaminationQuestion> eqList = wxQAManager.saveHelpAnswer(exam, modelMap);
 
         modelMap.put("examination", exam);
-        return new ModelAndView("/question/examinationResult", modelMap);
+        modelMap.put("eqList", eqList);
+        return new ModelAndView("/question/examinationHelpResult", modelMap);
     }
 
     @RequestMapping("/questionDescription.do")

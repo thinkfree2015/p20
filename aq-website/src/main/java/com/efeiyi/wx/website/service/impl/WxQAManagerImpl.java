@@ -49,11 +49,13 @@ public class WxQAManagerImpl implements WxQAManager {
         String answerList = (String) modelMap.get("answerList");
         String[] answers = answerList.split(",");
 
+        int count = 0;//统计用户回答正确数
         for (ExaminationQuestion eq: examination.getExaminationQuestionList()){
             String answer = answers[eq.getQuestionOrder()-1];
             eq.setAnswer(answer);
             if (answer.equalsIgnoreCase(eq.getQuestion().getAnswerTrue())){
                 eq.setAnswerStatus("1");
+                count++;
             }else {
                 eq.setAnswerStatus("2");
             }
@@ -67,36 +69,74 @@ public class WxQAManagerImpl implements WxQAManager {
         participationRecord.setRecordType("1");
         participationRecord.setConsumer(consumer);
         participationRecord.setExamination(examination);
+        if (count == examination.getExaminationQuestionList().size()){
+            participationRecord.setAnswer("1");
+        }else {
+            participationRecord.setAnswer("2");
+        }
         session.saveOrUpdate(ParticipationRecord.class.getName(),participationRecord);
 
     }
 
+    @Transactional
     @Override
-    public void saveHelpAnswer(Examination examination, ModelMap modelMap) {
+    public List<ExaminationQuestion> saveHelpAnswer(Examination examination, ModelMap modelMap) {
         Session session = sessionFactory.getCurrentSession();
 
+        //用户帮助好友答题的结果map<题目序号, 用户答案>
+        Map<Integer, String> map = new HashMap<>();
         String answerList = (String) modelMap.get("answerList");
-        String[] answers = answerList.split(",");
+        String[] answers = answerList.split(";");
+        for (String str: answers){
+            String[] numAnswer = str.split(",");
+            map.put(Integer.valueOf(numAnswer[0]), numAnswer[1]);
+        }
 
+        //试卷第一次答错的题目list
+        List<ExaminationQuestion> errorEQList = new ArrayList<>();
         for (ExaminationQuestion eq: examination.getExaminationQuestionList()){
-            String answer = answers[eq.getQuestionOrder()-1];
+            if (eq.getAnswerStatus().equals("2")){
+                errorEQList.add(eq);
+            }
+        }
+
+        //未保存的试题题目用于结果页展示
+        List<ExaminationQuestion> returnEQList = new ArrayList<>();
+        //统计用户回答正确题目数
+        int count = 0;
+        for (ExaminationQuestion eq: errorEQList){
+            String answer = map.get(eq.getQuestionOrder());//获取用户答案; map<题目序号, 用户答案>
             eq.setAnswer(answer);
             if (answer.equalsIgnoreCase(eq.getQuestion().getAnswerTrue())){
                 eq.setAnswerStatus("1");
+                count++;
             }else {
                 eq.setAnswerStatus("2");
             }
-            session.saveOrUpdate(eq.getClass().getName(), eq);
+            returnEQList.add(eq);
+        }
+
+        //用户回答全部正确
+        if(count == errorEQList.size()){
+            for (ExaminationQuestion eq: returnEQList){
+                session.saveOrUpdate(eq.getClass().getName(), eq);
+            }
         }
 
         Consumer consumer = (Consumer) modelMap.get("consumer");
-
         ParticipationRecord participationRecord = new ParticipationRecord();
         participationRecord.setCreateDatetime(new Date());
         participationRecord.setRecordType("2");
         participationRecord.setConsumer(consumer);
         participationRecord.setExamination(examination);
+        if(count == errorEQList.size()){
+            participationRecord.setAnswer("1");
+        }else {
+            participationRecord.setAnswer("2");
+        }
         session.saveOrUpdate(ParticipationRecord.class.getName(),participationRecord);
+
+        return returnEQList;
     }
 
     @Transactional

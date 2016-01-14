@@ -65,7 +65,6 @@
         _this++;
         $(".topic").eq(_this).addClass("active").siblings().removeClass("active");
         if(_this == _index){
-          alert(answerList);
           var url = "?examId="+ examId + "&answerList=" + answerList + "&consumerId=" + consumerId;
           window.location.href="<c:url value='/answer/commitHelpAnswer.do'/>" + url ;
         }
