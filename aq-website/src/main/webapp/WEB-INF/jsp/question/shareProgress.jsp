@@ -1,0 +1,93 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2016/1/14
+  Time: 13:14
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!doctype html>
+<html class="no-js">
+<head>
+  <title>微信知识竞赛</title>
+</head>
+<body>
+<div class="wechat-bg">
+  <div class="wechat-header ae">
+    <div class="headline">
+      <div class="head-number">${examination.examinationEdition.name}</div>
+    </div>
+    <div class="add-head">你的好友正拼尽全力帮你解答呢，稍等片刻哦。</div>
+    <div class="wea-bg"></div>
+  </div>
+  <div class="topic ae">
+    <div class="plan">
+      <ul class="plan-box">
+        <c:set var="count" value="0" scope="page"/>
+        <c:forEach items="${examination.participationRecordList}" var="ppr">
+          <c:if test="${ppr.recordType == 2}">
+            <c:set var="count" value="${count + 1}" scope="page"/>
+            <li>
+              <div class="plan-pic"><a href="#"><img src="<c:url value='/scripts/wap/upload/mx-1-1.png'/>"></a></div>
+              <div class="plan-text">
+                <p>感谢你的温柔</p><%--微信好友昵称--%>
+                <p class="correct">
+                  <c:if test="${ppr.answer == '1'}">
+                    <font color="green">回答正确!</font>
+                  </c:if>
+                  <c:if test="${ppr.answer == '2'}">
+                    <font color="red">回答错误!</font>
+                  </c:if>
+                </p>
+              </div>
+            </li>
+          </c:if>
+        </c:forEach>
+        <%--<li>
+          <div class="plan-pic"><a href="#"><img src="<c:url value='/scripts/wap/upload/mx-1-1.png'/>"></a></div>
+          <div class="plan-text">
+            <p>感谢你的温柔</p>
+            <p>选择了答案C 34项，回答正确！</p>
+          </div>
+        </li>
+        <li>
+          <div class="plan-pic"><a href="#"><img src="<c:url value='/scripts/wap/upload/mx-1-1.png'/>"></a></div>
+          <div class="plan-text">
+            <p>感谢你的温柔</p>
+            <p>选择了答案C 34项，回答正确！</p>
+          </div>
+        </li>
+        <li>
+          <div class="plan-pic"><a href="http://www.baidu.com"><img src="<c:url value='/scripts/wap/upload/mx-1-1.png'/>"></a></div>
+          <div class="plan-text">
+            <p>感谢你的温柔</p>
+            <p>选择了答案C 34项，回答正确！</p>
+          </div>
+        </li>
+        <li>
+          <div class="plan-pic"><a href="#"><img src="<c:url value='/scripts/wap/upload/mx-1-1.png'/>"></a></div>
+          <div class="plan-text">
+            <p>感谢你的温柔</p>
+            <p>选择了答案C 34项，回答正确！</p>
+          </div>
+        </li>--%>
+        <!-- 没有小伙伴答题状态-->
+        <c:if test="${count == 0}">
+          <li>
+            <div class="plan-pic"><a href="#"><img src="<c:url value='/scripts/wap/upload/fx-x-1.png'/>"></a></div>
+            <div class="plan-text">
+              <p>还没有小伙伴帮你答题</p>
+            </div>
+          </li>
+        </c:if>
+      </ul>
+      <div class="txc-btn">
+        <a href="" class="wechat-btn cart-ft">继&nbsp;续&nbsp;分&nbsp;享</a>
+        <a href="<c:url value='/wx/shareReturn.do?examId=${examination.id}'/>" class="wechat-btn cart-ft">查&nbsp;看&nbsp;答&nbsp;案</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

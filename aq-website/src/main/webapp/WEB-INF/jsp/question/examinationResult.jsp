@@ -55,13 +55,18 @@
         </c:forEach>
       </ul>
       <div class="txc-btn">
-          <c:if test="${count != 0}">
-        <a href="#" onclick="answerHelp()" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;求&nbsp;助</a>
-        <%--分享链接  <c:url value="/wx/startHelp.do?examId=${examination.id}"/>  --%>
-          </c:if>
-          <c:if test="${count == 0}">
-        <a href=""  class="wechat-btn cart-ft">领&nbsp;取&nbsp;奖&nbsp;励</a>
-          </c:if>
+        <c:if test="${examination.status == '0'}">
+          <a href="#" onclick="answerHelp()" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;求&nbsp;助</a>
+          <%--分享链接  <c:url value="/wx/startHelp.do?examId=${examination.id}"/>  --%>
+        </c:if>
+
+        <c:if test="${examination.status == '1'}">
+          <a href="<c:url value='/answer/inquireProgress.do?examId=${examination.id}'/>"
+             class="wechat-btn cart-ft share">分&nbsp;享&nbsp;进&nbsp;度</a>
+        </c:if>
+
+        <a href="#" onclick="afterReward()"  class="wechat-btn cart-ft">领&nbsp;取&nbsp;奖&nbsp;励</a>
+
         <div id="cover" style="display: none;">
           <em class="bg"></em>
           <img src="/scripts/wap/upload/guide-share.png" class="share-picture" alt="">
@@ -77,6 +82,17 @@
               <c:if test="${count == 0}">
                 您已回答全部正确,请点击领取奖励!
               </c:if>
+            </p>
+            <div class="ae" style="text-align: center"><a class="covbtn">确定</a></div>
+          </div>
+          <div class="bg"></div>
+        </div>
+
+        <div id="cover3" style="display: none" style="text-align: center">
+          <div class="text-co2">
+            <strong class="cov-titie">提示</strong>
+            <p class="covtext">
+              您还没有资格领取奖励,请将本页面分享给您的好友,请他们帮助你完成答题后在领取奖励!
             </p>
             <div class="ae" style="text-align: center"><a class="covbtn">确定</a></div>
           </div>
@@ -99,8 +115,8 @@
   }
 
   function answerHelp(){
-    var count = ${count};
-    if(count == 0){
+    var count = '${count}';
+    if(count == '0'){
       $("#cover2").show();
       $(".custom-header").css("z-index", "0");
       return;
@@ -119,6 +135,16 @@
       $(this).hide();
     });
   })
+
+  function afterReward(){
+    var tag = ${count};
+    if(tag != 0){
+      $("#cover3").show();
+      $(".custom-header").css("z-index", "0");
+      return;
+    }
+    window.location.href = "<c:url value='/answer/getAward.do?examId=${examination.id}'/>";
+  }
 </script>
 
 <style type="text/css">
