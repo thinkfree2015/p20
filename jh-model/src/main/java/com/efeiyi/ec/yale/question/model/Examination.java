@@ -19,6 +19,7 @@ public class Examination {
     private List<ExaminationQuestion> examinationQuestionList;
     private List<ParticipationRecord> participationRecordList;
     private ExaminationEdition examinationEdition;
+    private String status;//分享状态  0未分享  1已分享
 
     @Id
     @GenericGenerator(name = "id", strategy = "com.ming800.core.p.model.M8idGenerator")
@@ -78,5 +79,14 @@ public class Examination {
 
     public void setConsumer(Consumer consumer) {
         this.consumer = consumer;
+    }
+
+    @Column(name = "status")
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

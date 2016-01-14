@@ -49,19 +49,4 @@ public class WxQAInterceptor extends HandlerInterceptorAdapter {
         return super.preHandle(request, response, handler);
     }
 
-//    @Override
-//    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-//        if(request.getAttribute("interceptor") != null) {
-//            response.sendRedirect("/answer/start2Answer.do?openid=" + request.getParameter("test"));
-//        }
-//        super.postHandle(request, response, handler, modelAndView);
-//    }
-//
-//    @Override
-//    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-//        if(request.getAttribute("interceptor") != null){
-//            response.sendRedirect("/answer/start2Answer.do?openid=" + request.getParameter("test"));
-//        }
-//        super.afterCompletion(request, response, handler, ex);
-//    }
 }

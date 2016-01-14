@@ -67,6 +67,7 @@
         <mvc:interceptor>
             <mvc:mapping path="/answer/**"/>
             <mvc:exclude-mapping path="/answer/getUserInfo.do"/>
+            <mvc:exclude-mapping path="/answer/getUserInfo2.do"/>
             <bean class="com.efeiyi.wx.website.interceptor.WxQAInterceptor"/>
         </mvc:interceptor>
         <!--&lt;!&ndash;<mvc:interceptor>&ndash;&gt;-->

@@ -1,10 +1,12 @@
 package com.efeiyi.wx.website.service.impl;
 
+import com.efeiyi.wx.website.service.ExaminationEditionHolder;
 import com.efeiyi.wx.website.util.WxQAConst;
 import com.efeiyi.ec.organization.model.Consumer;
 import com.efeiyi.ec.yale.question.model.*;
 import com.efeiyi.wx.website.service.WxQAManager;
 import com.ming800.core.base.service.BaseManager;
+import com.ming800.core.p.model.WxCalledRecord;
 import com.ming800.core.p.service.AutoSerialManager;
 import com.ming800.core.util.CookieTool;
 import org.hibernate.Session;
@@ -43,20 +45,20 @@ public class WxQAManagerImpl implements WxQAManager {
 
     @Transactional
     @Override
-    public void saveAnswer(Examination examination ,ModelMap modelMap) throws Exception {
+    public void saveAnswer(Examination examination, ModelMap modelMap) throws Exception {
         Session session = sessionFactory.getCurrentSession();
 
         String answerList = (String) modelMap.get("answerList");
         String[] answers = answerList.split(",");
 
         int count = 0;//统计用户回答正确数
-        for (ExaminationQuestion eq: examination.getExaminationQuestionList()){
-            String answer = answers[eq.getQuestionOrder()-1];
+        for (ExaminationQuestion eq : examination.getExaminationQuestionList()) {
+            String answer = answers[eq.getQuestionOrder() - 1];
             eq.setAnswer(answer);
-            if (answer.equalsIgnoreCase(eq.getQuestion().getAnswerTrue())){
+            if (answer.equalsIgnoreCase(eq.getQuestion().getAnswerTrue())) {
                 eq.setAnswerStatus("1");
                 count++;
-            }else {
+            } else {
                 eq.setAnswerStatus("2");
             }
             session.saveOrUpdate(eq.getClass().getName(), eq);
@@ -69,12 +71,12 @@ public class WxQAManagerImpl implements WxQAManager {
         participationRecord.setRecordType("1");
         participationRecord.setConsumer(consumer);
         participationRecord.setExamination(examination);
-        if (count == examination.getExaminationQuestionList().size()){
+        if (count == examination.getExaminationQuestionList().size()) {
             participationRecord.setAnswer("1");
-        }else {
+        } else {
             participationRecord.setAnswer("2");
         }
-        session.saveOrUpdate(ParticipationRecord.class.getName(),participationRecord);
+        session.saveOrUpdate(ParticipationRecord.class.getName(), participationRecord);
 
     }
 
@@ -87,15 +89,15 @@ public class WxQAManagerImpl implements WxQAManager {
         Map<Integer, String> map = new HashMap<>();
         String answerList = (String) modelMap.get("answerList");
         String[] answers = answerList.split(";");
-        for (String str: answers){
+        for (String str : answers) {
             String[] numAnswer = str.split(",");
             map.put(Integer.valueOf(numAnswer[0]), numAnswer[1]);
         }
 
         //试卷第一次答错的题目list
         List<ExaminationQuestion> errorEQList = new ArrayList<>();
-        for (ExaminationQuestion eq: examination.getExaminationQuestionList()){
-            if (eq.getAnswerStatus().equals("2")){
+        for (ExaminationQuestion eq : examination.getExaminationQuestionList()) {
+            if (eq.getAnswerStatus().equals("2")) {
                 errorEQList.add(eq);
             }
         }
@@ -104,21 +106,21 @@ public class WxQAManagerImpl implements WxQAManager {
         List<ExaminationQuestion> returnEQList = new ArrayList<>();
         //统计用户回答正确题目数
         int count = 0;
-        for (ExaminationQuestion eq: errorEQList){
+        for (ExaminationQuestion eq : errorEQList) {
             String answer = map.get(eq.getQuestionOrder());//获取用户答案; map<题目序号, 用户答案>
             eq.setAnswer(answer);
-            if (answer.equalsIgnoreCase(eq.getQuestion().getAnswerTrue())){
+            if (answer.equalsIgnoreCase(eq.getQuestion().getAnswerTrue())) {
                 eq.setAnswerStatus("1");
                 count++;
-            }else {
+            } else {
                 eq.setAnswerStatus("2");
             }
             returnEQList.add(eq);
         }
 
         //用户回答全部正确
-        if(count == errorEQList.size()){
-            for (ExaminationQuestion eq: returnEQList){
+        if (count == errorEQList.size()) {
+            for (ExaminationQuestion eq : returnEQList) {
                 session.saveOrUpdate(eq.getClass().getName(), eq);
             }
         }
@@ -129,12 +131,12 @@ public class WxQAManagerImpl implements WxQAManager {
         participationRecord.setRecordType("2");
         participationRecord.setConsumer(consumer);
         participationRecord.setExamination(examination);
-        if(count == errorEQList.size()){
+        if (count == errorEQList.size()) {
             participationRecord.setAnswer("1");
-        }else {
+        } else {
             participationRecord.setAnswer("2");
         }
-        session.saveOrUpdate(ParticipationRecord.class.getName(),participationRecord);
+        session.saveOrUpdate(ParticipationRecord.class.getName(), participationRecord);
 
         return returnEQList;
     }
@@ -148,32 +150,61 @@ public class WxQAManagerImpl implements WxQAManager {
         examination.setConsumer(consumer);
         examination.setSerial(autoSerialManager.nextSerial("examination"));
         examination.setExaminationEdition(examinationEdition);
+        examination.setStatus("0");//初始化试卷状态 0未分享
         session.saveOrUpdate(Examination.class.getName(),examination);
 
         List<Question> questionList = baseManager.listObject("from Question where status != 0",new LinkedHashMap());
         List<ExaminationQuestion> eqList = new ArrayList<>();//已选取的题目列表
         List<Integer> indexList = new ArrayList<>();//已取到题目的序号
         Random random = new Random();
-        for(int x=0; x<examinationEdition.getQuestionCount();){
+        for (int x = 0; x < examinationEdition.getQuestionCount(); ) {
+
             //防止取到相同的题目
             int index = random.nextInt(questionList.size());
-            if (indexList.size()>0 && indexList.contains(index)){
-                continue;
+            if (!indexList.contains(index)){
+                x++;
+                indexList.add(index);
+                Question question = questionList.get(index);
+                ExaminationQuestion examinationQuestion = new ExaminationQuestion();
+                examinationQuestion.setQuestion(question);
+                examinationQuestion.setExamination(examination);
+                examinationQuestion.setQuestionOrder(x);
+                session.saveOrUpdate(ExaminationQuestion.class.getName(),examinationQuestion);
+                eqList.add(examinationQuestion);
             }
-            x++;
-            indexList.add(index);
-
-            Question question = questionList.get(index);
-            ExaminationQuestion examinationQuestion = new ExaminationQuestion();
-            examinationQuestion.setQuestion(question);
-            examinationQuestion.setExamination(examination);
-            examinationQuestion.setQuestionOrder(x);
-            session.saveOrUpdate(ExaminationQuestion.class.getName(),examinationQuestion);
-            eqList.add(examinationQuestion);
         }
 
         examination.setExaminationQuestionList(eqList);
 
         return examination;
+    }
+
+    @Override
+    public Consumer findConsumerByOpenid(String openid) {
+        LinkedHashMap queryMap = new LinkedHashMap();
+        queryMap.put("openid", openid);
+        WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey = 'wxqaopenid' and data =:openid", queryMap);
+        Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
+        return consumer;
+    }
+
+    @Override
+    public Examination findExaminationByConsumer(Consumer consumer, ExaminationEdition examinationEdition) throws Exception {
+        LinkedHashMap queryMap = new LinkedHashMap();
+        queryMap.put("consumer", consumer);
+        queryMap.put("examinationEdition", examinationEdition);
+        String examStr = "from Examination where consumer=:consumer and examinationEdition=:examinationEdition";
+        Examination examination = (Examination) baseManager.getUniqueObjectByConditions(examStr, queryMap);
+        return examination;
+    }
+
+    @Override
+    public ParticipationRecord checkIfParticipated(Consumer consumer, Examination examination) {
+        LinkedHashMap queryMap = new LinkedHashMap();
+        queryMap.put("consumer", consumer);
+        queryMap.put("examination", examination);
+        String pprStr = "from ParticipationRecord where consumer=:consumer and examination=:examination";
+        ParticipationRecord participationRecord = (ParticipationRecord) baseManager.getUniqueObjectByConditions(pprStr, queryMap);
+        return participationRecord;
     }
 }

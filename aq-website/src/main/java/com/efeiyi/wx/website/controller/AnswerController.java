@@ -42,59 +42,43 @@ public class AnswerController {
     @RequestMapping("/start2Answer.do")
     public ModelAndView start2Answer(HttpServletRequest request, /*HttpServletResponse response,*/ ModelMap modelMap) throws Exception {
         String openid = request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
-//        wxQAManager.saveOpenid2Cache(request,response,openid);
-        if (openid == null) {
-            return new ModelAndView("redirect: " + request.getContextPath() + "/answer/start2Answer.do");
-        }
-        LinkedHashMap queryMap = new LinkedHashMap();
-        queryMap.put("openid", openid);
-        System.out.println("openid:" + openid + "   unionid:" + request.getParameter("unionid"));
+        System.out.println("start----openid:" + openid + "   unionid:" + request.getParameter("unionid"));
 
-        WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey = 'wxqaopenid' and data =:openid", queryMap);
-        Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
-        //清空queryMap以便后续使用
-        queryMap.clear();
-        queryMap.put("consumer", consumer);
-        queryMap.put("examinationEdition", examinationEditionHolder.getExaminationEditionList().get(0));
-        String examStr = "from Examination where consumer=:consumer and examinationEdition=:examinationEdition";
-        Examination examination = (Examination) baseManager.getUniqueObjectByConditions(examStr, queryMap);
+        //1.找到所属用户
+        Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
 
+        //2.生成或取出待答的题
+        Examination examination = wxQAManager.findExaminationByConsumer(consumer, examinationEditionHolder.getExaminationEditionList().get(0));
         examination = (examination != null ? examination : wxQAManager.generateNewExamination(consumer, examinationEditionHolder.getExaminationEditionList().get(0)));
-        modelMap.addAttribute("examination", examination);
-        modelMap.put("consumer", consumer);//用于答题完成后更新答题记录
 
-        //判断是否已经答题
-        queryMap.clear();
-        queryMap.put("consumer", consumer);
-        queryMap.put("examination", examination);
-        String pprStr = "from ParticipationRecord where consumer=:consumer and examination=:examination";
-        ParticipationRecord ppr = (ParticipationRecord) baseManager.getUniqueObjectByConditions(pprStr, queryMap);
+        //3.判断是否已经答题
+        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer,examination);
 
-        return new ModelAndView((ppr == null ? "/question/examination" : "/question/examinationResult"), modelMap);
+        //4.
+        modelMap.put("examination", examination);
+//        modelMap.put("consumer", consumer);//用于答题完成后更新答题记录
+        return new ModelAndView((participationRecord == null ? "/question/examination" : "/question/examinationResult"), modelMap);
     }
 
     @RequestMapping("/assistAnswer.do")
     public ModelAndView assistAnswer(HttpServletRequest request, ModelMap modelMap) throws Exception {
         String openid = request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
-        LinkedHashMap queryMap = new LinkedHashMap();
-        queryMap.put("openid", openid);
-        System.out.println("openid:" + openid + "   unionid:" + request.getParameter("unionid"));
-        WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey = 'wxqaopenid' and data =:openid", queryMap);
-        Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
+        System.out.println("assist---openid:" + openid + "   unionid:" + request.getParameter("unionid"));
 
+        //1.找到所属用户
+        Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
+
+        //2.待继续答的题
         String examId = request.getParameter("examId");
         Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examId);
 
-        //判断是否已经答题
-        queryMap.clear();
-        queryMap.put("consumer", consumer);
-        queryMap.put("examination", examination);
-        String pprStr = "from ParticipationRecord where consumer=:consumer and examination=:examination and recordType='2'";
-        ParticipationRecord ppr = (ParticipationRecord) baseManager.getUniqueObjectByConditions(pprStr, queryMap);
+        //3.判断是否已经答题
+        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer,examination);
 
-        modelMap.put("consumer", consumer);
-        modelMap.put("examination",examination);
-        return new ModelAndView((ppr == null? "/question/examinationHelp":"/question/examinationHelpResult"), modelMap);
+        //4.
+//        modelMap.put("consumer", consumer);
+        modelMap.put("examination", examination);
+        return new ModelAndView((participationRecord == null ? "/question/examinationHelp" : "/question/examinationHelpResult"), modelMap);
     }
 
     @RequestMapping("/commitAnswer.do")
@@ -169,42 +153,48 @@ public class AnswerController {
     public ModelAndView getUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         //用code取accessToken
-//        String code = request.getParameter("code");
-//        if(code == null){
-//            return null;
-//        }
-//        String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx7f6aa253b75466dd&secret=04928de13ab23dca159d235ba6dc19ea&code=" + code + "&grant_type=authorization_code", null);
-//        System.out.println(result);
-//        Map map = JsonUtil.parseJsonStringToMap(result.toString());
-//        String accessToken = (String) map.get("access_token");
-//        String openid = (String) map.get("openid");
-//        System.out.println("acess_token: " + accessToken + "\n" + "openid: " + openid);
-//
-//        //用accessToken取Info
-//        result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid, null);
-//        System.out.println(result);
-//        map = JsonUtil.parseJsonStringToMap(result.toString());
-//        String nickname = (String) map.get("nickname");
-//        String headimgurl = (String) map.get("headimgurl");
-//        System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
-//
-//        //保存用户
-//        Consumer consumer = new Consumer();
-//        consumer.setUnionid((String) map.get("unionid"));
-//        baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
-//        WxCalledRecord wxCalledRecord = new WxCalledRecord();
-//        wxCalledRecord.setConsumerId(consumer.getId());
-//        wxCalledRecord.setDataKey("wxqaopenid");
-//        wxCalledRecord.setData(openid);
-//        wxCalledRecord.setAccessToken((String) map.get("refreshToken"));
-//        wxCalledRecord.setCreateDatetime(new Date());
-//        //头像暂放callback
-//        wxCalledRecord.setCallback(headimgurl);
-//        //名字暂放请求来源
-//        wxCalledRecord.setRequestSource(nickname);
-//        baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
-//
-//        wxQAManager.saveOpenid2Cache(request, response, openid);
+        String code = request.getParameter("code");
+        if(code == null){
+            return null;
+        }
+        String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx7f6aa253b75466dd&secret=04928de13ab23dca159d235ba6dc19ea&code=" + code + "&grant_type=authorization_code", null);
+        System.out.println(result);
+        Map map = JsonUtil.parseJsonStringToMap(result.toString());
+        String accessToken = (String) map.get("access_token");
+        String openid = (String) map.get("openid");
+        System.out.println("acess_token: " + accessToken + "\n" + "openid: " + openid);
+
+        //用accessToken取Info
+        result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid, null);
+        System.out.println(result);
+        map = JsonUtil.parseJsonStringToMap(result.toString());
+        String nickname = (String) map.get("nickname");
+        String headimgurl = (String) map.get("headimgurl");
+        System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
+
+        //保存用户
+        Consumer consumer = new Consumer();
+        consumer.setUnionid((String) map.get("unionid"));
+        baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
+        WxCalledRecord wxCalledRecord = new WxCalledRecord();
+        wxCalledRecord.setConsumerId(consumer.getId());
+        wxCalledRecord.setDataKey("wxqaopenid");
+        wxCalledRecord.setData(openid);
+        wxCalledRecord.setAccessToken((String) map.get("refreshToken"));
+        wxCalledRecord.setCreateDatetime(new Date());
+        //头像暂放callback
+        wxCalledRecord.setCallback(headimgurl);
+        //名字暂放请求来源
+        wxCalledRecord.setRequestSource(nickname);
+        baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
+
+        wxQAManager.saveOpenid2Cache(request, response, openid);
+
+        return new ModelAndView("redirect:/answer/start2Answer.do?openid=" + openid);
+    }
+
+    @RequestMapping("/getUserInfo2.do")
+    public ModelAndView getUserInfo2(HttpServletRequest request,HttpServletResponse response) throws Exception{
         String openid = request.getParameter("openid");
         String unionid = request.getParameter("unionid");
         Consumer consumer = new Consumer();
