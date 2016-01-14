@@ -156,13 +156,15 @@ public class AnswerController {
 
     @RequestMapping("/getAward.do")
     public ModelAndView getAward(HttpServletRequest request, ModelMap modelMap) throws Exception {
+        String examId = request.getParameter("examId");
+        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
 
 //        String result = HttpUtil.getHttpResponse("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7f6aa253b75466dd&redirect_uri=" + request.getContextPath() + "/getUserByCode.do?resultPage=redirect:" + request.getContextPath() + "/start2Answer.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect", null);
 //        Map map = JsonUtil.parseJsonStringToMap(result);
 //        String code = (String)map.get("code");
 //        System.out.println("code : " + code);
 
-        return new ModelAndView(request.getParameter("resultPage"), modelMap);
+        return new ModelAndView("/question/reward", modelMap);
     }
 
     @RequestMapping("/getUserInfo.do")
