@@ -28,7 +28,7 @@
       <p>${question.questionContent}</p>
       <div class="txc-box">${question.answerKnowledge}</div>
       <div class="txc-btn">
-        <a href="<c:url value='/wx/descriptionReturn.do?examId=${examination.id}'/>" class="wechat-btn cart-ft">返&nbsp;回</a>
+        <a href="#" onclick="window.history.go(-1);" class="wechat-btn cart-ft">返&nbsp;回</a>
         <a href="#分享"  class="wechat-btn cart-ft share">我&nbsp;要&nbsp;分&nbsp;享</a>
 
         <div id="cover" style="display: none;">

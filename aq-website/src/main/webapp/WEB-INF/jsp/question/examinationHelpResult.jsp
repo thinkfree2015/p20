@@ -56,10 +56,12 @@
       </ul>
       <div class="txc-btn">
         <c:if test="${count != 0}">
-          <a href="" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;求&nbsp;助</a>
+          <a href="#" onclick="answerHelp()" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;求&nbsp;助</a>
+          <%--分享链接  <c:url value="/wx/startHelp.do?examId=${examination.id}"/>  --%>
         </c:if>
         <c:if test="${count == 0}">
           <a href="" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;分&nbsp;享</a>
+          <%--分享链接  <c:url value="/wx/start.do"/>  --%>
         </c:if>
         <a href="<c:url value='/wx/start.do'/>"  class="wechat-btn">答&nbsp;题&nbsp;赚&nbsp;红&nbsp;包</a>
 
@@ -91,17 +93,17 @@
       return false;
     }
   }
-  $().ready(function () {
-    $(".share").click(function () {
-      if (isWeiXin()) {
-        $("#cover").show();
-        $(".custom-header").css("z-index", "0");
-      } else {
-        $("#cover2").show();
-        $(".custom-header").css("z-index", "0");
-      }
-    });
+  function answerHelp(){
+    if (isWeiXin()) {
+      $("#cover").show();
+      $(".custom-header").css("z-index", "0");
+    } else {
+      $("#cover2").show();
+      $(".custom-header").css("z-index", "0");
+    }
+  }
 
+  $().ready(function () {
     $("#cover").click(function () {
       $(this).hide();
     });

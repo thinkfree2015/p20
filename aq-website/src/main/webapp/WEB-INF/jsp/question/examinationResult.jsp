@@ -56,6 +56,8 @@
       </ul>
       <div class="txc-btn">
         <a href="#" onclick="answerHelp()" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;求&nbsp;助</a>
+        <%--分享链接  <c:url value="/wx/startHelp.do?examId=${examination.id}"/>  --%>
+
         <a href=""  class="wechat-btn cart-ft">领&nbsp;取&nbsp;奖&nbsp;励</a>
 
         <div id="cover" style="display: none;">
