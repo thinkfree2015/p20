@@ -1,6 +1,5 @@
 package com.efeiyi.wx.website.service.impl;
 
-import com.efeiyi.wx.website.service.ExaminationEditionHolder;
 import com.efeiyi.wx.website.util.WxQAConst;
 import com.efeiyi.ec.organization.model.Consumer;
 import com.efeiyi.ec.yale.question.model.*;
@@ -158,7 +157,6 @@ public class WxQAManagerImpl implements WxQAManager {
         List<Integer> indexList = new ArrayList<>();//已取到题目的序号
         Random random = new Random();
         for (int x = 0; x < examinationEdition.getQuestionCount(); ) {
-
             //防止取到相同的题目
             int index = random.nextInt(questionList.size());
             if (!indexList.contains(index)){
