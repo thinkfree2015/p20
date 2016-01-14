@@ -76,7 +76,7 @@ public class AnswerController {
         ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer,examination);
 
         //4.
-//        modelMap.put("consumer", consumer);
+        modelMap.put("consumer", consumer);
         modelMap.put("examination", examination);
         return new ModelAndView((participationRecord == null ? "/question/examinationHelp" : "/question/examinationHelpResult"), modelMap);
     }
