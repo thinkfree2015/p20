@@ -19,7 +19,13 @@ public class Examination {
     private List<ExaminationQuestion> examinationQuestionList;
     private List<ParticipationRecord> participationRecordList;
     private ExaminationEdition examinationEdition;
-    private String status;//分享状态  0未分享  1已分享
+    private String status;//分享状态  0未分享  1已分享  2已答对  3已领奖
+
+    public static final String examStarted = "0";
+    public static final String examShared = "1";
+    public static final String examFinished = "2";
+    public static final String examRewarded = "3";
+
 
     @Id
     @GenericGenerator(name = "id", strategy = "com.ming800.core.p.model.M8idGenerator")

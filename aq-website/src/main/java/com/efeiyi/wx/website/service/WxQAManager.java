@@ -30,4 +30,6 @@ public interface WxQAManager {
     Examination findExaminationByConsumer(Consumer consumer,ExaminationEdition examinationEdition) throws Exception;
 
     ParticipationRecord checkIfParticipated(Consumer consumer,Examination examination);
+
+    void getReward(ParticipationRecord participationRecord) throws Exception;
 }

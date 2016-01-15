@@ -1,5 +1,6 @@
 package com.efeiyi.wx.website.service.impl;
 
+import com.efeiyi.ec.balance.model.BalanceRecord;
 import com.efeiyi.wx.website.util.WxQAConst;
 import com.efeiyi.ec.organization.model.Consumer;
 import com.efeiyi.ec.yale.question.model.*;
@@ -8,6 +9,8 @@ import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.p.model.WxCalledRecord;
 import com.ming800.core.p.service.AutoSerialManager;
 import com.ming800.core.util.CookieTool;
+import org.hibernate.LockOptions;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.ui.ModelMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Administrator on 2015/12/30.
@@ -35,6 +39,8 @@ public class WxQAManagerImpl implements WxQAManager {
 
     @Autowired
     private BaseManager baseManager;
+
+    private Map<String,String> lockMap = new ConcurrentHashMap<>();
 
     @Override
     public void saveOpenid2Cache(HttpServletRequest request, HttpServletResponse response, String openid) throws Exception {
@@ -72,8 +78,9 @@ public class WxQAManagerImpl implements WxQAManager {
         participationRecord.setExamination(examination);
         if (count == examination.getExaminationQuestionList().size()) {
             participationRecord.setAnswer("1");
-            examination.setStatus("2");//试题状态  2已完成
-            session.saveOrUpdate(Examination.class.getName(), examination);
+            participationRecord.setFinishDatetime(new Date());
+            examination.setStatus(Examination.examFinished);//试题状态 2已完成
+            session.saveOrUpdate(examination);
         } else {
             participationRecord.setAnswer("2");
         }
@@ -119,15 +126,6 @@ public class WxQAManagerImpl implements WxQAManager {
             returnEQList.add(eq);
         }
 
-        //用户回答全部正确
-        if (count == errorEQList.size()) {
-            for (ExaminationQuestion eq : returnEQList) {
-                session.saveOrUpdate(eq.getClass().getName(), eq);
-            }
-            examination.setStatus("2");//试题状态  2已完成
-            session.saveOrUpdate(Examination.class.getName(), examination);
-        }
-
         Consumer consumer = (Consumer) modelMap.get("consumer");
         ParticipationRecord participationRecord = new ParticipationRecord();
         participationRecord.setCreateDatetime(new Date());
@@ -139,6 +137,16 @@ public class WxQAManagerImpl implements WxQAManager {
         } else {
             participationRecord.setAnswer("2");
         }
+
+        //用户回答全部正确
+        if (count == errorEQList.size()) {
+            for (ExaminationQuestion eq : returnEQList) {
+                session.saveOrUpdate(eq.getClass().getName(), eq);
+            }
+            examination.setStatus("2");//试题状态  2已完成
+            participationRecord.setFinishDatetime(new Date());
+            session.saveOrUpdate(Examination.class.getName(), examination);
+        }
         session.saveOrUpdate(ParticipationRecord.class.getName(), participationRecord);
 
         return returnEQList;
@@ -146,7 +154,7 @@ public class WxQAManagerImpl implements WxQAManager {
 
     @Transactional
     @Override
-    public Examination generateNewExamination(Consumer consumer,ExaminationEdition examinationEdition) throws Exception {
+    public Examination generateNewExamination(Consumer consumer, ExaminationEdition examinationEdition) throws Exception {
         Session session = sessionFactory.getCurrentSession();
 
         Examination examination = new Examination();
@@ -154,16 +162,16 @@ public class WxQAManagerImpl implements WxQAManager {
         examination.setSerial(autoSerialManager.nextSerial("examination"));
         examination.setExaminationEdition(examinationEdition);
         examination.setStatus("0");//初始化试卷状态 0未分享
-        session.saveOrUpdate(Examination.class.getName(),examination);
+        session.saveOrUpdate(Examination.class.getName(), examination);
 
-        List<Question> questionList = baseManager.listObject("from Question where status != 0",new LinkedHashMap());
+        List<Question> questionList = baseManager.listObject("from Question where status != 0", new LinkedHashMap());
         List<ExaminationQuestion> eqList = new ArrayList<>();//已选取的题目列表
         List<Integer> indexList = new ArrayList<>();//已取到题目的序号
         Random random = new Random();
         for (int x = 0; x < examinationEdition.getQuestionCount(); ) {
             //防止取到相同的题目
             int index = random.nextInt(questionList.size());
-            if (!indexList.contains(index)){
+            if (!indexList.contains(index)) {
                 x++;
                 indexList.add(index);
                 Question question = questionList.get(index);
@@ -171,7 +179,7 @@ public class WxQAManagerImpl implements WxQAManager {
                 examinationQuestion.setQuestion(question);
                 examinationQuestion.setExamination(examination);
                 examinationQuestion.setQuestionOrder(x);
-                session.saveOrUpdate(ExaminationQuestion.class.getName(),examinationQuestion);
+                session.saveOrUpdate(ExaminationQuestion.class.getName(), examinationQuestion);
                 eqList.add(examinationQuestion);
             }
         }
@@ -208,5 +216,63 @@ public class WxQAManagerImpl implements WxQAManager {
         String pprStr = "from ParticipationRecord where consumer=:consumer and examination=:examination";
         ParticipationRecord participationRecord = (ParticipationRecord) baseManager.getUniqueObjectByConditions(pprStr, queryMap);
         return participationRecord;
+    }
+
+    @Override
+    @Transactional
+    public void getReward(ParticipationRecord participationRecord) throws Exception {
+        String idLock = getLock(participationRecord);
+
+        synchronized (idLock) {
+            LinkedHashMap queryMap = new LinkedHashMap();
+            QuestionSetting questionSetting = (QuestionSetting) baseManager.getUniqueObjectByConditions("from QuestionSetting", queryMap);
+            queryMap.put("examination", participationRecord.getExamination());
+            int size = (Integer) baseManager.getUniqueObjectByConditions("select count(p.id) from ParticipationRecord p where examination=:examination and recordType='1' and answer='1'", queryMap);
+
+            BalanceRecord balanceRecord = new BalanceRecord();
+            balanceRecord.setConsumer(participationRecord.getConsumer());
+            balanceRecord.setCreateDateTime(new Date());
+            balanceRecord.setStatus("1");
+            if (size > questionSetting.getRank32()) {
+                return;
+            } else {
+                Session session = sessionFactory.getCurrentSession();
+                Query query = session.createQuery("from Consumer where id='" + participationRecord.getConsumer().getId() + "'");
+                query.setLockOptions(LockOptions.UPGRADE);
+                Consumer consumer = (Consumer) query.uniqueResult();
+                balanceRecord.setCurrentBalance(consumer.getBalance());
+
+                if (size <= questionSetting.getRank12() && size >= questionSetting.getRank11()) {
+                    balanceRecord.setChangeBalance(questionSetting.getPrize10());
+                    balanceRecord.setResultBalance(consumer.getBalance().add(questionSetting.getPrize10()));
+                } else if (size >= questionSetting.getRank21() && size <= questionSetting.getRank22()) {
+                    balanceRecord.setChangeBalance(questionSetting.getPrize20());
+                    balanceRecord.setResultBalance(consumer.getBalance().add(questionSetting.getPrize20()));
+                } else if (size >= questionSetting.getRank31() && size <= questionSetting.getRank32()) {
+                    balanceRecord.setChangeBalance(questionSetting.getPrize30());
+                    balanceRecord.setResultBalance(consumer.getBalance().add(questionSetting.getPrize30()));
+                } else {
+                    throw new Exception("prize exception");
+                }
+                session.saveOrUpdate(consumer);
+                session.saveOrUpdate(balanceRecord);
+                participationRecord.getExamination().setStatus(Examination.examRewarded);
+                session.saveOrUpdate(participationRecord.getExamination());
+            }
+        }
+    }
+
+    public String getLock(ParticipationRecord participationRecord) {
+        String idLock = lockMap.get(participationRecord.getId());
+
+        if(idLock == null){
+            synchronized (lockMap){
+                if(lockMap.get(participationRecord.getId()) == null){
+                    lockMap.put(participationRecord.getId(),participationRecord.getId());
+                }
+                idLock = lockMap.get(participationRecord.getId());
+            }
+        }
+        return idLock;
     }
 }

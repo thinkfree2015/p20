@@ -1,6 +1,7 @@
 package com.efeiyi.ec.yale.question.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -34,6 +35,7 @@ public class ExaminationEdition {
     }
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "examinationEdition")
+    @Where(clause = "")
     public List<Examination> getExaminationList() {
         return examinationList;
     }

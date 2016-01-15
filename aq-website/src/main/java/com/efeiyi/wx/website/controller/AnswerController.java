@@ -1,5 +1,6 @@
 package com.efeiyi.wx.website.controller;
 
+import com.efeiyi.ec.balance.model.BalanceRecord;
 import com.efeiyi.ec.organization.model.Consumer;
 import com.efeiyi.ec.yale.question.model.Examination;
 import com.efeiyi.ec.yale.question.model.ExaminationQuestion;
@@ -20,10 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Created by Administrator on 2015/12/23.
@@ -52,7 +51,7 @@ public class AnswerController {
         examination = (examination != null ? examination : wxQAManager.generateNewExamination(consumer, examinationEditionHolder.getExaminationEditionList().get(0)));
 
         //3.判断是否已经答题
-        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer,examination);
+        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, examination);
 
         //4.
         modelMap.put("examination", examination);
@@ -73,7 +72,7 @@ public class AnswerController {
         Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examId);
 
         //3.判断是否已经答题
-        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer,examination);
+        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, examination);
 
         //4.
         modelMap.put("consumer", consumer);
@@ -92,8 +91,10 @@ public class AnswerController {
         String consumerId = request.getParameter("consumerId");
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
         modelMap.put("consumer", consumer);
-
-        wxQAManager.saveAnswer(exam, modelMap);
+        if (!Examination.examFinished.equals(exam.getStatus())
+                && !Examination.examRewarded.equals(exam.getStatus())) {
+            wxQAManager.saveAnswer(exam, modelMap);
+        }
 
         modelMap.put("examination", exam);
         return new ModelAndView("/question/examinationResult", modelMap);
@@ -111,10 +112,13 @@ public class AnswerController {
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
         modelMap.put("consumer", consumer);
 
-        List<ExaminationQuestion> eqList = wxQAManager.saveHelpAnswer(exam, modelMap);
-
+        if (!Examination.examFinished.equals(exam.getStatus())
+                && !Examination.examRewarded.equals(exam.getStatus())) {
+            List<ExaminationQuestion> eqList = wxQAManager.saveHelpAnswer(exam, modelMap);
+            modelMap.put("eqList", eqList);
+        }
         modelMap.put("examination", exam);
-        modelMap.put("eqList", eqList);
+
         return new ModelAndView("/question/examinationHelpResult", modelMap);
     }
 
@@ -135,11 +139,11 @@ public class AnswerController {
     public ModelAndView inquireProgress(HttpServletRequest request, ModelMap modelMap) {
         String examId = request.getParameter("examId");
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
-        if (exam != null && exam.getStatus().equals("0")){
+        if (exam != null && exam.getStatus().equals("0")) {
             exam.setStatus("1");//试题 1已分享
             baseManager.saveOrUpdate(exam.getClass().getName(), exam);
         }
-        modelMap.put("examination",exam);
+        modelMap.put("examination", exam);
 
         return new ModelAndView("/question/shareProgress", modelMap);
     }
@@ -147,13 +151,21 @@ public class AnswerController {
 
     @RequestMapping("/getAward.do")
     public ModelAndView getAward(HttpServletRequest request, ModelMap modelMap) throws Exception {
+        String openid = request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
+        //1.找到当前用户和题
+        Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
         String examId = request.getParameter("examId");
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, exam);
 
-//        String result = HttpUtil.getHttpResponse("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7f6aa253b75466dd&redirect_uri=" + request.getContextPath() + "/getUserByCode.do?resultPage=redirect:" + request.getContextPath() + "/start2Answer.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect", null);
-//        Map map = JsonUtil.parseJsonStringToMap(result);
-//        String code = (String)map.get("code");
-//        System.out.println("code : " + code);
+        //2.判断是否有领奖资格
+        if (participationRecord != null
+                && exam.getConsumer().getId().equals(consumer.getId())
+                && Examination.examFinished.equals(exam.getStatus())
+                && ParticipationRecord.answerTrue.equals(participationRecord.getAnswer())
+                && participationRecord.getFinishDatetime().compareTo(exam.getExaminationEdition().getExpireDate()) <= 0) {
+            wxQAManager.getReward(participationRecord);
+        }
 
         return new ModelAndView("/question/reward", modelMap);
     }
@@ -163,7 +175,7 @@ public class AnswerController {
 
         //用code取accessToken
         String code = request.getParameter("code");
-        if(code == null){
+        if (code == null) {
             return null;
         }
         String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx7f6aa253b75466dd&secret=04928de13ab23dca159d235ba6dc19ea&code=" + code + "&grant_type=authorization_code", null);
@@ -203,7 +215,7 @@ public class AnswerController {
     }
 
     @RequestMapping("/getUserInfo2.do")
-    public ModelAndView getUserInfo2(HttpServletRequest request,HttpServletResponse response) throws Exception{
+    public ModelAndView getUserInfo2(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String openid = request.getParameter("openid");
         String unionid = request.getParameter("unionid");
         Consumer consumer = new Consumer();
