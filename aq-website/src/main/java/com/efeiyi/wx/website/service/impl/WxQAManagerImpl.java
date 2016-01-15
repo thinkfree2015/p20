@@ -72,6 +72,8 @@ public class WxQAManagerImpl implements WxQAManager {
         participationRecord.setExamination(examination);
         if (count == examination.getExaminationQuestionList().size()) {
             participationRecord.setAnswer("1");
+            examination.setStatus("2");//试题状态  2已完成
+            session.saveOrUpdate(Examination.class.getName(), examination);
         } else {
             participationRecord.setAnswer("2");
         }
@@ -122,6 +124,8 @@ public class WxQAManagerImpl implements WxQAManager {
             for (ExaminationQuestion eq : returnEQList) {
                 session.saveOrUpdate(eq.getClass().getName(), eq);
             }
+            examination.setStatus("2");//试题状态  2已完成
+            session.saveOrUpdate(Examination.class.getName(), examination);
         }
 
         Consumer consumer = (Consumer) modelMap.get("consumer");

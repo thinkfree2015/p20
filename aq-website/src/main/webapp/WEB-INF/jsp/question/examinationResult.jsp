@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!doctype html>
 <html class="no-js">
 <head>
@@ -60,7 +61,7 @@
           <%--分享链接  <c:url value="/wx/startHelp.do?examId=${examination.id}"/>  --%>
         </c:if>
 
-        <c:if test="${examination.status == '1'}">
+        <c:if test="${examination.status != '0'}">
           <a href="<c:url value='/answer/inquireProgress.do?examId=${examination.id}'/>"
              class="wechat-btn cart-ft share">分&nbsp;享&nbsp;进&nbsp;度</a>
         </c:if>
@@ -104,8 +105,8 @@
   }
 
   function answerHelp(){
-    var count = '${count}';
-    if(count == '0'){
+    var count = ${count == 0};
+    if(count){
       $("#cover2").show();
       $(".custom-header").css("z-index", "0");
       return;
@@ -126,8 +127,8 @@
   })
 
   function afterReward(){
-    var tag = '${count}';
-    if(tag != '0'){
+    var tag = ${count != 0};
+    if(tag){
       $("#cover2").show();
       $(".custom-header").css("z-index", "0");
       return;
