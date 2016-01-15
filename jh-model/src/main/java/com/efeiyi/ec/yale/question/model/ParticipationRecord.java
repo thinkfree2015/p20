@@ -18,7 +18,6 @@ public class ParticipationRecord {
     private ParticipationRecord creationRecord;
     private Consumer consumer;
     private Date createDatetime;
-    private Date finishDatetime;
     private String recordType;//记录类型：1.发起答题 2.协助答题
     private String answer;//1.正确 2.错误
     private List<ParticipationRecord> participationRecordList;
@@ -115,12 +114,4 @@ public class ParticipationRecord {
         this.balanceRecord = balanceRecord;
     }
 
-    @Column(name = "finish_datetime")
-    public Date getFinishDatetime() {
-        return finishDatetime;
-    }
-
-    public void setFinishDatetime(Date finishDatetime) {
-        this.finishDatetime = finishDatetime;
-    }
 }

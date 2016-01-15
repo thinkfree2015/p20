@@ -40,7 +40,7 @@ public class WxQAManagerImpl implements WxQAManager {
     @Autowired
     private BaseManager baseManager;
 
-    private Map<String,String> lockMap = new ConcurrentHashMap<>();
+    private Map<String, String> lockMap = new ConcurrentHashMap<>();
 
     @Override
     public void saveOpenid2Cache(HttpServletRequest request, HttpServletResponse response, String openid) throws Exception {
@@ -78,8 +78,8 @@ public class WxQAManagerImpl implements WxQAManager {
         participationRecord.setExamination(examination);
         if (count == examination.getExaminationQuestionList().size()) {
             participationRecord.setAnswer("1");
-            participationRecord.setFinishDatetime(new Date());
             examination.setStatus(Examination.examFinished);//试题状态 2已完成
+            examination.setFinishDatetime(new Date());
             session.saveOrUpdate(examination);
         } else {
             participationRecord.setAnswer("2");
@@ -125,6 +125,15 @@ public class WxQAManagerImpl implements WxQAManager {
             }
             returnEQList.add(eq);
         }
+        //用户回答全部正确
+        if (count == errorEQList.size()) {
+            for (ExaminationQuestion eq : returnEQList) {
+                session.saveOrUpdate(eq.getClass().getName(), eq);
+            }
+            examination.setStatus("2");//试题状态  2已完成
+            examination.setFinishDatetime(new Date());
+            session.saveOrUpdate(Examination.class.getName(), examination);
+        }
 
         Consumer consumer = (Consumer) modelMap.get("consumer");
         ParticipationRecord participationRecord = new ParticipationRecord();
@@ -138,15 +147,6 @@ public class WxQAManagerImpl implements WxQAManager {
             participationRecord.setAnswer("2");
         }
 
-        //用户回答全部正确
-        if (count == errorEQList.size()) {
-            for (ExaminationQuestion eq : returnEQList) {
-                session.saveOrUpdate(eq.getClass().getName(), eq);
-            }
-            examination.setStatus("2");//试题状态  2已完成
-            participationRecord.setFinishDatetime(new Date());
-            session.saveOrUpdate(Examination.class.getName(), examination);
-        }
         session.saveOrUpdate(ParticipationRecord.class.getName(), participationRecord);
 
         return returnEQList;
@@ -161,7 +161,7 @@ public class WxQAManagerImpl implements WxQAManager {
         examination.setConsumer(consumer);
         examination.setSerial(autoSerialManager.nextSerial("examination"));
         examination.setExaminationEdition(examinationEdition);
-        examination.setStatus("0");//初始化试卷状态 0未分享
+        examination.setStatus(Examination.examStarted);//初始化试卷状态 0未分享
         session.saveOrUpdate(Examination.class.getName(), examination);
 
         List<Question> questionList = baseManager.listObject("from Question where status != 0", new LinkedHashMap());
@@ -262,13 +262,13 @@ public class WxQAManagerImpl implements WxQAManager {
         }
     }
 
-    public String getLock(ParticipationRecord participationRecord) {
+    private String getLock(ParticipationRecord participationRecord) {
         String idLock = lockMap.get(participationRecord.getId());
 
-        if(idLock == null){
-            synchronized (lockMap){
-                if(lockMap.get(participationRecord.getId()) == null){
-                    lockMap.put(participationRecord.getId(),participationRecord.getId());
+        if (idLock == null) {
+            synchronized (lockMap) {
+                if (lockMap.get(participationRecord.getId()) == null) {
+                    lockMap.put(participationRecord.getId(), participationRecord.getId());
                 }
                 idLock = lockMap.get(participationRecord.getId());
             }

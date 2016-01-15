@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ public class Examination {
     private List<ParticipationRecord> participationRecordList;
     private ExaminationEdition examinationEdition;
     private String status;//分享状态  0未分享  1已分享  2已答对  3已领奖
+    private Date finishDatetime;
 
     public static final String examStarted = "0";
     public static final String examShared = "1";
@@ -47,7 +49,7 @@ public class Examination {
         this.serial = serial;
     }
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "examination")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "examination")
     @OrderBy(value = "questionOrder asc")
     public List<ExaminationQuestion> getExaminationQuestionList() {
         return examinationQuestionList;
@@ -67,7 +69,7 @@ public class Examination {
         this.examinationEdition = examinationEdition;
     }
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "examination")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "examination")
     public List<ParticipationRecord> getParticipationRecordList() {
         return participationRecordList;
     }
@@ -94,5 +96,14 @@ public class Examination {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Column(name = "finish_datetime")
+    public Date getFinishDatetime() {
+        return finishDatetime;
+    }
+
+    public void setFinishDatetime(Date finishDatetime) {
+        this.finishDatetime = finishDatetime;
     }
 }

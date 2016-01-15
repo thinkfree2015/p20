@@ -139,8 +139,8 @@ public class AnswerController {
     public ModelAndView inquireProgress(HttpServletRequest request, ModelMap modelMap) {
         String examId = request.getParameter("examId");
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
-        if (exam != null && exam.getStatus().equals("0")) {
-            exam.setStatus("1");//试题 1已分享
+        if (exam != null && exam.getStatus().equals(Examination.examStarted)) {
+            exam.setStatus(Examination.examShared);//试题 1已分享
             baseManager.saveOrUpdate(exam.getClass().getName(), exam);
         }
         modelMap.put("examination", exam);
@@ -163,7 +163,7 @@ public class AnswerController {
                 && exam.getConsumer().getId().equals(consumer.getId())
                 && Examination.examFinished.equals(exam.getStatus())
                 && ParticipationRecord.answerTrue.equals(participationRecord.getAnswer())
-                && participationRecord.getFinishDatetime().compareTo(exam.getExaminationEdition().getExpireDate()) <= 0) {
+                && exam.getFinishDatetime().compareTo(exam.getExaminationEdition().getExpireDate()) <= 0) {
             wxQAManager.getReward(participationRecord);
         }
 
