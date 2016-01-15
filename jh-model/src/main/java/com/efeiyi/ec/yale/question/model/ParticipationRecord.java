@@ -2,6 +2,7 @@ package com.efeiyi.ec.yale.question.model;
 
 import com.efeiyi.ec.balance.model.BalanceRecord;
 import com.efeiyi.ec.organization.model.Consumer;
+import com.ming800.core.p.model.WxCalledRecord;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class ParticipationRecord {
     private List<ParticipationRecord> participationRecordList;
     private Examination examination;
     private BalanceRecord balanceRecord;
+    private WxCalledRecord wxCalledRecord;
 
     public static final String answerTrue = "1";
     public static final String answerFalse = "0";
@@ -114,4 +116,13 @@ public class ParticipationRecord {
         this.balanceRecord = balanceRecord;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "wx_called_record_id")
+    public WxCalledRecord getWxCalledRecord() {
+        return wxCalledRecord;
+    }
+
+    public void setWxCalledRecord(WxCalledRecord wxCalledRecord) {
+        this.wxCalledRecord = wxCalledRecord;
+    }
 }

@@ -18,36 +18,45 @@
   <div class="ae  weachat-tab"> <div class="rewarded"></div></div>
   <div class="bouns-box  weachat-tab ae">
     <div class="bonus ae">
-      <div class="bouns-like"><span>199.99</span>元</div>
+      <div class="bouns-like"><span>${balanceRecord.changeBalance}</span>元</div>
       <p class="bouns-text">红包可在e飞蚁平台抵现金使用，可累积，全场无限制呦~马上去使用。</p>
       <div class="ds-btn"><a href="#" class="wechat-btn">立即使用</a></div>
     </div>
     <div class="fiy-box">
       <div class="fiy-title ae"><i class="fiy-icon"></i></div>
-      <div class="ae text-fiy">今日闯关英雄榜,您目前排名19名。<a class="right-btn" href="">炫耀一下!</a></div>
+      <div class="ae text-fiy">今日闯关英雄榜,您目前排名${rank}名。<a class="right-btn" href="">炫耀一下!</a></div>
       <!--月榜-->
       <ul class="ae">
-        <li>
-          <div class="fiy-text">
-            <div class="fiy-pic"><a href="#"><img src="/scripts/wap/upload/des-master.jpg"></a></div>
-            <span class="fiy-txt">剑指天山</span>
-          </div>
-          <span class="fiy-buck">4210元</span>
-        </li>
-        <li>
-          <div class="fiy-text">
-            <div class="fiy-pic"><a href="#"><img src="/scripts/wap/upload/des-master.jpg"></a></div>
-            <span class="fiy-txt">剑指天山</span>
-          </div>
-          <span class="fiy-buck">4210元</span>
-        </li>
-        <li>
-          <div class="fiy-text">
-            <div class="fiy-pic"><a href="#"><img src="/scripts/wap/upload/des-master.jpg"></a></div>
-            <span class="fiy-txt">剑指天山</span>
-          </div>
-          <span class="fiy-buck">4210元</span>
-        </li>
+        <c:forEach items="${rankList}" var="participationRecord" >
+          <li>
+            <div class="fiy-text">
+              <div class="fiy-pic"><a href="#"><img src="${participationRecord.wxCalledRecord.callback}"></a></div>
+              <span class="fiy-txt">${participationRecord.wxCalledRecord.requestSource}</span>
+            </div>
+            <span class="fiy-buck">4210元</span>
+          </li>
+        </c:forEach>
+        <%--<li>--%>
+          <%--<div class="fiy-text">--%>
+            <%--<div class="fiy-pic"><a href="#"><img src="/scripts/wap/upload/des-master.jpg"></a></div>--%>
+            <%--<span class="fiy-txt">剑指天山</span>--%>
+          <%--</div>--%>
+          <%--<span class="fiy-buck">4210元</span>--%>
+        <%--</li>--%>
+        <%--<li>--%>
+          <%--<div class="fiy-text">--%>
+            <%--<div class="fiy-pic"><a href="#"><img src="/scripts/wap/upload/des-master.jpg"></a></div>--%>
+            <%--<span class="fiy-txt">剑指天山</span>--%>
+          <%--</div>--%>
+          <%--<span class="fiy-buck">4210元</span>--%>
+        <%--</li>--%>
+        <%--<li>--%>
+          <%--<div class="fiy-text">--%>
+            <%--<div class="fiy-pic"><a href="#"><img src="/scripts/wap/upload/des-master.jpg"></a></div>--%>
+            <%--<span class="fiy-txt">剑指天山</span>--%>
+          <%--</div>--%>
+          <%--<span class="fiy-buck">4210元</span>--%>
+        <%--</li>--%>
       </ul>
     </div>
   </div>

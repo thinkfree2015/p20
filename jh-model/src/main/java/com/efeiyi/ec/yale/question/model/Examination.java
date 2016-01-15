@@ -70,6 +70,7 @@ public class Examination {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "examination")
+    @OrderBy(value = "createDatetime asc,status asc")
     public List<ParticipationRecord> getParticipationRecordList() {
         return participationRecordList;
     }

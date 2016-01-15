@@ -31,5 +31,7 @@ public interface WxQAManager {
 
     ParticipationRecord checkIfParticipated(Consumer consumer,Examination examination);
 
-    void getReward(ParticipationRecord participationRecord) throws Exception;
+    void getReward(ParticipationRecord participationRecord, ModelMap modelMap) throws Exception;
+
+    String getLock(ParticipationRecord participationRecord);
 }
