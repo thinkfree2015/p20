@@ -101,15 +101,15 @@ public class AnswerController {
         return new ModelAndView("/question/examinationResult", modelMap);
     }
 
-    @RequestMapping("/commitHelpAnswer.do/{examinationId}")
-    public ModelAndView commitHelpAnswer(@PathVariable String examinationId, HttpServletRequest request, ModelMap modelMap) throws Exception {
+    @RequestMapping("/commitHelpAnswer.do/{examinationId}/{answerList}/{consumerId}")
+    public ModelAndView commitHelpAnswer(@PathVariable String examinationId, @PathVariable String answerList, @PathVariable String consumerId,HttpServletRequest request, ModelMap modelMap) throws Exception {
 //        String examId = request.getParameter("examId");
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
-        String answerList = request.getParameter("answerList");
+//        String answerList = request.getParameter("answerList");
         modelMap.put("answerList", answerList);
 
-        String consumerId = request.getParameter("consumerId");
+//        String consumerId = request.getParameter("consumerId");
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
         modelMap.put("consumer", consumer);
 
@@ -240,6 +240,7 @@ public class AnswerController {
         baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
 
         wxQAManager.saveOpenid2Cache(request, response, openid);
+//        return new ModelAndView("redirect:/answer/assistAnswer.do/ijjq442t3di7jl1p?openid=" + openid);
         return new ModelAndView("redirect:/answer/start2Answer.do?openid=" + openid);
     }
 }

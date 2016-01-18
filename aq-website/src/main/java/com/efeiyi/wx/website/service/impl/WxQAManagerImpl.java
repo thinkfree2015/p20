@@ -105,7 +105,7 @@ public class WxQAManagerImpl implements WxQAManager {
         //用户帮助好友答题的结果map<题目序号, 用户答案>
         Map<Integer, String> map = new HashMap<>();
         String answerList = (String) modelMap.get("answerList");
-        String[] answers = answerList.split(";");
+        String[] answers = answerList.split(" ");
         for (String str : answers) {
             String[] numAnswer = str.split(",");
             map.put(Integer.valueOf(numAnswer[0]), numAnswer[1]);
