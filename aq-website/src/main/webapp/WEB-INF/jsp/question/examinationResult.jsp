@@ -133,7 +133,7 @@
       $(".custom-header").css("z-index", "0");
       return;
     }
-    window.location.href = "<c:url value='/answer/getAward.do?examId=${examination.id}'/>";
+    window.location.href = "<c:url value='/answer/getAward/${examination.id}'/>";
   }
 </script>
 

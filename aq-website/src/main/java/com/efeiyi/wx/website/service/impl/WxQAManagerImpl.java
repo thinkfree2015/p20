@@ -1,6 +1,7 @@
 package com.efeiyi.wx.website.service.impl;
 
 import com.efeiyi.ec.balance.model.BalanceRecord;
+import com.efeiyi.ec.organization.model.MyUser;
 import com.efeiyi.wx.website.util.WxQAConst;
 import com.efeiyi.ec.organization.model.Consumer;
 import com.efeiyi.ec.yale.question.model.*;
@@ -14,6 +15,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -254,30 +257,56 @@ public class WxQAManagerImpl implements WxQAManager {
                 Query query = session.createQuery("from Consumer where id='" + participationRecord.getConsumer().getId() + "'");
                 query.setLockOptions(LockOptions.UPGRADE);
                 Consumer consumer = (Consumer) query.uniqueResult();
-                balanceRecord.setCurrentBalance(consumer.getBalance());
+                Consumer registeredConsumer = transferConsumer(consumer,participationRecord);
+                balanceRecord.setCurrentBalance(registeredConsumer.getBalance());
                 if (participationRecordList.size() <= questionSetting.getRank12() && participationRecordList.size() >= questionSetting.getRank11()) {
                     balanceRecord.setChangeBalance(questionSetting.getPrize10());
-                    balanceRecord.setResultBalance(consumer.getBalance().add(questionSetting.getPrize10()));
+                    balanceRecord.setResultBalance(registeredConsumer.getBalance().add(questionSetting.getPrize10()));
                 } else if (participationRecordList.size() >= questionSetting.getRank21() && participationRecordList.size() <= questionSetting.getRank22()) {
                     balanceRecord.setChangeBalance(questionSetting.getPrize20());
-                    balanceRecord.setResultBalance(consumer.getBalance().add(questionSetting.getPrize20()));
+                    balanceRecord.setResultBalance(registeredConsumer.getBalance().add(questionSetting.getPrize20()));
                 } else if (participationRecordList.size() >= questionSetting.getRank31() && participationRecordList.size() <= questionSetting.getRank32()) {
                     balanceRecord.setChangeBalance(questionSetting.getPrize30());
-                    balanceRecord.setResultBalance(consumer.getBalance().add(questionSetting.getPrize30()));
+                    balanceRecord.setResultBalance(registeredConsumer.getBalance().add(questionSetting.getPrize30()));
                 } else {
                     throw new Exception("prize exception");
                 }
                 session.saveOrUpdate(balanceRecord);
-                consumer.setBalance(balanceRecord.getResultBalance());
-                session.saveOrUpdate(consumer);
+                registeredConsumer.setBalance(balanceRecord.getResultBalance());
+                session.saveOrUpdate(registeredConsumer);
+                session.delete(consumer);
                 participationRecord.getExamination().setStatus(Examination.examRewarded);
                 participationRecord.setBalanceRecord(balanceRecord);
                 session.saveOrUpdate(participationRecord.getExamination());
+                session.saveOrUpdate(participationRecord);
             }
         }
         modelMap.addAttribute("rank", participationRecordList.size());
         modelMap.addAttribute("rankList", participationRecordList);
         modelMap.addAttribute("balanceRecord", participationRecord.getBalanceRecord());
+    }
+
+    //微信用户和注册有用户绑定后，把微信用户的信息填入注册用户，并更新相关记录
+    private Consumer transferConsumer(Consumer consumer,ParticipationRecord participationRecord) {
+        //更新consumer
+        MyUser user = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Consumer registeredConsumer = (Consumer) baseManager.getObject(Consumer.class.getName(), user.getId());
+        registeredConsumer.setUnionid(consumer.getUnionid());
+        if(registeredConsumer.getBalance() == null){
+            registeredConsumer.setBalance(new BigDecimal(0));
+        }
+        //更新wxCalledRecord
+        LinkedHashMap queryMap = new LinkedHashMap();
+        queryMap.put("consumerId",consumer.getId());
+        WxCalledRecord wxCalledRecord = (WxCalledRecord)baseManager.getUniqueObjectByConditions("from WxCalledRecord where consumerId=:consumerId",queryMap);
+        wxCalledRecord.setConsumerId(registeredConsumer.getId());
+        baseManager.saveOrUpdate(wxCalledRecord.getClass().getName(),wxCalledRecord);
+        //更新participationRecord
+        participationRecord.setConsumer(registeredConsumer);
+        participationRecord.setWxCalledRecord(wxCalledRecord);
+        //更新examination
+        participationRecord.getExamination().setConsumer(registeredConsumer);
+        return registeredConsumer;
     }
 
     public String getLock(ParticipationRecord participationRecord) {

@@ -16,6 +16,7 @@ import com.ming800.core.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -59,8 +60,8 @@ public class AnswerController {
         return new ModelAndView((participationRecord == null ? "/question/examination" : "/question/examinationResult"), modelMap);
     }
 
-    @RequestMapping("/assistAnswer.do")
-    public ModelAndView assistAnswer(HttpServletRequest request, ModelMap modelMap) throws Exception {
+    @RequestMapping("/assistAnswer.do/{examinationId}")
+    public ModelAndView assistAnswer(@PathVariable String examinationId,HttpServletRequest request, ModelMap modelMap) throws Exception {
         String openid = request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
         System.out.println("assist---openid:" + openid + "   unionid:" + request.getParameter("unionid"));
 
@@ -68,8 +69,8 @@ public class AnswerController {
         Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
 
         //2.待继续答的题
-        String examId = request.getParameter("examId");
-        Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+//        String examId = request.getParameter("examId");
+        Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
         //3.判断是否已经答题
         ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, examination);
@@ -80,15 +81,15 @@ public class AnswerController {
         return new ModelAndView((participationRecord == null ? "/question/examinationHelp" : "/question/examinationHelpResult"), modelMap);
     }
 
-    @RequestMapping("/commitAnswer.do")
-    public ModelAndView commitAnswer(HttpServletRequest request, ModelMap modelMap) throws Exception {
-        String examId = request.getParameter("examId");
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+    @RequestMapping({"/commitAnswer.do/{examinationId}/{answerList}/{consumerId}"})
+    public ModelAndView commitAnswer(@PathVariable String examinationId, @PathVariable String answerList, @PathVariable String consumerId, HttpServletRequest request, ModelMap modelMap) throws Exception {
+//        String examId = request.getParameter("examId");
+        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
-        String answerList = request.getParameter("answerList");
+//        String answerList = request.getParameter("answerList");
         modelMap.put("answerList", answerList);
 
-        String consumerId = request.getParameter("consumerId");
+//        String consumerId = request.getParameter("consumerId");
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
         modelMap.put("consumer", consumer);
         if (!Examination.examFinished.equals(exam.getStatus())
@@ -100,10 +101,10 @@ public class AnswerController {
         return new ModelAndView("/question/examinationResult", modelMap);
     }
 
-    @RequestMapping("/commitHelpAnswer.do")
-    public ModelAndView commitHelpAnswer(HttpServletRequest request, ModelMap modelMap) throws Exception {
-        String examId = request.getParameter("examId");
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+    @RequestMapping("/commitHelpAnswer.do/{examinationId}")
+    public ModelAndView commitHelpAnswer(@PathVariable String examinationId, HttpServletRequest request, ModelMap modelMap) throws Exception {
+//        String examId = request.getParameter("examId");
+        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
         String answerList = request.getParameter("answerList");
         modelMap.put("answerList", answerList);
@@ -149,13 +150,13 @@ public class AnswerController {
     }
 
 
-    @RequestMapping("/getAward.do")
-    public ModelAndView getAward(HttpServletRequest request, ModelMap modelMap) throws Exception {
+    @RequestMapping("/getAward/{examinationId}")
+    public ModelAndView getAward(@PathVariable String examinationId,HttpServletRequest request, ModelMap modelMap) throws Exception {
         String openid = request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
         //1.找到当前用户和题
         Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
-        String examId = request.getParameter("examId");
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+        //String examId = request.getParameter("examId");
+        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
         ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, exam);
 
         //2.判断是否有领奖资格

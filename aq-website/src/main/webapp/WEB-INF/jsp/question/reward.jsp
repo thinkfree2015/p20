@@ -20,7 +20,7 @@
     <div class="bonus ae">
       <div class="bouns-like"><span>${balanceRecord.changeBalance}</span>元</div>
       <p class="bouns-text">红包可在e飞蚁平台抵现金使用，可累积，全场无限制呦~马上去使用。</p>
-      <div class="ds-btn"><a href="#" class="wechat-btn">立即使用</a></div>
+      <div class="ds-btn"><a href="http://www.efeiyi.com" class="wechat-btn">立即使用</a></div>
     </div>
     <div class="fiy-box">
       <div class="fiy-title ae"><i class="fiy-icon"></i></div>

@@ -47,7 +47,12 @@
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
     <bean id="commonManager" class="com.ming800.core.p.service.impl.CommonManagerImpl" />
-
+    <bean id="userDao" class="com.efeiyi.wx.website.dao.hibernate.UserDaoHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="userManager" class="com.efeiyi.wx.website.service.impl.UserManagerImpl">
+        <property name="userDao" ref="userDao"/>
+    </bean>
     <tx:annotation-driven transaction-manager="transactionManager" />
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>

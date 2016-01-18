@@ -1,13 +1,10 @@
 package com.efeiyi.wx.website.interceptor;
 
-import com.efeiyi.wx.website.util.WxQAConst;
 import com.efeiyi.wx.website.service.WxQAManager;
 import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.p.model.WxCalledRecord;
 import com.ming800.core.util.CookieTool;
-import com.ming800.core.util.HttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;

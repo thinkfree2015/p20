@@ -57,7 +57,7 @@
         _this++;
         $(".topic").eq(_this).addClass("active").siblings().removeClass("active");
         if(_this == _index){
-          var url = "?examId="+ examId + "&answerList=" + answerList + "&consumerId=" + consumerId;
+          var url = "/"+ examId + "/" + answerList + "/" + consumerId;
           window.location.href="<c:url value='/answer/commitAnswer.do'/>" + url ;
         }
       });
