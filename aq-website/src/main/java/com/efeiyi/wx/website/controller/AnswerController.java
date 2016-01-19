@@ -41,7 +41,7 @@ public class AnswerController {
 
     @RequestMapping("/start2Answer.do")
     public ModelAndView start2Answer(HttpServletRequest request, /*HttpServletResponse response,*/ ModelMap modelMap) throws Exception {
-        String openid = request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
+        String openid = wxQAManager.getOpenid(request);
         System.out.println("start----openid:" + openid + "   unionid:" + request.getParameter("unionid"));
 
         //1.找到所属用户
@@ -62,7 +62,7 @@ public class AnswerController {
 
     @RequestMapping("/assistAnswer.do/{examinationId}")
     public ModelAndView assistAnswer(@PathVariable String examinationId,HttpServletRequest request, ModelMap modelMap) throws Exception {
-        String openid = request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
+        String openid = wxQAManager.getOpenid(request);
         System.out.println("assist---openid:" + openid + "   unionid:" + request.getParameter("unionid"));
 
         //1.找到所属用户
@@ -94,6 +94,8 @@ public class AnswerController {
         modelMap.put("consumer", consumer);
         if (!Examination.examFinished.equals(exam.getStatus())
                 && !Examination.examRewarded.equals(exam.getStatus())) {
+            String openid = wxQAManager.getOpenid(request);
+            modelMap.put("openid",openid);
             wxQAManager.saveAnswer(exam, modelMap);
         }
 
@@ -115,6 +117,8 @@ public class AnswerController {
 
         if (!Examination.examFinished.equals(exam.getStatus())
                 && !Examination.examRewarded.equals(exam.getStatus())) {
+            String openid = wxQAManager.getOpenid(request);
+            modelMap.put("openid",openid);
             List<ExaminationQuestion> eqList = wxQAManager.saveHelpAnswer(exam, modelMap);
             modelMap.put("eqList", eqList);
         }
@@ -152,7 +156,8 @@ public class AnswerController {
 
     @RequestMapping("/getAward/{examinationId}")
     public ModelAndView getAward(@PathVariable String examinationId,HttpServletRequest request, ModelMap modelMap) throws Exception {
-        String openid = request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
+        String openid = wxQAManager.getOpenid(request);
+        modelMap.put("openid",openid);
         //1.找到当前用户和题
         Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
         //String examId = request.getParameter("examId");
@@ -219,28 +224,28 @@ public class AnswerController {
         return new ModelAndView("redirect:/answer/start2Answer.do?openid=" + openid);
     }
 
-    @RequestMapping("/getUserInfo2.do")
-    public ModelAndView getUserInfo2(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String openid = request.getParameter("openid");
-        String unionid = request.getParameter("unionid");
-        Consumer consumer = new Consumer();
-        consumer.setUnionid(unionid);
-        consumer.setBalance(new BigDecimal(0));
-        baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
-        WxCalledRecord wxCalledRecord = new WxCalledRecord();
-        wxCalledRecord.setConsumerId(consumer.getId());
-        wxCalledRecord.setDataKey(WxQAConst.dataKey);
-        wxCalledRecord.setData(openid);
-        wxCalledRecord.setAccessToken("accesstoken");
-        wxCalledRecord.setCreateDatetime(new Date());
-        //头像暂放callback
-        wxCalledRecord.setCallback("headimgurl");
-        //名字暂放请求来源
-        wxCalledRecord.setRequestSource("nickname");
-        baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
-
-        wxQAManager.saveOpenid2Cache(request, response, openid);
-//        return new ModelAndView("redirect:/answer/assistAnswer.do/ijjq442t3di7jl1p?openid=" + openid);
-        return new ModelAndView("redirect:/answer/start2Answer.do?openid=" + openid);
-    }
+//    @RequestMapping("/getUserInfo2.do")
+//    public ModelAndView getUserInfo2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        String openid = request.getParameter("openid");
+//        String unionid = request.getParameter("unionid");
+//        Consumer consumer = new Consumer();
+//        consumer.setUnionid(unionid);
+//        consumer.setBalance(new BigDecimal(0));
+//        baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
+//        WxCalledRecord wxCalledRecord = new WxCalledRecord();
+//        wxCalledRecord.setConsumerId(consumer.getId());
+//        wxCalledRecord.setDataKey(WxQAConst.dataKey);
+//        wxCalledRecord.setData(openid);
+//        wxCalledRecord.setAccessToken("accesstoken");
+//        wxCalledRecord.setCreateDatetime(new Date());
+//        //头像暂放callback
+//        wxCalledRecord.setCallback("headimgurl");
+//        //名字暂放请求来源
+//        wxCalledRecord.setRequestSource("nickname");
+//        baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
+//
+//        wxQAManager.saveOpenid2Cache(request, response, openid);
+////        return new ModelAndView("redirect:/answer/assistAnswer.do/ijjq442t3di7jl1p?openid=" + openid);
+//        return new ModelAndView("redirect:/answer/start2Answer.do?openid=" + openid);
+//    }
 }

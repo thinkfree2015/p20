@@ -75,7 +75,8 @@ public class WxQAManagerImpl implements WxQAManager {
         Consumer consumer = (Consumer) modelMap.get("consumer");
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("consumerId", consumer.getId());
-        WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where consumerId=:consumerId", queryMap);
+        queryMap.put("openid",modelMap.get("openid"));
+        WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey= 'wxqaopenid' and consumerId=:consumerId and data=:openid", queryMap);
 
         ParticipationRecord participationRecord = new ParticipationRecord();
         participationRecord.setCreateDatetime(new Date());
@@ -149,7 +150,8 @@ public class WxQAManagerImpl implements WxQAManager {
         Consumer consumer = (Consumer) modelMap.get("consumer");
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("consumerId", consumer.getId());
-        WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where consumerId=:consumerId", queryMap);
+        queryMap.put("openid",modelMap.get("openid"));
+        WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey= 'wxqaopenid' and consumerId=:consumerId and data=:openid", queryMap);
 
         ParticipationRecord participationRecord = new ParticipationRecord();
         participationRecord.setCreateDatetime(new Date());
@@ -289,6 +291,7 @@ public class WxQAManagerImpl implements WxQAManager {
     //微信用户和注册有用户绑定后，把微信用户的信息填入注册用户，并更新相关记录
     private Consumer transferConsumer(Consumer consumer,ParticipationRecord participationRecord) {
         //更新consumer
+
         MyUser user = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Consumer registeredConsumer = (Consumer) baseManager.getObject(Consumer.class.getName(), user.getId());
         registeredConsumer.setUnionid(consumer.getUnionid());
@@ -298,7 +301,8 @@ public class WxQAManagerImpl implements WxQAManager {
         //更新wxCalledRecord
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("consumerId",consumer.getId());
-        WxCalledRecord wxCalledRecord = (WxCalledRecord)baseManager.getUniqueObjectByConditions("from WxCalledRecord where consumerId=:consumerId",queryMap);
+        queryMap.put("openid",participationRecord.getWxCalledRecord().getData());
+        WxCalledRecord wxCalledRecord = (WxCalledRecord)baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey= 'wxqaopenid' and consumerId=:consumerId and data=:openid",queryMap);
         wxCalledRecord.setConsumerId(registeredConsumer.getId());
         baseManager.saveOrUpdate(wxCalledRecord.getClass().getName(),wxCalledRecord);
         //更新participationRecord
@@ -321,5 +325,10 @@ public class WxQAManagerImpl implements WxQAManager {
             }
         }
         return idLock;
+    }
+
+    @Override
+    public String getOpenid(HttpServletRequest request) {
+        return request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
     }
 }

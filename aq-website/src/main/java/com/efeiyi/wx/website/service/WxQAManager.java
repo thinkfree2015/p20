@@ -34,4 +34,6 @@ public interface WxQAManager {
     void getReward(ParticipationRecord participationRecord, ModelMap modelMap) throws Exception;
 
     String getLock(ParticipationRecord participationRecord);
+
+    String getOpenid(HttpServletRequest request);
 }
