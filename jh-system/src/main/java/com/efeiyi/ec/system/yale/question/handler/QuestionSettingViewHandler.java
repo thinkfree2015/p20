@@ -20,6 +20,6 @@ public class QuestionSettingViewHandler implements DoHandler {
             questionSetting = (QuestionSetting) list.get(0);
         }
         modelMap.put("questionSetting", questionSetting);
-        return null;
+        return modelMap;
     }
 }

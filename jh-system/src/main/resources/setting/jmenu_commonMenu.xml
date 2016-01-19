@@ -12,7 +12,7 @@
                 <match url="/basic/xm.do?qm=formExaminationEdition"/>
                 <match url="/basic/xm.do?qm=viewExaminationEdition"/>
             </jnode>
-            <jnode url="/basic/xm.do?qm=plistBatchGift_default"  access="admin,manager" text_zh_CN="答题排行">
+            <jnode url="/scoreboard/scoreboardPList.do"  access="admin,manager" text_zh_CN="答题排行">
                 <!--<match url="/basic/xm.do?qm=plistBatchGift"/>-->
                 <!--<match url="/basic/xm.do?qm=listBatchGift"/>-->
             </jnode>
