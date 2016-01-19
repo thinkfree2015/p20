@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -61,7 +62,7 @@ public class AnswerController {
     }
 
     @RequestMapping("/assistAnswer.do/{examinationId}")
-    public ModelAndView assistAnswer(@PathVariable String examinationId,HttpServletRequest request, ModelMap modelMap) throws Exception {
+    public ModelAndView assistAnswer(@PathVariable String examinationId, HttpServletRequest request, ModelMap modelMap) throws Exception {
         String openid = wxQAManager.getOpenid(request);
         System.out.println("assist---openid:" + openid + "   unionid:" + request.getParameter("unionid"));
 
@@ -95,7 +96,7 @@ public class AnswerController {
         if (!Examination.examFinished.equals(exam.getStatus())
                 && !Examination.examRewarded.equals(exam.getStatus())) {
             String openid = wxQAManager.getOpenid(request);
-            modelMap.put("openid",openid);
+            modelMap.put("openid", openid);
             wxQAManager.saveAnswer(exam, modelMap);
         }
 
@@ -104,7 +105,7 @@ public class AnswerController {
     }
 
     @RequestMapping("/commitHelpAnswer.do/{examinationId}/{answerList}/{consumerId}")
-    public ModelAndView commitHelpAnswer(@PathVariable String examinationId, @PathVariable String answerList, @PathVariable String consumerId,HttpServletRequest request, ModelMap modelMap) throws Exception {
+    public ModelAndView commitHelpAnswer(@PathVariable String examinationId, @PathVariable String answerList, @PathVariable String consumerId, HttpServletRequest request, ModelMap modelMap) throws Exception {
 //        String examId = request.getParameter("examId");
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
@@ -118,7 +119,7 @@ public class AnswerController {
         if (!Examination.examFinished.equals(exam.getStatus())
                 && !Examination.examRewarded.equals(exam.getStatus())) {
             String openid = wxQAManager.getOpenid(request);
-            modelMap.put("openid",openid);
+            modelMap.put("openid", openid);
             List<ExaminationQuestion> eqList = wxQAManager.saveHelpAnswer(exam, modelMap);
             modelMap.put("eqList", eqList);
         }
@@ -155,9 +156,9 @@ public class AnswerController {
 
 
     @RequestMapping("/getAward/{examinationId}")
-    public ModelAndView getAward(@PathVariable String examinationId,HttpServletRequest request, ModelMap modelMap) throws Exception {
+    public ModelAndView getAward(@PathVariable String examinationId, HttpServletRequest request, ModelMap modelMap) throws Exception {
         String openid = wxQAManager.getOpenid(request);
-        modelMap.put("openid",openid);
+        modelMap.put("openid", openid);
         //1.找到当前用户和题
         Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
         //String examId = request.getParameter("examId");
@@ -173,7 +174,7 @@ public class AnswerController {
             String idLock = wxQAManager.getLock(participationRecord);
 
             synchronized (idLock) {
-                wxQAManager.getReward(participationRecord,modelMap);
+                wxQAManager.getReward(participationRecord, modelMap);
             }
         }
         return new ModelAndView("/question/reward", modelMap);
@@ -248,4 +249,5 @@ public class AnswerController {
 ////        return new ModelAndView("redirect:/answer/assistAnswer.do/ijjq442t3di7jl1p?openid=" + openid);
 //        return new ModelAndView("redirect:/answer/start2Answer.do?openid=" + openid);
 //    }
+
 }
