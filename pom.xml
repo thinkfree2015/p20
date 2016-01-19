@@ -18,6 +18,7 @@
         <module>xh-model</module>
         <module>jh-system</module>
         <module>jh-model</module>
+        <module>aq-website</module>
     </modules>
 
     <repositories>
