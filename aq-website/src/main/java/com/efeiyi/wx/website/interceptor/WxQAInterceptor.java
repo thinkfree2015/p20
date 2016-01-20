@@ -42,9 +42,10 @@ public class WxQAInterceptor extends HandlerInterceptorAdapter {
 
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("openid", openid);
-        MyUser user = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         WxCalledRecord wxCalledRecord;
-        if(user != null){
+        if(object != null){
+            MyUser user = (MyUser)object;
             queryMap.put("consumerId",user.getId());
             wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid and consumerId=:consumerId", queryMap);
         }else {
