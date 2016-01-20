@@ -1,6 +1,5 @@
 package com.efeiyi.ec.system.yale.question.dao;
 
-import com.efeiyi.ec.organization.model.Consumer;
 import com.ming800.core.p.model.WxCalledRecord;
 import com.ming800.core.taglib.PageEntity;
 

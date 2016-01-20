@@ -3,7 +3,6 @@ package com.efeiyi.ec.system.yale.question.dao.hibernate;
 import com.efeiyi.ec.system.yale.question.dao.ScoreboardDao;
 import com.ming800.core.p.model.WxCalledRecord;
 import com.ming800.core.taglib.PageEntity;
-import org.glassfish.jersey.internal.util.collection.StringIgnoreCaseKeyComparator;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

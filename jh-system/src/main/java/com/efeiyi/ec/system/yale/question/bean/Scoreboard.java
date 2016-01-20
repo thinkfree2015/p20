@@ -1,7 +1,5 @@
 package com.efeiyi.ec.system.yale.question.bean;
 
-import com.efeiyi.ec.yale.question.model.ParticipationRecord;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
