@@ -188,7 +188,7 @@ public class AnswerController {
         if (code == null) {
             return null;
         }
-        String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx7f6aa253b75466dd&secret=04928de13ab23dca159d235ba6dc19ea&code=" + code + "&grant_type=authorization_code", null);
+        String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + WxQAConst.APPID + "&secret=04928de13ab23dca159d235ba6dc19ea&code=" + code + "&grant_type=authorization_code", null);
         System.out.println("result1:" + result);
         Map map = JsonUtil.parseJsonStringToMap(result.toString());
         String accessToken = (String) map.get("access_token");

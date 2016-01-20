@@ -21,32 +21,32 @@ import java.util.List;
 @RequestMapping("/wx")
 public class WxQAController {
 
-    @Autowired
-    private BaseManager baseManager;
-
-    @RequestMapping("/start.do")
-    public ModelAndView start(){
-        return new ModelAndView("/question/activityDescription");
-    }
-
-    @RequestMapping("/startHelp.do")
-    public ModelAndView startHelp(HttpServletRequest request, ModelMap modelMap)throws Exception{
-        String examId = request.getParameter("examId");
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
-
-        modelMap.put("examination", exam);
-
-        return new ModelAndView("/question/activityDescription");
-    }
-
-    @RequestMapping("/shareReturn.do")
-    public ModelAndView shareReturn(HttpServletRequest request, ModelMap modelMap)throws Exception{
-        String examId = request.getParameter("examId");
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
-
-        modelMap.put("examination", exam);
-        return new ModelAndView("/question/examinationResult", modelMap);
-    }
+//    @Autowired
+//    private BaseManager baseManager;
+//
+//    @RequestMapping("/start.do")
+//    public ModelAndView start(){
+//        return new ModelAndView("/question/activityDescription");
+//    }
+//
+//    @RequestMapping("/startHelp.do")
+//    public ModelAndView startHelp(HttpServletRequest request, ModelMap modelMap)throws Exception{
+//        String examId = request.getParameter("examId");
+//        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+//
+//        modelMap.put("examination", exam);
+//
+//        return new ModelAndView("/question/activityDescription");
+//    }
+//
+//    @RequestMapping("/shareReturn.do")
+//    public ModelAndView shareReturn(HttpServletRequest request, ModelMap modelMap)throws Exception{
+//        String examId = request.getParameter("examId");
+//        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+//
+//        modelMap.put("examination", exam);
+//        return new ModelAndView("/question/examinationResult", modelMap);
+//    }
 
 
 
