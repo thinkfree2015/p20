@@ -211,7 +211,7 @@ public class WxQAManagerImpl implements WxQAManager {
     public Consumer findConsumerByOpenid(String openid) {
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("openid", openid);
-        WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey = 'wxqaopenid' and data =:openid", queryMap);
+        WxCalledRecord wxCalledRecord = (WxCalledRecord) (baseManager.listObject("from WxCalledRecord where dataKey = 'wxqaopenid' and data =:openid order by createDatetime desc", queryMap).get(0));
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
         return consumer;
     }
@@ -250,11 +250,13 @@ public class WxQAManagerImpl implements WxQAManager {
         participationRecordList.add(participationRecord);//把自己加进去
         //再次判断是否有领奖资格
         if (Examination.examFinished.equals(participationRecord.getExamination().getStatus())) {
+            System.out.println("entered:253");
             BalanceRecord balanceRecord = new BalanceRecord();
             balanceRecord.setConsumer(participationRecord.getConsumer());
             balanceRecord.setCreateDateTime(new Date());
             balanceRecord.setStatus("1");
             if (participationRecordList.size() <= questionSetting.getRank32()) {
+                System.out.println("entered:259");
                 Session session = sessionFactory.getCurrentSession();
                 Query query = session.createQuery("from Consumer where id='" + participationRecord.getConsumer().getId() + "'");
                 query.setLockOptions(LockOptions.UPGRADE);

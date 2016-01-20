@@ -44,7 +44,7 @@ public class AnswerController {
         String openid = wxQAManager.getOpenid(request);
         System.out.println("start----openid:" + openid + "   unionid:" + request.getParameter("unionid"));
 
-        //1.找到所属用户
+        //1.找到最近所属用户
         Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
 
         //2.生成或取出待答的题
@@ -171,7 +171,7 @@ public class AnswerController {
                 && ParticipationRecord.answerTrue.equals(participationRecord.getAnswer())
                 && exam.getFinishDatetime().compareTo(exam.getExaminationEdition().getExpireDate()) <= 0) {
             String idLock = wxQAManager.getLock(participationRecord);
-
+            System.out.println("idLock:" + idLock);
             synchronized (idLock) {
                 wxQAManager.getReward(participationRecord, modelMap);
             }
