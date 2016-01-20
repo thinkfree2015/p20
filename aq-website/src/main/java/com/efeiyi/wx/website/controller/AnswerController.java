@@ -172,7 +172,7 @@ public class AnswerController {
 //                && Examination.examFinished.equals(exam.getStatus())
                 && ParticipationRecord.answerTrue.equals(participationRecord.getAnswer())
                 && exam.getFinishDatetime().compareTo(exam.getExaminationEdition().getExpireDate()) <= 0) {
-            String idLock = wxQAManager.getLock(participationRecord);
+            String idLock = wxQAManager.getLock(exam.getId());
             System.out.println("idLock:" + idLock);
             synchronized (idLock) {
                 wxQAManager.getReward(participationRecord, modelMap);

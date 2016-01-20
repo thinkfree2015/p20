@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
@@ -237,7 +238,7 @@ public class WxQAManagerImpl implements WxQAManager {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED )
     public void getReward(ParticipationRecord participationRecord, ModelMap modelMap) throws Exception {
         participationRecord = (ParticipationRecord) baseManager.getObject(ParticipationRecord.class.getName(), participationRecord.getId());
 
@@ -258,9 +259,8 @@ public class WxQAManagerImpl implements WxQAManager {
             if (participationRecordList.size() <= questionSetting.getRank32()) {
                 System.out.println("computing prize and rank");
                 Session session = sessionFactory.getCurrentSession();
-                Query query = session.createQuery("from Consumer where id='" + participationRecord.getConsumer().getId() + "'");
-                query.setLockOptions(LockOptions.UPGRADE);
-                Consumer consumer = (Consumer) query.uniqueResult();
+
+                Consumer consumer = (Consumer)baseManager.getObject(Consumer.class.getName(), participationRecord.getConsumer().getId());
                 Consumer registeredConsumer = transferConsumer(session,consumer,participationRecord);
                 balanceRecord.setCurrentBalance(registeredConsumer.getBalance());
                 if (participationRecordList.size() <= questionSetting.getRank12() && participationRecordList.size() >= questionSetting.getRank11()) {
@@ -278,7 +278,9 @@ public class WxQAManagerImpl implements WxQAManager {
                 session.saveOrUpdate(balanceRecord);
                 registeredConsumer.setBalance(balanceRecord.getResultBalance());
                 session.saveOrUpdate(registeredConsumer);
-                session.delete(consumer);
+                if(!consumer.getId().equals(registeredConsumer.getId())) {
+                    session.delete(consumer);
+                }
                 participationRecord.getExamination().setStatus(Examination.examRewarded);
                 participationRecord.setBalanceRecord(balanceRecord);
                 session.saveOrUpdate(participationRecord.getExamination());
@@ -315,15 +317,15 @@ public class WxQAManagerImpl implements WxQAManager {
         return registeredConsumer;
     }
 
-    public String getLock(ParticipationRecord participationRecord) {
-        String idLock = lockMap.get(participationRecord.getId());
+    public String getLock(String id) {
+        String idLock = lockMap.get(id);
 
         if (idLock == null) {
             synchronized (lockMap) {
-                if (lockMap.get(participationRecord.getId()) == null) {
-                    lockMap.put(participationRecord.getId(), participationRecord.getId());
+                if (lockMap.get(id) == null) {
+                    lockMap.put(id, id);
                 }
-                idLock = lockMap.get(participationRecord.getId());
+                idLock = lockMap.get(id);
             }
         }
         return idLock;

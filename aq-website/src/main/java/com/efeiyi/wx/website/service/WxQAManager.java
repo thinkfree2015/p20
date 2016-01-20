@@ -33,7 +33,7 @@ public interface WxQAManager {
 
     void getReward(ParticipationRecord participationRecord, ModelMap modelMap) throws Exception;
 
-    String getLock(ParticipationRecord participationRecord);
+    String getLock(String id);
 
     String getOpenid(HttpServletRequest request);
 }
