@@ -10,15 +10,12 @@ import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.p.model.WxCalledRecord;
 import com.ming800.core.p.service.AutoSerialManager;
 import com.ming800.core.util.CookieTool;
-import org.hibernate.LockOptions;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
@@ -237,12 +234,11 @@ public class WxQAManagerImpl implements WxQAManager {
         return participationRecord;
     }
 
+    @Transactional
     @Override
-    @Transactional(propagation = Propagation.REQUIRED )
     public void getReward(ParticipationRecord participationRecord, ModelMap modelMap) throws Exception {
-        participationRecord = (ParticipationRecord) baseManager.getObject(ParticipationRecord.class.getName(), participationRecord.getId());
-
-
+//        participationRecord = (ParticipationRecord) baseManager.getObject(ParticipationRecord.class.getName(), participationRecord.getId());
+        Session session = sessionFactory.getCurrentSession();
         LinkedHashMap queryMap = new LinkedHashMap();
         QuestionSetting questionSetting = (QuestionSetting) baseManager.getUniqueObjectByConditions("from QuestionSetting", queryMap);
         queryMap.put("examinationEdition", participationRecord.getExamination().getExaminationEdition());
@@ -258,8 +254,6 @@ public class WxQAManagerImpl implements WxQAManager {
             balanceRecord.setStatus("1");
             if (participationRecordList.size() <= questionSetting.getRank32()) {
                 System.out.println("computing prize and rank");
-                Session session = sessionFactory.getCurrentSession();
-
                 Consumer consumer = (Consumer)baseManager.getObject(Consumer.class.getName(), participationRecord.getConsumer().getId());
                 Consumer registeredConsumer = transferConsumer(session,consumer,participationRecord);
                 balanceRecord.setCurrentBalance(registeredConsumer.getBalance());
@@ -305,10 +299,10 @@ public class WxQAManagerImpl implements WxQAManager {
         //更新wxCalledRecord
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("consumerId",consumer.getId());
-        queryMap.put("openid",participationRecord.getWxCalledRecord().getData());
+        queryMap.put("openid", participationRecord.getWxCalledRecord().getData());
         WxCalledRecord wxCalledRecord = (WxCalledRecord)baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey= 'wxqaopenid' and consumerId=:consumerId and data=:openid",queryMap);
         wxCalledRecord.setConsumerId(registeredConsumer.getId());
-        session.saveOrUpdate(wxCalledRecord.getClass().getName(),wxCalledRecord);
+        session.saveOrUpdate(wxCalledRecord.getClass().getName(), wxCalledRecord);
         //更新participationRecord
         participationRecord.setConsumer(registeredConsumer);
         participationRecord.setWxCalledRecord(wxCalledRecord);
