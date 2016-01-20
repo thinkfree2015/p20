@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -185,11 +184,12 @@ public class AnswerController {
 
         //用code取accessToken
         String code = request.getParameter("code");
+        System.out.println("code=" + code);
         if (code == null) {
             return null;
         }
         String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx7f6aa253b75466dd&secret=04928de13ab23dca159d235ba6dc19ea&code=" + code + "&grant_type=authorization_code", null);
-        System.out.println(result);
+        System.out.println("result1:" + result);
         Map map = JsonUtil.parseJsonStringToMap(result.toString());
         String accessToken = (String) map.get("access_token");
         String openid = (String) map.get("openid");
@@ -197,7 +197,7 @@ public class AnswerController {
 
         //用accessToken取Info
         result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid, null);
-        System.out.println(result);
+        System.out.println("result2:" + result);
         map = JsonUtil.parseJsonStringToMap(result.toString());
         String nickname = (String) map.get("nickname");
         String headimgurl = (String) map.get("headimgurl");

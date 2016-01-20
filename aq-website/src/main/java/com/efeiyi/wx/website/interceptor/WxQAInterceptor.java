@@ -27,10 +27,12 @@ public class WxQAInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String openid;
-        openid = (openid = request.getParameter("openid")) != null ? openid : (openid = (String) request.getSession().getAttribute("openid")) != null ? openid : (CookieTool.getCookieByName(request, "openid")) != null ? CookieTool.getCookieByName(request, "openid").getValue() : null;
-        System.out.println(openid);
+        openid = wxQAManager.getOpenid(request);
+//        openid = (openid = request.getParameter("openid")) != null ? openid : (openid = (String) request.getSession().getAttribute("openid")) != null ? openid : (CookieTool.getCookieByName(request, "openid")) != null ? CookieTool.getCookieByName(request, "openid").getValue() : null;
+        System.out.println("openid:" + openid);
         if (openid == null) {
-            response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://dati.efeiyi.com/answer/start2Answer.do&response_type=code&scope=snsapi_base&state=1#wechat_redirect");
+            response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://dati.efeiyi.com/answer/getUserInfo.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
+//            response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://dati.efeiyi.com/answer/start2Answer.do&response_type=code&scope=snsapi_base&state=1#wechat_redirect");
 //            response.sendRedirect("http://" + request.getRemoteHost() + ":" + request.getServerPort() + "/redirect.do");
             return false;
         }
