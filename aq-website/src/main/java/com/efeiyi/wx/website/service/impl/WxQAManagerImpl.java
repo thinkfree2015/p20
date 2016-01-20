@@ -10,6 +10,7 @@ import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.p.model.WxCalledRecord;
 import com.ming800.core.p.service.AutoSerialManager;
 import com.ming800.core.util.CookieTool;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -237,8 +238,8 @@ public class WxQAManagerImpl implements WxQAManager {
     @Transactional
     @Override
     public void getReward(ParticipationRecord participationRecord, ModelMap modelMap) throws Exception {
-//        participationRecord = (ParticipationRecord) baseManager.getObject(ParticipationRecord.class.getName(), participationRecord.getId());
         Session session = sessionFactory.getCurrentSession();
+        participationRecord = (ParticipationRecord) session.get(ParticipationRecord.class.getName(), participationRecord.getId());
         LinkedHashMap queryMap = new LinkedHashMap();
         QuestionSetting questionSetting = (QuestionSetting) baseManager.getUniqueObjectByConditions("from QuestionSetting", queryMap);
         queryMap.put("examinationEdition", participationRecord.getExamination().getExaminationEdition());
@@ -273,7 +274,7 @@ public class WxQAManagerImpl implements WxQAManager {
                 registeredConsumer.setBalance(balanceRecord.getResultBalance());
                 session.saveOrUpdate(registeredConsumer);
                 if(!consumer.getId().equals(registeredConsumer.getId())) {
-                    session.delete(consumer);
+                    baseManager.delete(Consumer.class.getName(),consumer.getId());
                 }
                 participationRecord.getExamination().setStatus(Examination.examRewarded);
                 participationRecord.setBalanceRecord(balanceRecord);
@@ -291,16 +292,19 @@ public class WxQAManagerImpl implements WxQAManager {
         //更新consumer
 
         MyUser user = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Consumer registeredConsumer = (Consumer) baseManager.getObject(Consumer.class.getName(), user.getId());
+        Consumer registeredConsumer = (Consumer)session.get(Consumer.class.getName(), user.getId());
         registeredConsumer.setUnionid(consumer.getUnionid());
         if(registeredConsumer.getBalance() == null){
             registeredConsumer.setBalance(new BigDecimal(0));
         }
         //更新wxCalledRecord
-        LinkedHashMap queryMap = new LinkedHashMap();
-        queryMap.put("consumerId",consumer.getId());
-        queryMap.put("openid", participationRecord.getWxCalledRecord().getData());
-        WxCalledRecord wxCalledRecord = (WxCalledRecord)baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey= 'wxqaopenid' and consumerId=:consumerId and data=:openid",queryMap);
+        Query query = session.createQuery("from WxCalledRecord where dataKey= 'wxqaopenid' and consumerId=:consumerId and data=:openid");
+//        LinkedHashMap queryMap = new LinkedHashMap();
+//        queryMap.put("consumerId",consumer.getId());
+//        queryMap.put("openid", participationRecord.getWxCalledRecord().getData());
+        query.setParameter("consumerId",consumer.getId());
+        query.setParameter("openid",participationRecord.getWxCalledRecord().getData());
+        WxCalledRecord wxCalledRecord = (WxCalledRecord)query.uniqueResult();
         wxCalledRecord.setConsumerId(registeredConsumer.getId());
         session.saveOrUpdate(wxCalledRecord.getClass().getName(), wxCalledRecord);
         //更新participationRecord
