@@ -42,16 +42,16 @@ public class WxQAInterceptor extends HandlerInterceptorAdapter {
 
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("openid", openid);
-        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println("MyUser:" + object);
+//        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        System.out.println("MyUser:" + object);
         WxCalledRecord wxCalledRecord;
-        if(object instanceof MyUser){
-            MyUser user = (MyUser)object;
-            queryMap.put("consumerId",user.getId());
-            wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid and consumerId=:consumerId", queryMap);
-        }else {
-            wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid", queryMap);
-        }
+//        if(object instanceof MyUser){
+//            MyUser user = (MyUser)object;
+//            queryMap.put("consumerId",user.getId());
+//            wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid and consumerId=:consumerId", queryMap);
+//        }else {
+            wxCalledRecord = (WxCalledRecord) (baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid ", queryMap).get(0));
+//        }
 
         if (wxCalledRecord == null) {
             response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://dati.efeiyi.com/answer/getUserInfo.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
