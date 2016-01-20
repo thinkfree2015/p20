@@ -250,18 +250,18 @@ public class WxQAManagerImpl implements WxQAManager {
         participationRecordList.add(participationRecord);//把自己加进去
         //再次判断是否有领奖资格
         if (Examination.examFinished.equals(participationRecord.getExamination().getStatus())) {
-            System.out.println("entered:253");
+            System.out.println("test examination.status passed");
             BalanceRecord balanceRecord = new BalanceRecord();
             balanceRecord.setConsumer(participationRecord.getConsumer());
             balanceRecord.setCreateDateTime(new Date());
             balanceRecord.setStatus("1");
             if (participationRecordList.size() <= questionSetting.getRank32()) {
-                System.out.println("entered:259");
+                System.out.println("computing prize and rank");
                 Session session = sessionFactory.getCurrentSession();
                 Query query = session.createQuery("from Consumer where id='" + participationRecord.getConsumer().getId() + "'");
                 query.setLockOptions(LockOptions.UPGRADE);
                 Consumer consumer = (Consumer) query.uniqueResult();
-                Consumer registeredConsumer = transferConsumer(consumer,participationRecord);
+                Consumer registeredConsumer = transferConsumer(session,consumer,participationRecord);
                 balanceRecord.setCurrentBalance(registeredConsumer.getBalance());
                 if (participationRecordList.size() <= questionSetting.getRank12() && participationRecordList.size() >= questionSetting.getRank11()) {
                     balanceRecord.setChangeBalance(questionSetting.getPrize10());
@@ -291,7 +291,7 @@ public class WxQAManagerImpl implements WxQAManager {
     }
 
     //微信用户和注册有用户绑定后，把微信用户的信息填入注册用户，并更新相关记录
-    private Consumer transferConsumer(Consumer consumer,ParticipationRecord participationRecord) {
+    private Consumer transferConsumer(Session session,Consumer consumer,ParticipationRecord participationRecord) {
         //更新consumer
 
         MyUser user = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -306,7 +306,7 @@ public class WxQAManagerImpl implements WxQAManager {
         queryMap.put("openid",participationRecord.getWxCalledRecord().getData());
         WxCalledRecord wxCalledRecord = (WxCalledRecord)baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey= 'wxqaopenid' and consumerId=:consumerId and data=:openid",queryMap);
         wxCalledRecord.setConsumerId(registeredConsumer.getId());
-        baseManager.saveOrUpdate(wxCalledRecord.getClass().getName(),wxCalledRecord);
+        session.saveOrUpdate(wxCalledRecord.getClass().getName(),wxCalledRecord);
         //更新participationRecord
         participationRecord.setConsumer(registeredConsumer);
         participationRecord.setWxCalledRecord(wxCalledRecord);

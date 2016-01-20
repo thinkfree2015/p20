@@ -1,6 +1,7 @@
 package com.efeiyi.wx.website.controller;
 
 import com.efeiyi.ec.organization.model.Consumer;
+import com.efeiyi.ec.organization.model.MyUser;
 import com.efeiyi.ec.yale.question.model.Examination;
 import com.efeiyi.ec.yale.question.model.ExaminationQuestion;
 import com.efeiyi.ec.yale.question.model.ParticipationRecord;
@@ -14,6 +15,7 @@ import com.ming800.core.util.CookieTool;
 import com.ming800.core.util.HttpUtil;
 import com.ming800.core.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -204,7 +206,15 @@ public class AnswerController {
         System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
 
         //保存用户
-        Consumer consumer = new Consumer();
+        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("MyUser:" + object);
+        Consumer consumer;
+        if(object instanceof MyUser){
+            MyUser user = (MyUser)object;
+            consumer = (Consumer)baseManager.getObject(Consumer.class.getName(),user.getId());
+        }else {
+            consumer = new Consumer();
+        }
         consumer.setUnionid((String) map.get("unionid"));
         consumer.setBalance(new BigDecimal(0));
         baseManager.saveOrUpdate(Consumer.class.getName(), consumer);

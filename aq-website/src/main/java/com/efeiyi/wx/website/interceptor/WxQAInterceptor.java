@@ -13,6 +13,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/1/4.
@@ -32,7 +33,6 @@ public class WxQAInterceptor extends HandlerInterceptorAdapter {
         System.out.println("openid:" + openid);
         if (openid == null) {
             response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://dati.efeiyi.com/answer/getUserInfo.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
-//            response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://dati.efeiyi.com/answer/start2Answer.do&response_type=code&scope=snsapi_base&state=1#wechat_redirect");
 //            response.sendRedirect("http://" + request.getRemoteHost() + ":" + request.getServerPort() + "/redirect.do");
             return false;
         }
@@ -42,16 +42,8 @@ public class WxQAInterceptor extends HandlerInterceptorAdapter {
 
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("openid", openid);
-//        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        System.out.println("MyUser:" + object);
-        WxCalledRecord wxCalledRecord;
-//        if(object instanceof MyUser){
-//            MyUser user = (MyUser)object;
-//            queryMap.put("consumerId",user.getId());
-//            wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid and consumerId=:consumerId", queryMap);
-//        }else {
-            wxCalledRecord = (WxCalledRecord) (baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid ", queryMap).get(0));
-//        }
+        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid ", queryMap);
+        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0? null :  (WxCalledRecord) (baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid ", queryMap).get(0));
 
         if (wxCalledRecord == null) {
             response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://dati.efeiyi.com/answer/getUserInfo.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
