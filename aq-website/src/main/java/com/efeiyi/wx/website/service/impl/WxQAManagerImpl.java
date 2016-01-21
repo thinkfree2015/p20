@@ -280,6 +280,7 @@ public class WxQAManagerImpl implements WxQAManager {
                 participationRecord.setBalanceRecord(balanceRecord);
                 session.saveOrUpdate(participationRecord.getExamination());
                 session.saveOrUpdate(participationRecord);
+                session.flush();
             }
         }
         modelMap.addAttribute("rank", participationRecordList.size());
