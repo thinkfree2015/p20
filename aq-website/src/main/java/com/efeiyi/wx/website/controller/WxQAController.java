@@ -33,6 +33,12 @@ public class WxQAController {
     @Autowired
     private BaseManager baseManager;
 
+    @RequestMapping("/start.do")
+    public ModelAndView start(){
+        return new ModelAndView("/question/activityDescription");
+    }
+
+
     @RequestMapping({"/init.do"})
     @ResponseBody
     public String initWxConfig(HttpServletRequest request) throws Exception {
@@ -74,5 +80,4 @@ public class WxQAController {
         signature = StringUtil.encodePassword(signature, "SHA1");
         return signature;
     }
-
 }
