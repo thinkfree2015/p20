@@ -255,7 +255,7 @@ public class WxQAManagerImpl implements WxQAManager {
             balanceRecord.setStatus("1");
             if (participationRecordList.size() <= questionSetting.getRank32()) {
                 System.out.println("computing prize and rank");
-                Consumer consumer = (Consumer)baseManager.getObject(Consumer.class.getName(), participationRecord.getConsumer().getId());
+                Consumer consumer = (Consumer)session.get(Consumer.class.getName(), participationRecord.getConsumer().getId());
                 Consumer registeredConsumer = transferConsumer(session,consumer,participationRecord);
                 balanceRecord.setCurrentBalance(registeredConsumer.getBalance());
                 if (participationRecordList.size() <= questionSetting.getRank12() && participationRecordList.size() >= questionSetting.getRank11()) {
@@ -274,7 +274,7 @@ public class WxQAManagerImpl implements WxQAManager {
                 registeredConsumer.setBalance(balanceRecord.getResultBalance());
                 session.saveOrUpdate(registeredConsumer);
                 if(!consumer.getId().equals(registeredConsumer.getId())) {
-                    baseManager.delete(Consumer.class.getName(),consumer.getId());
+                    session.delete(Consumer.class.getName(),consumer.getId());
                 }
                 participationRecord.getExamination().setStatus(Examination.examRewarded);
                 participationRecord.setBalanceRecord(balanceRecord);
