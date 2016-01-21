@@ -1,5 +1,6 @@
 package com.efeiyi.wx.website.controller;
 
+import com.efeiyi.ec.yale.question.model.Examination;
 import com.efeiyi.wx.website.util.WxQAConst;
 import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.p.model.WxCalledRecord;
@@ -8,6 +9,8 @@ import com.ming800.core.util.StringUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,8 +33,12 @@ public class WxQAController {
     @Autowired
     private BaseManager baseManager;
 
-    @RequestMapping("/start.do")
-    public ModelAndView start(){
+    @RequestMapping("/start.do/{examinationId}")
+    public ModelAndView start(@PathVariable String examinationId, ModelMap modelMap){
+        if (examinationId != null && !examinationId.trim().equals("")){
+            Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
+            modelMap.put("examination", exam);
+        }
         return new ModelAndView("/question/activityDescription");
     }
 
