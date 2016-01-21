@@ -210,7 +210,8 @@ public class WxQAManagerImpl implements WxQAManager {
     public Consumer findConsumerByOpenid(String openid) {
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("openid", openid);
-        WxCalledRecord wxCalledRecord = (WxCalledRecord) (baseManager.listObject("from WxCalledRecord where dataKey = 'wxqaopenid' and data =:openid order by createDatetime desc", queryMap).get(0));
+        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
+        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord)wxCalledRecordList.get(0);
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
         return consumer;
     }

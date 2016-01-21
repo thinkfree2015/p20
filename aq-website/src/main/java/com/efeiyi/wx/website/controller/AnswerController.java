@@ -216,9 +216,10 @@ public class AnswerController {
             consumer = new Consumer();
             consumer.setBalance(new BigDecimal(0));
         }
-        consumer.setUnionid((String) map.get("unionid"));
-        baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
-
+        if(!map.get("unionid").equals(consumer.getUnionid())) {
+            consumer.setUnionid((String) map.get("unionid"));
+            baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
+        }
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("openid", openid);
         List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
