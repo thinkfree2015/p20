@@ -214,11 +214,15 @@ public class AnswerController {
             consumer = (Consumer)baseManager.getObject(Consumer.class.getName(),user.getId());
         }else {
             consumer = new Consumer();
+            consumer.setBalance(new BigDecimal(0));
         }
         consumer.setUnionid((String) map.get("unionid"));
-        consumer.setBalance(new BigDecimal(0));
         baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
-        WxCalledRecord wxCalledRecord = new WxCalledRecord();
+
+        LinkedHashMap queryMap = new LinkedHashMap();
+        queryMap.put("openid", openid);
+        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
+        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord)wxCalledRecordList.get(0);
         wxCalledRecord.setConsumerId(consumer.getId());
         wxCalledRecord.setDataKey(WxQAConst.dataKey);
         wxCalledRecord.setData(openid);
