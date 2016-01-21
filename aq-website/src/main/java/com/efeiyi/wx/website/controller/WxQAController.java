@@ -1,7 +1,5 @@
 package com.efeiyi.wx.website.controller;
 
-import com.efeiyi.ec.yale.question.model.Examination;
-import com.efeiyi.ec.yale.question.model.ExaminationQuestion;
 import com.efeiyi.wx.website.util.WxQAConst;
 import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.p.model.WxCalledRecord;
@@ -10,7 +8,6 @@ import com.ming800.core.util.StringUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,7 +47,7 @@ public class WxQAController {
         //获取当前的ticket
         String hql = "select obj from " + WxCalledRecord.class.getName() + " obj where obj.dataKey=:dataKey order by obj.createDatetime desc";
         LinkedHashMap<String, Object> param = new LinkedHashMap<>();
-        param.put("dataKey", "jsapi_ticket");
+        param.put("dataKey", "dati_jsapi_ticket");
         List<Object> wxCallRecordList = baseManager.listObject(hql, param);
 
         if ((wxCallRecordList != null && wxCallRecordList.isEmpty()) || (wxCallRecordList != null && !wxCallRecordList.isEmpty() && System.currentTimeMillis() - ((WxCalledRecord) wxCallRecordList.get(0)).getCreateDatetime().getTime() >= 7000000)) {
@@ -67,7 +64,7 @@ public class WxQAController {
 
             WxCalledRecord wxCalledRecord = new WxCalledRecord();
             wxCalledRecord.setData(ticket);
-            wxCalledRecord.setDataKey("jsapi_ticket");
+            wxCalledRecord.setDataKey("dati_jsapi_ticket");
             wxCalledRecord.setCreateDatetime(new Date());
             wxCalledRecord.setAccessToken(accessToken);
             baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
