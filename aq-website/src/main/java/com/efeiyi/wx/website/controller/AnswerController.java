@@ -175,7 +175,7 @@ public class AnswerController {
             String idLock = wxQAManager.getLock(exam.getId());
             System.out.println("idLock:" + idLock);
             synchronized (idLock) {
-                wxQAManager.getReward(participationRecord, modelMap);
+                wxQAManager.reward(participationRecord, modelMap);
             }
         }
         return new ModelAndView("/question/reward", modelMap);

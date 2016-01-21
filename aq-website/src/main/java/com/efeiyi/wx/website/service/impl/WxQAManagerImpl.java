@@ -237,7 +237,7 @@ public class WxQAManagerImpl implements WxQAManager {
 
     @Transactional
     @Override
-    public void getReward(ParticipationRecord participationRecord, ModelMap modelMap) throws Exception {
+    public void reward(ParticipationRecord participationRecord, ModelMap modelMap) throws Exception {
         Session session = sessionFactory.getCurrentSession();
         participationRecord = (ParticipationRecord) session.get(ParticipationRecord.class.getName(), participationRecord.getId());
         LinkedHashMap queryMap = new LinkedHashMap();
