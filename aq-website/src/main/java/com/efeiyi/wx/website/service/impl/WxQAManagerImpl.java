@@ -74,7 +74,7 @@ public class WxQAManagerImpl implements WxQAManager {
         Consumer consumer = (Consumer) modelMap.get("consumer");
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("consumerId", consumer.getId());
-        queryMap.put("openid",modelMap.get("openid"));
+        queryMap.put("openid", modelMap.get("openid"));
         WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey= 'wxqaopenid' and consumerId=:consumerId and data=:openid", queryMap);
 
         ParticipationRecord participationRecord = new ParticipationRecord();
@@ -149,7 +149,7 @@ public class WxQAManagerImpl implements WxQAManager {
         Consumer consumer = (Consumer) modelMap.get("consumer");
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("consumerId", consumer.getId());
-        queryMap.put("openid",modelMap.get("openid"));
+        queryMap.put("openid", modelMap.get("openid"));
         WxCalledRecord wxCalledRecord = (WxCalledRecord) baseManager.getUniqueObjectByConditions("from WxCalledRecord where dataKey= 'wxqaopenid' and consumerId=:consumerId and data=:openid", queryMap);
 
         ParticipationRecord participationRecord = new ParticipationRecord();
@@ -208,10 +208,11 @@ public class WxQAManagerImpl implements WxQAManager {
 
     @Override
     public Consumer findConsumerByOpenid(String openid) {
-        LinkedHashMap queryMap = new LinkedHashMap();
-        queryMap.put("openid", openid);
-        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
-        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord)wxCalledRecordList.get(0);
+//        LinkedHashMap queryMap = new LinkedHashMap();
+//        queryMap.put("openid", openid);
+//        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
+//        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord) wxCalledRecordList.get(0);
+        WxCalledRecord wxCalledRecord = findLatestWxCalledRecordByOpenid(openid);
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
         return consumer;
     }
@@ -256,8 +257,8 @@ public class WxQAManagerImpl implements WxQAManager {
             balanceRecord.setStatus("1");
             if (participationRecordList.size() <= questionSetting.getRank32()) {
                 System.out.println("computing prize and rank");
-                Consumer consumer = (Consumer)session.get(Consumer.class.getName(), participationRecord.getConsumer().getId());
-                Consumer registeredConsumer = transferConsumer(session,consumer,participationRecord);
+                Consumer consumer = (Consumer) session.get(Consumer.class.getName(), participationRecord.getConsumer().getId());
+                Consumer registeredConsumer = transferConsumer(session, consumer, participationRecord);
                 balanceRecord.setCurrentBalance(registeredConsumer.getBalance());
                 if (participationRecordList.size() <= questionSetting.getRank12() && participationRecordList.size() >= questionSetting.getRank11()) {
                     balanceRecord.setChangeBalance(questionSetting.getPrize10());
@@ -274,7 +275,7 @@ public class WxQAManagerImpl implements WxQAManager {
                 session.saveOrUpdate(balanceRecord);
                 registeredConsumer.setBalance(balanceRecord.getResultBalance());
                 session.saveOrUpdate(registeredConsumer);
-                if(!consumer.getId().equals(registeredConsumer.getId())) {
+                if (!consumer.getId().equals(registeredConsumer.getId())) {
                     session.delete(consumer);
                 }
                 participationRecord.getExamination().setStatus(Examination.examRewarded);
@@ -290,13 +291,13 @@ public class WxQAManagerImpl implements WxQAManager {
     }
 
     //微信用户和注册有用户绑定后，把微信用户的信息填入注册用户，并更新相关记录
-    private Consumer transferConsumer(Session session,Consumer consumer,ParticipationRecord participationRecord) {
+    private Consumer transferConsumer(Session session, Consumer consumer, ParticipationRecord participationRecord) {
         //更新consumer
 
         MyUser user = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Consumer registeredConsumer = (Consumer)session.get(Consumer.class.getName(), user.getId());
+        Consumer registeredConsumer = (Consumer) session.get(Consumer.class.getName(), user.getId());
         registeredConsumer.setUnionid(consumer.getUnionid());
-        if(registeredConsumer.getBalance() == null){
+        if (registeredConsumer.getBalance() == null) {
             registeredConsumer.setBalance(new BigDecimal(0));
         }
         //更新wxCalledRecord
@@ -304,9 +305,9 @@ public class WxQAManagerImpl implements WxQAManager {
 //        LinkedHashMap queryMap = new LinkedHashMap();
 //        queryMap.put("consumerId",consumer.getId());
 //        queryMap.put("openid", participationRecord.getWxCalledRecord().getData());
-        query.setParameter("consumerId",consumer.getId());
-        query.setParameter("openid",participationRecord.getWxCalledRecord().getData());
-        WxCalledRecord wxCalledRecord = (WxCalledRecord)query.uniqueResult();
+        query.setParameter("consumerId", consumer.getId());
+        query.setParameter("openid", participationRecord.getWxCalledRecord().getData());
+        WxCalledRecord wxCalledRecord = (WxCalledRecord) query.uniqueResult();
         wxCalledRecord.setConsumerId(registeredConsumer.getId());
         session.saveOrUpdate(wxCalledRecord.getClass().getName(), wxCalledRecord);
         //更新participationRecord
@@ -334,5 +335,14 @@ public class WxQAManagerImpl implements WxQAManager {
     @Override
     public String getOpenid(HttpServletRequest request) {
         return request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : null));
+    }
+
+    @Override
+    public WxCalledRecord findLatestWxCalledRecordByOpenid(String openid) {
+        LinkedHashMap queryMap = new LinkedHashMap();
+        queryMap.put("openid", openid);
+        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
+        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord) wxCalledRecordList.get(0);
+        return wxCalledRecord;
     }
 }

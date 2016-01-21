@@ -5,6 +5,7 @@ import com.efeiyi.ec.yale.question.model.Examination;
 import com.efeiyi.ec.yale.question.model.ExaminationEdition;
 import com.efeiyi.ec.yale.question.model.ExaminationQuestion;
 import com.efeiyi.ec.yale.question.model.ParticipationRecord;
+import com.ming800.core.p.model.WxCalledRecord;
 import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,4 +37,6 @@ public interface WxQAManager {
     String getLock(String id);
 
     String getOpenid(HttpServletRequest request);
+
+    WxCalledRecord findLatestWxCalledRecordByOpenid(String openid);
 }

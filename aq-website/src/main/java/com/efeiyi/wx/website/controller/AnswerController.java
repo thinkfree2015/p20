@@ -218,12 +218,13 @@ public class AnswerController {
         }
         if(!map.get("unionid").equals(consumer.getUnionid())) {
             consumer.setUnionid((String) map.get("unionid"));
-            baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
         }
-        LinkedHashMap queryMap = new LinkedHashMap();
-        queryMap.put("openid", openid);
-        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
-        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord)wxCalledRecordList.get(0);
+        baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
+//        LinkedHashMap queryMap = new LinkedHashMap();
+//        queryMap.put("openid", openid);
+//        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
+//        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord)wxCalledRecordList.get(0);
+        WxCalledRecord wxCalledRecord = wxQAManager.findLatestWxCalledRecordByOpenid(openid);
         wxCalledRecord.setConsumerId(consumer.getId());
         wxCalledRecord.setDataKey(WxQAConst.dataKey);
         wxCalledRecord.setData(openid);

@@ -3,14 +3,11 @@ package com.efeiyi.wx.website.interceptor;
 import com.efeiyi.wx.website.service.WxQAManager;
 import com.efeiyi.wx.website.util.WxQAConst;
 import com.ming800.core.base.service.BaseManager;
-import com.ming800.core.p.model.WxCalledRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/1/4.
