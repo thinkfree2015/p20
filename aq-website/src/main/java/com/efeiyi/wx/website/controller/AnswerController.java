@@ -186,7 +186,7 @@ public class AnswerController {
 
         //用code取accessToken
         String code = request.getParameter("code");
-        System.out.println("code=" + code);
+        System.out.println(new Date() + "code=" + code);
         if (code == null) {
             return null;
         }
