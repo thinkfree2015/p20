@@ -2,14 +2,23 @@ package com.efeiyi.wx.website.controller;
 
 import com.efeiyi.ec.yale.question.model.Examination;
 import com.efeiyi.ec.yale.question.model.ExaminationQuestion;
+import com.efeiyi.wx.website.util.WxQAConst;
 import com.ming800.core.base.service.BaseManager;
+import com.ming800.core.p.model.WxCalledRecord;
+import com.ming800.core.util.HttpUtil;
+import com.ming800.core.util.StringUtil;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLDecoder;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -24,54 +33,46 @@ public class WxQAController {
     @Autowired
     private BaseManager baseManager;
 
-    @RequestMapping("/start.do")
-    public ModelAndView start(){
-        return new ModelAndView("/question/activityDescription");
-    }
+    @RequestMapping({"/init.do"})
+    @ResponseBody
+    public String initWxConfig(HttpServletRequest request) throws Exception {
+        String timestamp = request.getParameter("timestamp");
+        String nonceStr = request.getParameter("nonceStr");
+        String callUrl = request.getParameter("callUrl");
+        String ticket;
 
-    @RequestMapping("/startHelp.do")
-    public ModelAndView startHelp(HttpServletRequest request, ModelMap modelMap)throws Exception{
-        String examId = request.getParameter("examId");
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+        //获取当前的ticket
+        String hql = "select obj from " + WxCalledRecord.class.getName() + " obj where obj.dataKey=:dataKey order by obj.createDatetime desc";
+        LinkedHashMap<String, Object> param = new LinkedHashMap<>();
+        param.put("dataKey", "jsapi_ticket");
+        List<Object> wxCallRecordList = baseManager.listObject(hql, param);
 
-        modelMap.put("examination", exam);
+        if ((wxCallRecordList != null && wxCallRecordList.isEmpty()) || (wxCallRecordList != null && !wxCallRecordList.isEmpty() && System.currentTimeMillis() - ((WxCalledRecord) wxCallRecordList.get(0)).getCreateDatetime().getTime() >= 7000000)) {
+            //首先获得accessToken
+            String fetchAccessTokenUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + WxQAConst.APPID + "&secret=" + WxQAConst.APPSECRET;
+            String tokenResult = HttpUtil.getHttpResponse(fetchAccessTokenUrl, null);
+            JSONObject tokenObject = JSONObject.fromObject(tokenResult);
+            String accessToken = tokenObject.getString("access_token");
+            //获得jsapiTickit
+            String fetchJsApiTicketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + accessToken + "&type=jsapi";
+            String ticketResult = HttpUtil.getHttpResponse(fetchJsApiTicketUrl, null);
+            JSONObject ticketObject = JSONObject.fromObject(ticketResult);
+            ticket = ticketObject.getString("ticket");
 
-        return new ModelAndView("/question/activityDescription");
-    }
-
-    @RequestMapping("/shareReturn.do")
-    public ModelAndView shareReturn(HttpServletRequest request, ModelMap modelMap)throws Exception{
-        String examId = request.getParameter("examId");
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
-
-        modelMap.put("examination", exam);
-        return new ModelAndView("/question/examinationResult", modelMap);
-    }
-
-
-
-
-    @RequestMapping("/answerExaminationSave.do")
-    public ModelAndView saveQuestionAnswer(HttpServletRequest request){
-        String examId = request.getParameter("examId");
-        String answerList = request.getParameter("answerList");
-        String[] answers = answerList.split(",");
-
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
-        List<ExaminationQuestion> eqList = exam.getExaminationQuestionList();
-
-        for (ExaminationQuestion eq: eqList){
-            String answer = answers[eq.getQuestionOrder()-1];
-            eq.setAnswer(answer);
-            if (answer.equalsIgnoreCase(eq.getQuestion().getAnswerTrue())){
-                eq.setAnswerStatus("1");
-            }else {
-                eq.setAnswerStatus("2");
-            }
-            baseManager.saveOrUpdate(eq.getClass().getName(), eq);
+            WxCalledRecord wxCalledRecord = new WxCalledRecord();
+            wxCalledRecord.setData(ticket);
+            wxCalledRecord.setDataKey("jsapi_ticket");
+            wxCalledRecord.setCreateDatetime(new Date());
+            wxCalledRecord.setAccessToken(accessToken);
+            baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
+        } else {
+            ticket = ((WxCalledRecord) wxCallRecordList.get(0)).getData();
         }
-
-        return new ModelAndView("/question/examinationResult");
+        //生成signature
+        String signature = "jsapi_ticket=" + ticket + "&noncestr=" + nonceStr + "&timestamp=" + timestamp + "&url=" + URLDecoder.decode(callUrl, "UTF-8");
+        System.out.println(signature);
+        signature = StringUtil.encodePassword(signature, "SHA1");
+        return signature;
     }
 
 }
