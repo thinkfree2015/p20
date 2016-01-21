@@ -274,7 +274,7 @@ public class WxQAManagerImpl implements WxQAManager {
                 registeredConsumer.setBalance(balanceRecord.getResultBalance());
                 session.saveOrUpdate(registeredConsumer);
                 if(!consumer.getId().equals(registeredConsumer.getId())) {
-                    session.delete(Consumer.class.getName(),consumer.getId());
+                    session.delete(consumer);
                 }
                 participationRecord.getExamination().setStatus(Examination.examRewarded);
                 participationRecord.setBalanceRecord(balanceRecord);
