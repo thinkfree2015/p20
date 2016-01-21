@@ -93,9 +93,9 @@
         <welcome-file>/wx/start.do</welcome-file>
     </welcome-file-list>
 
-    <!--<error-page>-->
-    <!--<error-code>500</error-code>-->
-    <!--<location>/WEB-INF/jsp/500.jsp</location>-->
-    <!--<exception-type>java.lang.Throwable</exception-type>-->
-    <!--</error-page>-->
+    <error-page>
+    <error-code>500</error-code>
+    <location>/index.jsp/</location>
+    <exception-type>java.lang.Throwable</exception-type>
+    </error-page>
 </web-app>

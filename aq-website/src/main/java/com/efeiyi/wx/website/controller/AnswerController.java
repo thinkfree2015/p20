@@ -94,8 +94,10 @@ public class AnswerController {
 //        String consumerId = request.getParameter("consumerId");
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
         modelMap.put("consumer", consumer);
+        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, exam);
         if (!Examination.examFinished.equals(exam.getStatus())
-                && !Examination.examRewarded.equals(exam.getStatus())) {
+                && !Examination.examRewarded.equals(exam.getStatus())
+                && participationRecord == null) {
             String openid = wxQAManager.getOpenid(request);
             modelMap.put("openid", openid);
             wxQAManager.saveAnswer(exam, modelMap);
