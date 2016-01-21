@@ -13,12 +13,12 @@
 //var wx_share_dataUrl = ""; // 如果type是music或video，则要提供数据链接，默认为空
 //var wx_api_list = [];    //需要使用的JS接口列表
 
-function initWx(initUrl) {
+function initWx(initUrl,wx_share_title,wx_share_des,wx_share_link,wx_share_imgUrl,wx_share_type,wx_share_dataUrl,wx_api_list) {
     var noncestr = "Wm3WZYTPz0wzccnW";
     var timestamp = new Date().getTime();
     var config = {
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId: 'wx7f6aa253b75466dd', // 必填，公众号的唯一标识
+        appId: 'wx2db1e25ab3dac836', // 必填，公众号的唯一标识
         timestamp: timestamp, // 必填，生成签名的时间戳
         nonceStr: noncestr, // 必填，生成签名的随机串
         signature: '',// 必填，签名，见附录1

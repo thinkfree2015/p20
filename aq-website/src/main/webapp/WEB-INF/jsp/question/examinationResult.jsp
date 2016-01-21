@@ -149,66 +149,11 @@
 
 </script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<%--<script src="<c:url value="/scripts/wap/js/weixin.js"/>"></script>--%>
+<script src="<c:url value="/scripts/wap/js/weixin.js"/>"></script>
 
 <script>
-    initWx("http://dati.efeiyi.com/wx/init.do");
-    function initWx(initUrl) {
-      var noncestr = "Wm3WZYTPz0wzccnW";
-      var timestamp = new Date().getTime();
-      var config = {
-        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId: 'wx2db1e25ab3dac836', // 必填，公众号的唯一标识
-        timestamp: timestamp, // 必填，生成签名的时间戳
-        nonceStr: noncestr, // 必填，生成签名的随机串
-        signature: '',// 必填，签名，见附录1
-        jsApiList: typeof wx_api_list != "undefined" ? wx_api_list : ['onMenuShareAppMessage', 'onMenuShareTimeline'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-      };
-      ajaxRequest(initUrl, {
-        "nonceStr": noncestr,
-        "timestamp": timestamp,
-        "callUrl": encodeURIComponent(window.location.href.split('#')[0])
-      }, function (data) {
-        config.signature = data;
-        wx.config(config);
+    initWx("http://dati.efeiyi.com/wx/init.do",wx_share_title,wx_share_des,wx_share_link,wx_share_imgUrl,wx_share_type,wx_share_dataUrl,wx_api_list);
 
-
-        wx.ready(function () {
-          //目前只提供了分享给朋友的的接口，如果需要其他的分享接口功能，再往下添加
-          wx.onMenuShareAppMessage({     //发送给朋友的接口
-            title: wx_share_title, // 分享标题
-            desc: wx_share_des, // 分享描述
-            link: wx_share_link, // 分享链接
-            imgUrl: wx_share_imgUrl, // 分享图标
-            type: wx_share_type, // 分享类型,music、video或link，不填默认为link
-            dataUrl: wx_share_dataUrl, // 如果type是music或video，则要提供数据链接，默认为空
-            success: function () {
-            },
-            cancel: function () {
-              // 用户取消分享后执行的回调函数
-            }
-          });
-
-          wx.onMenuShareTimeline({
-            title: wx_share_title, // 分享标题
-            link: wx_share_link, // 分享链接
-            imgUrl: wx_share_imgUrl, // 分享图标
-            success: function () {
-              // 用户确认分享后执行的回调函数
-            },
-            cancel: function () {
-              // 用户取消分享后执行的回调函数
-            }
-          });
-        });
-        wx.error(function (res) {
-          alert("微信验证失败");
-        });
-
-      }, function () {
-      }, "get");
-
-    }
 </script>
 </body>
 </html>
