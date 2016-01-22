@@ -13,7 +13,7 @@
 //var wx_share_dataUrl = ""; // 如果type是music或video，则要提供数据链接，默认为空
 //var wx_api_list = [];    //需要使用的JS接口列表
 
-function initWx(initUrl,shareExaminationUrl,wx_share_title,wx_share_des,wx_share_link,wx_share_imgUrl,wx_share_type,wx_share_dataUrl,wx_api_list) {
+function initWx(initUrl, shareExaminationUrl, wx_share_title, wx_share_des, wx_share_link, wx_share_imgUrl, wx_share_type, wx_share_dataUrl, wx_api_list) {
     var noncestr = "Wm3WZYTPz0wzccnW";
     var timestamp = new Date().getTime();
     var config = {
@@ -62,13 +62,13 @@ function initWx(initUrl,shareExaminationUrl,wx_share_title,wx_share_des,wx_share
     }, "get");
 
 
-    function shareExamination(shareExaminationUrl){
-
-            ajaxRequest(shareExaminationUrl, {
-                "nonceStr": noncestr,
-                "timestamp": timestamp,
-                "callUrl": encodeURIComponent(window.location.href.split('#')[0])
-            }, function (data) {});
+    function shareExamination(shareExaminationUrl) {
+        alert(shareExaminationUrl);
+        ajaxRequest(shareExaminationUrl, {
+            "callUrl": encodeURIComponent(window.location.href.split('#')[0])
+        }, function (data) {
+            alert(data);
+        });
 
     }
 }

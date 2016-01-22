@@ -86,7 +86,7 @@ public class WxQAController {
         return signature;
     }
 
-    @RequestMapping("/shareExamination/examinationId")
+    @RequestMapping("/shareExamination/{examinationId}")
     @ResponseBody
     public String shareExamination(HttpServletRequest request, @PathVariable String examinationId){
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
