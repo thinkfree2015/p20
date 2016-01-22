@@ -23,7 +23,7 @@
             </does>
         </entity>
 
-        <entity name="PCExamination" label="试卷" model="com.efeiyi.ec.yale.question.model.ExaminationEdition">
+        <entity name="PCExaminationEdition" label="试卷" model="com.efeiyi.ec.yale.question.model.ExaminationEdition">
             <does>
                 <do name="plistExaminationEdition" access="" label="试卷分页列表" result="/examinationEdition/examinationEditionPList">
                     <query name="default" label="默认" type="auto" orderBy="id:desc">
@@ -34,7 +34,7 @@
                 <do name="viewExaminationEdition" label="试卷详情" access="" result="/examinationEdition/examinationEditionView"/>
                 <do name="removeExaminationEdition" label="删除试卷" access="" result="redirect:/basic/xm.do?qm=plistExaminationEdition_default"/>
                 <do name="saveOrUpdateExaminationEdition" label="新建或更新试卷" access="" result="redirect:/basic/xm.do?qm=plistExaminationEdition_default"
-                    execute="com.efeiyi.ec.system.yale.question.handler.ExaminationFormEditionHandler"/>
+                    execute="com.efeiyi.ec.system.yale.question.handler.ExaminationEditionFormHandler"/>
             </does>
         </entity>
 
