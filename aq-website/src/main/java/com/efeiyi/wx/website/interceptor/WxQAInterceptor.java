@@ -25,9 +25,9 @@ public class WxQAInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String openid = wxQAManager.getOpenid(request);
         System.out.println(new Date() + "openid:" + openid + " code:" + request.getParameter("code"));
+        String requestPath = request.getServletPath();
+        request.getSession().setAttribute(openid,requestPath);
         if ((openid == null || "".equals(openid)) && request.getParameter("code") == null) {
-            String requestPath = request.getServletPath();
-            request.getSession().setAttribute(openid,requestPath);
             response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://dati.efeiyi.com/answer/getUserInfo.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
 //            response.sendRedirect("http://" + request.getRemoteHost() + ":" + request.getServerPort() + "/redirect.do");
             System.out.println("intercepted..");

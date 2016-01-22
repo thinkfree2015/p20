@@ -241,7 +241,7 @@ public class AnswerController {
         wxQAManager.saveOpenid2Cache(request, response, openid);
 
         String requestPath = (String)request.getSession().getAttribute(openid);
-        System.out.println("requestPath" + requestPath);
+        System.out.println("requestPath:" + requestPath);
         return new ModelAndView("redirect:" + requestPath);
     }
 
