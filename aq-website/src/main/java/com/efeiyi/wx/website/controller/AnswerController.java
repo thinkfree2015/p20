@@ -192,7 +192,7 @@ public class AnswerController {
         String code = request.getParameter("code");
         System.out.println(new Date() + "code=" + code);
         if (code == null) {
-            return null;
+            throw new Exception("code is null");
         }
         String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + WxQAConst.APPID + "&secret=" + WxQAConst.APPSECRET + "&code=" + code + "&grant_type=authorization_code", null);
         System.out.println("result1:" + result);
