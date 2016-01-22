@@ -13,7 +13,7 @@
 //var wx_share_dataUrl = ""; // 如果type是music或video，则要提供数据链接，默认为空
 //var wx_api_list = [];    //需要使用的JS接口列表
 
-function initWx(initUrl,wx_share_title,wx_share_des,wx_share_link,wx_share_imgUrl,wx_share_type,wx_share_dataUrl,wx_api_list) {
+function initWx(initUrl,shareExaminationUrl,wx_share_title,wx_share_des,wx_share_link,wx_share_imgUrl,wx_share_type,wx_share_dataUrl,wx_api_list) {
     var noncestr = "Wm3WZYTPz0wzccnW";
     var timestamp = new Date().getTime();
     var config = {
@@ -42,23 +42,16 @@ function initWx(initUrl,wx_share_title,wx_share_des,wx_share_link,wx_share_imgUr
                 imgUrl: wx_share_imgUrl, // 分享图标
                 type: wx_share_type, // 分享类型,music、video或link，不填默认为link
                 dataUrl: wx_share_dataUrl, // 如果type是music或video，则要提供数据链接，默认为空
-                success: function () {
-                },
-                cancel: function () {
-                    // 用户取消分享后执行的回调函数
-                }
+                success: shareExamination(shareExaminationUrl),
+                cancel: shareExamination(shareExaminationUrl)
             });
 
             wx.onMenuShareTimeline({
                 title: wx_share_title, // 分享标题
                 link: wx_share_link, // 分享链接
                 imgUrl: wx_share_imgUrl, // 分享图标
-                success: function () {
-                    // 用户确认分享后执行的回调函数
-                },
-                cancel: function () {
-                    // 用户取消分享后执行的回调函数
-                }
+                success: shareExamination(shareExaminationUrl),
+                cancel: shareExamination(shareExaminationUrl),
             });
         });
         wx.error(function (res) {
@@ -68,4 +61,14 @@ function initWx(initUrl,wx_share_title,wx_share_des,wx_share_link,wx_share_imgUr
     }, function () {
     }, "get");
 
+
+    function shareExamination(shareExaminationUrl){
+
+            ajaxRequest(shareExaminationUrl, {
+                "nonceStr": noncestr,
+                "timestamp": timestamp,
+                "callUrl": encodeURIComponent(window.location.href.split('#')[0])
+            }, function (data) {});
+
+    }
 }

@@ -10,6 +10,7 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -83,5 +84,16 @@ public class WxQAController {
         System.out.println(signature);
         signature = StringUtil.encodePassword(signature, "SHA1");
         return signature;
+    }
+
+    @RequestMapping("/shareExamination/examinationId")
+    @ResponseBody
+    public String shareExamination(HttpServletRequest request, @PathVariable String examinationId){
+        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
+        if (exam != null && !exam.getStatus().equals(Examination.examStarted)) {
+            exam.setStatus(Examination.examShared);//试题 1已分享
+            baseManager.saveOrUpdate(exam.getClass().getName(), exam);
+        }
+        return "updated";
     }
 }
