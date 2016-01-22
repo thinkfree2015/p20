@@ -56,11 +56,11 @@
       </ul>
       <div class="txc-btn">
         <c:if test="${count != 0}">
-          <a href="#" onclick="answerHelp()" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;求&nbsp;助</a>
+          <a href="#" onclick="answerHelp(${count})" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;求&nbsp;助</a>
           <%--分享链接  <c:url value="/wx/startHelp.do?examId=${examination.id}"/>  --%>
         </c:if>
         <c:if test="${count == 0}">
-          <a href="" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;分&nbsp;享</a>
+          <a href="#" onclick="answerHelp(${count})" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;分&nbsp;享</a>
           <%--分享链接  <c:url value="/wx/start.do"/>  --%>
         </c:if>
         <a href="<c:url value='/wx/start.do'/>"  class="wechat-btn">答&nbsp;题&nbsp;赚&nbsp;红&nbsp;包</a>
@@ -83,8 +83,18 @@
     </div>
   </div>
 </div>
-
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="<c:url value="/scripts/wap/js/weixin.js"/>"></script>
 <script>
+
+  var wx_share_title = "微信答题直充现金！"; //分享标题
+  var wx_share_des = "参加答题赢取现金！可直接购买商品！";  //分享描述
+  var wx_share_link = "http://dati.efeiyi.com/wx/start.do?examinationId=${examination.id}"; //分享的链接地址  //需要动态获取，而不是直接填写静态值
+  var wx_share_imgUrl = "http://ec-efeiyi.oss-cn-beijing.aliyuncs.com/Clipboard%20Image.png"; //分享图片的url
+  var wx_share_type = '';   //分享的类型   分享类型,music、video或link，不填默认为link
+  var wx_share_dataUrl = ""; // 如果type是music或video，则要提供数据链接，默认为空
+  var wx_api_list = ['onMenuShareAppMessage', 'onMenuShareTimeline'];    //需要使用的JS接口列表
+
   function isWeiXin() {
     var ua = window.navigator.userAgent.toLowerCase();
     if (ua.match(/MicroMessenger/i) == 'micromessenger') {
@@ -93,7 +103,11 @@
       return false;
     }
   }
-  function answerHelp(){
+
+  function answerHelp(val){
+    if(val == 0){
+      wx_share_link = "http://dati.efeiyi.com/wx/start.do"; //分享的链接地址  //需要动态获取，而不是直接填写静态值
+    }
     if (isWeiXin()) {
       $("#cover").show();
       $(".custom-header").css("z-index", "0");
@@ -107,23 +121,8 @@
     $("#cover").click(function () {
       $(this).hide();
     });
-  })
-</script>
-<script>
+  });
 
-  var wx_share_title = "微信答题直充现金！"; //分享标题
-  var wx_share_des = "参加答题赢取现金！可直接购买商品！";  //分享描述
-  var wx_share_link = "http://dati.efeiyi.com/wx/start.do?examinationId=${examination.id}"; //分享的链接地址  //需要动态获取，而不是直接填写静态值
-  var wx_share_imgUrl = "http://ec-efeiyi.oss-cn-beijing.aliyuncs.com/Clipboard%20Image.png"; //分享图片的url
-  var wx_share_type = '';   //分享的类型   分享类型,music、video或link，不填默认为link
-  var wx_share_dataUrl = ""; // 如果type是music或video，则要提供数据链接，默认为空
-  var wx_api_list = ['onMenuShareAppMessage', 'onMenuShareTimeline'];    //需要使用的JS接口列表
-
-</script>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script src="<c:url value="/scripts/wap/js/weixin.js"/>"></script>
-
-<script>
   initWx("http://dati.efeiyi.com/wx/init.do",wx_share_title,wx_share_des,wx_share_link,wx_share_imgUrl,wx_share_type,wx_share_dataUrl,wx_api_list);
 </script>
 
