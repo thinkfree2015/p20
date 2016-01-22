@@ -90,7 +90,7 @@ public class WxQAController {
     @ResponseBody
     public String shareExamination(HttpServletRequest request, @PathVariable String examinationId){
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
-        if (exam != null && !exam.getStatus().equals(Examination.examStarted)) {
+        if (exam != null && exam.getStatus().equals(Examination.examStarted)) {
             exam.setStatus(Examination.examShared);//试题 1已分享
             baseManager.saveOrUpdate(exam.getClass().getName(), exam);
         }

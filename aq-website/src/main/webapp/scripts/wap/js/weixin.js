@@ -63,11 +63,11 @@ function initWx(initUrl, shareExaminationUrl, wx_share_title, wx_share_des, wx_s
 
 
     function shareExamination(shareExaminationUrl) {
-        alert(shareExaminationUrl);
+        //alert(shareExaminationUrl);
         ajaxRequest(shareExaminationUrl, {
             "callUrl": encodeURIComponent(window.location.href.split('#')[0])
         }, function (data) {
-            alert(data);
+            //alert(data);
         });
 
     }
