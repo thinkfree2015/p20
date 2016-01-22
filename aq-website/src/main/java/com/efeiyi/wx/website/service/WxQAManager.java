@@ -24,7 +24,7 @@ public interface WxQAManager {
 
     void saveAnswer(Examination examination, ModelMap modelMap) throws Exception;
 
-    List<ExaminationQuestion> saveHelpAnswer(Examination examination, ModelMap modelMap);
+    List<ExaminationQuestion> saveHelpAnswer(Examination examination, ModelMap modelMap) throws Exception;
 
     Consumer findConsumerByOpenid(String openid) throws Exception;
 

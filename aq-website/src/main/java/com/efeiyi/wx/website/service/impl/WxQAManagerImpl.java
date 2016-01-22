@@ -99,7 +99,7 @@ public class WxQAManagerImpl implements WxQAManager {
 
     @Transactional
     @Override
-    public List<ExaminationQuestion> saveHelpAnswer(Examination examination, ModelMap modelMap) {
+    public List<ExaminationQuestion> saveHelpAnswer(Examination examination, ModelMap modelMap) throws Exception {
         Session session = sessionFactory.getCurrentSession();
 
         //用户帮助好友答题的结果map<题目序号, 用户答案>
@@ -163,7 +163,11 @@ public class WxQAManagerImpl implements WxQAManager {
         } else {
             participationRecord.setAnswer("2");
         }
-
+        ParticipationRecord creatorRecord = examination.getParticipationRecordList().get(0);
+        if(creatorRecord == null){
+            throw new Exception("found creatorParticipationRecord null.Invalid access!");
+        }
+        participationRecord.setCreationRecord(examination.getParticipationRecordList().get(0));
         session.saveOrUpdate(ParticipationRecord.class.getName(), participationRecord);
 
         return returnEQList;

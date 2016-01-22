@@ -173,7 +173,7 @@ public class AnswerController {
         if (participationRecord != null
                 && exam.getConsumer().getId().equals(consumer.getId())
 //                && Examination.examFinished.equals(exam.getStatus())
-                && ParticipationRecord.answerTrue.equals(participationRecord.getAnswer())
+                && Examination.examFinished.equals(exam.getStatus())
                 && exam.getFinishDatetime().compareTo(exam.getExaminationEdition().getExpireDate()) <= 0) {
             String idLock = wxQAManager.getLock(exam.getId());
             System.out.println("idLock:" + idLock);
@@ -241,7 +241,8 @@ public class AnswerController {
 
         wxQAManager.saveOpenid2Cache(request, response, openid);
 
-        return new ModelAndView("redirect:/answer/start2Answer.do?openid=" + openid);
+        String requestPath = (String)request.getSession().getAttribute(openid);
+        return new ModelAndView("redirect:" + requestPath);
     }
 
 //    @RequestMapping("/getUserInfo2.do")
