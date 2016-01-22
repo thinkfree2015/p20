@@ -26,17 +26,17 @@ public interface WxQAManager {
 
     List<ExaminationQuestion> saveHelpAnswer(Examination examination, ModelMap modelMap);
 
-    Consumer findConsumerByOpenid(String openid);
+    Consumer findConsumerByOpenid(String openid) throws Exception;
 
     Examination findExaminationByConsumer(Consumer consumer,ExaminationEdition examinationEdition) throws Exception;
 
-    ParticipationRecord checkIfParticipated(Consumer consumer,Examination examination);
+    ParticipationRecord checkIfParticipated(Consumer consumer,Examination examination) throws Exception;
 
     void reward(ParticipationRecord participationRecord, ModelMap modelMap) throws Exception;
 
     String getLock(String id);
 
-    String getOpenid(HttpServletRequest request);
+    String getOpenid(HttpServletRequest request) ;
 
     WxCalledRecord findLatestWxCalledRecordByOpenid(String openid);
 }

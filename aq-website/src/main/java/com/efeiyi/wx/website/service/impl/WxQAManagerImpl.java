@@ -207,12 +207,15 @@ public class WxQAManagerImpl implements WxQAManager {
     }
 
     @Override
-    public Consumer findConsumerByOpenid(String openid) {
+    public Consumer findConsumerByOpenid(String openid) throws Exception{
 //        LinkedHashMap queryMap = new LinkedHashMap();
 //        queryMap.put("openid", openid);
 //        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
 //        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord) wxCalledRecordList.get(0);
         WxCalledRecord wxCalledRecord = findLatestWxCalledRecordByOpenid(openid);
+        if(wxCalledRecord == null) {
+            throw new Exception("invalid openid！");
+        }
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
         return consumer;
     }
@@ -228,7 +231,10 @@ public class WxQAManagerImpl implements WxQAManager {
     }
 
     @Override
-    public ParticipationRecord checkIfParticipated(Consumer consumer, Examination examination) {
+    public ParticipationRecord checkIfParticipated(Consumer consumer, Examination examination) throws Exception{
+        if(consumer == null || examination == null) {
+            throw new Exception("invalid consumer or examination!");
+        }
         LinkedHashMap queryMap = new LinkedHashMap();
         queryMap.put("consumer", consumer);
         queryMap.put("examination", examination);
