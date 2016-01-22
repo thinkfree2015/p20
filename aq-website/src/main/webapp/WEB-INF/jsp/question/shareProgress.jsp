@@ -29,9 +29,9 @@
           <c:if test="${ppr.recordType == 2}">
             <c:set var="count" value="${count + 1}" scope="page"/>
             <li>
-              <div class="plan-pic"><a href="#"><img src="<c:url value='/scripts/wap/upload/mx-1-1.png'/>"></a></div>
+              <div class="plan-pic"><a href="#"><img src="${ppr.wxCalledRecord.callback}"></a></div>
               <div class="plan-text">
-                <p>感谢你的温柔</p><%--微信好友昵称--%>
+                <p>${ppr.wxCalledRecord.requestSource}</p><%--微信好友昵称--%>
                 <p class="correct">
                   <c:if test="${ppr.answer == '1'}">
                     <font color="green">回答正确!</font>

@@ -167,7 +167,7 @@ public class WxQAManagerImpl implements WxQAManager {
         if(creatorRecord == null){
             throw new Exception("found creatorParticipationRecord null.Invalid access!");
         }
-        participationRecord.setCreationRecord(examination.getParticipationRecordList().get(0));
+        participationRecord.setCreationRecord(creatorRecord);
         session.saveOrUpdate(ParticipationRecord.class.getName(), participationRecord);
 
         return returnEQList;

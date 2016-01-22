@@ -153,7 +153,6 @@
 
 <script>
     initWx("http://dati.efeiyi.com/wx/init.do",wx_share_title,wx_share_des,wx_share_link,wx_share_imgUrl,wx_share_type,wx_share_dataUrl,wx_api_list);
-
 </script>
 </body>
 </html>
