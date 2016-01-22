@@ -16,7 +16,7 @@ import java.util.Date;
  * 试卷新建更新 Handler
  */
 
-public class ExaminationFormEditionHandler implements DoHandler {
+public class ExaminationEditionFormHandler implements DoHandler {
 
     private BaseManager baseManager = (BaseManager) ApplicationContextUtil.getApplicationContext().getBean("baseManagerImpl");
 
