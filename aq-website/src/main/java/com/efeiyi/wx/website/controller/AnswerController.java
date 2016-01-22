@@ -172,7 +172,7 @@ public class AnswerController {
         //2.判断是否有领奖资格
         if (participationRecord != null
                 && exam.getConsumer().getId().equals(consumer.getId())
-                && Examination.examFinished.equals(exam.getStatus())
+//                && Examination.examFinished.equals(exam.getStatus())
                 && exam.getFinishDatetime().compareTo(exam.getExaminationEdition().getExpireDate()) <= 0) {
             String idLock = wxQAManager.getLock(exam.getId());
             System.out.println("idLock:" + idLock);
