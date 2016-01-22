@@ -108,8 +108,7 @@
       <label class="am-u-sm-3 am-form-label"><small></small></label>
       <div class="am-u-sm-9">
         <c:if test="${!empty object.pictureUrl}">
-          <%--<img src="<%=imgBasePath %>${object.pictureUrl}<%=imgFormCSS %>">--%>
-          有图
+          <img src="<c:url value='${object.pictureUrl}'/>">
         </c:if>
       </div>
     </div>

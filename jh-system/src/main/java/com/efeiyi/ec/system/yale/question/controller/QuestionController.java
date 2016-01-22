@@ -80,12 +80,13 @@ public class QuestionController {
     private Question upLoadPicture(MultipartRequest multipartRequest, Question question) throws Exception{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmSS");
         String identify = sdf.format(new Date());
-        String url = "product/" + identify + ".jpg";
+        String url = "question/" + identify + ".jpg";
+        String pictureUrl = "http://master3.efeiyi.com/"+url+"@!question-img-form";
 
-//        if (!multipartRequest.getFile("pictureUrl").getOriginalFilename().equals("")) {
-//            aliOssUploadManager.uploadFile(multipartRequest.getFile("pictureUrl"), "315pal", url);
-//            question.setPictureUrl(url);
-//        }
+        if (!multipartRequest.getFile("pictureUrl").getOriginalFilename().equals("")) {
+            aliOssUploadManager.uploadFile(multipartRequest.getFile("pictureUrl"), "315pal", url);
+            question.setPictureUrl(pictureUrl);
+        }
 
         return question;
     }
