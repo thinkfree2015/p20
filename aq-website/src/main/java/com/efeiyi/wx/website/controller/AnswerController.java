@@ -59,7 +59,7 @@ public class AnswerController {
         //4.
         modelMap.put("examination", examination);
 //        modelMap.put("consumer", consumer);//用于答题完成后更新答题记录
-        return new ModelAndView((participationRecord == null ? "/question/examination" : "/question/examinationResult"), modelMap);
+        return new ModelAndView((participationRecord == null ? "/question/examination" : (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType()) ? "/question/examinationResult" : "/question/examinationHelpResult")), modelMap);
     }
 
     @RequestMapping("/assistAnswer.do/{examinationId}")
@@ -80,7 +80,7 @@ public class AnswerController {
         //4.
         modelMap.put("consumer", consumer);
         modelMap.put("examination", examination);
-        return new ModelAndView((participationRecord == null ? "/question/examinationHelp" : "/question/examinationHelpResult"), modelMap);
+        return new ModelAndView((participationRecord == null ? "/question/examinationHelp" : (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType()) ? "/question/examinationResult" : "/question/examinationHelpResult")), modelMap);
     }
 
     @RequestMapping({"/commitAnswer.do/{examinationId}/{answerList}/{consumerId}"})
