@@ -11,7 +11,6 @@ import com.efeiyi.wx.website.service.WxQAManager;
 import com.efeiyi.wx.website.util.WxQAConst;
 import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.p.model.WxCalledRecord;
-import com.ming800.core.util.CookieTool;
 import com.ming800.core.util.HttpUtil;
 import com.ming800.core.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
