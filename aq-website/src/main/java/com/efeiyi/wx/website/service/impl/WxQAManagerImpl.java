@@ -340,7 +340,8 @@ public class WxQAManagerImpl implements WxQAManager {
 
     @Override
     public String getOpenid(HttpServletRequest request) {
-        return request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : /*(CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : */""/*)*/);
+        System.out.println("getOpenid:" + request.getParameter("openid"));
+        return request.getParameter("openid") != null ? request.getParameter("openid") : (String) (request.getSession().getAttribute("openid") != null ? request.getSession().getAttribute("openid") : (CookieTool.getCookieByName(request, "openid") != null ? CookieTool.getCookieByName(request, "openid").getValue() : ""));
     }
 
     @Override

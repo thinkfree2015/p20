@@ -24,10 +24,11 @@ public class WxQAInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String openid = wxQAManager.getOpenid(request);
-        System.out.println(new Date() + "openid:" + openid);
-        if (openid == null || "".equals(openid)) {
-            response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://dati.efeiyi.com" + request.getServletPath() + "&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
+        System.out.println(new Date() + "openid:" + openid + " code:" + request.getParameter("code"));
+        if ((openid == null || "".equals(openid)) && request.getParameter("code") == null) {
+            response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://dati.efeiyi.com/answer/getUserInfo.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
 //            response.sendRedirect("http://" + request.getRemoteHost() + ":" + request.getServerPort() + "/redirect.do");
+            System.out.println("intercepted..");
             return false;
         }
 
