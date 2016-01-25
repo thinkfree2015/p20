@@ -111,10 +111,10 @@
 <script src="<c:url value="/scripts/wap/js/weixin.js"/>"></script>
 <script>
 
-  var wx_share_title = "微信答题直充现金！"; //分享标题
-  var wx_share_des = "参加答题赢取现金！可直接购买商品！";  //分享描述
+  var wx_share_title = "${sessionScope.nickname}在非遗答题知识闯关中获得了现金奖励，敢来挑战吗？"; //分享标题
+  var wx_share_des = "${sessionScope.nickname}在玩非遗知识闯关，涨姿势还有钱赚，敢来挑战Ta吗？";  //分享描述
   <%--var wx_share_link = "http://dati.efeiyi.com/wx/start.do?examinationId=${examination.id}"; //分享的链接地址  //需要动态获取，而不是直接填写静态值--%>
-  var wx_share_link = "http://dati.efeiyi.com/answer/assistAnswer/${examination.id}"; //分享的链接地址  //需要动态获取，而不是直接填写静态值
+  var wx_share_link = "http://dati.efeiyi.com/wx/start.do";
   var wx_share_imgUrl = "http://ec-efeiyi.oss-cn-beijing.aliyuncs.com/Clipboard%20Image.png"; //分享图片的url
   var wx_share_type = '';   //分享的类型   分享类型,music、video或link，不填默认为link
   var wx_share_dataUrl = ""; // 如果type是music或video，则要提供数据链接，默认为空

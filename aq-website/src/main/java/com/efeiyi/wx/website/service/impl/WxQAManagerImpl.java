@@ -52,6 +52,7 @@ public class WxQAManagerImpl implements WxQAManager {
         request.getSession().setAttribute("nickname",wxCalledRecord.getRequestSource());
         CookieTool.addCookie(response, "openid", wxCalledRecord.getData(), 0, WxQAConst.HOSTNAME);
         CookieTool.addCookie(response, "headimgurl", wxCalledRecord.getCallback(), 0, WxQAConst.HOSTNAME);
+        //tomcat7以上cookie存中文要转码
         CookieTool.addCookie(response, "nickname", URLEncoder.encode(wxCalledRecord.getRequestSource(), "UTF-8"), 0, WxQAConst.HOSTNAME);
     }
 
