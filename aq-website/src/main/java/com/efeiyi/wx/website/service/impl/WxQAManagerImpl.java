@@ -23,6 +23,7 @@ import org.springframework.ui.ModelMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -51,7 +52,7 @@ public class WxQAManagerImpl implements WxQAManager {
         request.getSession().setAttribute("nickname",wxCalledRecord.getRequestSource());
         CookieTool.addCookie(response, "openid", wxCalledRecord.getData(), 0, WxQAConst.HOSTNAME);
         CookieTool.addCookie(response, "headimgurl", wxCalledRecord.getCallback(), 0, WxQAConst.HOSTNAME);
-        CookieTool.addCookie(response, "nickname", wxCalledRecord.getRequestSource(), 0, WxQAConst.HOSTNAME);
+        CookieTool.addCookie(response, "nickname", URLEncoder.encode(wxCalledRecord.getRequestSource(), "UTF-8"), 0, WxQAConst.HOSTNAME);
     }
 
     @Transactional
