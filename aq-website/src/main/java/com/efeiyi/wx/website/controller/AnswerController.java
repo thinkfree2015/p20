@@ -207,40 +207,10 @@ public class AnswerController {
         String headimgurl = (String) map.get("headimgurl");
         System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
 
-        //保存用户
-        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println("MyUser:" + object);
-        Consumer consumer;
-        if(object instanceof MyUser){
-            MyUser user = (MyUser)object;
-            consumer = (Consumer)baseManager.getObject(Consumer.class.getName(),user.getId());
-        }else {
-            consumer = new Consumer();
-            consumer.setBalance(new BigDecimal(0));
-        }
-        if(map.get("unionid") != null && !map.get("unionid").equals(consumer.getUnionid())) {
-            consumer.setUnionid((String) map.get("unionid"));
-        }
-        baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
-//        LinkedHashMap queryMap = new LinkedHashMap();
-//        queryMap.put("openid", openid);
-//        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
-//        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord)wxCalledRecordList.get(0);
-        WxCalledRecord wxCalledRecord = wxQAManager.findLatestWxCalledRecordByOpenid(openid);
-        wxCalledRecord.setConsumerId(consumer.getId());
-        wxCalledRecord.setDataKey(WxQAConst.dataKey);
-        wxCalledRecord.setData(openid);
-        wxCalledRecord.setAccessToken((String) map.get("refreshToken"));
-        wxCalledRecord.setCreateDatetime(new Date());
-        //头像暂放callback
-        wxCalledRecord.setCallback(headimgurl);
-        //名字暂放请求来源
-        wxCalledRecord.setRequestSource(nickname);
-        baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
+        wxQAManager.wxLogin(map);
 
         wxQAManager.saveOpenid2Cache(request, response, openid);
-
-        String requestPath = (String)request.getSession().getAttribute("requestPath");
+        String requestPath = (String) request.getSession().getAttribute("requestPath");
         System.out.println("requestPath:" + requestPath);
         return new ModelAndView("redirect:" + requestPath);
     }
