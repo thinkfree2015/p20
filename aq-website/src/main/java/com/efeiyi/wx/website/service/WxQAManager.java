@@ -19,7 +19,7 @@ import java.util.Map;
 public interface WxQAManager {
 
 
-    void saveOpenid2Cache(HttpServletRequest request, HttpServletResponse response, String openid) throws Exception;
+    void saveOpenid2Cache(HttpServletRequest request, HttpServletResponse response, WxCalledRecord wxCalledRecord) throws Exception;
 
     Examination generateNewExamination(Consumer consumer, ExaminationEdition examinationEdition) throws Exception;
 
@@ -41,5 +41,5 @@ public interface WxQAManager {
 
     WxCalledRecord findLatestWxCalledRecordByOpenid(String openid);
 
-    void wxLogin(Map map);
+    WxCalledRecord wxLogin(Map map);
 }

@@ -45,9 +45,13 @@ public class WxQAManagerImpl implements WxQAManager {
     private Map<String, String> lockMap = new ConcurrentHashMap<>();
 
     @Override
-    public void saveOpenid2Cache(HttpServletRequest request, HttpServletResponse response, String openid) throws Exception {
-        request.getSession().setAttribute("openid", openid);
-        CookieTool.addCookie(response, "openid", openid, 0, WxQAConst.HOSTNAME);
+    public void saveOpenid2Cache(HttpServletRequest request, HttpServletResponse response, WxCalledRecord wxCalledRecord) throws Exception {
+        request.getSession().setAttribute("openid", wxCalledRecord.getData());
+        request.getSession().setAttribute("headimgurl",wxCalledRecord.getCallback());
+        request.getSession().setAttribute("nickname",wxCalledRecord.getRequestSource());
+        CookieTool.addCookie(response, "openid", wxCalledRecord.getData(), 0, WxQAConst.HOSTNAME);
+        CookieTool.addCookie(response, "headimgurl", wxCalledRecord.getCallback(), 0, WxQAConst.HOSTNAME);
+        CookieTool.addCookie(response, "nickname", wxCalledRecord.getRequestSource(), 0, WxQAConst.HOSTNAME);
     }
 
     @Transactional
@@ -358,7 +362,7 @@ public class WxQAManagerImpl implements WxQAManager {
     }
 
     @Override
-    public void wxLogin(Map map) {
+    public WxCalledRecord wxLogin(Map map) {
         //保存用户
         WxCalledRecord wxCalledRecord = findLatestWxCalledRecordByOpenid((String) map.get("openid"));
         Consumer consumer;
@@ -398,6 +402,6 @@ public class WxQAManagerImpl implements WxQAManager {
         //名字暂放请求来源
         wxCalledRecord.setRequestSource((String) map.get("nickname"));
         baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
-
+        return wxCalledRecord;
     }
 }

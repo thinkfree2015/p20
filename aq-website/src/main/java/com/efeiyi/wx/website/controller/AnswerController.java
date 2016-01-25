@@ -1,7 +1,6 @@
 package com.efeiyi.wx.website.controller;
 
 import com.efeiyi.ec.organization.model.Consumer;
-import com.efeiyi.ec.organization.model.MyUser;
 import com.efeiyi.ec.yale.question.model.Examination;
 import com.efeiyi.ec.yale.question.model.ExaminationQuestion;
 import com.efeiyi.ec.yale.question.model.ParticipationRecord;
@@ -14,7 +13,6 @@ import com.ming800.core.p.model.WxCalledRecord;
 import com.ming800.core.util.HttpUtil;
 import com.ming800.core.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -102,6 +99,7 @@ public class AnswerController {
             wxQAManager.saveAnswer(exam, modelMap);
         }
 
+//        modelMap.put("participationRecord",participationRecord);
         modelMap.put("examination", exam);
         return new ModelAndView("/question/examinationResult", modelMap);
     }
@@ -127,6 +125,7 @@ public class AnswerController {
             List<ExaminationQuestion> eqList = wxQAManager.saveHelpAnswer(exam, modelMap);
             modelMap.put("eqList", eqList);
         }
+//        modelMap.put("participationRecord",participationRecord);
         modelMap.put("examination", exam);
 
         return new ModelAndView("/question/examinationHelpResult", modelMap);
@@ -207,9 +206,9 @@ public class AnswerController {
         String headimgurl = (String) map.get("headimgurl");
         System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
 
-        wxQAManager.wxLogin(map);
+        WxCalledRecord wxCalledRecord = wxQAManager.wxLogin(map);
+        wxQAManager.saveOpenid2Cache(request, response, wxCalledRecord);
 
-        wxQAManager.saveOpenid2Cache(request, response, openid);
         String requestPath = (String) request.getSession().getAttribute("requestPath");
         System.out.println("requestPath:" + requestPath);
         return new ModelAndView("redirect:" + requestPath);
