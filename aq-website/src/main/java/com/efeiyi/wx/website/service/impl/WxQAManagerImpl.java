@@ -217,7 +217,7 @@ public class WxQAManagerImpl implements WxQAManager {
 //        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
 //        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord) wxCalledRecordList.get(0);
         WxCalledRecord wxCalledRecord = findLatestWxCalledRecordByOpenid(openid);
-        if(wxCalledRecord == null || wxCalledRecord.getId() == null) {
+        if(wxCalledRecord == null || wxCalledRecord.getConsumerId() == null) {
             throw new Exception("invalid openid！");
         }
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
