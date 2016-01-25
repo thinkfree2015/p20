@@ -23,8 +23,8 @@
     <c:forEach items="${examination.examinationQuestionList}" var="examQuestion">
       <div class="topic addtopic ae <c:if test="${examQuestion.questionOrder == 1}">active</c:if>">
         <h5>第<span>${examQuestion.questionOrder}</span>题</h5>
-        <div class="topic-img ae"><img src="<c:url value='/scripts/wap/upload/mypurchase02.png'/>"></div>
-        <%--<div class="topic-img ae"><img src="<c:url value='${examQuestion.question.pictureUrl}'/>"></div>--%>
+        <%--<div class="topic-img ae"><img src="<c:url value='/scripts/wap/upload/mypurchase02.png'/>"></div>--%>
+        <div class="topic-img ae"><img src="<c:url value='${examQuestion.question.pictureUrl}'/>"></div>
         <div class="topic-txt ae">
           <p>${examQuestion.question.questionContent}</p>
           <a href="#" onclick="answerQuestion('A')" class="bg-link">${examQuestion.question.answerA}</a>

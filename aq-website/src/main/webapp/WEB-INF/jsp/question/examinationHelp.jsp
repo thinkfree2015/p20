@@ -27,8 +27,8 @@
       <c:if test="${examQuestion.answerStatus == 2}">
         <div class="topic addtopic ae <c:if test="${tag == 1}">active</c:if>">
           <h5>第<span>${examQuestion.questionOrder}</span>题</h5>
-          <div class="topic-img ae"><img src="<c:url value='/scripts/wap/upload/mypurchase02.png'/>"></div>
-            <%--<div class="topic-img ae"><img src="<c:url value='${examQuestion.question.pictureUrl}'/>"></div>--%>
+          <%--<div class="topic-img ae"><img src="<c:url value='/scripts/wap/upload/mypurchase02.png'/>"></div>--%>
+            <div class="topic-img ae"><img src="<c:url value='${examQuestion.question.pictureUrl}'/>"></div>
           <div class="topic-txt ae">
             <p>${examQuestion.question.questionContent}</p>
             <a href="#" onclick="answerQuestionHelp('${examQuestion.questionOrder}', 'A')" class="bg-link">${examQuestion.question.answerA}</a>
