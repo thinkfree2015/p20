@@ -56,7 +56,7 @@
 
   var wx_share_title = "${question.questionName},你知道答案吗？"; //分享标题
   var wx_share_des = "${sessionScope.nickname}在玩非遗知识闯关，涨姿势还有钱赚，你也来玩吧！";  //分享描述
-  var wx_share_link = "http://dati.efeiyi.com/wx/start.do; //分享的链接地址  //需要动态获取，而不是直接填写静态值
+  var wx_share_link = "http://dati.efeiyi.com/wx/start.do"; //分享的链接地址  //需要动态获取，而不是直接填写静态值
   var wx_share_imgUrl = "${sessionScope.headimgurl}"; //分享图片的url
   var wx_share_type = '';   //分享的类型   分享类型,music、video或link，不填默认为link
   var wx_share_dataUrl = ""; // 如果type是music或video，则要提供数据链接，默认为空
