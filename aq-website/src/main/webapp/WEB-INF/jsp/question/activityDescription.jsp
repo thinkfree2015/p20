@@ -32,9 +32,9 @@
       <p><span>四、</span>e飞蚁保留对活动的最终解释权。</p>
     </div>
     <div class="explain-btn">
-      <c:if test="${not empty examination}">
-        <a href="<c:url value='/answer/assistAnswer.do/${examination.id}'/>" class="wechat-btn">帮助好友</a>
-      </c:if>
+      <%--<c:if test="${not empty examination}">
+        <a href="<c:url value='/answer/assistAnswer/${examination.id}'/>" class="wechat-btn">帮助好友</a>
+      </c:if>--%>
       <a href="<c:url value='/answer/start2Answer.do'/>" class="wechat-btn">马上开始</a>
     </div>
     <div class="explain-bg"></div>

@@ -61,7 +61,7 @@ public class AnswerController {
         return new ModelAndView((participationRecord == null ? "/question/examination" : (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType()) ? "/question/examinationResult" : "/question/examinationHelpResult")), modelMap);
     }
 
-    @RequestMapping("/assistAnswer.do/{examinationId}")
+    @RequestMapping("/assistAnswer/{examinationId}")
     public ModelAndView assistAnswer(@PathVariable String examinationId, HttpServletRequest request, ModelMap modelMap) throws Exception {
         String openid = wxQAManager.getOpenid(request);
         System.out.println("assist---openid:" + openid + "   unionid:" + request.getParameter("unionid"));
@@ -266,7 +266,7 @@ public class AnswerController {
 //        baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
 //
 //        wxQAManager.saveOpenid2Cache(request, response, openid);
-////        return new ModelAndView("redirect:/answer/assistAnswer.do/ijjq442t3di7jl1p?openid=" + openid);
+////        return new ModelAndView("redirect:/answer/assistAnswer/ijjq442t3di7jl1p?openid=" + openid);
 //        return new ModelAndView("redirect:/answer/start2Answer.do?openid=" + openid);
 //    }
 
