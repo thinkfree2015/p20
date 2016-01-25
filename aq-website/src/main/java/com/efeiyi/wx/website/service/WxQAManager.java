@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/12/30.
@@ -39,4 +40,6 @@ public interface WxQAManager {
     String getOpenid(HttpServletRequest request) ;
 
     WxCalledRecord findLatestWxCalledRecordByOpenid(String openid);
+
+    void wxLogin(Map map);
 }

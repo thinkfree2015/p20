@@ -164,7 +164,7 @@ public class WxQAManagerImpl implements WxQAManager {
             participationRecord.setAnswer("2");
         }
         ParticipationRecord creatorRecord = examination.getParticipationRecordList().get(0);
-        if(creatorRecord == null){
+        if (creatorRecord == null) {
             throw new Exception("found creatorParticipationRecord null.Invalid access!");
         }
         participationRecord.setCreationRecord(creatorRecord);
@@ -211,13 +211,13 @@ public class WxQAManagerImpl implements WxQAManager {
     }
 
     @Override
-    public Consumer findConsumerByOpenid(String openid) throws Exception{
+    public Consumer findConsumerByOpenid(String openid) throws Exception {
 //        LinkedHashMap queryMap = new LinkedHashMap();
 //        queryMap.put("openid", openid);
 //        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
 //        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord) wxCalledRecordList.get(0);
         WxCalledRecord wxCalledRecord = findLatestWxCalledRecordByOpenid(openid);
-        if(wxCalledRecord == null || wxCalledRecord.getId() == null) {
+        if (wxCalledRecord == null || wxCalledRecord.getConsumerId() == null) {
             throw new Exception("invalid openid！");
         }
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
@@ -235,8 +235,8 @@ public class WxQAManagerImpl implements WxQAManager {
     }
 
     @Override
-    public ParticipationRecord checkIfParticipated(Consumer consumer, Examination examination) throws Exception{
-        if(consumer == null || examination == null) {
+    public ParticipationRecord checkIfParticipated(Consumer consumer, Examination examination) throws Exception {
+        if (consumer == null || examination == null) {
             throw new Exception("invalid consumer or examination!");
         }
         LinkedHashMap queryMap = new LinkedHashMap();
@@ -355,5 +355,49 @@ public class WxQAManagerImpl implements WxQAManager {
         List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
         WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord) wxCalledRecordList.get(0);
         return wxCalledRecord;
+    }
+
+    @Override
+    public void wxLogin(Map map) {
+        //保存用户
+        WxCalledRecord wxCalledRecord = findLatestWxCalledRecordByOpenid((String) map.get("openid"));
+        Consumer consumer;
+        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("MyUser:" + object);
+
+        //efeiyi已登录
+        if (object instanceof MyUser) {
+            MyUser user = (MyUser) object;
+            consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), user.getId());
+        }
+        //efeiyi未登录
+        else {
+            //微信未登录过
+            if (wxCalledRecord.getConsumerId() == null) {
+                consumer = new Consumer();
+                consumer.setBalance(new BigDecimal(0));
+            }
+            //微信登录过
+            else {
+                consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), wxCalledRecord.getConsumerId());
+            }
+        }
+        if (map.get("unionid") != null && !map.get("unionid").equals(consumer.getUnionid())) {
+            consumer.setUnionid((String) map.get("unionid"));
+        }
+        baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
+
+
+        wxCalledRecord.setConsumerId(consumer.getId());
+        wxCalledRecord.setDataKey(WxQAConst.dataKey);
+        wxCalledRecord.setData((String) map.get("openid"));
+        wxCalledRecord.setAccessToken((String) map.get("refreshToken"));
+        wxCalledRecord.setCreateDatetime(new Date());
+        //头像暂放callback
+        wxCalledRecord.setCallback((String) map.get("headimgurl"));
+        //名字暂放请求来源
+        wxCalledRecord.setRequestSource((String) map.get("nickname"));
+        baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
+
     }
 }
