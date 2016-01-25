@@ -200,7 +200,7 @@ public class AnswerController {
         System.out.println("acess_token: " + accessToken + "\n" + "openid: " + openid);
 
         //用accessToken取Info
-        result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid + "&lang=zh_CN", null, null);
+        result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid + "&lang=zh_CN", "UTF-8", "UTF-8");
         System.out.println("result2:" + result);
         map = JsonUtil.parseJsonStringToMap(result.toString());
         String nickname = (String) map.get("nickname");
