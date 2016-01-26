@@ -33,7 +33,8 @@
               <div class="fiy-pic" style="top: 50%;margin-top: -15px;"><a href="#"><img src="${participationRecord.wxCalledRecord.callback}"></a></div>
               <span class="fiy-txt">${participationRecord.wxCalledRecord.requestSource}</span>
             </div>
-            <span class="fiy-buck">${participationRecord.consumer.balance}元</span>
+            <%--<span class="fiy-buck">${participationRecord.consumer.balance}元</span>--%>
+            <span class="fiy-buck">${participationRecord.balanceRecord.changeBalance}元</span>
           </li>
         </c:forEach>
       </ul>
