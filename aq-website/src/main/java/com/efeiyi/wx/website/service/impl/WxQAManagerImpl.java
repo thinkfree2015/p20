@@ -263,7 +263,7 @@ public class WxQAManagerImpl implements WxQAManager {
         queryMap.put("examinationEdition", participationRecord.getExamination().getExaminationEdition());
         queryMap.put("finishDatetime", participationRecord.getExamination().getFinishDatetime());
         List<ParticipationRecord> participationRecordList = baseManager.listObject("from ParticipationRecord p where examination.examinationEdition=:examinationEdition and recordType='1' and answer='1' and examination.finishDatetime <=:finishDatetime order by examination.finishDatetime asc", queryMap);
-//        participationRecordList.add(participationRecord);//把自己加进去
+        participationRecordList.add(participationRecord);//把自己加进去
         //再次判断是否有领奖资格
         if (Examination.examFinished.equals(participationRecord.getExamination().getStatus())) {
             System.out.println("test examination.status passed");
@@ -286,23 +286,26 @@ public class WxQAManagerImpl implements WxQAManager {
                     balanceRecord.setChangeBalance(questionSetting.getPrize30());
                     balanceRecord.setResultBalance(registeredConsumer.getBalance().add(questionSetting.getPrize30()));
                 } else {
-                    if("1".equals(questionSetting.getCommonPrizeTrue())){
-                        modelMap.put("coupon",questionSetting.getCommonPrize());
-                        modelMap.put("couponUrl",questionSetting.getCouponUrl());
-                    }
+                    System.out.println("coupon available");
                 }
-                session.saveOrUpdate(balanceRecord);
-                registeredConsumer.setBalance(balanceRecord.getResultBalance());
-                session.saveOrUpdate(registeredConsumer);
+                if(balanceRecord.getChangeBalance() != null) {
+                    session.saveOrUpdate(balanceRecord);
+                    registeredConsumer.setBalance(balanceRecord.getResultBalance());
+                    participationRecord.setBalanceRecord(balanceRecord);
+                    session.saveOrUpdate(registeredConsumer);
+                }
                 if (!consumer.getId().equals(registeredConsumer.getId())) {
                     session.delete(consumer);
                 }
                 participationRecord.getExamination().setStatus(Examination.examRewarded);
-                participationRecord.setBalanceRecord(balanceRecord);
                 session.saveOrUpdate(participationRecord.getExamination());
                 session.saveOrUpdate(participationRecord);
-//                session.flush();
             }
+        }
+
+        if(participationRecord.getBalanceRecord() == null && "1".equals(questionSetting.getCommonPrizeTrue())){
+            modelMap.put("coupon",questionSetting.getCommonPrize());
+            modelMap.put("couponUrl",questionSetting.getCouponUrl());
         }
         modelMap.addAttribute("rank", participationRecordList.size());
         modelMap.addAttribute("rankList", participationRecordList);
