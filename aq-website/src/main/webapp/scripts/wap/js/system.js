@@ -7,7 +7,7 @@ $(function(){
     //购物车
     (function(){
         $('.icon-delete').click(function(){
-            $('.alert-delete').fadeIn('fast');
+           $('.alert-delete').fadeIn('fast');
         })
 
         $('.edit-dete').click(function(){
@@ -61,19 +61,19 @@ $(function(){
         $("#nobtn").removeAttr('href');
         $("#nobtn").removeAttr('onclick');
 
-        /*     $('.balance').each(function(){
-         var $input=$(this).find('input');
-         $(this).click(function(){
-         $input.removeAttr('checked');
-         $(this).find('input').prop('checked','checked');
-         })
-         })*/
+   /*     $('.balance').each(function(){
+            var $input=$(this).find('input');
+            $(this).click(function(){
+                $input.removeAttr('checked');
+                $(this).find('input').prop('checked','checked');
+            })
+        })*/
 
 
 
 
     })
-        //商品评价
+    //商品评价
     (function(){
 
         $('.my-evaluate .score .score-star .star li').click(function(){
@@ -339,7 +339,7 @@ $(function(){
         $(".weachat-tab .wea-tab .wea-icon").click(function(){
             var _index = $(this).index();
             $(this).addClass("active").siblings().removeClass("active");
-            $(".wea-box .fiy-box").eq(_index).show().siblings().hide();
+           $(".wea-box .fiy-box").eq(_index).show().siblings().hide();
 
         })
     })();
@@ -348,7 +348,7 @@ $(function(){
         var bd = $("body").height();
         $(".wechat-bg").css("min-height",bd)
     })();
-/*    //微信问题选项
+    //微信问题选项
     (function(){
         var _this =$(".addae").index()-1;
         var _index = $(".topic").length;
@@ -359,5 +359,5 @@ $(function(){
                 window.location.href="http://www.baidu.com"
             }
         });
-    })();*/
+    })();
 });
