@@ -265,6 +265,7 @@ public class WxQAManagerImpl implements WxQAManager {
 
         //再次判断是否有领奖资格
         if (Examination.examFinished.equals(participationRecord.getExamination().getStatus())) {
+            participationRecordList.add(participationRecord);//把自己加进去
             System.out.println("test examination.status passed");
             BalanceRecord balanceRecord = new BalanceRecord();
             balanceRecord.setConsumer(participationRecord.getConsumer());
@@ -301,7 +302,6 @@ public class WxQAManagerImpl implements WxQAManager {
             participationRecord.getExamination().setFinishDatetime(new Date());
             session.saveOrUpdate(participationRecord.getExamination());
             session.saveOrUpdate(participationRecord);
-            participationRecordList.add(participationRecord);//把自己加进去
         }
 
         if (participationRecord.getBalanceRecord() == null && "1".equals(questionSetting.getCommonPrizeTrue())) {
