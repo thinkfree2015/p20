@@ -258,7 +258,7 @@ public class WxQAManagerImpl implements WxQAManager {
         QuestionSetting questionSetting = (QuestionSetting) baseManager.getUniqueObjectByConditions("from QuestionSetting", queryMap);
         queryMap.put("examinationEdition", participationRecord.getExamination().getExaminationEdition());
         queryMap.put("finishDatetime", participationRecord.getExamination().getFinishDatetime());
-        List<ParticipationRecord> participationRecordList = baseManager.listObject("from ParticipationRecord p where examination.examinationEdition=:examinationEdition and recordType='1' and answer='1' and examination.finishDatetime <=:finishDatetime order by examination.finishDatetime asc", queryMap);
+        List<ParticipationRecord> participationRecordList = baseManager.listObject("from ParticipationRecord p where p.examination.examinationEdition=:examinationEdition and p.recordType='1' and p.examination.status in ('" + Examination.examFinished + "','" + Examination.examRewarded + "') and examination.finishDatetime <=:finishDatetime order by examination.finishDatetime asc", queryMap);
         System.out.println("rankList:" + participationRecordList.size());
 //        participationRecordList.add(participationRecord);//把自己加进去
         //再次判断是否有领奖资格
