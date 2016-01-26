@@ -30,7 +30,7 @@
         <c:forEach items="${rankList}" var="participationRecord" >
           <li>
             <div class="fiy-text">
-              <div class="fiy-pic"><a href="#"><img src="${participationRecord.wxCalledRecord.callback}"></a></div>
+              <div class="fiy-pic" style="top: 50%;margin-top: -15px;"><a href="#"><img src="${participationRecord.wxCalledRecord.callback}"></a></div>
               <span class="fiy-txt">${participationRecord.wxCalledRecord.requestSource}</span>
             </div>
             <span class="fiy-buck">${participationRecord.consumer.balance}元</span>
