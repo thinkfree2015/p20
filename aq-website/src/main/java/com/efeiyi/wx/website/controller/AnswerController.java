@@ -53,8 +53,7 @@ public class AnswerController {
         ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, examination);
 
         //4.
-        modelMap.put("examination", examination);
-//        modelMap.put("consumer", consumer);//用于答题完成后更新答题记录
+        modelMap.put("examination", examination);//用于答题完成后更新答题记录
         return new ModelAndView((participationRecord == null ? "/question/examination" : (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType()) ? "/question/examinationResult" : "/question/examinationHelpResult")), modelMap);
     }
 
@@ -81,13 +80,10 @@ public class AnswerController {
 
     @RequestMapping({"/commitAnswer.do/{examinationId}/{answerList}/{consumerId}"})
     public ModelAndView commitAnswer(@PathVariable String examinationId, @PathVariable String answerList, @PathVariable String consumerId, HttpServletRequest request, ModelMap modelMap) throws Exception {
-//        String examId = request.getParameter("examId");
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
-//        String answerList = request.getParameter("answerList");
         modelMap.put("answerList", answerList);
 
-//        String consumerId = request.getParameter("consumerId");
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
         modelMap.put("consumer", consumer);
         ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, exam);
@@ -99,20 +95,16 @@ public class AnswerController {
             wxQAManager.saveAnswer(exam, modelMap);
         }
 
-//        modelMap.put("participationRecord",participationRecord);
         modelMap.put("examination", exam);
         return new ModelAndView("/question/examinationResult", modelMap);
     }
 
     @RequestMapping("/commitHelpAnswer.do/{examinationId}/{answerList}/{consumerId}")
     public ModelAndView commitHelpAnswer(@PathVariable String examinationId, @PathVariable String answerList, @PathVariable String consumerId, HttpServletRequest request, ModelMap modelMap) throws Exception {
-//        String examId = request.getParameter("examId");
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
-//        String answerList = request.getParameter("answerList");
         modelMap.put("answerList", answerList);
 
-//        String consumerId = request.getParameter("consumerId");
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
         modelMap.put("consumer", consumer);
 
@@ -125,7 +117,6 @@ public class AnswerController {
             List<ExaminationQuestion> eqList = wxQAManager.saveHelpAnswer(exam, modelMap);
             modelMap.put("eqList", eqList);
         }
-//        modelMap.put("participationRecord",participationRecord);
         modelMap.put("examination", exam);
 
         return new ModelAndView("/question/examinationHelpResult", modelMap);
@@ -148,10 +139,6 @@ public class AnswerController {
     public ModelAndView inquireProgress(HttpServletRequest request, ModelMap modelMap) {
         String examId = request.getParameter("examId");
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
-//        if (exam != null && exam.getStatus().equals(Examination.examStarted)) {
-//            exam.setStatus(Examination.examShared);//试题 1已分享
-//            baseManager.saveOrUpdate(exam.getClass().getName(), exam);
-//        }
         modelMap.put("examination", exam);
 
         return new ModelAndView("/question/shareProgress", modelMap);
@@ -164,14 +151,12 @@ public class AnswerController {
         modelMap.put("openid", openid);
         //1.找到当前用户和题
         Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
-        //String examId = request.getParameter("examId");
         Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
         ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, exam);
 
         //2.判断是否有领奖资格
         if (participationRecord != null
                 && exam.getConsumer().getId().equals(consumer.getId())
-//                && Examination.examFinished.equals(exam.getStatus())
                 && exam.getFinishDatetime().compareTo(exam.getExaminationEdition().getExpireDate()) <= 0) {
             String idLock = wxQAManager.getLock(exam.getId());
             System.out.println("idLock:" + idLock);
@@ -213,30 +198,5 @@ public class AnswerController {
         System.out.println("requestPath:" + requestPath);
         return new ModelAndView("redirect:" + requestPath);
     }
-
-//    @RequestMapping("/getUserInfo2.do")
-//    public ModelAndView getUserInfo2(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        String openid = request.getParameter("openid");
-//        String unionid = request.getParameter("unionid");
-//        Consumer consumer = new Consumer();
-//        consumer.setUnionid(unionid);
-//        consumer.setBalance(new BigDecimal(0));
-//        baseManager.saveOrUpdate(Consumer.class.getName(), consumer);
-//        WxCalledRecord wxCalledRecord = new WxCalledRecord();
-//        wxCalledRecord.setConsumerId(consumer.getId());
-//        wxCalledRecord.setDataKey(WxQAConst.dataKey);
-//        wxCalledRecord.setData(openid);
-//        wxCalledRecord.setAccessToken("accesstoken");
-//        wxCalledRecord.setCreateDatetime(new Date());
-//        //头像暂放callback
-//        wxCalledRecord.setCallback("headimgurl");
-//        //名字暂放请求来源
-//        wxCalledRecord.setRequestSource("nickname");
-//        baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
-//
-//        wxQAManager.saveOpenid2Cache(request, response, openid);
-////        return new ModelAndView("redirect:/answer/assistAnswer/ijjq442t3di7jl1p?openid=" + openid);
-//        return new ModelAndView("redirect:/answer/start2Answer.do?openid=" + openid);
-//    }
 
 }

@@ -34,19 +34,6 @@ public class WxQAInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
 
-        //保存openid到session和cookie
-//        wxQAManager.saveOpenid2Cache(request,response,openid);
-
-//        LinkedHashMap queryMap = new LinkedHashMap();
-//        queryMap.put("openid", openid);
-//        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
-//        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? null : (WxCalledRecord)wxCalledRecordList.get(0);
-
-//        if (wxCalledRecord == null) {
-//            response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://dati.efeiyi.com/answer/getUserInfo.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
-//            response.sendRedirect( "http://" + request.getRemoteHost() + ":" + request.getServerPort() + "/redirect2.do?openid=" + openid);
-//            return false;
-//        }
         return super.preHandle(request, response, handler);
     }
 

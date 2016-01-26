@@ -35,11 +35,6 @@ public class WxQAController {
 
     @RequestMapping("/start.do")
     public ModelAndView start(/*HttpServletRequest request, ModelMap modelMap*/){
-//        String examinationId = request.getParameter("examinationId");
-//        if (examinationId != null && !examinationId.trim().equals("")){
-//            Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
-//            modelMap.put("examination", exam);
-//        }
         return new ModelAndView("/question/activityDescription");
     }
 

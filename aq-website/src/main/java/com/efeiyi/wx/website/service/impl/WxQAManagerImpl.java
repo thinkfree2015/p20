@@ -218,10 +218,6 @@ public class WxQAManagerImpl implements WxQAManager {
 
     @Override
     public Consumer findConsumerByOpenid(String openid) throws Exception {
-//        LinkedHashMap queryMap = new LinkedHashMap();
-//        queryMap.put("openid", openid);
-//        List wxCalledRecordList = baseManager.listObject("from WxCalledRecord where dataKey='wxqaopenid' and data=:openid order by createDatetime desc", queryMap);
-//        WxCalledRecord wxCalledRecord = wxCalledRecordList == null || wxCalledRecordList.size() == 0 ? new WxCalledRecord() : (WxCalledRecord) wxCalledRecordList.get(0);
         WxCalledRecord wxCalledRecord = findLatestWxCalledRecordByOpenid(openid);
         if (wxCalledRecord == null || wxCalledRecord.getConsumerId() == null) {
             throw new Exception("invalid openid！");
@@ -324,9 +320,6 @@ public class WxQAManagerImpl implements WxQAManager {
         }
         //更新wxCalledRecord
         Query query = session.createQuery("from WxCalledRecord where dataKey= 'wxqaopenid' and consumerId=:consumerId and data=:openid");
-//        LinkedHashMap queryMap = new LinkedHashMap();
-//        queryMap.put("consumerId",consumer.getId());
-//        queryMap.put("openid", participationRecord.getWxCalledRecord().getData());
         query.setParameter("consumerId", consumer.getId());
         query.setParameter("openid", participationRecord.getWxCalledRecord().getData());
         WxCalledRecord wxCalledRecord = (WxCalledRecord) query.uniqueResult();
