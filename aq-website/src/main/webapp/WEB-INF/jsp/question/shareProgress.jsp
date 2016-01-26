@@ -111,8 +111,8 @@
 <script src="<c:url value="/scripts/wap/js/weixin.js"/>"></script>
 <script>
 
-  var wx_share_title = "${sessionScope.nickname}在非遗答题知识闯关中获得了现金奖励，敢来挑战吗？"; //分享标题
-  var wx_share_des = "${sessionScope.nickname}在玩非遗知识闯关，涨姿势还有钱赚，敢来挑战Ta吗？";  //分享描述
+  var wx_share_title = "【求助】${sessionScope.nickname}需要你的帮助！"; //分享标题
+  var wx_share_des = "${sessionScope.nickname}在玩非遗知识闯关，有道题答不上来，需要你的帮助，快来帮ta答题吧！";  //分享描述
   <%--var wx_share_link = "http://dati.efeiyi.com/wx/start.do?examinationId=${examination.id}"; //分享的链接地址  //需要动态获取，而不是直接填写静态值--%>
   var wx_share_link = "http://dati.efeiyi.com/wx/start.do";
   var wx_share_imgUrl = "${sessionScope.headimgurl}"; //分享图片的url

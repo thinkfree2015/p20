@@ -286,7 +286,10 @@ public class WxQAManagerImpl implements WxQAManager {
                     balanceRecord.setChangeBalance(questionSetting.getPrize30());
                     balanceRecord.setResultBalance(registeredConsumer.getBalance().add(questionSetting.getPrize30()));
                 } else {
-                    throw new Exception("prize exception");
+                    if("1".equals(questionSetting.getCommonPrizeTrue())){
+                        modelMap.put("coupon",questionSetting.getCommonPrize());
+                        modelMap.put("couponUrl",questionSetting.getCouponUrl());
+                    }
                 }
                 session.saveOrUpdate(balanceRecord);
                 registeredConsumer.setBalance(balanceRecord.getResultBalance());

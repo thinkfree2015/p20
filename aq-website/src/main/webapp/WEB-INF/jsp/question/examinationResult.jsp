@@ -170,7 +170,7 @@
   function afterReward(){
     var tag = ${count != 0};
     if(tag){
-      $("#indicate").innerHTML = "有打错的题，不能领取奖励哦。不过别担心，发给好友帮你答题，回答正确照样可以领取奖励！";
+      $("#indicate").innerHTML = "有答错的题，不能领取奖励哦。不过别担心，发给好友帮你答题，回答正确照样可以领取奖励！";
       $("#cover2").show();
       $(".custom-header").css("z-index", "0");
       return;
