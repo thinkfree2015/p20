@@ -2,6 +2,7 @@ package com.efeiyi.ec.yale.question.model;
 
 import com.efeiyi.ec.balance.model.BalanceRecord;
 import com.efeiyi.ec.organization.model.Consumer;
+import com.google.common.base.Objects;
 import com.ming800.core.p.model.WxCalledRecord;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -124,5 +125,18 @@ public class ParticipationRecord {
 
     public void setWxCalledRecord(WxCalledRecord wxCalledRecord) {
         this.wxCalledRecord = wxCalledRecord;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ParticipationRecord that = (ParticipationRecord) o;
+        return Objects.equal(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

@@ -259,6 +259,7 @@ public class WxQAManagerImpl implements WxQAManager {
         queryMap.put("examinationEdition", participationRecord.getExamination().getExaminationEdition());
         queryMap.put("finishDatetime", participationRecord.getExamination().getFinishDatetime());
         List<ParticipationRecord> participationRecordList = baseManager.listObject("from ParticipationRecord p where examination.examinationEdition=:examinationEdition and recordType='1' and answer='1' and examination.finishDatetime <=:finishDatetime order by examination.finishDatetime asc", queryMap);
+        System.out.println("rankList:" + participationRecordList.size());
 //        participationRecordList.add(participationRecord);//把自己加进去
         //再次判断是否有领奖资格
         if (Examination.examFinished.equals(participationRecord.getExamination().getStatus())) {
@@ -303,7 +304,7 @@ public class WxQAManagerImpl implements WxQAManager {
             modelMap.put("coupon",questionSetting.getCommonPrize());
             modelMap.put("couponUrl",questionSetting.getCouponUrl());
         }
-        modelMap.addAttribute("rank", participationRecordList.size());
+        modelMap.addAttribute("rank", participationRecordList.lastIndexOf(participationRecord));
         modelMap.addAttribute("rankList", participationRecordList);
         modelMap.addAttribute("balanceRecord", participationRecord.getBalanceRecord());
     }
@@ -311,7 +312,6 @@ public class WxQAManagerImpl implements WxQAManager {
     //微信用户和注册有用户绑定后，把微信用户的信息填入注册用户，并更新相关记录
     private Consumer transferConsumer(Session session, Consumer consumer, ParticipationRecord participationRecord) {
         //更新consumer
-
         MyUser user = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Consumer registeredConsumer = (Consumer) session.get(Consumer.class.getName(), user.getId());
         registeredConsumer.setUnionid(consumer.getUnionid());
