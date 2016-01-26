@@ -263,7 +263,7 @@ public class WxQAManagerImpl implements WxQAManager {
         queryMap.put("examinationEdition", participationRecord.getExamination().getExaminationEdition());
         queryMap.put("finishDatetime", participationRecord.getExamination().getFinishDatetime());
         List<ParticipationRecord> participationRecordList = baseManager.listObject("from ParticipationRecord p where examination.examinationEdition=:examinationEdition and recordType='1' and answer='1' and examination.finishDatetime <=:finishDatetime order by examination.finishDatetime asc", queryMap);
-        participationRecordList.add(participationRecord);//把自己加进去
+//        participationRecordList.add(participationRecord);//把自己加进去
         //再次判断是否有领奖资格
         if (Examination.examFinished.equals(participationRecord.getExamination().getStatus())) {
             System.out.println("test examination.status passed");
