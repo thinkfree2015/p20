@@ -67,7 +67,7 @@
           <%--分享链接  <c:url value="/wx/startHelp.do?examId=${examination.id}"/>  --%>
         </c:if>
 
-        <c:if test="${examination.status == '1' || (examination.status == '2' && tag != 0)}">
+        <c:if test="${examination.status == '1' || (examination.status == '2' && tag != 0) || examination.status == '3'}">
           <a href="<c:url value='/answer/inquireProgress.do?examId=${examination.id}'/>"
              class="wechat-btn cart-ft share">分&nbsp;享&nbsp;进&nbsp;度</a>
         </c:if>

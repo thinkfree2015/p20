@@ -66,7 +66,6 @@ public class AnswerController {
         Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
 
         //2.待继续答的题
-//        String examId = request.getParameter("examId");
         Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
         //3.判断是否已经答题
