@@ -3,34 +3,10 @@
 <!doctype html>
 <html class="no-js">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>答题完成</title>
-  <!-- Set render engine for 360 browser -->
-  <meta name="renderer" content="webkit">
-  <!-- No Baidu Siteapp-->
-  <meta http-equiv="Cache-Control" content="no-siteapp"/>
-  <link rel="icon" type="image/png" href="assets/i/favicon.png">
-  <!-- Add to homescreen for Chrome on Android -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
-  <!-- Add to homescreen for Safari on iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
-  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
-  <!-- Tile icon for Win8 (144x144 + tile color) -->
-  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
-  <meta name="msapplication-TileColor" content="#0e90d2">
-  <link type="text/css" rel="stylesheet" href="../shop2015/css/amazeui.min.css?v=20150831">
-  <link type="text/css" rel="stylesheet" href="../shop2015/css/app.css?v=20150831">
-  <link type="text/css" rel="stylesheet" href="../shop2015/css/myorder.css?v=20150831">
+  <title>领取奖励</title>
 </head>
 <body>
-<div class="atmosphere-pictures ae"><img src="../shop2015/upload/header-top.jpg"></div>
+<div class="atmosphere-pictures ae"><img src="<c:url value='/scripts/wap/upload/header-top.jpg'/>"></div>
 <div class="wechat-bg">
   <div class="ae  weachat-tab"> <div class="rewarded"></div></div>
   <div class="bouns-box  weachat-tab ae">
@@ -66,8 +42,8 @@
     </div>
   </div>
 </div>
+
 <footer class="bd footer-new">
-  <!----//End---->
   <div class="bd info" style="border-top: 0;">
     <a class="icon"></a>
     <div class="txt">中&nbsp;&nbsp;国&nbsp;&nbsp;非&nbsp;&nbsp;遗&nbsp;&nbsp;电&nbsp;&nbsp;商&nbsp;&nbsp;平&nbsp;&nbsp;台</div>

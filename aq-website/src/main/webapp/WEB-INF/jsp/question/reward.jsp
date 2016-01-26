@@ -13,7 +13,7 @@
   <title>领取奖励</title>
 </head>
 <body>
-<div class="atmosphere-pictures ae"><img src="/scripts/wap/upload/header-top.jpg"></div>
+<div class="atmosphere-pictures ae"><img src="<c:url value='/scripts/wap/upload/header-top.jpg'/>"></div>
 <div class="wechat-bg">
   <div class="ae  weachat-tab"> <div class="rewarded"></div></div>
   <div class="bouns-box  weachat-tab ae">
