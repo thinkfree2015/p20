@@ -348,16 +348,4 @@ $(function(){
         var bd = $("body").height();
         $(".wechat-bg").css("min-height",bd)
     })();
-    //微信问题选项
-    (function(){
-        var _this =$(".addae").index()-1;
-        var _index = $(".topic").length;
-        $(".topic .topic-txt.topic-txt .bg-link").click(function(){
-            _this++;
-            $(".topic").eq(_this).addClass("active").siblings().removeClass("active");
-            if(_this == _index){
-                window.location.href="http://www.baidu.com"
-            }
-        });
-    })();
 });
