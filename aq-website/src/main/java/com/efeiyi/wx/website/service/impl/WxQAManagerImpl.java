@@ -304,7 +304,7 @@ public class WxQAManagerImpl implements WxQAManager {
             modelMap.put("coupon",questionSetting.getCommonPrize());
             modelMap.put("couponUrl",questionSetting.getCouponUrl());
         }
-        modelMap.addAttribute("rank", participationRecordList.lastIndexOf(participationRecord));
+        modelMap.addAttribute("rank", participationRecordList.lastIndexOf(participationRecord) + 1);
         modelMap.addAttribute("rankList", participationRecordList);
         modelMap.addAttribute("balanceRecord", participationRecord.getBalanceRecord());
     }

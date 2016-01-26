@@ -40,7 +40,7 @@ public class AnswerController {
     @RequestMapping("/start2Answer.do")
     public ModelAndView start2Answer(HttpServletRequest request, /*HttpServletResponse response,*/ ModelMap modelMap) throws Exception {
         String openid = wxQAManager.getOpenid(request);
-        System.out.println("start----openid:" + openid + "   unionid:" + request.getParameter("unionid"));
+//        System.out.println("start----openid:" + openid + "   unionid:" + request.getParameter("unionid"));
 
         //1.找到最近所属用户
         Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
@@ -60,7 +60,7 @@ public class AnswerController {
     @RequestMapping("/assistAnswer/{examinationId}")
     public ModelAndView assistAnswer(@PathVariable String examinationId, HttpServletRequest request, ModelMap modelMap) throws Exception {
         String openid = wxQAManager.getOpenid(request);
-        System.out.println("assist---openid:" + openid + "   unionid:" + request.getParameter("unionid"));
+//        System.out.println("assist---openid:" + openid + "   unionid:" + request.getParameter("unionid"));
 
         //1.找到所属用户
         Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
@@ -176,25 +176,25 @@ public class AnswerController {
             throw new Exception("code is null");
         }
         String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + WxQAConst.APPID + "&secret=" + WxQAConst.APPSECRET + "&code=" + code + "&grant_type=authorization_code", null);
-        System.out.println("result1:" + result);
+//        System.out.println("result1:" + result);
         Map map = JsonUtil.parseJsonStringToMap(result.toString());
         String accessToken = (String) map.get("access_token");
         String openid = (String) map.get("openid");
-        System.out.println("acess_token: " + accessToken + "\n" + "openid: " + openid);
+//        System.out.println("acess_token: " + accessToken + "\n" + "openid: " + openid);
 
         //用accessToken取Info
         result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid + "&lang=zh_CN",null);
-        System.out.println("result2:" + result);
+//        System.out.println("result2:" + result);
         map = JsonUtil.parseJsonStringToMap(result.toString());
         String nickname = (String) map.get("nickname");
         String headimgurl = (String) map.get("headimgurl");
-        System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
+//        System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
 
         WxCalledRecord wxCalledRecord = wxQAManager.wxLogin(map);
         wxQAManager.saveOpenid2Cache(request, response, wxCalledRecord);
 
         String requestPath = (String) request.getSession().getAttribute("requestPath");
-        System.out.println("requestPath:" + requestPath);
+//        System.out.println("requestPath:" + requestPath);
         return new ModelAndView("redirect:" + requestPath);
     }
 
