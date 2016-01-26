@@ -94,9 +94,7 @@
         <div id="cover2" style="display: none" style="text-align: center">
           <div class="text-co2">
             <strong class="cov-titie">提示</strong>
-            <p class="covtext">
-              在浏览器中寻找分享按钮,将本页面分享给您的好友吧。
-            </p>
+            <p class="covtext">请在微信浏览器中打开本页面！</p>
             <div class="ae" style="text-align: center"><a class="covbtn">确定</a></div>
           </div>
           <div class="bg"></div>

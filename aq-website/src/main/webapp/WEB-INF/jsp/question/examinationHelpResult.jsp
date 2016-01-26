@@ -57,12 +57,12 @@
             </ul>
             <div class="txc-btn">
                 <c:if test="${count != 0}">
-                    <a href="#" onclick="answerHelp(${count})"
+                    <a href="#" onclick="answerHelp()"
                        class="wechat-btn cart-ft share">我&nbsp;要&nbsp;求&nbsp;助</a>
                     <%--分享链接  <c:url value="/wx/startHelp.do?examId=${examination.id}"/>  --%>
                 </c:if>
                 <c:if test="${count == 0}">
-                    <a href="#" onclick="answerHelp(${count})"
+                    <a href="#" onclick="answerHelp()"
                        class="wechat-btn cart-ft share">我&nbsp;要&nbsp;分&nbsp;享</a>
                     <%--分享链接  <c:url value="/wx/start.do"/>  --%>
                 </c:if>
@@ -76,9 +76,7 @@
                 <div id="cover2" style="display: none" style="text-align: center">
                     <div class="text-co2">
                         <strong class="cov-titie">提示</strong>
-
-                        <p class="covtext">在浏览器中寻找分享按钮，将本页面分享给您的好友吧。</p>
-
+                        <p class="covtext">请在微信浏览器中打开本页面！</p>
                         <div class="ae" style="text-align: center"><a class="covbtn">确定</a></div>
                     </div>
                     <div class="bg"></div>
@@ -112,10 +110,7 @@
         }
     }
 
-    function answerHelp(val) {
-        if (val == 0) {
-            wx_share_link = "http://dati.efeiyi.com/wx/start.do"; //分享的链接地址  //需要动态获取，而不是直接填写静态值
-        }
+    function answerHelp() {
         if (isWeiXin()) {
             $("#cover").show();
             $(".custom-header").css("z-index", "0");

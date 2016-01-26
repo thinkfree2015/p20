@@ -88,12 +88,13 @@
           <div class="text-co2">
             <strong class="cov-titie">提示</strong>
             <p class="covtext" id="indicate">
-              <%--<c:if test="${count != 0}">--%>
+              请在微信浏览器中打开本页面！
+              <%--<c:if test="${count != 0}">
                 在浏览器中寻找分享按钮,将本页面分享给您的好友吧。
-              <%--</c:if>--%>
-              <%--<c:if test="${count == 0}">--%>
-                <%--您已回答全部正确,请点击领取奖励!--%>
-              <%--</c:if>--%>
+              </c:if>
+              <c:if test="${count == 0}">
+                您已回答全部正确,请点击领取奖励!
+              </c:if>--%>
             </p>
             <div class="ae" style="text-align: center"><a class="covbtn">确定</a></div>
           </div>
@@ -142,7 +143,7 @@
       $("#cover").show();
       $(".custom-header").css("z-index", "0");
     } else {
-      $("#indicate").innerHTML = "在浏览器中寻找分享按钮,将本页面分享给您的好友吧。";
+      document.getElementById("indicate").innerHTML = "请在微信浏览器中打开本页面！";
       $("#cover2").show();
       $(".custom-header").css("z-index", "0");
     }
@@ -155,7 +156,7 @@
       $("#cover").show();
       $(".custom-header").css("z-index", "0");
     } else {
-      $("#indicate").innerHTML = "在浏览器中寻找分享按钮,将本页面分享给您的好友吧。";
+      document.getElementById("indicate").innerHTML = "请在微信浏览器中打开本页面！";
       $("#cover2").show();
       $(".custom-header").css("z-index", "0");
     }
@@ -170,7 +171,7 @@
   function afterReward(){
     var tag = ${count != 0};
     if(tag){
-      $("#indicate").innerHTML = "有答错的题，不能领取奖励哦。不过别担心，发给好友帮你答题，回答正确照样可以领取奖励！";
+      document.getElementById("indicate").innerHTML = "有答错的题，不能领取奖励哦。不过别担心，发给好友帮你答题，回答正确照样可以领取奖励！";
       $("#cover2").show();
       $(".custom-header").css("z-index", "0");
       return;
