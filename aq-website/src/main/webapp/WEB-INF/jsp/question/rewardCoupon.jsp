@@ -29,7 +29,7 @@
       <div class="ae text-fiy">今日闯关英雄榜,您目前排名${rank}名。<a class="right-btn" href="">炫耀一下!</a></div>
       <!--月榜-->
       <ul class="ae">
-        <c:forEach items="${rankList}" var="participationRecord" >
+        <c:forEach items="${rankList}" var="participationRecord" end="10">
         <li>
           <div class="fiy-text">
             <div class="fiy-pic" style="top: 50%;margin-top: -15px;"><a href="#"><img src="${participationRecord.wxCalledRecord.callback}"></a></div>
