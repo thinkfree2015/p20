@@ -48,8 +48,8 @@ public class WxQAManagerImpl implements WxQAManager {
     @Override
     public void saveOpenid2Cache(HttpServletRequest request, HttpServletResponse response, WxCalledRecord wxCalledRecord) throws Exception {
         request.getSession().setAttribute("openid", wxCalledRecord.getData());
-        request.getSession().setAttribute("headimgurl",wxCalledRecord.getCallback());
-        request.getSession().setAttribute("nickname",wxCalledRecord.getRequestSource());
+        request.getSession().setAttribute("headimgurl", wxCalledRecord.getCallback());
+        request.getSession().setAttribute("nickname", wxCalledRecord.getRequestSource());
         CookieTool.addCookie(response, "openid", wxCalledRecord.getData(), 0, WxQAConst.HOSTNAME);
         CookieTool.addCookie(response, "headimgurl", wxCalledRecord.getCallback(), 0, WxQAConst.HOSTNAME);
         //tomcat7以上cookie存中文要转码
@@ -258,11 +258,11 @@ public class WxQAManagerImpl implements WxQAManager {
         QuestionSetting questionSetting = (QuestionSetting) baseManager.getUniqueObjectByConditions("from QuestionSetting", queryMap);
         queryMap.put("examinationEdition", participationRecord.getExamination().getExaminationEdition());
         queryMap.put("finishDatetime", participationRecord.getExamination().getExaminationEdition().getExpireDate());
-        queryMap.put("finished", Examination.examFinished);
+//        queryMap.put("finished", Examination.examFinished);
         queryMap.put("rewarded", Examination.examRewarded);
-        List<ParticipationRecord> participationRecordList = baseManager.listObject("from ParticipationRecord p where p.examination.examinationEdition=:examinationEdition and p.recordType='1' and p.examination.status in (:finished,:rewarded) and examination.finishDatetime <=:finishDatetime order by examination.finishDatetime asc", queryMap);
+        List<ParticipationRecord> participationRecordList = baseManager.listObject("from ParticipationRecord p where p.examination.examinationEdition=:examinationEdition and p.recordType='1' and p.examination.status in =:rewarded and examination.finishDatetime <=:finishDatetime order by examination.finishDatetime asc", queryMap);
         System.out.println("rankList:" + participationRecordList.size());
-//        participationRecordList.add(participationRecord);//把自己加进去
+
         //再次判断是否有领奖资格
         if (Examination.examFinished.equals(participationRecord.getExamination().getStatus())) {
             System.out.println("test examination.status passed");
@@ -287,7 +287,7 @@ public class WxQAManagerImpl implements WxQAManager {
                 } else {
                     System.out.println("coupon available");
                 }
-                if(balanceRecord.getChangeBalance() != null) {
+                if (balanceRecord.getChangeBalance() != null) {
                     session.saveOrUpdate(balanceRecord);
                     registeredConsumer.setBalance(balanceRecord.getResultBalance());
                     participationRecord.setBalanceRecord(balanceRecord);
@@ -296,15 +296,17 @@ public class WxQAManagerImpl implements WxQAManager {
                 if (!consumer.getId().equals(registeredConsumer.getId())) {
                     session.delete(consumer);
                 }
-                participationRecord.getExamination().setStatus(Examination.examRewarded);
-                session.saveOrUpdate(participationRecord.getExamination());
-                session.saveOrUpdate(participationRecord);
             }
+            participationRecord.getExamination().setStatus(Examination.examRewarded);
+            participationRecord.getExamination().setFinishDatetime(new Date());
+            session.saveOrUpdate(participationRecord.getExamination());
+            session.saveOrUpdate(participationRecord);
+            participationRecordList.add(participationRecord);//把自己加进去
         }
 
-        if(participationRecord.getBalanceRecord() == null && "1".equals(questionSetting.getCommonPrizeTrue())){
-            modelMap.put("coupon",questionSetting.getCommonPrize());
-            modelMap.put("couponUrl",questionSetting.getCouponUrl());
+        if (participationRecord.getBalanceRecord() == null && "1".equals(questionSetting.getCommonPrizeTrue())) {
+            modelMap.put("coupon", questionSetting.getCommonPrize());
+            modelMap.put("couponUrl", questionSetting.getCouponUrl());
         }
         modelMap.addAttribute("rank", participationRecordList.lastIndexOf(participationRecord) + 1);
         modelMap.addAttribute("rankList", participationRecordList);
