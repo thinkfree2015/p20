@@ -72,8 +72,8 @@
 .myorder .jp-pd-btns li a {padding:8px 10px}
 .myorder .jp-pd-btns li:nth-child(2) {float:right}
 .myorder .jp-pd-btns li:nth-child(2) a:nth-child(1) {margin-right:10px}
-.myorder .Extras {border:1px solid #ccc;width:100%;overflow:hidden;height:auto;padding:11px 8px;margin-bottom:20px}
-.myorder .Extras a {float:left;width:100%;font-size:1rem;font-weight:100;position:relative;color:#000}
+.myorder .Extras {border:1px solid #ccc;width:100%;overflow:hidden;height:auto;padding:11px 8px;margin-bottom:20px;color: #000;}
+.myorder .Extras a {float:left;width:100%;font-size:1rem;font-weight:100;position:relative;color:#000;opacity: 1;}
 /*左三角*/
 .myorder .Extras .icon-sj {width:12px;height:12px;margin-top:3px;border-right:1px solid #000;border-bottom:1px solid #000;float:left;transfrom:rotate(-45deg);/*deg:度；旋转的属性*/ -webkit-transform:rotate(-45deg);/*谷歌和苹果浏览器*/ -ms-transfrom:rotate(-45deg);/*ie浏览器*/ position:absolute;right:1rem}
 .myorder .aq-btn {width:100%;border:1px solid #000;margin-bottom:80px}
@@ -381,7 +381,7 @@
 .colonel-table .col-pl ul li .p-img:nth-child(odd) {float:left}
 .colonel-table .col-pl ul li .p-img:nth-child(even) {float:right}
 .colonel-table .introduce {padding-top:1.7rem}
-.colonel-table .introduce img {width:100%;float:left;margin-bottom:1.7rem}
+.colonel-table .introduce img {width:100%;float:left;}
 .colonel-table .introduce p {font-size:14px;color:#000;margin-bottom:2rem;width:100%;float:left;padding:0 1.8rem}
 .colonel-table .introduce p strong {color:#999;font-weight:100}
 .colonel-table .introduce .button {padding:0 15%;margin-bottom:2rem}
@@ -530,7 +530,7 @@ html, body {height:100%}
 .coupon-tab .c-page .box ul li .top p {font-size:10px;color:#000;text-align:left;-webkit-transform:scale(0.8);width:100%}
 .coupon-tab .c-page .box ul li .right {width:10%;line-height:16PX;float:left}
 .coupon-tab .c-page .box ul li .right a {font-size:14px;color:#000;padding:80% 0 0 25%;text-align:center;width:14px;height:100%;float:left}
-.coupon-tab .c-page .add ul li .right a {width:100%;text-align:center;padding:48% 10%}
+.coupon-tab .c-page .add ul li .right a {width:100%;text-align:center;padding:48% 25%}
 .coupon-tab .c-page .add .change {width:100%;float:left;padding:0 1.9rem}
 .coupon-tab .c-page .add .change .btn-change {width:100%;padding:0 10px;line-height:35px;float:left;margin-top:25px;border:1px solid #000;color:#000;font-size:14px;position:relative}
 .coupon-tab .c-page .add .change .btn-change:after {content:'';width:0.8rem;height:0.8rem;border-right:1px solid #000;border-bottom:1px solid #000;transfrom:rotate(-45deg);-webkit-transform:rotate(-45deg);position:absolute;top:50%;margin-top:-0.4rem;right:0.8rem}
@@ -1007,6 +1007,16 @@ html, body {height:100%}
 .bouns-box .fiy-title .fiy-icon{width: 89px;height: 25px;background: url("../images/wechat-icon.png") no-repeat 0 -113px;background-size: 265px auto;display: inline-block}
 .bouns-box .text-fiy{font-size: 12px;color: #000;text-align: left;margin: 10px 0;position: relative}
 .bouns-box .text-fiy .right-btn{font-size: 12px;color: #000;position: absolute;right: 0;top: 0;font-weight: bold}
+/*获得奖励去领券*/
+
+.bouns-box  .bouns_coupon{width: 200px;height: 100px;background: url("../images/wechat-icon.png") 0 1640px;background-size:350px auto;display: inline-block}
+.bouns-box  .coupon_left{width: 149px;float: left;height: 100px;text-align: center;line-height: 100px;}
+.bouns-box  .coupon_left .coupon-text{font-size: 55px;color: #fff;font-weight: bold;position: relative;padding-left: 10px;}
+.bouns-box  .coupon_left .coupon-text strong{position: absolute;left: -16px;top: -30px;font-size: 19px;height: 19px}
+.bouns-box  .coupon_right{width: 51px;float: right;height: 100px;position: relative}
+.bouns-box  .coupon_right strong{font-size: 15px;color: #fff;position: absolute;left: 50%;top: 50%;margin-left:-12px;width: 15px;line-height: 20px;margin-top: -30px;}
+.bouns-box .text-center{text-align: center!important;line-height: 12px!important;}
+.coupon_link{line-height: 16px;}
 /*活动说明*/
 .wechat-top{width: 236px;height: 31px;display: inline-block;background: url("../images/wechat-icon.png") no-repeat 0 -846px;background-size: 350px auto;margin: 49px 0 32px;}
 .explain{padding: 0 30px;position: relative}
@@ -1029,15 +1039,18 @@ html, body {height:100%}
 .win-add{border-bottom: 1px solid #000;padding-top: 0;}
 .win-add a{border: 6px solid #999;}
 .addtop{position: relative;height: 291px;}
-.addtop .add-new-btn{position: absolute;bottom: 20px;left: 0px;}
+.addtop .add-new-btn{position: absolute;bottom: 20px;left: 0px;padding: 0 19px;}
+.myorder .aq-btn a.new-aq-btn{background: #000;color: #fff;}
 .win-payment .winicon{background:url(../images/cart-icon.png) no-repeat -63px -146px;display:inline-block;background-size:106px auto;-webkit-background-size:106px auto;width:35px;height:35px;}
 /*余额功能*/
 .detail-money{background: #f5f5f5;width: 100%;float:left;padding: 0 19px;}
 .detail-money .detail-h1{font-size: 12px;color: #333;width: 100%;float: left;margin: 20px 0 0 0 ;font-weight: bold}
-.detail-money .detail-h2{font-size: 30px;color: #ff3333;width: 100%;float: left;margin:7px 0 16px 0;line-height: 30px;}
+.detail-money .detail-h2{font-size: 22px;color: #ff3333;width: 100%;float: left;margin:7px 0 16px 0;line-height: 30px;}
+.detail-money .detail-h2 em{font-size: 30px;}
 /*余额明细*/
-.detail-list{width: 100%;float: left;padding: 0 19px;}
+.detail-list{width: 100%;float: left;padding: 0 19px;border-top: 1px solid #ccc;}
 .detail-list .detail-title{font-size: 12px;color: #333;margin: 18px 0 12px;font-weight: bold;}
-.detail-list .detail td{height: 40px;width: 25%;border: 1px solid #ccc;font-size: 9px;color: #ccc;text-align: center;color: #000;}
-.detail-list .detail tr:nth-child(1) td{height: 33px}
+.detail-list .detail td{width:25%;border: 1px solid #ccc;font-size: 9px;color: #ccc;text-align: center;color: #000;}
+.detail-list .detail tr td:last-child{padding: 9px 12px;}
+
 

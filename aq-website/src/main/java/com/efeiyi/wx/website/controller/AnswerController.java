@@ -179,7 +179,7 @@ public class AnswerController {
                 wxQAManager.reward(participationRecord, modelMap);
             }
         }
-        return new ModelAndView("/question/reward", modelMap);
+        return modelMap.get("coupon") == null ? new ModelAndView("/question/reward", modelMap) : new ModelAndView("/question/rewardCoupon", modelMap);
     }
 
     @RequestMapping("/getUserInfo.do")
