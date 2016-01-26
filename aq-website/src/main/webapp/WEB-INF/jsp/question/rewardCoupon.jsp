@@ -53,5 +53,17 @@
   </div>
   <div class="bd copyright">京ICP备15032511号-1</div>
 </footer>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="<c:url value="/scripts/wap/js/weixin.js"/>"></script>
+<script>
+  var wx_share_imgUrl = "${sessionScope.headimgurl}"; //分享图片的url
+  var wx_share_type = '';   //分享的类型   分享类型,music、video或link，不填默认为link
+  var wx_share_dataUrl = ""; // 如果type是music或video，则要提供数据链接，默认为空
+  var wx_api_list = ['onMenuShareAppMessage', 'onMenuShareTimeline'];    //需要使用的JS接口列表
+  var wx_share_link = "http://dati.efeiyi.com/wx/start.do";
+  var wx_share_title = "${sessionScope.nickname}完成了在非遗知识闯关答题，敢来挑战吗？"; //分享标题
+  var wx_share_des = "${sessionScope.nickname}在玩非遗知识闯关，涨姿势还有钱赚，敢来挑战Ta吗？";  //分享描述
+  initWx("http://dati.efeiyi.com/wx/init.do","",wx_share_title,wx_share_des,wx_share_link,wx_share_imgUrl,wx_share_type,wx_share_dataUrl,wx_api_list);
+</script>
 </body>
 </html>

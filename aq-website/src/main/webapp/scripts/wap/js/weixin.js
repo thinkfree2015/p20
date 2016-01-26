@@ -64,11 +64,12 @@ function initWx(initUrl, shareExaminationUrl, wx_share_title, wx_share_des, wx_s
 
     function shareExamination(shareExaminationUrl) {
         //alert(shareExaminationUrl);
-        ajaxRequest(shareExaminationUrl, {
-            "callUrl": encodeURIComponent(window.location.href.split('#')[0])
-        }, function (data) {
-            //window.location = encodeURIComponent(window.location.href.split('#')[0]);
-        });
-
+        if (shareExaminationUrl != "") {
+            ajaxRequest(shareExaminationUrl, {
+                "callUrl": encodeURIComponent(window.location.href.split('#')[0])
+            }, function (data) {
+                //window.location = encodeURIComponent(window.location.href.split('#')[0]);
+            });
+        }
     }
 }
