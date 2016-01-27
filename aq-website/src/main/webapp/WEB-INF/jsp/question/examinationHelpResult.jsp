@@ -81,7 +81,7 @@
 
                 <div id="cover" style="display: none;">
                     <em class="bg"></em>
-                    <img src="/scripts/wap/upload/guide-share.png" class="share-picture" alt="">
+                    <img src="<c:url value='/scripts/wap/upload/guide-share.png'/>" class="share-picture" alt="">
                 </div>
                 <div id="cover2" style="display: none" style="text-align: center">
                     <div class="text-co2">
@@ -112,14 +112,6 @@
     var wx_share_title = "${sessionScope.nickname}完成了在非遗知识闯关答题，敢来挑战吗？"; //分享标题
     var wx_share_des = "${sessionScope.nickname}在玩非遗知识闯关，涨姿势还有钱赚，敢来挑战Ta吗？";  //分享描述
     </c:if>
-    function isWeiXin() {
-        var ua = window.navigator.userAgent.toLowerCase();
-        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     function answerHelp() {
         if (isWeiXin()) {

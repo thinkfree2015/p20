@@ -13,6 +13,15 @@
 //var wx_share_dataUrl = ""; // 如果type是music或video，则要提供数据链接，默认为空
 //var wx_api_list = [];    //需要使用的JS接口列表
 
+function isWeiXin() {
+    var ua = window.navigator.userAgent.toLowerCase();
+    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function initWx(initUrl, shareExaminationUrl, wx_share_title, wx_share_des, wx_share_link, wx_share_imgUrl, wx_share_type, wx_share_dataUrl, wx_api_list) {
     var noncestr = "Wm3WZYTPz0wzccnW";
     var timestamp = new Date().getTime();

@@ -33,7 +33,7 @@
 
         <div id="cover" style="display: none;">
           <em class="bg"></em>
-          <img src="/scripts/wap/upload/guide-share.png" class="share-picture" alt="">
+          <img src="<c:url value='/scripts/wap/upload/guide-share.png'/>" class="share-picture" alt="">
         </div>
 
         <div id="cover2" style="display: none" style="text-align: center">
@@ -62,14 +62,6 @@
   var wx_share_dataUrl = ""; // 如果type是music或video，则要提供数据链接，默认为空
   var wx_api_list = ['onMenuShareAppMessage', 'onMenuShareTimeline'];    //需要使用的JS接口列表
 
-  function isWeiXin() {
-    var ua = window.navigator.userAgent.toLowerCase();
-    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-      return true;
-    } else {
-      return false;
-    }
-  }
   $().ready(function () {
     $(".share").click(function () {
       if (isWeiXin()) {
@@ -84,7 +76,7 @@
     $("#cover").click(function () {
       $(this).hide();
     });
-  })
+  });
 
   initWx("http://dati.efeiyi.com/wx/init.do", "<c:url value='/wx/shareExamination/${examination.id}'/>", wx_share_title,wx_share_des,wx_share_link,wx_share_imgUrl,wx_share_type,wx_share_dataUrl,wx_api_list);
 </script>
