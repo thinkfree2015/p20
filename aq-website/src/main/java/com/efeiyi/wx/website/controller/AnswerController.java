@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -166,31 +168,46 @@ public class AnswerController {
         return modelMap.get("coupon") == null ? new ModelAndView("/question/reward", modelMap) : new ModelAndView("/question/rewardCoupon", modelMap);
     }
 
-    @RequestMapping("/getUserInfo.do")
-    public ModelAndView getUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//    @RequestMapping("/getUserInfo.do")
+//    public ModelAndView getUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//
+//        //用code取accessToken
+//        String code = request.getParameter("code");
+//        System.out.println(new Date() + "code=" + code);
+//        if (code == null) {
+//            throw new Exception("code is null");
+//        }
+//        String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + WxQAConst.APPID + "&secret=" + WxQAConst.APPSECRET + "&code=" + code + "&grant_type=authorization_code", null);
+////        System.out.println("result1:" + result);
+//        Map map = JsonUtil.parseJsonStringToMap(result.toString());
+//        String accessToken = (String) map.get("access_token");
+//        String openid = (String) map.get("openid");
+////        System.out.println("acess_token: " + accessToken + "\n" + "openid: " + openid);
+//
+//        //用accessToken取Info
+//        result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid + "&lang=zh_CN", null);
+////        System.out.println("result2:" + result);
+//        map = JsonUtil.parseJsonStringToMap(result.toString());
+//        String nickname = (String) map.get("nickname");
+//        String headimgurl = (String) map.get("headimgurl");
+////        System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
+//
+//        WxCalledRecord wxCalledRecord = wxQAManager.wxLogin(map);
+//        wxQAManager.saveOpenid2Cache(request, response, wxCalledRecord);
+//
+//        String requestPath = (String) request.getSession().getAttribute("requestPath");
+////        System.out.println("requestPath:" + requestPath);
+//        return new ModelAndView("redirect:" + requestPath);
+//    }
 
-        //用code取accessToken
-        String code = request.getParameter("code");
-        System.out.println(new Date() + "code=" + code);
-        if (code == null) {
-            throw new Exception("code is null");
-        }
-        String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + WxQAConst.APPID + "&secret=" + WxQAConst.APPSECRET + "&code=" + code + "&grant_type=authorization_code", null);
-//        System.out.println("result1:" + result);
-        Map map = JsonUtil.parseJsonStringToMap(result.toString());
-        String accessToken = (String) map.get("access_token");
-        String openid = (String) map.get("openid");
-//        System.out.println("acess_token: " + accessToken + "\n" + "openid: " + openid);
 
-        //用accessToken取Info
-        result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid + "&lang=zh_CN",null);
-//        System.out.println("result2:" + result);
-        map = JsonUtil.parseJsonStringToMap(result.toString());
-        String nickname = (String) map.get("nickname");
-        String headimgurl = (String) map.get("headimgurl");
-//        System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
+    @RequestMapping("/getUserInfo2.do")
+    public ModelAndView getUserInfo2(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        WxCalledRecord wxCalledRecord = wxQAManager.wxLogin(map);
+        String openid = request.getParameter("openid");
+        String nickname = URLDecoder.decode(request.getParameter("nickname"), "UTF-8");
+        String headimgurl = URLDecoder.decode(request.getParameter("headimgurl"), "UTF-8");
+        WxCalledRecord wxCalledRecord = wxQAManager.wxLogin(openid, nickname, headimgurl);
         wxQAManager.saveOpenid2Cache(request, response, wxCalledRecord);
 
         String requestPath = (String) request.getSession().getAttribute("requestPath");

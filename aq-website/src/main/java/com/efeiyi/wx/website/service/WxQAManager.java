@@ -42,4 +42,6 @@ public interface WxQAManager {
     WxCalledRecord findLatestWxCalledRecordByOpenid(String openid);
 
     WxCalledRecord wxLogin(Map map);
+
+    WxCalledRecord wxLogin(String openid, String nickname, String headimgurl);
 }
