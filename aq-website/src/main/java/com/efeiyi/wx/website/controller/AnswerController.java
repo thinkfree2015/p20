@@ -133,6 +133,8 @@ public class AnswerController {
             modelMap.put("openid", openid);
             List<ExaminationQuestion> eqList = wxQAManager.saveHelpAnswer(examination, modelMap);
             modelMap.put("eqList", eqList);
+            //标记此人已协助答题，再次刷新时会显示另一套提示信息,如“不好意思，您来晚了，已有好友帮助完成！”
+            modelMap.put("assistance", "assisted");
         }
         modelMap.put("examination", examination);
         System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) +"--commitHelpAnswer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
