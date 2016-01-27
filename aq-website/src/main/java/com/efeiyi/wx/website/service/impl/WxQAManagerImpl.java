@@ -409,4 +409,12 @@ public class WxQAManagerImpl implements WxQAManager {
         baseManager.saveOrUpdate(WxCalledRecord.class.getName(), wxCalledRecord);
         return wxCalledRecord;
     }
+
+    public WxCalledRecord wxLogin(String openid, String nickname, String headimgurl){
+        Map map = new HashMap();
+        map.put("openid",openid);
+        map.put("nickname",nickname);
+        map.put("headimgurl",headimgurl);
+        return wxLogin(map);
+    }
 }

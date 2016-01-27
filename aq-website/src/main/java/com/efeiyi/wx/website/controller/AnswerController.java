@@ -183,7 +183,7 @@ public class AnswerController {
 //        System.out.println("acess_token: " + accessToken + "\n" + "openid: " + openid);
 
         //用accessToken取Info
-        result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid + "&lang=zh_CN",null);
+        result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid + "&lang=zh_CN", null);
 //        System.out.println("result2:" + result);
         map = JsonUtil.parseJsonStringToMap(result.toString());
         String nickname = (String) map.get("nickname");
@@ -191,6 +191,21 @@ public class AnswerController {
 //        System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
 
         WxCalledRecord wxCalledRecord = wxQAManager.wxLogin(map);
+        wxQAManager.saveOpenid2Cache(request, response, wxCalledRecord);
+
+        String requestPath = (String) request.getSession().getAttribute("requestPath");
+//        System.out.println("requestPath:" + requestPath);
+        return new ModelAndView("redirect:" + requestPath);
+    }
+
+
+    @RequestMapping("/getUserInfo2.do")
+    public ModelAndView getUserInfo2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        String openid = request.getParameter("openid");
+        String nickname = request.getParameter("nickname");
+        String headimgurl = request.getParameter("headimgurl");
+        WxCalledRecord wxCalledRecord = wxQAManager.wxLogin(openid, nickname, headimgurl);
         wxQAManager.saveOpenid2Cache(request, response, wxCalledRecord);
 
         String requestPath = (String) request.getSession().getAttribute("requestPath");
