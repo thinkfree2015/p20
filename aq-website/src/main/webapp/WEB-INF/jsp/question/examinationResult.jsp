@@ -170,8 +170,15 @@
 
   function afterReward(){
     var tag = ${count != 0};
-    if(tag){
+    var tag2 = ${examination.finishDatetime >= examination.examinationEdition.expireDate};
+    if(tag){//题目没有回答全部正确
       document.getElementById("indicate").innerHTML = "有答错的题，不能领取奖励哦。不过别担心，发给好友帮你答题，回答正确照样可以领取奖励！";
+      $("#cover2").show();
+      $(".custom-header").css("z-index", "0");
+      return;
+    }
+    if(tag2){//完成时间超过活动时间
+      document.getElementById("indicate").innerHTML = "非常抱歉，您的完成时间超出活动期限！敬请期待下次活动。";
       $("#cover2").show();
       $(".custom-header").css("z-index", "0");
       return;
