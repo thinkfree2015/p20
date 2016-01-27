@@ -22,8 +22,8 @@
     <div class="wea-bg"></div>
   </div>
   <div class="topic ae">
-    <div class="topic-img ae"><img src="/scripts/wap/upload/mypurchase02.png"> </div>
-    <%--<div class="topic-img ae"><img src="<c:url value='${question.pictureUrl}'/>"></div>--%>
+    <%--<div class="topic-img ae"><img src="/scripts/wap/upload/mypurchase02.png"> </div>--%>
+    <div class="topic-img ae"><img src="<c:url value='${question.pictureUrl}'/>"></div>
     <div class="topic-txt ae">
       <p>${question.questionContent}</p>
       <div class="txc-box">${question.answerKnowledge}</div>
