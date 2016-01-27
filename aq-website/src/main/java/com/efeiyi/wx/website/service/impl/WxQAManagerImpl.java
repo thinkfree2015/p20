@@ -91,9 +91,9 @@ public class WxQAManagerImpl implements WxQAManager {
         participationRecord.setWxCalledRecord(wxCalledRecord);
         if (count == examination.getExaminationQuestionList().size()) {
             participationRecord.setAnswer("1");
-            if (examination.getExaminationEdition().getExpireDate().compareTo(new Date()) >= 0) {
+//            if (examination.getExaminationEdition().getExpireDate().compareTo(new Date()) >= 0) {
                 examination.setStatus(Examination.examFinished);//试题状态 都答对且未过期的-2已完成
-            }
+//            }
             examination.setFinishDatetime(new Date());
             session.saveOrUpdate(examination);
         } else {
@@ -145,9 +145,9 @@ public class WxQAManagerImpl implements WxQAManager {
             for (ExaminationQuestion eq : returnEQList) {
                 session.saveOrUpdate(eq.getClass().getName(), eq);
             }
-            if (examination.getExaminationEdition().getExpireDate().compareTo(new Date()) >= 0) {
+//            if (examination.getExaminationEdition().getExpireDate().compareTo(new Date()) >= 0) {
                 examination.setStatus(Examination.examFinished);//试题状态 都答对且未过期的-2已完成
-            }
+//            }
             examination.setFinishDatetime(new Date());
             session.saveOrUpdate(Examination.class.getName(), examination);
         }

@@ -151,7 +151,7 @@
 
   function flaunt(){
     //炫耀一下，还需要重新定义--标题、图标、描述
-    wx_share_link = "http://dati.efeiyi.com/wx/start.do";
+//    wx_share_link = "http://dati.efeiyi.com/wx/start.do";
     if (isWeiXin()) {
       $("#cover").show();
       $(".custom-header").css("z-index", "0");
