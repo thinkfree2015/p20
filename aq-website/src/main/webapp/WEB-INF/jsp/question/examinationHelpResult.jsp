@@ -18,7 +18,7 @@
         <div class="headline">
             <div class="head-number">${examination.examinationEdition.name}</div>
         </div>
-        <c:if test="${examination.status != 2}">
+        <c:if test="${not empty assistance}">
             <c:set var="count" value="0" scope="page"/>
             <c:forEach items="${eqList}" var="examQuestion">
                 <c:if test="${examQuestion.answerStatus == 2}">
@@ -34,7 +34,7 @@
                 </c:if>
             </div>
         </c:if>
-        <c:if test="${examination.status == 2}">
+        <c:if test="${empty assistance}">
             <div class="add-head">
                 不好意思，您来晚了，已有好友帮助完成！
             </div>
@@ -43,7 +43,7 @@
     </div>
     <div class="topic ae">
         <div class="plan">
-            <c:if test="${examination.status != 2}">
+            <c:if test="${not empty assistance}">
                 <ul class="plan-issue">
                     <c:forEach items="${eqList}" var="examQuestion">
                         <li>
@@ -63,10 +63,9 @@
                         </li>
                     </c:forEach>
                 </ul>
-
             </c:if>
             <div class="txc-btn">
-                <c:if test="${examination.status != 2}">
+                <c:if test="${not empty assistance}">
                     <c:if test="${count != 0}">
                         <a href="#" onclick="answerHelp()"
                            class="wechat-btn cart-ft share">我&nbsp;要&nbsp;求&nbsp;助</a>
