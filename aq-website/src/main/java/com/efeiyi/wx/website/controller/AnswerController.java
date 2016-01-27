@@ -205,9 +205,10 @@ public class AnswerController {
     public ModelAndView getUserInfo2(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String openid = request.getParameter("openid");
-        System.out.println(new Date() + "\nopenid:" + openid);
         String nickname = URLDecoder.decode(request.getParameter("nickname"), "UTF-8");
         String headimgurl = URLDecoder.decode(request.getParameter("headimgurl"), "UTF-8");
+        System.out.println(new Date() + "\nopenid:" + openid + "--nickname:" + request.getParameter("nickname") + "--headimgurl:" + request.getParameter("headimgurl") + "--nickname2:" + nickname + "--headimgurl2:" + headimgurl);
+
         WxCalledRecord wxCalledRecord = wxQAManager.wxLogin(openid, nickname, headimgurl);
         wxQAManager.saveOpenid2Cache(request, response, wxCalledRecord);
 
