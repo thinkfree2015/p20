@@ -52,7 +52,7 @@ function initWx(initUrl, shareExaminationUrl, wx_share_title, wx_share_des, wx_s
                 type: wx_share_type, // 分享类型,music、video或link，不填默认为link
                 dataUrl: wx_share_dataUrl, // 如果type是music或video，则要提供数据链接，默认为空
                 success: shareExamination(shareExaminationUrl),
-                cancel: shareExamination(shareExaminationUrl)
+                //cancel: shareExamination(shareExaminationUrl)
             });
 
             wx.onMenuShareTimeline({
@@ -60,7 +60,7 @@ function initWx(initUrl, shareExaminationUrl, wx_share_title, wx_share_des, wx_s
                 link: wx_share_link, // 分享链接
                 imgUrl: wx_share_imgUrl, // 分享图标
                 success: shareExamination(shareExaminationUrl),
-                cancel: shareExamination(shareExaminationUrl),
+                //cancel: shareExamination(shareExaminationUrl),
             });
         });
         wx.error(function (res) {
