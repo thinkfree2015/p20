@@ -82,6 +82,7 @@ public class ProductSeriesServiceManagerImpl implements ProductSeriesServiceMana
     }
 
     @Override
+    @Transactional
     public void removeTenantCertification(TenantCertification tenantCertification) {
         for (TenantProductSeries tps: tenantCertification.getTenantProductSeriesList()){
             tps.setTenantCertification(null);

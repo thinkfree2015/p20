@@ -105,7 +105,7 @@
                     <td>
                         <div class="am-btn-toolbar">
                             <div class="am-btn-group am-btn-group-xs" style="width: 100%;" >
-                                <button onclick="window.location.href='<c:url value="/tenant/delTenantProductSeries.do?tenantProductSeriesId=${tenantProductSeries.id}"/>'"
+                                <button onclick="myConfirm('<c:url value="/tenant/delTenantProductSeries.do?tenantProductSeriesId=${tenantProductSeries.id}"/>','D')"
                                         class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>
                             </div>
                         </div>
@@ -141,7 +141,7 @@
                                 <button onclick="window.location.href='<c:url value="/basic/xm.do?qm=formTenantCertification&id=${tenantCertification.id}"/>'"
                                         class="am-btn am-btn-default am-btn-xs am-hide-sm-only">
                                     <span class="am-icon-edit"></span>编辑</button>
-                                <button onclick="window.location.href='<c:url value="/tenantCertification/removeTenantCertification.do?tenantCertificationId=${tenantCertification.id}"/>'"
+                                <button onclick="myConfirm('<c:url value="/tenantCertification/removeTenantCertification.do?tenantCertificationId=${tenantCertification.id}"/>','D')"
                                         class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
                                     <span class="am-icon-trash-o"></span>删除</button>
                                 <button onclick="window.location.href='<c:url value="/basic/xm.do?qm=viewTenantCertification&id=${tenantCertification.id}"/>'"
