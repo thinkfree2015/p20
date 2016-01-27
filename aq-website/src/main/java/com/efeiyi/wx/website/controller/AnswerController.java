@@ -56,6 +56,8 @@ public class AnswerController {
 
         //4.
         modelMap.put("examination", examination);//用于答题完成后更新答题记录
+
+        System.out.println(new Date() + "\nopenid:" + openid +"--start2Answer--examination:" + examination.getId() + "--participation:" + participationRecord.getId() + "--consumer:" + consumer.getId());
         return new ModelAndView((participationRecord == null ? "/question/examination" : (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType()) ? "/question/examinationResult" : "/question/examinationHelpResult")), modelMap);
     }
 
@@ -76,49 +78,67 @@ public class AnswerController {
         //4.
         modelMap.put("consumer", consumer);
         modelMap.put("examination", examination);
-        return new ModelAndView((participationRecord == null ? "/question/examinationHelp" : (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType()) ? "/question/examinationResult" : "/question/examinationHelpResult")), modelMap);
+        System.out.println(new Date() + "\nopenid:" + openid +"--assistAnswer--examination:" + examination.getId() + "--participation:" + participationRecord.getId() + "--consumer:" + consumer.getId());
+
+        if (participationRecord == null) {
+            if (Examination.examFinished.equals(examination.getStatus()) || Examination.examRewarded.equals(examination.getStatus())) {
+                return new ModelAndView("/question/examinationHelpResult", modelMap);
+            } else {
+                return new ModelAndView("/question/examinationHelp", modelMap);
+            }
+        } else {
+            if (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType())) {
+                return new ModelAndView("/question/examinationResult", modelMap);
+            } else {
+                return new ModelAndView("/question/examinationHelpResult", modelMap);
+            }
+        }
+//        return new ModelAndView((participationRecord == null ? "/question/examinationHelpResult" : (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType()) ? "/question/examinationResult" : "/question/examinationHelpResult")), modelMap);
     }
 
     @RequestMapping({"/commitAnswer.do/{examinationId}/{answerList}/{consumerId}"})
     public ModelAndView commitAnswer(@PathVariable String examinationId, @PathVariable String answerList, @PathVariable String consumerId, HttpServletRequest request, ModelMap modelMap) throws Exception {
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
+        Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
         modelMap.put("answerList", answerList);
 
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
         modelMap.put("consumer", consumer);
-        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, exam);
-        if (!Examination.examFinished.equals(exam.getStatus())
-                && !Examination.examRewarded.equals(exam.getStatus())
+        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, examination);
+        if (!Examination.examFinished.equals(examination.getStatus())
+                && !Examination.examRewarded.equals(examination.getStatus())
                 && participationRecord == null) {
             String openid = wxQAManager.getOpenid(request);
             modelMap.put("openid", openid);
-            wxQAManager.saveAnswer(exam, modelMap);
+            wxQAManager.saveAnswer(examination, modelMap);
         }
 
-        modelMap.put("examination", exam);
+        modelMap.put("examination", examination);
+
+        System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) +"--commitAnswer--examination:" + examination.getId() + "--participation:" + participationRecord.getId() + "--consumer:" + consumer.getId());
         return new ModelAndView("/question/examinationResult", modelMap);
     }
 
     @RequestMapping("/commitHelpAnswer.do/{examinationId}/{answerList}/{consumerId}")
     public ModelAndView commitHelpAnswer(@PathVariable String examinationId, @PathVariable String answerList, @PathVariable String consumerId, HttpServletRequest request, ModelMap modelMap) throws Exception {
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
+        Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
         modelMap.put("answerList", answerList);
 
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
         modelMap.put("consumer", consumer);
 
-        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, exam);
-        if (!Examination.examFinished.equals(exam.getStatus())
-                && !Examination.examRewarded.equals(exam.getStatus())
+        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, examination);
+        if (!Examination.examFinished.equals(examination.getStatus())
+                && !Examination.examRewarded.equals(examination.getStatus())
                 && participationRecord == null) {
             String openid = wxQAManager.getOpenid(request);
             modelMap.put("openid", openid);
-            List<ExaminationQuestion> eqList = wxQAManager.saveHelpAnswer(exam, modelMap);
+            List<ExaminationQuestion> eqList = wxQAManager.saveHelpAnswer(examination, modelMap);
             modelMap.put("eqList", eqList);
         }
-        modelMap.put("examination", exam);
+        modelMap.put("examination", examination);
+        System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) +"--commitHelpAnswer--examination:" + examination.getId() + "--participation:" + participationRecord.getId() + "--consumer:" + consumer.getId());
 
         return new ModelAndView("/question/examinationHelpResult", modelMap);
     }
@@ -126,21 +146,24 @@ public class AnswerController {
     @RequestMapping("/questionDescription.do")
     public ModelAndView questionDescription(HttpServletRequest request, ModelMap modelMap) throws Exception {
         String examId = request.getParameter("examId");
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+        Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examId);
 
         String qId = request.getParameter("qId");
         Question question = (Question) baseManager.getObject(Question.class.getName(), qId);
 
-        modelMap.put("examination", exam);
+        modelMap.put("examination", examination);
         modelMap.put("question", question);
+        System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) +"--questionDescription--examination:" + examination.getId());
+
         return new ModelAndView("/question/questionDescription", modelMap);
     }
 
     @RequestMapping("/inquireProgress.do")
     public ModelAndView inquireProgress(HttpServletRequest request, ModelMap modelMap) {
         String examId = request.getParameter("examId");
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examId);
-        modelMap.put("examination", exam);
+        Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examId);
+        modelMap.put("examination", examination);
+        System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) +"--inquireProgress--examination:" + examination.getId());
 
         return new ModelAndView("/question/shareProgress", modelMap);
     }
@@ -152,19 +175,21 @@ public class AnswerController {
         modelMap.put("openid", openid);
         //1.找到当前用户和题
         Consumer consumer = wxQAManager.findConsumerByOpenid(openid);
-        Examination exam = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
-        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, exam);
+        Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
+        ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, examination);
 
         //2.判断是否有领奖资格
         if (participationRecord != null
-                && exam.getConsumer().getId().equals(consumer.getId())
-                && exam.getFinishDatetime().compareTo(exam.getExaminationEdition().getExpireDate()) <= 0) {
-            String idLock = wxQAManager.getLock(exam.getId());
+                && examination.getConsumer().getId().equals(consumer.getId())
+                && examination.getFinishDatetime().compareTo(examination.getExaminationEdition().getExpireDate()) <= 0) {
+            String idLock = wxQAManager.getLock(examination.getId());
             System.out.println("idLock:" + idLock);
             synchronized (idLock) {
                 wxQAManager.reward(participationRecord, modelMap);
             }
         }
+        System.out.println(new Date() + "\nopenid:" + openid +"--getAward--examination:" + examination.getId() + "--participation:" + participationRecord.getId() + "--consumer:" + consumer.getId());
+
         return modelMap.get("coupon") == null ? new ModelAndView("/question/reward", modelMap) : new ModelAndView("/question/rewardCoupon", modelMap);
     }
 
