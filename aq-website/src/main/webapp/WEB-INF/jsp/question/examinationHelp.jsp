@@ -31,10 +31,13 @@
             <div class="topic-img ae"><img src="<c:url value='${examQuestion.question.pictureUrl}'/>"></div>
           <div class="topic-txt ae">
             <p>${examQuestion.question.questionContent}</p>
-            <a href="javascript:" onclick="answerQuestionHelp('${examQuestion.questionOrder}', 'A')" class="bg-link">${examQuestion.question.answerA}</a>
-            <a href="javascript:" onclick="answerQuestionHelp('${examQuestion.questionOrder}', 'B')" class="bg-link">${examQuestion.question.answerB}</a>
-            <a href="javascript:" onclick="answerQuestionHelp('${examQuestion.questionOrder}', 'C')" class="bg-link">${examQuestion.question.answerC}</a>
-            <a href="javascript:" onclick="answerQuestionHelp('${examQuestion.questionOrder}', 'D')" class="bg-link">${examQuestion.question.answerD}</a>
+            <c:forEach items="${examQuestion.randomAnswerMap}" var="answerEntry">
+            <a href="javascript:" onclick="answerQuestion('${answerEntry.key}')" class="bg-link">${answerEntry.value}
+              </c:forEach>
+            <%--<a href="javascript:" onclick="answerQuestionHelp('${examQuestion.questionOrder}', 'A')" class="bg-link">${examQuestion.question.answerA}</a>--%>
+            <%--<a href="javascript:" onclick="answerQuestionHelp('${examQuestion.questionOrder}', 'B')" class="bg-link">${examQuestion.question.answerB}</a>--%>
+            <%--<a href="javascript:" onclick="answerQuestionHelp('${examQuestion.questionOrder}', 'C')" class="bg-link">${examQuestion.question.answerC}</a>--%>
+            <%--<a href="javascript:" onclick="answerQuestionHelp('${examQuestion.questionOrder}', 'D')" class="bg-link">${examQuestion.question.answerD}</a>--%>
           </div>
         </div>
         <c:set var="tag" value="2" scope="page"/>

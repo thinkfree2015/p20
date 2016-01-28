@@ -3,6 +3,9 @@ package com.efeiyi.ec.yale.question.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by Administrator on 2015/12/22.
@@ -16,6 +19,7 @@ public class ExaminationQuestion {
     private int questionOrder;
     private String answer;
     private String answerStatus;// 1.正确 2.错误
+    private Map<String, String> randomAnswerMap;
 
     @Id
     @GenericGenerator(name = "id", strategy = "com.ming800.core.p.model.M8idGenerator")
@@ -73,5 +77,41 @@ public class ExaminationQuestion {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public Map<String, String> getRandomAnswers() {
+        Map<Integer, String> storeAnswerMap = new HashMap<>();
+        storeAnswerMap.put(0, question.getAnswerA());
+        storeAnswerMap.put(1, question.getAnswerB());
+        storeAnswerMap.put(2, question.getAnswerC());
+        storeAnswerMap.put(3, question.getAnswerD());
+        Random random = new Random();
+        Map<String, String> randomAnswerMap = new HashMap<>();
+        for (int x = 4; x > 0; x--) {
+            randomAnswerMap.put(numberMap2Letter(4 - x), storeAnswerMap.remove(random.nextInt(x)));
+        }
+        this.randomAnswerMap = randomAnswerMap;
+        return this.randomAnswerMap;
+    }
+
+    private String numberMap2Letter(int num) {
+        String letter;
+        switch (num) {
+            case 0:
+                letter = "A";
+                break;
+            case 1:
+                letter = "B";
+                break;
+            case 2:
+                letter = "C";
+                break;
+            case 3:
+                letter = "D";
+                break;
+            default:
+                letter = "D";
+        }
+        return letter;
     }
 }

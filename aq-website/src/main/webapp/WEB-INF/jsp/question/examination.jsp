@@ -27,10 +27,13 @@
         <div class="topic-img ae"><img src="<c:url value='${examQuestion.question.pictureUrl}'/>"></div>
         <div class="topic-txt ae">
           <p>${examQuestion.question.questionContent}</p>
-          <a href="javascript:" onclick="answerQuestion('A')" class="bg-link">${examQuestion.question.answerA}</a>
-          <a href="javascript:" onclick="answerQuestion('B')" class="bg-link">${examQuestion.question.answerB}</a>
-          <a href="javascript:" onclick="answerQuestion('C')" class="bg-link">${examQuestion.question.answerC}</a>
-          <a href="javascript:" onclick="answerQuestion('D')" class="bg-link">${examQuestion.question.answerD}</a>
+          <c:forEach items="${examQuestion.randomAnswerMap}" var="answerEntry">
+            <a href="javascript:" onclick="answerQuestion('${answerEntry.key}')" class="bg-link">${answerEntry.value}
+          </c:forEach>
+          <%--<a href="javascript:" onclick="answerQuestion('A')" class="bg-link">${examQuestion.question.answerA}</a>--%>
+          <%--<a href="javascript:" onclick="answerQuestion('B')" class="bg-link">${examQuestion.question.answerB}</a>--%>
+          <%--<a href="javascript:" onclick="answerQuestion('C')" class="bg-link">${examQuestion.question.answerC}</a>--%>
+          <%--<a href="javascript:" onclick="answerQuestion('D')" class="bg-link">${examQuestion.question.answerD}</a>--%>
         </div>
       </div>
     </c:forEach>
