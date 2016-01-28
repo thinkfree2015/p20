@@ -98,7 +98,7 @@ public class AnswerController {
 //        return new ModelAndView((participationRecord == null ? "/question/examinationHelpResult" : (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType()) ? "/question/examinationResult" : "/question/examinationHelpResult")), modelMap);
     }
 
-    @RequestMapping({"/commitAnswer.do/{examinationId}/{answerList}/{consumerId}"})
+    @RequestMapping({"/commitAnswer/{examinationId}/{answerList}/{consumerId}"})
     public ModelAndView commitAnswer(@PathVariable String examinationId, @PathVariable String answerList, @PathVariable String consumerId, HttpServletRequest request, ModelMap modelMap) throws Exception {
         Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
@@ -121,7 +121,7 @@ public class AnswerController {
         return new ModelAndView("/question/examinationResult", modelMap);
     }
 
-    @RequestMapping("/commitHelpAnswer.do/{examinationId}/{answerList}/{consumerId}")
+    @RequestMapping("/commitHelpAnswer/{examinationId}/{answerList}/{consumerId}")
     public ModelAndView commitHelpAnswer(@PathVariable String examinationId, @PathVariable String answerList, @PathVariable String consumerId, HttpServletRequest request, ModelMap modelMap) throws Exception {
         Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
