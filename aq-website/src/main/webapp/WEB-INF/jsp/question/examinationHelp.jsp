@@ -23,7 +23,7 @@
   </div>
   <div class="addae ae">
     <c:set var="tag" value="1" scope="page"/>
-    <c:forEach items="${examination.examinationQuestionList}" var="examQuestion">
+    <c:forEach items="${examination.examinationQuestionList}" var="examQuestion" varStatus="status1">
       <c:if test="${examQuestion.answerStatus == 2}">
         <div class="topic addtopic ae <c:if test="${tag == 1}">active</c:if>">
           <h5>第<span>${examQuestion.questionOrder}</span>题</h5>
