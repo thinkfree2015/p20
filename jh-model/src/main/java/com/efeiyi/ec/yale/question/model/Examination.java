@@ -107,4 +107,11 @@ public class Examination {
     public void setFinishDatetime(Date finishDatetime) {
         this.finishDatetime = finishDatetime;
     }
+
+    //答案随机排个序
+    public void randomSortAnswer(){
+        for(ExaminationQuestion examinationQuestion : examinationQuestionList){
+            examinationQuestion.sortRandomAnswers();
+        }
+    }
 }

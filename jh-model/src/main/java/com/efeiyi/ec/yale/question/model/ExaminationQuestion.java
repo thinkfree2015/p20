@@ -79,7 +79,8 @@ public class ExaminationQuestion {
         this.answer = answer;
     }
 
-    public Map<String, String> getRandomAnswers() {
+    //答案随机排个序
+    public Map<String, String> sortRandomAnswers() {
         Map<Integer, String> storeAnswerMap = new HashMap<>();
         storeAnswerMap.put(0, question.getAnswerA());
         storeAnswerMap.put(1, question.getAnswerB());

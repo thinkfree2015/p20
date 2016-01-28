@@ -51,7 +51,9 @@ public class AnswerController {
         //3.判断是否已经答题
         ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, examination);
 
-        //4.
+        //4.答案随机排个序
+        examination.randomSortAnswer();
+
         modelMap.put("examination", examination);//用于答题完成后更新答题记录
 
         System.out.println(new Date() + "\nopenid:" + openid +"--start2Answer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
@@ -72,7 +74,9 @@ public class AnswerController {
         //3.判断是否已经答题
         ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, examination);
 
-        //4.
+        //4.答案随机排个序
+        examination.randomSortAnswer();
+
         modelMap.put("consumer", consumer);
         modelMap.put("examination", examination);
         System.out.println(new Date() + "\nopenid:" + openid +"--assistAnswer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
