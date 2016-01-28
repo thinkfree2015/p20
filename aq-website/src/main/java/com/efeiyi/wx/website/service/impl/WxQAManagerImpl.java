@@ -417,4 +417,56 @@ public class WxQAManagerImpl implements WxQAManager {
         map.put("headimgurl",headimgurl);
         return wxLogin(map);
     }
+
+    public List<Map<String, String>> randomSortAnswer(Examination examination){
+        List<Map<String, String>> randomAnswerList = new ArrayList<>();
+        for(ExaminationQuestion examinationQuestion : examination.getExaminationQuestionList()){
+            randomAnswerList.add(getRandomAnswers(examinationQuestion));
+        }
+        return randomAnswerList;
+    }
+
+    //答案随机排个序
+    private Map<String, String> getRandomAnswers(ExaminationQuestion examinationQuestion) {
+        Map<Integer, String> storeAnswerMap = new HashMap<>();
+        storeAnswerMap.put(0, examinationQuestion.getQuestion().getAnswerA());
+        storeAnswerMap.put(1, examinationQuestion.getQuestion().getAnswerB());
+        storeAnswerMap.put(2, examinationQuestion.getQuestion().getAnswerC());
+        storeAnswerMap.put(3, examinationQuestion.getQuestion().getAnswerD());
+        Random random = new Random();
+        Map<String, String> randomAnswerMap = new LinkedHashMap<>();
+        List<Map.Entry<Integer, String>> entryList = new ArrayList();
+        entryList.addAll(storeAnswerMap.entrySet());
+        for (int x = 4; x > 0; x--) {
+            int index = random.nextInt(x);
+
+            Map.Entry<Integer,String> entry = entryList.remove(index);
+            String key = numberMap2Letter(entry.getKey());
+            String value = entry.getValue();
+            randomAnswerMap.put(key, value);
+//            randomAnswerMap.put(numberMap2Letter(4 - x), storeAnswerMap.remove(random.nextInt(x)));
+        }
+        return randomAnswerMap;
+    }
+
+    private String numberMap2Letter(int num) {
+        String letter;
+        switch (num) {
+            case 0:
+                letter = "A";
+                break;
+            case 1:
+                letter = "B";
+                break;
+            case 2:
+                letter = "C";
+                break;
+            case 3:
+                letter = "D";
+                break;
+            default:
+                letter = "D";
+        }
+        return letter;
+    }
 }

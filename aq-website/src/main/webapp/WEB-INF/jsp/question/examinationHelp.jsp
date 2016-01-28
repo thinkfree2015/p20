@@ -31,8 +31,11 @@
             <div class="topic-img ae"><img src="<c:url value='${examQuestion.question.pictureUrl}'/>"></div>
           <div class="topic-txt ae">
             <p>${examQuestion.question.questionContent}</p>
-            <c:forEach items="${examQuestion.randomAnswerMap}" var="answerEntry">
-            <a href="javascript:" onclick="answerQuestion('${answerEntry.key}')" class="bg-link">${answerEntry.value}
+            <c:forEach items="${randomAnswerList}" var="randomAnswerMap" begin="${status1.index}" end="${status1.index}">
+            <c:forEach items="${randomAnswerMap}" var="answerEntry">
+            <a href="javascript:" onclick="answerQuestion('${answerEntry.key}')"
+               class="bg-link">${answerEntry.value}
+              </c:forEach>
               </c:forEach>
             <%--<a href="javascript:" onclick="answerQuestionHelp('${examQuestion.questionOrder}', 'A')" class="bg-link">${examQuestion.question.answerA}</a>--%>
             <%--<a href="javascript:" onclick="answerQuestionHelp('${examQuestion.questionOrder}', 'B')" class="bg-link">${examQuestion.question.answerB}</a>--%>

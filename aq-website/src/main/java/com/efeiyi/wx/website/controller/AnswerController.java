@@ -52,8 +52,8 @@ public class AnswerController {
         ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, examination);
 
         //4.答案随机排个序
-        examination.randomSortAnswer();
-
+        List randomAnswerList = wxQAManager.randomSortAnswer(examination);
+        modelMap.put("randomAnswerList", randomAnswerList);
         modelMap.put("examination", examination);//用于答题完成后更新答题记录
 
         System.out.println(new Date() + "\nopenid:" + openid +"--start2Answer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
@@ -75,7 +75,8 @@ public class AnswerController {
         ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, examination);
 
         //4.答案随机排个序
-        examination.randomSortAnswer();
+        List randomAnswerList = wxQAManager.randomSortAnswer(examination);
+        modelMap.put("randomAnswerList", randomAnswerList);
 
         modelMap.put("consumer", consumer);
         modelMap.put("examination", examination);

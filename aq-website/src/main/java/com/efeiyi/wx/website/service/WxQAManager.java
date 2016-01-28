@@ -44,4 +44,6 @@ public interface WxQAManager {
     WxCalledRecord wxLogin(Map map);
 
     WxCalledRecord wxLogin(String openid, String nickname, String headimgurl);
+
+    List<Map<String, String>> randomSortAnswer(Examination examination);
 }
