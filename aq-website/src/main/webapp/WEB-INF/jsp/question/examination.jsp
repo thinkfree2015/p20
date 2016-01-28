@@ -28,11 +28,10 @@
                 <div class="topic-txt ae">
                     <p>${examQuestion.question.questionContent}</p>
                     <c:forEach items="${randomAnswerList}" var="randomAnswerMap" begin="${status1.index}" end="${status1.index}">
-                    <c:forEach items="${randomAnswerMap}" var="answerEntry">
-                    <a href="javascript:" onclick="answerQuestion('${answerEntry.key}')"
-                       class="bg-link">${answerEntry.value}
+                        <c:forEach items="${randomAnswerMap}" var="answerEntry">
+                            <a href="javascript:" onclick="answerQuestion('${answerEntry.key}')" class="bg-link">${answerEntry.value}</a>
                         </c:forEach>
-                        </c:forEach>
+                    </c:forEach>
                             <%--<a href="javascript:" onclick="answerQuestion('A')" class="bg-link">${examQuestion.question.answerA}</a>--%>
                             <%--<a href="javascript:" onclick="answerQuestion('B')" class="bg-link">${examQuestion.question.answerB}</a>--%>
                             <%--<a href="javascript:" onclick="answerQuestion('C')" class="bg-link">${examQuestion.question.answerC}</a>--%>
