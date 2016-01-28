@@ -80,7 +80,7 @@ public class ExaminationQuestion {
     }
 
     //答案随机排个序
-    public Map<String, String> sortRandomAnswers() {
+    public Map<String, String> getRandomAnswerMap() {
         Map<Integer, String> storeAnswerMap = new HashMap<>();
         storeAnswerMap.put(0, question.getAnswerA());
         storeAnswerMap.put(1, question.getAnswerB());
