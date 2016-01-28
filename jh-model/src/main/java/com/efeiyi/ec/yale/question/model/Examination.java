@@ -111,7 +111,7 @@ public class Examination {
     //答案随机排个序
     public void randomSortAnswer(){
         for(ExaminationQuestion examinationQuestion : examinationQuestionList){
-            examinationQuestion.sortRandomAnswers();
+            examinationQuestion.getRandomAnswerMap();
         }
     }
 }
