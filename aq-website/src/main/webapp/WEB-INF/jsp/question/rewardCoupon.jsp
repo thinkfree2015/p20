@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!doctype html>
 <html class="no-js">
 <head>
@@ -14,7 +15,9 @@
       <div class="bouns-like coupon_link">
         <div class="bouns_coupon">
           <div class="coupon_left">
-            <em class="coupon-text">${coupon}<strong>¥</strong></em>
+            <em class="coupon-text"><fmt:formatNumber
+                    value="${coupon}" pattern="##.##"
+                    minFractionDigits="2"></fmt:formatNumber><strong>¥</strong></em>
           </div>
           <div class="coupon_right">
             <strong>优惠券</strong>
@@ -36,7 +39,9 @@
             <span class="fiy-txt">${participationRecord.wxCalledRecord.requestSource}</span>
           </div>
             <%--<span class="fiy-buck">${participationRecord.consumer.balance}元</span>--%>
-          <span class="fiy-buck">${participationRecord.balanceRecord.changeBalance}元</span>
+          <span class="fiy-buck"><fmt:formatNumber
+                  value="${participationRecord.balanceRecord.changeBalance}" pattern="##.##"
+                  minFractionDigits="2"></fmt:formatNumber>元</span>
         </li>
           </c:forEach>
       </ul>
