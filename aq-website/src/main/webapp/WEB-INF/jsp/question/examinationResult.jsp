@@ -63,7 +63,13 @@
       </ul>
       <div class="txc-btn">
         <c:if test="${examination.status == '0' && count != 0}">
+          <div id="beforeShare">
           <a href="#" onclick="answerHelp()" class="wechat-btn cart-ft share">我&nbsp;要&nbsp;求&nbsp;助</a>
+          </div>
+          <div id="afterShare" style="display: none;">
+            <a href="<c:url value='/answer/inquireProgress.do?examId=${examination.id}'/>"
+               class="wechat-btn cart-ft share">分&nbsp;享&nbsp;进&nbsp;度</a>
+          </div>
           <%--分享链接  <c:url value="/wx/startHelp.do?examId=${examination.id}"/>  --%>
         </c:if>
 
@@ -139,6 +145,8 @@
       $("#cover2").show();
       $(".custom-header").css("z-index", "0");
     }
+    $("#beforeShare").hide();
+    $("#afterShare").show();
   }
 
   function flaunt(){
