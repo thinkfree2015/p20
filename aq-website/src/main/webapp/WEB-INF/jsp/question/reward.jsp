@@ -21,8 +21,8 @@
     </div>
     <div class="bouns-box  weachat-tab ae">
         <div class="bonus ae">
-            <div class="bouns-like"><span><fmt:formatNumber value="${balanceRecord.changeBalance}" pattern="##.##"
-                                                            minFractionDigits="2"></fmt:formatNumber></span>元
+            <div class="bouns-like"><span><fmt:formatNumber value="${balanceRecord.changeBalance}"
+                                                            pattern="##.##" minFractionDigits="2"/></span>元
             </div>
             <p class="bouns-text">奖励以余额的形式发放到您的e飞蚁账户中，购物时抵现金使用，可累计，全场无限制，进入个人中心“账户余额”查看。</p>
 
@@ -41,9 +41,8 @@
                             <span class="fiy-txt">${participationRecord.wxCalledRecord.requestSource}</span>
                         </div>
                             <%--<span class="fiy-buck">${participationRecord.consumer.balance}元</span>--%>
-                        <span class="fiy-buck"><fmt:formatNumber
-                                value="${participationRecord.balanceRecord.changeBalance}" pattern="##.##"
-                                minFractionDigits="2"></fmt:formatNumber>元</span>
+                        <span class="fiy-buck"><fmt:formatNumber value="${participationRecord.balanceRecord.changeBalance}"
+                                                                 pattern="##.##" minFractionDigits="2"/>元</span>
                     </li>
                 </c:forEach>
             </ul>
