@@ -30,8 +30,8 @@ public class Code2UrlConsumer implements Runnable {
     private Url2FileConsumer url2FileConsumer;
 
     //true:永久二维码模式；false：临时二维码模式
-    private boolean runningModel = false;
-//    private boolean runningModel = true;
+//    private boolean runningModel = false;
+    private boolean runningModel = true;
 
     public Code2UrlConsumer(Url2FileConsumer url2FileConsumer) {
         this.url2FileConsumer = url2FileConsumer;
@@ -50,10 +50,10 @@ public class Code2UrlConsumer implements Runnable {
         method = new HttpPost("https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + accessToken);
 
         //永久/临时二维码
-        if(runningModel){
+        if (runningModel) {
             //永久
             preparePermanentJsonObject();
-        }else{
+        } else {
             //临时
             prepareTempJsonObject();
         }
@@ -114,8 +114,10 @@ public class Code2UrlConsumer implements Runnable {
 
     private String getAccessToken() {
 
-        //服务号
-        HttpMethod method = new GetMethod("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx7f6aa253b75466dd&secret=04928de13ab23dca159d235ba6dc19ea");
+//诚品宝服务号
+        HttpMethod method = new GetMethod("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx2db1e25ab3dac836&secret=a39099dfb48bb588c1fc7b0d538d3a2b");
+        //电商服务号
+//        HttpMethod method = new GetMethod("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx7f6aa253b75466dd&secret=04928de13ab23dca159d235ba6dc19ea");
         //订阅号没法生成带参二维码，坑了几个小时
 //        HttpMethod method = new GetMethod("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa58e5140a4bdb7d2&secret=4d9dc76cda0c35255dcbcf4490e41135");
 
@@ -135,10 +137,10 @@ public class Code2UrlConsumer implements Runnable {
     private String getTicket(String code) throws IOException {
 
         //写入二维码Json参数code
-        if(runningModel){
+        if (runningModel) {
             //永久
             ((JSONObject) ((JSONObject) jsonObject.get("action_info")).get("scene")).put("scene_str", code);
-        }else {
+        } else {
             //临时
             ((JSONObject) ((JSONObject) jsonObject.get("action_info")).get("scene")).put("scene_id", code);
         }
@@ -158,9 +160,9 @@ public class Code2UrlConsumer implements Runnable {
 
     private String getTicketUrl(String code) throws UnsupportedEncodingException {
 
-        if(runningModel){
+        if (runningModel) {
             ((JSONObject) ((JSONObject) jsonObject.get("action_info")).get("scene")).put("scene_str", code);
-        }else{
+        } else {
             ((JSONObject) ((JSONObject) jsonObject.get("action_info")).get("scene")).put("scene_id", code);
         }
         stringEntity = new StringEntity(jsonObject.toJSONString(), "utf-8");

@@ -11,7 +11,6 @@ import java.util.Date;
 
 /**
  * Created by Administrator on 2016/1/4.
- *
  */
 public class WxQAInterceptor extends HandlerInterceptorAdapter {
 
@@ -26,11 +25,12 @@ public class WxQAInterceptor extends HandlerInterceptorAdapter {
         String openid = wxQAManager.getOpenid(request);
 //        System.out.println(new Date() + "openid:" + openid + " code:" + request.getParameter("code"));
         String requestPath = request.getServletPath();
-        request.getSession().setAttribute("requestPath",requestPath);
+        request.getSession().setAttribute("requestPath", requestPath);
         System.out.println(new Date() + "\nintercepted--openid:" + openid);
         if ((openid == null || "".equals(openid))) {
             response.sendRedirect("http://www.efeiyi.com/wx/getUserBaseInfo.do?dataKey=openid;nickname;headimgurl&callback=dati.efeiyi.com/answer/getUserInfo2.do&source=dati");
 //            response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://dati.efeiyi.com/answer/getUserInfo.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
+//            response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + WxQAConst.APPID + "&redirect_uri=http://a.ogynr.pw/answer/getUserInfo.do&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
 //            response.sendRedirect("http://" + request.getRemoteHost() + ":" + request.getServerPort() + "/redirect.do");
 //            System.out.println("intercepted..");
             return false;

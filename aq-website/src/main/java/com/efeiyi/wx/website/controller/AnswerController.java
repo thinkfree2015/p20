@@ -10,6 +10,8 @@ import com.efeiyi.wx.website.service.WxQAManager;
 import com.efeiyi.wx.website.util.WxQAConst;
 import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.p.model.WxCalledRecord;
+import com.ming800.core.util.JsonUtil;
+import com.ming800.core.util.HttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -197,37 +199,37 @@ public class AnswerController {
         return modelMap.get("coupon") == null ? new ModelAndView("/question/reward", modelMap) : new ModelAndView("/question/rewardCoupon", modelMap);
     }
 
-//    @RequestMapping("/getUserInfo.do")
-//    public ModelAndView getUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//
-//        //用code取accessToken
-//        String code = request.getParameter("code");
-//        System.out.println(new Date() + "code=" + code);
-//        if (code == null) {
-//            throw new Exception("code is null");
-//        }
-//        String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + WxQAConst.APPID + "&secret=" + WxQAConst.APPSECRET + "&code=" + code + "&grant_type=authorization_code", null);
-////        System.out.println("result1:" + result);
-//        Map map = JsonUtil.parseJsonStringToMap(result.toString());
-//        String accessToken = (String) map.get("access_token");
-//        String openid = (String) map.get("openid");
-////        System.out.println("acess_token: " + accessToken + "\n" + "openid: " + openid);
-//
-//        //用accessToken取Info
-//        result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid + "&lang=zh_CN", null);
-////        System.out.println("result2:" + result);
-//        map = JsonUtil.parseJsonStringToMap(result.toString());
-//        String nickname = (String) map.get("nickname");
-//        String headimgurl = (String) map.get("headimgurl");
-////        System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
-//
-//        WxCalledRecord wxCalledRecord = wxQAManager.wxLogin(map);
-//        wxQAManager.saveOpenid2Cache(request, response, wxCalledRecord);
-//
-//        String requestPath = (String) request.getSession().getAttribute("requestPath");
-////        System.out.println("requestPath:" + requestPath);
-//        return new ModelAndView("redirect:" + requestPath);
-//    }
+    @RequestMapping("/getUserInfo.do")
+    public ModelAndView getUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        //用code取accessToken
+        String code = request.getParameter("code");
+        System.out.println(new Date() + "code=" + code);
+        if (code == null) {
+            throw new Exception("code is null");
+        }
+        String result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + WxQAConst.APPID + "&secret=" + WxQAConst.APPSECRET + "&code=" + code + "&grant_type=authorization_code", null);
+//        System.out.println("result1:" + result);
+        Map map = JsonUtil.parseJsonStringToMap(result.toString());
+        String accessToken = (String) map.get("access_token");
+        String openid = (String) map.get("openid");
+//        System.out.println("acess_token: " + accessToken + "\n" + "openid: " + openid);
+
+        //用accessToken取Info
+        result = HttpUtil.getHttpResponse("https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openid + "&lang=zh_CN", null);
+//        System.out.println("result2:" + result);
+        map = JsonUtil.parseJsonStringToMap(result.toString());
+        String nickname = (String) map.get("nickname");
+        String headimgurl = (String) map.get("headimgurl");
+//        System.out.println("nickname: " + nickname + "\n" + "headimgurl: " + headimgurl);
+
+        WxCalledRecord wxCalledRecord = wxQAManager.wxLogin(map);
+        wxQAManager.saveOpenid2Cache(request, response, wxCalledRecord);
+
+        String requestPath = (String) request.getSession().getAttribute("requestPath");
+//        System.out.println("requestPath:" + requestPath);
+        return new ModelAndView("redirect:" + requestPath);
+    }
 
 
     @RequestMapping("/getUserInfo2.do")
