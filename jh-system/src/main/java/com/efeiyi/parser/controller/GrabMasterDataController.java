@@ -1,8 +1,6 @@
 package com.efeiyi.parser.controller;
 
 import com.efeiyi.ec.master.model.Master;
-import com.efeiyi.ec.organization.model.AddressDistrict;
-import com.efeiyi.ec.project.model.Project;
 import com.efeiyi.parser.service.AliOssUploadManager;
 import com.efeiyi.parser.service.GrabDataManager;
 import com.ming800.core.base.service.BaseManager;
@@ -36,14 +34,7 @@ import java.util.List;
 @RequestMapping("/grabMasterData")
 public class GrabMasterDataController {
 
-    private List<String> urlList = new ArrayList<>();
-    private List<Project> projectList = new ArrayList<>();
     private List<Master> masterList = new ArrayList<>();
-
-    private final String space = new String(new char[]{32});//空格
-    private final String colon = new String(new char[]{65306});//中文冒号
-    private final String spaceX = new String(new char[]{12288});//大空格
-    private final String spot = new String(new char[]{12539});//中间 大点・
 
     @Autowired
     private BaseManager baseManager;
@@ -56,52 +47,43 @@ public class GrabMasterDataController {
     private GrabDataManager grabDataManager;
 
     @RequestMapping("/test.do")
-    public ModelAndView testMain() throws Exception{
+    public ModelAndView testMain() throws Exception {
         long begin = System.currentTimeMillis();
         //传统美术
         String url = "http://www.feiyicheng.com/cms/index.php?act=article&op=inherit&level_id=0&batch_id=0&area_id=&type_id=11&keyword=&button=%E7%A1%AE%E5%AE%9A";
         //传统技艺
         String url2 = "http://www.feiyicheng.com/cms/index.php?act=article&op=inherit&level_id=0&batch_id=0&area_id=&type_id=10&keyword=&button=%E7%A1%AE%E5%AE%9A";
+        //访问外部资源,相对慢
         getInfo(url);
-//        getLinksInPage(url);//访问外部资源,相对慢
 //        System.out.println("共获取到链接数： " + urlList.size());
-//        System.out.println("共获取非遗项目数： " + projectList.size());
         System.out.println("共获取传统美术大师数： " + masterList.size());
 
 //        System.out.println("\n====================================");
 //        System.out.println(System.currentTimeMillis()-begin);
 
-        for (Master m:masterList){
-//            System.out.println("头像： " + m.getFavicon());
-//            System.out.println("姓名： " + m.getFullName());
-//            System.out.println("简介： " + m.getBrief());
-//            System.out.println("性别： " + (m.getSex().equals("1") ? "男" : "女"));
-//            System.out.println("级别： " +
-//                    (m.getLevel().equals("1") ? "国家级" : m.getLevel().equals("2") ? "省级" : m.getLevel().equals("3") ? "市级" : m.getLevel().equals("4") ? "县区级" : "未知"));
-//            System.out.println("所在地： " + m.getPresentAddress());
-//            System.out.println("长简介： " + m.getContent());
+        for (Master m : masterList) {
             baseManager.saveOrUpdate(Master.class.getName(), m);//保存数据
         }
         System.out.print("传统美术耗时==");
-        System.out.println(System.currentTimeMillis()-begin);
+        System.out.println(System.currentTimeMillis() - begin);
 
         begin = System.currentTimeMillis();
         masterList = new ArrayList<>();
-        System.out.println("masterList.size()= " +masterList.size());
+        System.out.println("masterList.size()= " + masterList.size());
         getInfo(url2);
         System.out.println("共获取传统技艺大师数： " + masterList.size());
-        for (Master m:masterList){
+        for (Master m : masterList) {
             baseManager.saveOrUpdate(Master.class.getName(), m);//保存数据
         }
 
         System.out.print("传统技艺耗时==");
-        System.out.println(System.currentTimeMillis()-begin);
+        System.out.println(System.currentTimeMillis() - begin);
         return new ModelAndView("/finish");
-}
+    }
 
     //获取列表页大师所在地
     private void getInfo(String url) throws Exception {
-        if (null != url){
+        if (null != url) {
             Parser parser = new Parser(url);
             NodeFilter filter = new AndFilter(
                     new NodeFilter[]{
@@ -113,10 +95,10 @@ public class GrabMasterDataController {
                     });
             NodeList nodes = parser.extractAllNodesThatMatch(filter);
 
-            if (null != nodes && nodes.size() == 1){
+            if (null != nodes && nodes.size() == 1) {
                 Node table = nodes.elementAt(0);
                 NodeList trList = table.getChildren();
-                for (int i=0;i<trList.size();i++){
+                for (int i = 0; i < trList.size(); i++) {
                     Node tr = trList.elementAt(i);
                     if (tr instanceof TableRow) {
                         TableRow row = (TableRow) tr;
@@ -129,19 +111,19 @@ public class GrabMasterDataController {
     }
 
     //根据tr标签获得非遗大师信息
-    private void trHtml(String str)throws Exception{
+    private void trHtml(String str) throws Exception {
         Parser parser = new Parser(str);
         NodeFilter filter = new TagNameFilter("td");
         NodeList nodeList = parser.extractAllNodesThatMatch(filter);
 
-        if (null != nodeList && nodeList.size() > 0){
+        if (null != nodeList && nodeList.size() > 0) {
             Master master = new Master();
             for (int j = 0; j < nodeList.size(); j++) {
                 Node td = nodeList.elementAt(j);
                 if (td instanceof TableColumn) {
                     TableColumn column = (TableColumn) td;
                     master = getMaster(master, column, j);
-                    if (j == 0){
+                    if (j == 0) {
                         master = getBriefAndContent(master, column.getStringText());
                     }
                 }
@@ -153,27 +135,39 @@ public class GrabMasterDataController {
     }
 
     //分析数据，保存到大师对象
-    private Master getMaster(Master master, TableColumn td, int tag)throws Exception{
-        switch (tag){
-            case 0:master.setFavicon(getFavicon(td.getStringText()));break;//头像
-            case 1:master.setFullName(td.toPlainTextString().trim());break;//姓名
-            case 2:master.setSex(sexToInt(td.toPlainTextString()));break;//性别
-            case 3:break;//项目名称
-            case 4:break;//类型-传统美术
-            case 5:master.setLevel(levelToInt(td.toPlainTextString()));break;//级别-1国家、2省、3市、4县级、5未知
-            case 6:master.setPresentAddress(td.toPlainTextString());break;//所在地
+    private Master getMaster(Master master, TableColumn td, int tag) throws Exception {
+        switch (tag) {
+            case 0:
+                master.setFavicon(getFavicon(td.getStringText()));
+                break;//头像
+            case 1:
+                master.setFullName(td.toPlainTextString().trim());
+                break;//姓名
+            case 2:
+                master.setSex(sexToInt(td.toPlainTextString()));
+                break;//性别
+            case 3:
+                break;//项目名称
+            case 4:
+                break;//类型-传统美术
+            case 5:
+                master.setLevel(levelToInt(td.toPlainTextString()));
+                break;//级别-1国家、2省、3市、4县级、5未知
+            case 6:
+                master.setPresentAddress(td.toPlainTextString());
+                break;//所在地
         }
         return master;
     }
 
     //获取大师头像
-    private String getFavicon(String str)throws Exception{
+    private String getFavicon(String str) throws Exception {
         Parser parser = new Parser(str);
         NodeFilter filter = new TagNameFilter("img");
         NodeList nodeList = parser.extractAllNodesThatMatch(filter);
-        if (null != nodeList && nodeList.size() == 1){
+        if (null != nodeList && nodeList.size() == 1) {
             Node node = nodeList.elementAt(0);
-            if (node instanceof ImageTag){
+            if (node instanceof ImageTag) {
                 ImageTag img = (ImageTag) node;
 //                return img.getAttribute("data-src");//获取头像地址
 
@@ -193,62 +187,32 @@ public class GrabMasterDataController {
     }
 
     //大师性别 string To int
-    private String sexToInt(String str){
+    private String sexToInt(String str) {
         return str.trim().equals("男") ? "1" : "2";
     }
 
     //获取大师级别
-    private String levelToInt(String str){
-        if (null != str && !str.trim().isEmpty()){
+    private String levelToInt(String str) {
+        if (null != str && !str.trim().isEmpty()) {
             return str.equals("国家级") ? "1" : str.equals("省级") ? "2" : str.equals("市级") ? "3" : str.equals("县区级") ? "4" : "5";
         }
         return "5";
     }
 
     //获取大师短简介/长简介
-    private Master getBriefAndContent(Master master, String str)throws Exception{
+    private Master getBriefAndContent(Master master, String str) throws Exception {
         Parser parser = new Parser(str);
         NodeFilter filter = new TagNameFilter("a");
         NodeList nodeList = parser.extractAllNodesThatMatch(filter);
-        if (null != nodeList && nodeList.size() == 1){
+        if (null != nodeList && nodeList.size() == 1) {
             Node node = nodeList.elementAt(0);
-            if (node instanceof LinkTag){
+            if (node instanceof LinkTag) {
                 LinkTag link = (LinkTag) node;
                 String url = link.getAttribute("href");
                 getMasterDetails(master, url);
             }
         }
         return master;
-    }
-
-    private void getLinksInPage(String url) throws Exception {
-        if (null != url) {
-            Parser parser = new Parser(url);
-            NodeFilter childFilter = new AndFilter(
-                    new NodeFilter[]{
-                            new TagNameFilter("img"),
-                            new HasAttributeFilter("class","image_lazy_load")
-                    });
-            NodeFilter filter = new HasChildFilter(childFilter);
-            NodeList nodes = parser.extractAllNodesThatMatch(filter);
-
-            if (nodes != null) {
-                //遍历所有的节点
-                for (int i = 0; i < nodes.size(); i++) {
-                    Node eachNode = nodes.elementAt(i);
-                    if (eachNode instanceof LinkTag) {
-                        LinkTag linkTag = (LinkTag) eachNode;
-                        //获得查看链接
-                        String hrefPath = linkTag.getLink();
-                        urlList.add(hrefPath);//非遗项目详细信息页面链接
-                        System.out.println(hrefPath);
-//                        getMasterDetails(master, hrefPath);
-                    }
-                }
-            }
-        }
-        //获取下一页链接
-//        getPageLinks(url);
     }
 
     //获取下一页链接
@@ -305,32 +269,5 @@ public class GrabMasterDataController {
             }
         }
 
-    }
-
-
-
-    private AddressDistrict getAddressDistrict(String region) throws Exception {
-        String [] address = region.split(spot);
-        AddressDistrict addressDistrict;
-        switch(address.length){
-            case 1:{addressDistrict = getProvince(address[0].replaceAll(space, "").replaceAll(spaceX, ""));}break;
-            case 2:{addressDistrict = getProvinceCity(address[0].replaceAll(space, "").replaceAll(spaceX, ""), address[1].replaceAll(space, "").replaceAll(spaceX, ""));}break;
-            case 3:{addressDistrict = getProvinceCityCounty(address[0].replaceAll(space, "").replaceAll(spaceX, ""), address[1].replaceAll(space, "").replaceAll(spaceX, ""), address[2].replaceAll(space, "").replaceAll(spaceX, ""));}break;
-            default:{addressDistrict = null;}break;
-        }
-
-        return addressDistrict;
-    }
-
-    private AddressDistrict getProvince(String province) throws Exception {
-        return grabDataManager.getProvince(province);
-    }
-
-    private AddressDistrict getProvinceCity(String province, String city) throws Exception {
-        return grabDataManager.getProvinceCity(province, city);
-    }
-
-    private AddressDistrict getProvinceCityCounty(String province, String city, String county) throws Exception {
-        return grabDataManager.getProvinceCityCounty(province, city, county);
     }
 }
