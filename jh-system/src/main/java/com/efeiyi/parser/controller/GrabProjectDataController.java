@@ -32,7 +32,6 @@ import java.util.List;
 @RequestMapping("/grabProjectData")
 public class GrabProjectDataController {
 
-    private List<String> urlList = new ArrayList<>();
     private List<Project> projectList = new ArrayList<>();
 
     private final String space = new String(new char[]{32});//空格
@@ -54,9 +53,6 @@ public class GrabProjectDataController {
 
         getLinksInPage(url);//访问外部资源,相对慢
 
-//        System.out.println("\n====================================");
-//        System.out.println("共获取到链接数： " + urlList.size());
-//
 //        System.out.println("\n====================================");
 //        System.out.println("共获取非遗项目数： " + projectList.size());
 
@@ -88,7 +84,6 @@ public class GrabProjectDataController {
                         LinkTag linkTag = (LinkTag) eachNode.getParent();
                         //获得查看链接
                         String hrefPath = linkTag.getLink();
-                        urlList.add(hrefPath);//非遗项目详细信息页面链接
 //                        System.out.println(hrefPath);
                         getProjectDetails(hrefPath);
                     }
@@ -104,21 +99,6 @@ public class GrabProjectDataController {
             Parser parser = new Parser(url);
             NodeFilter filter = new StringFilter("下一页");
             NodeList nodes = parser.extractAllNodesThatMatch(filter);
-
-//            if (nodes != null) {
-//                //遍历所有的img节点
-//                for (int i = 0; i < nodes.size(); i++) {
-//                    Node eachNode = nodes.elementAt(i);
-//                    if (eachNode.getParent() instanceof LinkTag) {
-//                        LinkTag linkTag = (LinkTag) eachNode.getParent();
-//
-//                        //获得html文本的原来的src属性
-//                        String hrefPath = linkTag.getLink();
-//                        getLinksInPage(hrefPath);
-//                    }
-//                }
-//            }
-            //耗时73579
 
             //耗时68622
             if (nodes != null && nodes.size() == 1) {
