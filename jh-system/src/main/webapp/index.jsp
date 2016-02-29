@@ -33,6 +33,7 @@
 <br>
 <br>
 <br>
-<a href='<c:url value="/answer/start2Answer.do"/>'>点击开始答题</a>
+<%--<a href='<c:url value="/grabProjectData/test.do"/>'>抓取非遗项目数据</a>--%>
+<a href='<c:url value="/grabMasterData/test.do"/>'>抓取非遗大师数据</a>
 </body>
 </html>
