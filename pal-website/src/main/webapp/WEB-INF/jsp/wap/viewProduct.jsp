@@ -56,7 +56,7 @@
                 <span class="am-list-info2">${product.name}</span>
             </li>
             <li class="am-g am-list-item-dated">
-                <strong class="am-list-info">创 作 者:</strong>
+                <strong class="am-list-info">创作者:</strong>
                 <span class="am-list-info2">${product.masterName}</span>
             </li>
             <c:forEach items="${product.tenant.tenantCertificationList}" var="certification" begin="0" end="0">
