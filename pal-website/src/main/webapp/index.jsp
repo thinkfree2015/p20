@@ -24,14 +24,14 @@
             <input class="btn" type="submit" id="btn" value="查 询"/>
         </label>
     </form>
-    <form id="form2" action="<c:url value='/search.do'/>" method="get">
-        <div class="title"><a>非遗搜</a></div>
-        <label for="q">
-            <input type="hidden" name="q" id="q" value="" />
-            <input class="txt" type="text" name="query" id="query" value="" />
-            <input class="btn" type="button" id="btn2" value="查 询" onclick="preSubmit()"/>
-        </label>
-    </form>
+    <%--<form id="form2" action="<c:url value='/search.do'/>" method="get">--%>
+        <%--<div class="title"><a>非遗搜</a></div>--%>
+        <%--<label for="q">--%>
+            <%--<input type="hidden" name="q" id="q" value="" />--%>
+            <%--<input class="txt" type="text" name="query" id="query" value="" />--%>
+            <%--<input class="btn" type="button" id="btn2" value="查 询" onclick="preSubmit()"/>--%>
+        <%--</label>--%>
+    <%--</form>--%>
     <!--//End--form-->
 </div>
 <!--//End--search-home-->

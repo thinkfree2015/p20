@@ -80,7 +80,7 @@
 </div>
 
 
-<%--<script src="<c:url value='/resources/assets/js/jquery.min.js'/>"></script>--%>
+<script src="<c:url value='/js/jquery.min.js'/>"></script>
 <%--<script src="<c:url value='/resources/assets/js/amazeui.min.js'/>"></script>--%>
 <script type="text/javascript">
     $(function () {
