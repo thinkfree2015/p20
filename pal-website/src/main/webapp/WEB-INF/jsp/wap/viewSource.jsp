@@ -31,10 +31,10 @@
 </head>
 <body class="bgf7">
 <header data-am-widget="header" class="am-header am-header-default">
-    <div class="am-header-left am-header-nav"><a href="javascript:history.back()" class="" title="返回上一步">返回</a></div>
+    <div class="am-header-left am-header-nav"><a href="javascript:history.back()" class="" title="返回上一步" style="color: white">返回</a></div>
     <h1 class="am-header-title">溯源信息</h1>
 
-    <div class="am-header-right am-header-nav"><a href="${product.shoppingUrl}">购买</a></div>
+    <div class="am-header-right am-header-nav"><a href="${product.shoppingUrl}" style="color: black">购买</a></div>
     <!--  <em class="line"></em>-->
 </header>
 <!--//End--header-->
