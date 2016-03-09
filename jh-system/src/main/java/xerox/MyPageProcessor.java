@@ -1,5 +1,6 @@
 package xerox;
 
+import com.efeiyi.ec.project.model.Project;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
@@ -69,6 +70,7 @@ public class MyPageProcessor implements PageProcessor {
             }
         }
     }
+
 
     /**
      * 保存要传递到下个页面的数据
@@ -152,12 +154,12 @@ public class MyPageProcessor implements PageProcessor {
 
 
     public static void main(String[] a) throws IOException, JMException {
-        fetchProject();
-//        fetchMaster();
+//        fetchProject();
+        fetchMaster();
     }
 
     private static void fetchMaster() throws IOException, JMException {
-        String url = "http://www.feiyicheng.com/cms/index.php?act=article&op=directory&level_id=0&batch_id=0&area_id=&type_id=10&keyword=&button=%E7%A1%AE%E5%AE%9A&curpage=1";
+        String url = "http://www.feiyicheng.com/cms/index.php?act=article&op=directory&level_id=0&batch_id=0&area_id=&type_id=11&keyword=&button=%E7%A1%AE%E5%AE%9A&curpage=1";
         String domain = "www.feiyicheng.com";
         String charSet = "utf-8";
 
@@ -168,30 +170,32 @@ public class MyPageProcessor implements PageProcessor {
 
         RegexRuleMap<String> regexRuleMap = new RegexRuleMap();
         regexRuleMap.put("//ul[@class='minglus']//h2//a/@href", "xpath");
-        regexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=10[&]keyword*");
+        regexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=11[&]keyword*");
         regexRuleMap.setIsExtraKey(true);
         regexRuleList.add(regexRuleMap);
 
         RegexRuleMap<String> nextRegexRuleMap = new RegexRuleMap();
         nextRegexRuleMap.put("//div[@class='pagination']//a/@href", "xpath");
-        nextRegexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=10[&]keyword*");
+        nextRegexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=11[&]keyword*");
         regexRuleList.add(nextRegexRuleMap);
 
         RegexRuleMap<RegexRuleMap<String>> extraRegexMap = new RegexRuleMap<>();
         extraRegexMap.setIsExtraValue(true);
-        extraRegexMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=10[&]keyword*");
+        extraRegexMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=11[&]keyword*");
         RegexRuleMap<String> internalExtraRegexMap1 = new RegexRuleMap<>();
         internalExtraRegexMap1.put("//ul[@class='minglus']//img[@class='image_lazy_load']/@data-src", "xpath");
-        extraRegexMap.put("img", internalExtraRegexMap1);
+        extraRegexMap.put("picture_url", internalExtraRegexMap1);
+        extraRegexMap.put("picture_wap_url", internalExtraRegexMap1);
+        extraRegexMap.put("picture_pc_url", internalExtraRegexMap1);
         RegexRuleMap<String> internalExtraRegexMap2 = new RegexRuleMap<>();
         internalExtraRegexMap2.put("//ul[@class='minglus']//h2//a/allText()", "xpath");
         extraRegexMap.put("name", internalExtraRegexMap2);
         RegexRuleMap<String> internalExtraRegexMap3 = new RegexRuleMap<>();
         internalExtraRegexMap3.put("//ul[@class='minglus']//li//p[1]/allText()", "xpath");
-        extraRegexMap.put("type", internalExtraRegexMap3);
+        extraRegexMap.put("level", internalExtraRegexMap3);
         RegexRuleMap<String> internalExtraRegexMap4 = new RegexRuleMap<>();
-        internalExtraRegexMap4.put("//ul[@class='minglus']//p[2]/allText()", "xpath");
-        extraRegexMap.put("location", internalExtraRegexMap4);
+        internalExtraRegexMap4.put("//ul[@class='minglus']//p[3]/allText()", "xpath");
+        extraRegexMap.put("type", internalExtraRegexMap4);
         regexRuleList.add(extraRegexMap);
 
         RegexRuleMap<RegexRuleMap<String>> detailRegexMap = new RegexRuleMap();
@@ -199,12 +203,13 @@ public class MyPageProcessor implements PageProcessor {
         detailRegexMap.setIsDetailPage(true);
         RegexRuleMap<String> locationRegexMap = new RegexRuleMap<>();
         locationRegexMap.put("//p[@class='article-sub']//html()", "xpath");
-        detailRegexMap.put("intro", locationRegexMap);
+        detailRegexMap.put("description", locationRegexMap);
         regexRuleList.add(detailRegexMap);
 
 
-        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/feiyicheng.txt");
-        Spider spider = Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(myPipeline).pipeline(new ConsolePipeline());
+        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/feiyicheng2.txt");
+        DBPersistPipeline dbPipeline = new DBPersistPipeline(Project.class);
+        Spider spider = Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(dbPipeline).pipeline(new ConsolePipeline());
         SpiderMonitor.instance().register(spider);
         spider.start();
     }
