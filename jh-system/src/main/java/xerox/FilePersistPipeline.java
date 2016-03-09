@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2016/3/4.
  */
-public class PersisPipeline implements Pipeline {
+public class FilePersistPipeline implements Pipeline {
 
     @Deprecated
     private Class clazz;
@@ -31,7 +31,7 @@ public class PersisPipeline implements Pipeline {
     }
 
     @Deprecated
-    public PersisPipeline() {
+    public FilePersistPipeline() {
         session = sessionFactory.getCurrentSession();
     }
 
@@ -65,7 +65,7 @@ public class PersisPipeline implements Pipeline {
 
     private BufferedWriter bw;
 
-    public PersisPipeline(String filePath) throws IOException {
+    public FilePersistPipeline(String filePath) throws IOException {
         bw = new BufferedWriter(new FileWriter(filePath, true));
     }
 
@@ -73,6 +73,11 @@ public class PersisPipeline implements Pipeline {
     public void process(ResultItems resultItems, Task task) {
         try {
             if (!resultItems.isSkip()) {
+                for (Map.Entry<String, Object> extraEntry : resultItems.getRequest().getExtras().entrySet()) {
+                    if (!"statusCode".equals(extraEntry.getKey())) {
+                        bw.write(extraEntry.getKey() + ":\t" + extraEntry.getValue() + "\t");
+                    }
+                }
                 for (Map.Entry<String, Object> detailEntry : resultItems.getAll().entrySet()) {
                     bw.write(detailEntry.getKey() + ":\t" + detailEntry.getValue() + "\t");
                 }

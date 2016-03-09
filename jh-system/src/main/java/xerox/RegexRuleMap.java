@@ -18,10 +18,6 @@ public class RegexRuleMap <T>{
         return nestedRuleRegexMap;
     }
 
-    public void setNestedRuleRegexMap(LinkedHashMap<String, T> nestedRuleRegexMap) {
-        this.nestedRuleRegexMap = nestedRuleRegexMap;
-    }
-
     public String getMatchingUrl() {
         return matchingUrl;
     }

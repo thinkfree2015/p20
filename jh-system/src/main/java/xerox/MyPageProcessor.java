@@ -4,11 +4,13 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.monitor.SpiderMonitor;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.scheduler.PriorityScheduler;
 import us.codecraft.webmagic.selector.Selectable;
 
+import javax.management.JMException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -43,34 +45,36 @@ public class MyPageProcessor implements PageProcessor {
                     extraInfo = putExtraValue(regexRuleMap, page);
                 }
                 //给下个页面带数据的链接抓取规则
-                else if(regexRuleMap.isExtraKey()){
+                else if (regexRuleMap.isExtraKey()) {
                     Selectable nextPageLinkSelector = putLinks(page.getHtml(), regexRuleMap);
-                    detailPageLink = nextPageLinkSelector.xpath("//a/@href").all();
+                    detailPageLink = nextPageLinkSelector.all();
                 }
                 //其他列表页的抓取规则
                 else {
                     Selectable nextPageLinkSelector = putLinks(page.getHtml(), regexRuleMap);
-                    List<String> nextLinks = nextPageLinkSelector.xpath("//a/@href").all();
+                    List<String> nextLinks = nextPageLinkSelector.all();
                     page.addTargetRequests(nextLinks);
                     page.setSkip(true);
                 }
             }
         }
         //如需给下一页带数据，构造全新的request，尼玛这也能行
-        if (detailPageLink != null && extraInfo != null) {
+        if (detailPageLink != null && !detailPageLink.isEmpty() && extraInfo != null && !extraInfo.isEmpty()) {
             for (int x = 0; x < detailPageLink.size(); x++) {
+                Request request = new Request(detailPageLink.get(x));
                 for (Map.Entry<String, List<String>> extraEntry : extraInfo.entrySet()) {
-                    Request request = new Request(detailPageLink.get(x)).putExtra(extraEntry.getKey(), extraEntry.getValue().get(x));
-                    page.addTargetRequest(request);
+                    request.putExtra(extraEntry.getKey(), extraEntry.getValue().get(x));
                 }
+                page.addTargetRequest(request);
             }
         }
     }
 
     /**
      * 保存要传递到下个页面的数据
+     *
      * @param regexRuleMap 抓取规则
-     * @param page 待抓页面
+     * @param page         待抓页面
      * @return
      */
     private Map<String, List<String>> putExtraValue(RegexRuleMap<RegexRuleMap<String>> regexRuleMap, Page page) {
@@ -82,9 +86,10 @@ public class MyPageProcessor implements PageProcessor {
     }
 
     /**
-     * 保存详情页的抓取数据
+     * 保存从详情页抓取的数据
+     *
      * @param regexRuleMap 抓取规则
-     * @param page 待抓页面
+     * @param page         待抓页面
      */
     private void putDetail(RegexRuleMap<RegexRuleMap<String>> regexRuleMap, Page page) {
         for (Map.Entry<String, RegexRuleMap<String>> regexEntry : regexRuleMap.getNestedRuleRegexMap().entrySet()) {
@@ -99,13 +104,17 @@ public class MyPageProcessor implements PageProcessor {
     public void setSite(String domain, String url, String charSet) {
         this.site = Site.me().setDomain(domain)
                 .addStartUrl(url)
-                .setCharset(charSet);
+                .setCharset(charSet)
+                .setRetryTimes(3)
+                .setCycleRetryTimes(3)
+                .setTimeOut(10000);
     }
 
     /**
      * 保存待抓取的列表页
+     *
      * @param linksSelector 待抓页面
-     * @param regexRuleMap 抓取规则
+     * @param regexRuleMap  抓取规则
      * @return
      */
     private Selectable putLinks(Selectable linksSelector, RegexRuleMap<String> regexRuleMap) {
@@ -117,9 +126,10 @@ public class MyPageProcessor implements PageProcessor {
 
     /**
      * 按照传入规则抓取指定数据
+     *
      * @param linksSelector
-     * @param key 规则
-     * @param value 调用webmagic的函数，一般是xpath或regex
+     * @param key           规则
+     * @param value         调用webmagic的函数，一般是xpath或regex
      * @return
      */
     private Selectable findSelector(Selectable linksSelector, String key, Object value) {
@@ -141,7 +151,65 @@ public class MyPageProcessor implements PageProcessor {
     }
 
 
-    public static void main(String[] a) throws IOException {
+    public static void main(String[] a) throws IOException, JMException {
+        fetchProject();
+//        fetchMaster();
+    }
+
+    private static void fetchMaster() throws IOException, JMException {
+        String url = "http://www.feiyicheng.com/cms/index.php?act=article&op=directory&level_id=0&batch_id=0&area_id=&type_id=10&keyword=&button=%E7%A1%AE%E5%AE%9A&curpage=1";
+        String domain = "www.feiyicheng.com";
+        String charSet = "utf-8";
+
+        MyPageProcessor myPageProcessor = new MyPageProcessor();
+        myPageProcessor.setSite(domain, url, charSet);
+        List<RegexRuleMap> regexRuleList = new ArrayList<>();
+        myPageProcessor.setRegexRuleList(regexRuleList);
+
+        RegexRuleMap<String> regexRuleMap = new RegexRuleMap();
+        regexRuleMap.put("//ul[@class='minglus']//h2//a/@href", "xpath");
+        regexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=10[&]keyword*");
+        regexRuleMap.setIsExtraKey(true);
+        regexRuleList.add(regexRuleMap);
+
+        RegexRuleMap<String> nextRegexRuleMap = new RegexRuleMap();
+        nextRegexRuleMap.put("//div[@class='pagination']//a/@href", "xpath");
+        nextRegexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=10[&]keyword*");
+        regexRuleList.add(nextRegexRuleMap);
+
+        RegexRuleMap<RegexRuleMap<String>> extraRegexMap = new RegexRuleMap<>();
+        extraRegexMap.setIsExtraValue(true);
+        extraRegexMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=10[&]keyword*");
+        RegexRuleMap<String> internalExtraRegexMap1 = new RegexRuleMap<>();
+        internalExtraRegexMap1.put("//ul[@class='minglus']//img[@class='image_lazy_load']/@data-src", "xpath");
+        extraRegexMap.put("img", internalExtraRegexMap1);
+        RegexRuleMap<String> internalExtraRegexMap2 = new RegexRuleMap<>();
+        internalExtraRegexMap2.put("//ul[@class='minglus']//h2//a/allText()", "xpath");
+        extraRegexMap.put("name", internalExtraRegexMap2);
+        RegexRuleMap<String> internalExtraRegexMap3 = new RegexRuleMap<>();
+        internalExtraRegexMap3.put("//ul[@class='minglus']//li//p[1]/allText()", "xpath");
+        extraRegexMap.put("type", internalExtraRegexMap3);
+        RegexRuleMap<String> internalExtraRegexMap4 = new RegexRuleMap<>();
+        internalExtraRegexMap4.put("//ul[@class='minglus']//p[2]/allText()", "xpath");
+        extraRegexMap.put("location", internalExtraRegexMap4);
+        regexRuleList.add(extraRegexMap);
+
+        RegexRuleMap<RegexRuleMap<String>> detailRegexMap = new RegexRuleMap();
+        detailRegexMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=article_directory*");
+        detailRegexMap.setIsDetailPage(true);
+        RegexRuleMap<String> locationRegexMap = new RegexRuleMap<>();
+        locationRegexMap.put("//p[@class='article-sub']//html()", "xpath");
+        detailRegexMap.put("intro", locationRegexMap);
+        regexRuleList.add(detailRegexMap);
+
+
+        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/feiyicheng.txt");
+        Spider spider = Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(myPipeline).pipeline(new ConsolePipeline());
+        SpiderMonitor.instance().register(spider);
+        spider.start();
+    }
+
+    private static void fetchProject() throws IOException, JMException {
         String url = "http://fy.folkw.com/Sort.Asp?page=1&Sort_Id=8";
         String domain = "fy.folkw.com";
         String charSet = "gbk";
@@ -191,8 +259,10 @@ public class MyPageProcessor implements PageProcessor {
         regexRuleList.add(detailRegexMap);
 
 
-        PersisPipeline myPipeline = new PersisPipeline("C:/Users/Administrator/Desktop/jkl.txt");
-        Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(myPipeline).pipeline(new ConsolePipeline()).thread(5).start();
+        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/shujukuxitong.txt");
+        Spider spider = Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(myPipeline).pipeline(new ConsolePipeline());
+        SpiderMonitor.instance().register(spider);
+        spider.start();
     }
 
 }
