@@ -2,9 +2,6 @@ package xerox;
 
 import com.ming800.core.base.service.BaseManager;
 import com.ming800.core.util.ApplicationContextUtil;
-import org.hibernate.CacheMode;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
@@ -19,8 +16,6 @@ import java.util.Map;
 public class DBPersistPipeline implements Pipeline {
 
     private Class clazz;
-    private SessionFactory sessionFactory;
-    private Session session;
     private Collection<String> fieldCollection;
     private BaseManager baseManager = (BaseManager) ApplicationContextUtil.getApplicationContext().getBean("baseManagerImpl");
 
@@ -30,34 +25,6 @@ public class DBPersistPipeline implements Pipeline {
 
     public DBPersistPipeline(Class clazz) {
         this.clazz = clazz;
-//        session = sessionFactory.getCurrentSession();
-    }
-
-    public void setFieldCollection(Collection<String> fieldCollection) {
-        this.fieldCollection = fieldCollection;
-    }
-
-    public void process2(ResultItems resultItems, Task task) {
-
-        session.setCacheMode(CacheMode.IGNORE);
-        Object targetObj;
-
-        try {
-            targetObj = clazz.newInstance();
-            for (String fieldString : fieldCollection) {
-                Field field = clazz.getField(fieldString);
-                field.setAccessible(true);
-                field.set(targetObj, resultItems.get(fieldString));
-            }
-            session.saveOrUpdate(targetObj.getClass().getName(), targetObj);
-            session.flush();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
     }
 
 

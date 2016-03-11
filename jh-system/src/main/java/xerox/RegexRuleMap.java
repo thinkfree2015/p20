@@ -11,8 +11,8 @@ public class RegexRuleMap <T>{
     private Map<String, T> nestedRuleRegexMap = new LinkedHashMap<>();
     private String matchingUrl;
     private boolean isDetailPage;
-    private boolean isExtraKey;
-    private boolean isExtraValue;
+    private boolean isExtraUrl;
+    private boolean isExtraDetail;
 
     public Map<String, T> getNestedRuleRegexMap() {
         return nestedRuleRegexMap;
@@ -34,20 +34,20 @@ public class RegexRuleMap <T>{
         this.isDetailPage = isDetailPage;
     }
 
-    public boolean isExtraKey() {
-        return isExtraKey;
+    public boolean isExtraUrl() {
+        return isExtraUrl;
     }
 
-    public void setIsExtraKey(boolean isExtraKey) {
-        this.isExtraKey = isExtraKey;
+    public void setIsExtraUrl(boolean isExtraUrl) {
+        this.isExtraUrl = isExtraUrl;
     }
 
-    public boolean isExtraValue() {
-        return isExtraValue;
+    public boolean isExtraDetail() {
+        return isExtraDetail;
     }
 
-    public void setIsExtraValue(boolean isExtraValue) {
-        this.isExtraValue = isExtraValue;
+    public void setIsExtraDetail(boolean isExtraDetail) {
+        this.isExtraDetail = isExtraDetail;
     }
 
     public T put(String key, T value){

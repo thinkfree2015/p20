@@ -42,11 +42,11 @@ public class MyPageProcessor implements PageProcessor {
             //列表页处理
             else if (!regexRuleMap.isDetailPage() && page.getUrl().regex(regexRuleMap.getMatchingUrl()).match()) {
                 //带给下个页面的带数据的数据抓取规则，没有要带的即为null
-                if (regexRuleMap.isExtraValue()) {
+                if (regexRuleMap.isExtraDetail()) {
                     extraInfo = putExtraValue(regexRuleMap, page);
                 }
                 //给下个页面带数据的链接抓取规则
-                else if (regexRuleMap.isExtraKey()) {
+                else if (regexRuleMap.isExtraUrl()) {
                     Selectable nextPageLinkSelector = putLinks(page.getHtml(), regexRuleMap);
                     detailPageLink = nextPageLinkSelector.all();
                 }
@@ -171,7 +171,7 @@ public class MyPageProcessor implements PageProcessor {
         RegexRuleMap<String> regexRuleMap = new RegexRuleMap();
         regexRuleMap.put("//ul[@class='minglus']//h2//a/@href", "xpath");
         regexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=11[&]keyword*");
-        regexRuleMap.setIsExtraKey(true);
+        regexRuleMap.setIsExtraUrl(true);
         regexRuleList.add(regexRuleMap);
 
         RegexRuleMap<String> nextRegexRuleMap = new RegexRuleMap();
@@ -180,7 +180,7 @@ public class MyPageProcessor implements PageProcessor {
         regexRuleList.add(nextRegexRuleMap);
 
         RegexRuleMap<RegexRuleMap<String>> extraRegexMap = new RegexRuleMap<>();
-        extraRegexMap.setIsExtraValue(true);
+        extraRegexMap.setIsExtraDetail(true);
         extraRegexMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=11[&]keyword*");
         RegexRuleMap<String> internalExtraRegexMap1 = new RegexRuleMap<>();
         internalExtraRegexMap1.put("//ul[@class='minglus']//img[@class='image_lazy_load']/@data-src", "xpath");
@@ -202,12 +202,12 @@ public class MyPageProcessor implements PageProcessor {
         detailRegexMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=article_directory*");
         detailRegexMap.setIsDetailPage(true);
         RegexRuleMap<String> locationRegexMap = new RegexRuleMap<>();
-        locationRegexMap.put("//p[@class='article-sub']//html()", "xpath");
+        locationRegexMap.put("//section[@class='article-body']//html()", "xpath");
         detailRegexMap.put("description", locationRegexMap);
         regexRuleList.add(detailRegexMap);
 
 
-        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/feiyicheng2.txt");
+        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/feiyicheng.txt");
         DBPersistPipeline dbPipeline = new DBPersistPipeline(Project.class);
         Spider spider = Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(dbPipeline).pipeline(new ConsolePipeline());
         SpiderMonitor.instance().register(spider);
@@ -227,7 +227,7 @@ public class MyPageProcessor implements PageProcessor {
         RegexRuleMap<String> regexRuleMap = new RegexRuleMap();
         regexRuleMap.put("//table[@bgcolor='#D4CAA8']//a[@class='font13']", "xpath");
         regexRuleMap.setMatchingUrl("http://fy.folkw.com/Sort.Asp*");
-        regexRuleMap.setIsExtraKey(true);
+        regexRuleMap.setIsExtraUrl(true);
         regexRuleList.add(regexRuleMap);
 
         RegexRuleMap<String> nextRegexRuleMap = new RegexRuleMap();
@@ -236,7 +236,7 @@ public class MyPageProcessor implements PageProcessor {
         regexRuleList.add(nextRegexRuleMap);
 
         RegexRuleMap<RegexRuleMap<String>> extraRegexMap = new RegexRuleMap<>();
-        extraRegexMap.setIsExtraValue(true);
+        extraRegexMap.setIsExtraDetail(true);
         extraRegexMap.setMatchingUrl("http://fy.folkw.com/Sort.Asp*");
         RegexRuleMap<String> internalExtraRegexMap = new RegexRuleMap<>();
         internalExtraRegexMap.put("//table[@bgcolor='#D4CAA8']//td[@height='26']//allText()", "xpath");
