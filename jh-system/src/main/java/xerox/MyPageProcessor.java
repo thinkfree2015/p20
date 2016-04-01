@@ -39,6 +39,32 @@ public class MyPageProcessor implements PageProcessor {
             if (regexRuleMap.isDetailPage() && page.getUrl().regex(regexRuleMap.getMatchingUrl()).match()) {
                 putDetail(regexRuleMap, page);
             }
+            //详情页分页抓取
+            else if (regexRuleMap.isHasMoreExtra() && page.getUrl().regex(regexRuleMap.getMatchingUrl()).match()) {
+                detailPageLink = putLinks(page.getHtml(), regexRuleMap).all();
+                List<String> morePagesList = (List<String>) page.getRequest().getExtras().get("morePagesList");
+                //有翻页
+
+                if (detailPageLink.size() > 0) {
+                    //有分页但未开始抓取分页
+                    if (morePagesList == null) {
+                        page.getRequest().putExtra("morePagesList", detailPageLink);
+                        putAll2Extra(page, detailPageLink.remove(0));
+                    }
+                    //有分页且已抓取部分
+                    else if (morePagesList.size() > 0) {
+//                        morePagesList.remove(page.getUrl().get());
+                        if(morePagesList.size() > 0) {
+                            putAll2Extra(page, morePagesList.remove(0));
+                        }
+                    }
+                    //分页都抓完
+                    else{
+                        putExtra2All(page);
+                        System.out.println("pause");
+                    }
+                }
+            }
             //列表页处理
             else if (!regexRuleMap.isDetailPage() && page.getUrl().regex(regexRuleMap.getMatchingUrl()).match()) {
                 //带给下个页面的带数据的数据抓取规则，没有要带的即为null
@@ -47,30 +73,85 @@ public class MyPageProcessor implements PageProcessor {
                 }
                 //给下个页面带数据的链接抓取规则
                 else if (regexRuleMap.isExtraUrl()) {
-                    Selectable nextPageLinkSelector = putLinks(page.getHtml(), regexRuleMap);
-                    detailPageLink = nextPageLinkSelector.all();
+                    detailPageLink = putLinks(page.getHtml(), regexRuleMap).all();
                 }
                 //其他列表页的抓取规则
                 else {
                     Selectable nextPageLinkSelector = putLinks(page.getHtml(), regexRuleMap);
                     List<String> nextLinks = nextPageLinkSelector.all();
                     page.addTargetRequests(nextLinks);
-                    page.setSkip(true);
                 }
+                page.setSkip(true);
             }
         }
         //如需给下一页带数据，构造全新的request，尼玛这也能行
         if (detailPageLink != null && !detailPageLink.isEmpty() && extraInfo != null && !extraInfo.isEmpty()) {
+            detailPageLink = (List) removeDuplicated(detailPageLink);
             for (int x = 0; x < detailPageLink.size(); x++) {
                 Request request = new Request(detailPageLink.get(x));
                 for (Map.Entry<String, List<String>> extraEntry : extraInfo.entrySet()) {
+                    if (!(detailPageLink.size() == extraEntry.getValue().size())) {
+                        break;
+                    }
                     request.putExtra(extraEntry.getKey(), extraEntry.getValue().get(x));
+                }
+                for (Map.Entry<String, ?> extraEntry : page.getRequest().getExtras().entrySet()) {
+                    request.putExtra(extraEntry.getKey(), extraEntry.getValue().toString());
                 }
                 page.addTargetRequest(request);
             }
         }
     }
 
+    /**
+     * 把extraData存入field，便于同一字段的各个值集中输出
+     * @param page
+     */
+    private void putExtra2All(Page page){
+        for (Map.Entry<String, Object> extraEntry : page.getRequest().getExtras().entrySet()) {
+            if(page.getResultItems().get(extraEntry.getKey()) == null) {
+                page.putField(extraEntry.getKey(), extraEntry.getValue());
+            }else{
+                ((List)page.getResultItems().get(extraEntry.getKey())).add(extraEntry.getValue().toString());
+            }
+        }
+        page.getRequest().getExtras().clear();
+    }
+
+    /**
+     * 把detailDate存入extra，方便带往下个详情翻页
+     * @param page 当前页
+     * @param url 下个详情页
+     */
+    private void putAll2Extra(Page page,String url) {
+        Request request = new Request(url);
+        for (Map.Entry<String, Object> extraEntry : page.getRequest().getExtras().entrySet()) {
+            request.putExtra(extraEntry.getKey(), extraEntry.getValue());
+        }
+        for (Map.Entry<String, Object> dataEntry : page.getResultItems().getAll().entrySet()) {
+            if(request.getExtra(dataEntry.getKey()) == null) {
+                request.putExtra(dataEntry.getKey(), dataEntry.getValue());
+            }else{
+                ((List)request.getExtra(dataEntry.getKey())).add(dataEntry.getValue().toString());
+            }
+        }
+        page.getResultItems().getAll().clear();
+        page.addTargetRequest(request);
+        page.setSkip(true);
+    }
+
+    /**
+     * 去重集合里的对象
+     * @param sourceCollection
+     * @return
+     */
+    private Collection removeDuplicated(Collection sourceCollection) {
+        Set<String> noDuplicatedDetailPageLink = new LinkedHashSet();
+        noDuplicatedDetailPageLink.addAll(sourceCollection);
+        sourceCollection.clear();
+        sourceCollection.addAll(noDuplicatedDetailPageLink);
+        return sourceCollection;
+    }
 
     /**
      * 保存要传递到下个页面的数据
@@ -107,9 +188,11 @@ public class MyPageProcessor implements PageProcessor {
         this.site = Site.me().setDomain(domain)
                 .addStartUrl(url)
                 .setCharset(charSet)
-                .setRetryTimes(3)
-                .setCycleRetryTimes(3)
-                .setTimeOut(10000);
+                .setRetryTimes(4)
+                .setCycleRetryTimes(4)
+                .setTimeOut(20000)
+//                .setSleepTime(1)
+                ;
     }
 
     /**
@@ -154,12 +237,13 @@ public class MyPageProcessor implements PageProcessor {
 
 
     public static void main(String[] a) throws IOException, JMException {
-//        fetchProject();
-        fetchMaster();
+//        fetchChinacultureProject();
+//        fetchFeiyichengProject();
+        fetchFeiyichengMaster();
     }
 
-    private static void fetchMaster() throws IOException, JMException {
-        String url = "http://www.feiyicheng.com/cms/index.php?act=article&op=directory&level_id=0&batch_id=0&area_id=&type_id=11&keyword=&button=%E7%A1%AE%E5%AE%9A&curpage=1";
+    private static void fetchFeiyichengProject() throws IOException, JMException {
+        String url = "http://feiyicheng.com/cms/index.php?act=article&op=directory&curpage=1ge=1";
         String domain = "www.feiyicheng.com";
         String charSet = "utf-8";
 
@@ -170,23 +254,23 @@ public class MyPageProcessor implements PageProcessor {
 
         RegexRuleMap<String> regexRuleMap = new RegexRuleMap();
         regexRuleMap.put("//ul[@class='minglus']//h2//a/@href", "xpath");
-        regexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=11[&]keyword*");
+        regexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory*");
         regexRuleMap.setIsExtraUrl(true);
         regexRuleList.add(regexRuleMap);
 
         RegexRuleMap<String> nextRegexRuleMap = new RegexRuleMap();
         nextRegexRuleMap.put("//div[@class='pagination']//a/@href", "xpath");
-        nextRegexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=11[&]keyword*");
+        nextRegexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory*");
         regexRuleList.add(nextRegexRuleMap);
 
         RegexRuleMap<RegexRuleMap<String>> extraRegexMap = new RegexRuleMap<>();
         extraRegexMap.setIsExtraDetail(true);
-        extraRegexMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory[&]level_id=0[&]batch_id=0[&]area_id=[&]type_id=11[&]keyword*");
+        extraRegexMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=directory*");
         RegexRuleMap<String> internalExtraRegexMap1 = new RegexRuleMap<>();
         internalExtraRegexMap1.put("//ul[@class='minglus']//img[@class='image_lazy_load']/@data-src", "xpath");
         extraRegexMap.put("picture_url", internalExtraRegexMap1);
-        extraRegexMap.put("picture_wap_url", internalExtraRegexMap1);
-        extraRegexMap.put("picture_pc_url", internalExtraRegexMap1);
+//        extraRegexMap.put("picture_wap_url", internalExtraRegexMap1);
+//        extraRegexMap.put("picture_pc_url", internalExtraRegexMap1);
         RegexRuleMap<String> internalExtraRegexMap2 = new RegexRuleMap<>();
         internalExtraRegexMap2.put("//ul[@class='minglus']//h2//a/allText()", "xpath");
         extraRegexMap.put("name", internalExtraRegexMap2);
@@ -194,8 +278,11 @@ public class MyPageProcessor implements PageProcessor {
         internalExtraRegexMap3.put("//ul[@class='minglus']//li//p[1]/allText()", "xpath");
         extraRegexMap.put("level", internalExtraRegexMap3);
         RegexRuleMap<String> internalExtraRegexMap4 = new RegexRuleMap<>();
-        internalExtraRegexMap4.put("//ul[@class='minglus']//p[3]/allText()", "xpath");
-        extraRegexMap.put("type", internalExtraRegexMap4);
+        internalExtraRegexMap4.put("//ul[@class='minglus']//li//p[3]/allText()", "xpath");
+        extraRegexMap.put("location", internalExtraRegexMap4);
+        RegexRuleMap<String> internalExtraRegexMap5 = new RegexRuleMap<>();
+        internalExtraRegexMap5.put("//ul[@class='minglus']//li//p[2]/allText()", "xpath");
+        extraRegexMap.put("type", internalExtraRegexMap5);
         regexRuleList.add(extraRegexMap);
 
         RegexRuleMap<RegexRuleMap<String>> detailRegexMap = new RegexRuleMap();
@@ -207,9 +294,143 @@ public class MyPageProcessor implements PageProcessor {
         regexRuleList.add(detailRegexMap);
 
 
-        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/feiyicheng.txt");
-        DBPersistPipeline dbPipeline = new DBPersistPipeline(Project.class);
-        Spider spider = Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(dbPipeline).pipeline(new ConsolePipeline());
+        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/feiyichengProject.csv", "::", ",,");
+//        DBPersistPipeline dbPipeline = new DBPersistPipeline(Project.class);
+        Spider spider = Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(myPipeline).pipeline(new ConsolePipeline());
+        SpiderMonitor.instance().register(spider);
+        spider.start();
+    }
+
+    private static void fetchFeiyichengMaster() throws IOException, JMException {
+        String url = "http://www.feiyicheng.com/cms/index.php?act=article&op=inherit&curpage=1";
+        String domain = "www.feiyicheng.com";
+        String charSet = "utf-8";
+
+        MyPageProcessor myPageProcessor = new MyPageProcessor();
+        myPageProcessor.setSite(domain, url, charSet);
+        java.util.List<RegexRuleMap> regexRuleList = new ArrayList<>();
+        myPageProcessor.setRegexRuleList(regexRuleList);
+
+        RegexRuleMap<String> regexRuleMap = new RegexRuleMap();
+        regexRuleMap.put("//table[@width='100%']//a/@href", "xpath");
+        regexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=inherit*");
+        regexRuleMap.setIsExtraUrl(true);
+        regexRuleList.add(regexRuleMap);
+
+        RegexRuleMap<String> nextRegexRuleMap = new RegexRuleMap();
+        nextRegexRuleMap.put("//div[@class='pagination']//a/@href", "xpath");
+        nextRegexRuleMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=inherit*");
+        regexRuleList.add(nextRegexRuleMap);
+
+        RegexRuleMap<RegexRuleMap<String>> extraRegexMap = new RegexRuleMap<>();
+        extraRegexMap.setIsExtraDetail(true);
+        extraRegexMap.setMatchingUrl("www.feiyicheng.com/cms/index.php[?]act=article[&]op=inherit*");
+        RegexRuleMap<String> internalExtraRegexMap2 = new RegexRuleMap<>();
+        internalExtraRegexMap2.put("//div[@class='ccrlist']//td[2]/allText()", "xpath");
+        extraRegexMap.put("name", internalExtraRegexMap2);
+        RegexRuleMap<String> internalExtraRegexMap4 = new RegexRuleMap<>();
+        internalExtraRegexMap4.put("//div[@class='ccrlist']//td[4]/allText()", "xpath");
+        extraRegexMap.put("project", internalExtraRegexMap4);
+        RegexRuleMap<String> internalExtraRegexMap5 = new RegexRuleMap<>();
+        internalExtraRegexMap5.put("//div[@class='ccrlist']//td[5]/allText()", "xpath");
+        extraRegexMap.put("type", internalExtraRegexMap5);
+        RegexRuleMap<String> internalExtraRegexMap6 = new RegexRuleMap<>();
+        internalExtraRegexMap6.put("//div[@class='ccrlist']//td[6]/allText()", "xpath");
+        extraRegexMap.put("level", internalExtraRegexMap6);
+        RegexRuleMap<String> internalExtraRegexMap7 = new RegexRuleMap<>();
+        internalExtraRegexMap7.put("//div[@class='ccrlist']//td[7]/allText()", "xpath");
+        extraRegexMap.put("location", internalExtraRegexMap7);
+        regexRuleList.add(extraRegexMap);
+
+        RegexRuleMap<RegexRuleMap<String>> detailRegexMap = new RegexRuleMap();
+        detailRegexMap.setMatchingUrl("http://www.feiyicheng.com/cms/index.php[?]act=article[&]op=article_inherit*");
+        detailRegexMap.setIsDetailPage(true);
+        RegexRuleMap<String> titleRegexMap = new RegexRuleMap<>();
+        titleRegexMap.put("//div[@class='ccrinfo']//h3/allText()", "xpath");
+        detailRegexMap.put("title", titleRegexMap);
+        RegexRuleMap<String> descriptionRegexMap = new RegexRuleMap<>();
+        descriptionRegexMap.put("//div[@class='ccrcon']//html()", "xpath");
+        detailRegexMap.put("description", descriptionRegexMap);
+        RegexRuleMap<String> headimgRegexMap = new RegexRuleMap<>();
+        headimgRegexMap.put("//div[@class='ccrinfo']//img/@src", "xpath");
+        detailRegexMap.put("picture_url", headimgRegexMap);
+        regexRuleList.add(detailRegexMap);
+
+
+        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/feiyichengMaster.csv", "@", "@");
+//        DBPersistPipeline dbPipeline = new DBPersistPipeline(Project.class);
+        Spider spider = Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(myPipeline).pipeline(new ConsolePipeline());
+        SpiderMonitor.instance().register(spider);
+        spider.start();
+    }
+
+    private static void fetchChinacultureProject() throws IOException, JMException {
+        String url = "http://www.chinaculture.org/gb/cn_whyc/node_3041.htm";
+        String domain = "www.chinaculture.org";
+        String charSet = "gbk";
+
+        MyPageProcessor myPageProcessor = new MyPageProcessor();
+        myPageProcessor.setSite(domain, url, charSet);
+        List<RegexRuleMap> regexRuleList = new ArrayList<>();
+        myPageProcessor.setRegexRuleList(regexRuleList);
+
+        RegexRuleMap<String> regexRuleMap = new RegexRuleMap();
+        regexRuleMap.put("//table[@width='129']//td[@height='20']//a/@href", "xpath");
+        regexRuleMap.setMatchingUrl("http://www.chinaculture.org/gb/cn_whyc/node_3041.htm");
+        regexRuleList.add(regexRuleMap);
+
+        RegexRuleMap<String> regexRuleMap2 = new RegexRuleMap();
+        regexRuleMap2.put("//div[@align='center']//a/@href", "xpath");
+        regexRuleMap2.setMatchingUrl("http://www.chinaculture.org/gb/cn_whyc/node*");
+        regexRuleMap2.setIsExtraUrl(true);
+        regexRuleList.add(regexRuleMap2);
+
+        RegexRuleMap<RegexRuleMap<String>> extraRegexRuleMap = new RegexRuleMap();
+        extraRegexRuleMap.setMatchingUrl("http://www.chinaculture.org/gb/cn_whyc/node*");
+        extraRegexRuleMap.setIsExtraDetail(true);
+        RegexRuleMap<String> internalExtraRegexMap = new RegexRuleMap<>();
+        internalExtraRegexMap.put("//td[@height='25']//allText()", "xpath");
+        extraRegexRuleMap.put("sequence", internalExtraRegexMap);
+        regexRuleList.add(extraRegexRuleMap);
+
+        RegexRuleMap<RegexRuleMap<String>> detailRegexRuleMap = new RegexRuleMap();
+        detailRegexRuleMap.setMatchingUrl("http://www.chinaculture.org/gb/cn_whyc/20*");
+        detailRegexRuleMap.setIsDetailPage(true);
+        RegexRuleMap<String> locationRegexMap = new RegexRuleMap<>();
+        locationRegexMap.put("//p[5]//allText()", "xpath");
+        detailRegexRuleMap.put("location", locationRegexMap);
+        RegexRuleMap<String> nameRegexMap = new RegexRuleMap<>();
+        nameRegexMap.put("//table[@width='691']//b//allText()", "xpath");
+        detailRegexRuleMap.put("name", nameRegexMap);
+        RegexRuleMap<String> typeRegexMap = new RegexRuleMap<>();
+        typeRegexMap.put("//p[4]//allText()", "xpath");
+        detailRegexRuleMap.put("type", typeRegexMap);
+        RegexRuleMap<String> introRegexMap = new RegexRuleMap<>();
+        introRegexMap.put("//div[@id='content']//html()", "xpath");
+        detailRegexRuleMap.put("intro", introRegexMap);
+        RegexRuleMap<String> pictureRegexMap = new RegexRuleMap<>();
+        pictureRegexMap.put("//object[@name='founderflashobject']//embed/@src", "xpath");
+        detailRegexRuleMap.put("picture_url", pictureRegexMap);
+        RegexRuleMap<String> timeRegexMap = new RegexRuleMap<>();
+        timeRegexMap.put("//p[3]//allText()", "xpath");
+        detailRegexRuleMap.put("time", timeRegexMap);
+        RegexRuleMap<String> codeRegexMap = new RegexRuleMap<>();
+        codeRegexMap.put("//p[6]//allText()", "xpath");
+        detailRegexRuleMap.put("code", codeRegexMap);
+        RegexRuleMap<String> senderRegexMap = new RegexRuleMap<>();
+        senderRegexMap.put("//p[7]//allText()", "xpath");
+        detailRegexRuleMap.put("senderRegexMap", senderRegexMap);
+        regexRuleList.add(detailRegexRuleMap);
+
+        RegexRuleMap<String> nextDetailRegexRuleMap = new RegexRuleMap();
+        nextDetailRegexRuleMap.setMatchingUrl("http://www.chinaculture.org/gb/cn_whyc/20*");
+        nextDetailRegexRuleMap.put("//div[@id='content']//a[@class='apage']/@href", "xpath");
+        nextDetailRegexRuleMap.setHasMoreExtra(true);
+        regexRuleList.add(nextDetailRegexRuleMap);
+
+
+        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/shujukuxitong.txt", "@", "@");
+        Spider spider = Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(myPipeline).pipeline(new ConsolePipeline());
         SpiderMonitor.instance().register(spider);
         spider.start();
     }
@@ -264,7 +485,7 @@ public class MyPageProcessor implements PageProcessor {
         regexRuleList.add(detailRegexMap);
 
 
-        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/shujukuxitong.txt");
+        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/shujukuxitong.txt", "::", ",,");
         Spider spider = Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(myPipeline).pipeline(new ConsolePipeline());
         SpiderMonitor.instance().register(spider);
         spider.start();

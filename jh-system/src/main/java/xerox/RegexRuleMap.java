@@ -13,6 +13,15 @@ public class RegexRuleMap <T>{
     private boolean isDetailPage;
     private boolean isExtraUrl;
     private boolean isExtraDetail;
+    private boolean hasMoreExtra;
+
+    public boolean isHasMoreExtra() {
+        return hasMoreExtra;
+    }
+
+    public void setHasMoreExtra(boolean hasMoreExtra) {
+        this.hasMoreExtra = hasMoreExtra;
+    }
 
     public Map<String, T> getNestedRuleRegexMap() {
         return nestedRuleRegexMap;

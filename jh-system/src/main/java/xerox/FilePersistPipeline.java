@@ -14,9 +14,13 @@ public class FilePersistPipeline implements Pipeline {
 
 
     private BufferedWriter bw;
+    private String fieldSeparator;
+    private String keyValueSeparator;
 
-    public FilePersistPipeline(String filePath) throws IOException {
+    public FilePersistPipeline(String filePath,String fieldSeparator,String keyValueSeparator) throws IOException {
         bw = new BufferedWriter(new FileWriter(filePath, true));
+        this.fieldSeparator = fieldSeparator;
+        this.keyValueSeparator = keyValueSeparator;
     }
 
     @Override
@@ -24,12 +28,14 @@ public class FilePersistPipeline implements Pipeline {
         try {
             if (!resultItems.isSkip()) {
                 for (Map.Entry<String, Object> extraEntry : resultItems.getRequest().getExtras().entrySet()) {
-                    if (!"statusCode".equals(extraEntry.getKey())) {
-                        bw.write(extraEntry.getKey() + ":\t" + extraEntry.getValue() + "\t");
+                    if (!"statusCode".equals(extraEntry.getKey()) && !"morePagesList".equals(extraEntry.getKey())) {
+                        bw.write(extraEntry.getKey() + keyValueSeparator + extraEntry.getValue() + fieldSeparator);
                     }
                 }
                 for (Map.Entry<String, Object> detailEntry : resultItems.getAll().entrySet()) {
-                    bw.write(detailEntry.getKey() + ":\t" + detailEntry.getValue() + "\t");
+                    if (!"statusCode".equals(detailEntry.getKey()) && !"morePagesList".equals(detailEntry.getKey())) {
+                        bw.write(detailEntry.getKey() + keyValueSeparator + detailEntry.getValue() + fieldSeparator);
+                    }
                 }
                 bw.write("\n\r");
                 bw.flush();
