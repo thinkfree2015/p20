@@ -76,7 +76,7 @@ public class PalConst {
 
     public Map<String, String> labelCache = new HashMap<String, String>();
 
-    public String appId = "wx7f6aa253b75466dd";
+    public String appId = "wx2db1e25ab3dac836";
     public String encodingAESKey = "vo3dJHGXZTkDCtf9kyyhiKtGdTFdzdb62CGxk1eqxkw";
 
     private PalConst() {

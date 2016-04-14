@@ -155,6 +155,10 @@ public class LabelCheckManagerImpl implements ILabelCheckManager {
         String msgSignature = request.getParameter("msg_signature");
         String timestamp = request.getParameter("timestamp");
         String nonce = request.getParameter("nonce");
+        System.out.println("encryptType:" + encryptType);
+        System.out.println("msgSignature:" + msgSignature);
+        System.out.println("timestamp:" + timestamp);
+        System.out.println("nonce:" + nonce);
         WXEncrypt pc = null;
         //如果加密模式收发，先解密
         if ("aes".equals(encryptType)) {
@@ -168,6 +172,7 @@ public class LabelCheckManagerImpl implements ILabelCheckManager {
                 document = DocumentHelper.parseText(inXml);
                 root = document.getRootElement();
             } catch (Exception e) {
+                e.printStackTrace();
                 throw new ServletException(e.getCause());
             }
         }
@@ -515,8 +520,11 @@ public class LabelCheckManagerImpl implements ILabelCheckManager {
             WXEncrypt pc = new WXEncrypt(PalConst.getInstance().weiXinToken, PalConst.getInstance().encodingAESKey, PalConst.getInstance().appId);
 
 
-            String inXml = pc.decryptMsg("11ef68f4db29758253d90a1a788cf2fa7585805a", "1409304348", "xxxxxx",
-                    "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[6QPGajK0r6AH0EW/HHF4FAtz9u9XuMzoqpOEYp+aKcvPJz3/HzY1sL/71TH/lNWippAm/hu+4cKC6/u1ba2hAw==]]></Encrypt></xml>"
+            String inXml = pc.decryptMsg("482eebbb9f02df43a83b694515270bd7d0f05273", "1460620817", "2099211247",
+                    "<xml>" +
+                            "<ToUserName><![CDATA[gh_64c2959b243f]]></ToUserName>" +
+                            "<Encrypt><![CDATA[Ig22Z6FOHAG43xFazJea13SOVYEaINMP1BrZNw6JNsCv/2c7PtfBk5TcPSDPJVZO1w/musVraaHbLhgtVU844zLQHyTL13oMpLqHDiDUC5IJBa9oePiGDr857tBnSK2qGc+HROsP406f9e7JOzlytvPA+2IRnyg90DQCs6+QBa46RO1oW+PjvVyPcqA7mPok9hPOkjzf5xTWEg14go06dGUBDhAe4x/O2YHttX9PaoURSX4WSqdQ6Oah3yk9GurIILWNeheJeImvC1190BnrDl6jDtTdPyWVuppFgl3AluVy+CyYAbcDOVOUgz3k9NYMOkWNQ0vGUfizASRqX0oJkRoeocIw/i96m2SCFNT5mmAZXX0L1QQ9hh9vYvjSQG6ofLv/7Pw93w46POlcVDs9+Mg1bhoeealy+YnzUxfTA4e5xdHiT/X/nWdAUzGwJFeMeu0nbiRz6YrjfDwx+64TlSx5ZCpm6GIY3mEwEOu83xZujivvxAkyxpOhtEerPNDw11hkOwSiduykCxV2ZGa9FcoUm+zWnhA4Nzz10s78UR2e0M4ZLN61yRIjbaEUMOdrO36r+fgEXNqQpov0uj6eRYoE97KMS5a4iz3MVcXVD6yrmLQzD7upD4EVvdoIDC/q]]></Encrypt>" +
+                            "</xml>"
             );
         } catch (Exception e) {
             e.printStackTrace();
