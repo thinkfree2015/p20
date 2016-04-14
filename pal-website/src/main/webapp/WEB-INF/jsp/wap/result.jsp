@@ -37,7 +37,9 @@
 <article class="eslite">
     <div class="am-paragraph-default">
         <c:if test="${result.authenticity != -1}">
-            <div class="imglogo"><img style="width:100%" src="<%=imgBasePath%><c:url value='${product.logo}@!'/><%= picForm%>"/></div>
+            <div class="imglogo"><img style="width:100%"
+                                      <%--src="<%=imgBasePath%><c:url value='${product.logo}@!'/><%= picForm%>"/></div>--%>
+                                      src="<%=imgBasePath%><c:url value='${product.logo}'/>"/></div>
         </c:if>
         <div class="tips">${result.msg}</div>
     </div>
@@ -55,12 +57,13 @@
                         <p style="padding-left:89px;float:left;">${product.tenant.name}</p></li>
                     <li><strong>创作年代：</strong>
 
-                        <p style="padding-left:89px;float:left;"><fmt:formatDate value="${product.madeYear}" pattern="yyyy年MM月"/></p></li>
+                        <p style="padding-left:89px;float:left;"><fmt:formatDate value="${product.madeYear}"
+                                                                                 pattern="yyyy年MM月"/></p></li>
                 </ul>
             </div>
         </div>
         <!--//End-->
-        <c:if test="${result.authenticity == 1}">
+        <%--<c:if test="${result.authenticity == 1}">--%>
             <div class="am-paragraph-default">
                 <div class="infoitem">
                     <ul>
@@ -72,7 +75,7 @@
                 </div>
             </div>
             <!--//End-->
-        </c:if>
+        <%--</c:if>--%>
         <c:if test="${not empty product.shoppingUrl}">
             <div class="am-list-news-ft"><a class="am-list-news-more am-btn am-btn-default"
                                             href="${product.shoppingUrl}">立即购买</a></div>

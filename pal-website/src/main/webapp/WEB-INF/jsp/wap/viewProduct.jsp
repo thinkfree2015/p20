@@ -40,10 +40,12 @@
 <!--//End--header-->
 <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}'>
     <ul class="am-slides">
-        <li><img src="<%=imgBasePath%><c:url value='${product.logo}@!'/><%=picForm%>"></li>
-        <c:forEach items="${product.imgList}" var="img">
-        <li><img src="<%=imgBasePath%><c:url value='${img.imgUrl}@!'/><%=picForm%>"></li>
-        </c:forEach>
+        <%--<li><img src="<%=imgBasePath%><c:url value='${product.logo}@!'/><%=picForm%>"></li>--%>
+            <li><img src="<%=imgBasePath%><c:url value='${product.logo}'/>"></li>
+            <c:forEach items="${product.imgList}" var="img">
+        <%--<li><img src="<%=imgBasePath%><c:url value='${img.imgUrl}@!'/><%=picForm%>"></li>--%>
+                <li><img src="<%=imgBasePath%><c:url value='${img.imgUrl}'/>"></li>
+            </c:forEach>
     </ul>
 </div>
 <!--//End--轮播图-->

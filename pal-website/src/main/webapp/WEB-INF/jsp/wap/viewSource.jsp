@@ -42,7 +42,8 @@
     <ul class="am-slides">
         <%--<c:forEach items="${product.tenant.tenantProductSeriesList}" var="sources">--%>
             <c:forEach items="${product.tenantProductSeries.imgList}" var="img">
-            <li><img src="<%=imgBasePath%><c:url value='${img.imgUrl}@!'/><%=picForm%>"></li>
+            <%--<li><img src="<%=imgBasePath%><c:url value='${img.imgUrl}@!'/><%=picForm%>"></li>--%>
+                <li><img src="<%=imgBasePath%><c:url value='${img.imgUrl}'/>"></li>
             </c:forEach>
         <%--</c:forEach>--%>
     </ul>
