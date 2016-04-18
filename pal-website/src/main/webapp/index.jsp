@@ -13,6 +13,7 @@
 <!--//End--topbar-->
 <div class="search-home">
     <div class="logo">
+
         <h1><a href="/"><img src="<c:url value='/resources/images/logo.png'/>" width="150" height="68" /></a></h1>
         <p>非遗商品防伪溯源查询中心</p>
     </div>
