@@ -58,7 +58,7 @@ public class AnswerController {
         modelMap.put("randomAnswerList", randomAnswerList);
         modelMap.put("examination", examination);//用于答题完成后更新答题记录
 
-        System.out.println(new Date() + "\nopenid:" + openid +"--start2Answer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
+        System.out.println(new Date() + "\nopenid:" + openid + "--start2Answer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
         return new ModelAndView((participationRecord == null ? "/question/examination" : (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType()) ? "/question/examinationResult" : "/question/examinationHelpResult")), modelMap);
     }
 
@@ -82,7 +82,7 @@ public class AnswerController {
 
         modelMap.put("consumer", consumer);
         modelMap.put("examination", examination);
-        System.out.println(new Date() + "\nopenid:" + openid +"--assistAnswer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
+        System.out.println(new Date() + "\nopenid:" + openid + "--assistAnswer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
 
         if (participationRecord == null) {
             if (Examination.examFinished.equals(examination.getStatus()) || Examination.examRewarded.equals(examination.getStatus())) {
@@ -119,7 +119,7 @@ public class AnswerController {
 
         modelMap.put("examination", examination);
 
-        System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) +"--commitAnswer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
+        System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) + "--commitAnswer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
         return new ModelAndView("/question/examinationResult", modelMap);
     }
 
@@ -128,7 +128,9 @@ public class AnswerController {
         Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
         modelMap.put("answerList", answerList);
-
+        if (examination.getParticipationRecordList() != null && examination.getParticipationRecordList().size() > 0) {
+            modelMap.put("creator",examination.getParticipationRecordList().get(0).getWxCalledRecord().getRequestSource());
+        }
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
         modelMap.put("consumer", consumer);
 
@@ -144,7 +146,7 @@ public class AnswerController {
             modelMap.put("assistance", "assisted");
         }
         modelMap.put("examination", examination);
-        System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) +"--commitHelpAnswer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
+        System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) + "--commitHelpAnswer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
 
         return new ModelAndView("/question/examinationHelpResult", modelMap);
     }
@@ -159,7 +161,7 @@ public class AnswerController {
 
         modelMap.put("examination", examination);
         modelMap.put("question", question);
-        System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) +"--questionDescription--examination:" + examination.getId());
+        System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) + "--questionDescription--examination:" + examination.getId());
 
         return new ModelAndView("/question/questionDescription", modelMap);
     }
@@ -169,7 +171,7 @@ public class AnswerController {
         String examId = request.getParameter("examId");
         Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examId);
         modelMap.put("examination", examination);
-        System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) +"--inquireProgress--examination:" + examination.getId());
+        System.out.println(new Date() + "\nopenid:" + wxQAManager.getOpenid(request) + "--inquireProgress--examination:" + examination.getId());
 
         return new ModelAndView("/question/shareProgress", modelMap);
     }
@@ -194,7 +196,7 @@ public class AnswerController {
                 wxQAManager.reward(participationRecord, modelMap);
             }
         }
-        System.out.println(new Date() + "\nopenid:" + openid +"--getAward--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
+        System.out.println(new Date() + "\nopenid:" + openid + "--getAward--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
 
         return modelMap.get("coupon") == null ? new ModelAndView("/question/reward", modelMap) : new ModelAndView("/question/rewardCoupon", modelMap);
     }

@@ -27,10 +27,11 @@
             </c:forEach>
             <div class="add-head">
                 <c:if test="${count != 0}">
-                    答错了，让我安静的哭一会儿，好桑心！虽然我帮不了忙，但我们还有好朋友，等我的好消息吧
+                    哎!答错了，但是不要灰心，您可以将本页面转发给其他好友，继续帮${creator}答题。
                 </c:if>
                 <c:if test="${count == 0}">
-                    答对啦！果然是颜值越高，智商越高呢，真羡慕你，你一定颜值爆表啦！
+                    <%--答对啦！果然是颜值越高，智商越高呢，真羡慕你，你一定颜值爆表啦！--%>
+                    您已经帮${creator}全部答对，Ta可以领取红包了，该怎么感谢你呢？
                 </c:if>
             </div>
         </c:if>
@@ -77,7 +78,7 @@
                         <%--分享链接  <c:url value="/wx/start.do"/>  --%>
                     </c:if>
                 </c:if>
-                <a href="<c:url value='/wx/start.do'/>" class="wechat-btn">答&nbsp;题&nbsp;赚&nbsp;红&nbsp;包</a>
+                <a href="<c:url value='/wx/start.do'/>" class="wechat-btn">我也要答题赚红包</a>
 
                 <div id="cover" style="display: none;">
                     <em class="bg"></em>
