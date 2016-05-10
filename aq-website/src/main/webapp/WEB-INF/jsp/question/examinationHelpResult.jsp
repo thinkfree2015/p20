@@ -33,11 +33,11 @@
         <%--</c:if>--%>
         <div class="add-head">
             <c:if test="${participationRecord.answer == 2}">
-                哎!答错了，但是不要灰心，您可以将本页面转发给其他好友，继续帮${participationRecord.wxCalledRecord.data}答题。
+                哎!答错了，但是不要灰心，您可以将本页面转发给其他好友，继续帮${participationRecord.creationRecord.wxCalledRecord.requestSource}答题。
             </c:if>
             <c:if test="${participationRecord.answer == 1}">
                 <%--答对啦！果然是颜值越高，智商越高呢，真羡慕你，你一定颜值爆表啦！--%>
-                您已经帮${participationRecord.wxCalledRecord.data}全部答对，Ta可以领取红包了，该怎么感谢你呢？
+                您已经帮${participationRecord.creationRecord.wxCalledRecord.requestSource}全部答对，Ta可以领取红包了，该怎么感谢你呢？
             </c:if>
         </div>
         <c:if test="${participationRecord == null}">
