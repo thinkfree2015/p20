@@ -82,6 +82,7 @@ public class AnswerController {
 
         modelMap.put("consumer", consumer);
         modelMap.put("examination", examination);
+        modelMap.put("openid",openid);
         System.out.println(new Date() + "\nopenid:" + openid + "--assistAnswer--examination:" + examination.getId() + "--participation:" + (participationRecord == null ? "null" : participationRecord.getId()) + "--consumer:" + consumer.getId());
 
         if (participationRecord == null) {
@@ -92,17 +93,12 @@ public class AnswerController {
             }
         } else {
             modelMap.put("participationRecord",participationRecord);
-            modelMap.put("openid",openid);
-            if (examination.getParticipationRecordList() != null && examination.getParticipationRecordList().size() > 0) {
-                modelMap.put("creator",examination.getParticipationRecordList().get(0).getWxCalledRecord().getRequestSource());
-            }
             if (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType())) {
                 return new ModelAndView("/question/examinationResult", modelMap);
             } else {
                 return new ModelAndView("/question/examinationHelpResult", modelMap);
             }
         }
-//        return new ModelAndView((participationRecord == null ? "/question/examinationHelpResult" : (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType()) ? "/question/examinationResult" : "/question/examinationHelpResult")), modelMap);
     }
 
     @RequestMapping({"/commitAnswer/{examinationId}/{answerList}/{consumerId}"})
@@ -133,13 +129,11 @@ public class AnswerController {
         Examination examination = (Examination) baseManager.getObject(Examination.class.getName(), examinationId);
 
         modelMap.put("answerList", answerList);
-        if (examination.getParticipationRecordList() != null && examination.getParticipationRecordList().size() > 0) {
-            modelMap.put("creator",examination.getParticipationRecordList().get(0).getWxCalledRecord().getRequestSource());
-        }
         Consumer consumer = (Consumer) baseManager.getObject(Consumer.class.getName(), consumerId);
         modelMap.put("consumer", consumer);
 
         ParticipationRecord participationRecord = wxQAManager.checkIfParticipated(consumer, examination);
+        modelMap.put("participationRecord",participationRecord);
         if (!Examination.examFinished.equals(examination.getStatus())
                 && !Examination.examRewarded.equals(examination.getStatus())
                 && participationRecord == null) {

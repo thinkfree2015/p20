@@ -18,26 +18,26 @@
         <div class="headline">
             <div class="head-number">${examination.examinationEdition.name}</div>
         </div>
-        <c:if test="${not empty assistance}">
+        <%--<c:if test="${not empty assistance}">--%>
             <c:set var="count" value="0" scope="page"/>
             <c:forEach items="${eqList}" var="examQuestion">
                 <c:if test="${examQuestion.answerStatus == 2}">
                     <c:set var="count" value="${count = count + 1}" scope="page"/>
                 </c:if>
             </c:forEach>
-            <c:if test="${count == 0}">
-                <div class="add-head">
-                    不好意思，您来晚了，已有好友帮助完成！
-                </div>
-            </c:if>
-        </c:if>
+            <%--<c:if test="${count == 0}">--%>
+                <%--<div class="add-head">--%>
+                    <%--不好意思，您来晚了，已有好友帮助完成！--%>
+                <%--</div>--%>
+            <%--</c:if>--%>
+        <%--</c:if>--%>
         <div class="add-head">
             <c:if test="${participationRecord.answer == 2}">
-                哎!答错了，但是不要灰心，您可以将本页面转发给其他好友，继续帮${creator}答题。
+                哎!答错了，但是不要灰心，您可以将本页面转发给其他好友，继续帮${participationRecord.wxCalledRecord.data}答题。
             </c:if>
             <c:if test="${participationRecord.answer == 1}">
                 <%--答对啦！果然是颜值越高，智商越高呢，真羡慕你，你一定颜值爆表啦！--%>
-                您已经帮${creator}全部答对，Ta可以领取红包了，该怎么感谢你呢？
+                您已经帮${participationRecord.wxCalledRecord.data}全部答对，Ta可以领取红包了，该怎么感谢你呢？
             </c:if>
         </div>
         <c:if test="${participationRecord == null}">
