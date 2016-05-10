@@ -91,6 +91,11 @@ public class AnswerController {
                 return new ModelAndView("/question/examinationHelp", modelMap);
             }
         } else {
+            modelMap.put("participationRecord",participationRecord);
+            modelMap.put("openid",openid);
+            if (examination.getParticipationRecordList() != null && examination.getParticipationRecordList().size() > 0) {
+                modelMap.put("creator",examination.getParticipationRecordList().get(0).getWxCalledRecord().getRequestSource());
+            }
             if (WxQAConst.recordCreatorType.equals(participationRecord.getRecordType())) {
                 return new ModelAndView("/question/examinationResult", modelMap);
             } else {
