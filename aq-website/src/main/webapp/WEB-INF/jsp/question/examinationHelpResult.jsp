@@ -56,7 +56,9 @@
                             <span class="plan-titie">${examQuestion.questionOrder}、</span>
 
                             <div class="plan-txt">
-                                <p>${examQuestion.question.questionContent}</p>
+                                <a style="color: #000000" class="clipboardbtn" data-clipboard-action="copy" data-clipboard-target="#select${examQuestion.questionOrder}">
+                                    <p id="select${examQuestion.questionOrder}">${examQuestion.question.questionContent}</p>
+                                </a>
                                 <c:if test="${examQuestion.answerStatus == 1}">
                                     <p class="correct">正确，
                                         <a href="<c:url value='/answer/questionDescription.do?examId=${examination.id}&qId=${examQuestion.question.id}'/>">查看解释</a>
@@ -103,8 +105,22 @@
 </div>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="<c:url value="/scripts/wap/js/weixin.js"/>"></script>
+<script src="http://demo.jb51.net/js/2015/clipboard/clipboard.min.js"></script>
 <script>
+    //剪贴板
+    var clipboard = new Clipboard('.clipboardbtn');
+    clipboard.on('success', function(e) {
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        alert("复制成功");
+        e.clearSelection();
+    });
 
+    clipboard.on('error', function(e) {
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+    });
     var wx_share_title = "【求助】${sessionScope.nickname}需要你的帮助！"; //分享标题
     var wx_share_des = "${sessionScope.nickname}在玩非遗知识闯关，有道题答不上来，需要你的帮助，快来帮ta答题吧！";  //分享描述
     <%--var wx_share_link = "http://dati.efeiyi.com/wx/start.do?examinationId=${examination.id}"; //分享的链接地址  //需要动态获取，而不是直接填写静态值--%>
