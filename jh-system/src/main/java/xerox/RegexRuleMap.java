@@ -9,10 +9,10 @@ import java.util.Map;
 public class RegexRuleMap <T>{
 
     private Map<String, T> nestedRuleRegexMap = new LinkedHashMap<>();
-    private String matchingUrl;
-    private boolean isDetailPage;
-    private boolean isExtraUrl;
-    private boolean isExtraDetail;
+    private String matchingUrl;//当前规则匹配的页面地址
+    private boolean isDetailPage;//当前规则是否为获取详情页的规则
+    private boolean isExtraUrl;//
+    private boolean isExtraDetail;//当前规则是给详情页补充来自其他页面数据的规则
     private boolean hasMoreExtra;
 
     public boolean isHasMoreExtra() {

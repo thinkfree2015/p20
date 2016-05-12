@@ -1,6 +1,17 @@
 package xerox;
 
 import com.efeiyi.ec.project.model.Project;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.CookieStore;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.SystemDefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
@@ -9,6 +20,7 @@ import us.codecraft.webmagic.monitor.SpiderMonitor;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.scheduler.PriorityScheduler;
+import us.codecraft.webmagic.selector.PlainText;
 import us.codecraft.webmagic.selector.Selectable;
 
 import javax.management.JMException;
@@ -188,9 +200,10 @@ public class MyPageProcessor implements PageProcessor {
         this.site = Site.me().setDomain(domain)
                 .addStartUrl(url)
                 .setCharset(charSet)
-                .setRetryTimes(4)
-                .setCycleRetryTimes(4)
-                .setTimeOut(20000)
+                .setRetryTimes(40)
+                .setCycleRetryTimes(40)
+                .setTimeOut(200000)
+//        .setSleepTime(30000)
 //                .setSleepTime(1)
                 ;
     }
@@ -239,7 +252,88 @@ public class MyPageProcessor implements PageProcessor {
     public static void main(String[] a) throws IOException, JMException {
 //        fetchChinacultureProject();
 //        fetchFeiyichengProject();
-        fetchFeiyichengMaster();
+//        fetchFeiyichengMaster();
+        fetchDouBan();
+//        testHttpClient();
+//        testMatchUrl();
+    }
+
+    private static void testMatchUrl() {
+        String url = "https://www.douban.com/group/358842/members?start=0";
+        String matching = "https://www.douban.com/group/358842/members[?]start*";
+        List<String> list = new ArrayList<>();
+        list.add(url);
+        Selectable selectable = new PlainText(list);
+        System.out.println(selectable.regex(matching).match());
+    }
+
+    private static void testHttpClient() throws IOException {
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("https://www.douban.com/accounts/login");
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("form_email", "liyang@efeiyi.com"));
+        params.add(new BasicNameValuePair("form_password", "abcd1234"));
+        httppost.setEntity(new UrlEncodedFormEntity(params));
+        HttpResponse response = null;
+        try {
+            response = httpClient.execute(httppost);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        CookieStore cookieStore = ((AbstractHttpClient) httpClient).getCookieStore();
+        List<Cookie> cookies = ((AbstractHttpClient) httpClient)
+                .getCookieStore().getCookies();
+        for (Cookie cookie : cookies)
+            System.out.println("cookie begin***\n" + cookie + "\n cookie end");
+        System.out.println(response);
+    }
+
+    private static void fetchDouBan() throws IOException, JMException {
+        String url = "https://www.douban.com/group/358842/members?start=0";
+        String domain = "www.douban.com";
+        String charSet = "utf-8";
+
+        MyPageProcessor myPageProcessor = new MyPageProcessor();
+        myPageProcessor.setSite(domain, url, charSet);
+        List<RegexRuleMap> regexRuleList = new ArrayList<>();
+        myPageProcessor.setRegexRuleList(regexRuleList);
+
+        RegexRuleMap<String> regexRuleMap = new RegexRuleMap();
+        regexRuleMap.put("//a[@class='nbg']/@href", "xpath");
+        regexRuleMap.setMatchingUrl("https://www.douban.com/group/358842/members[?]start*");
+//        regexRuleMap.setIsExtraUrl(true);
+        regexRuleList.add(regexRuleMap);
+
+        RegexRuleMap<String> nextRegexRuleMap = new RegexRuleMap();
+        nextRegexRuleMap.put("//span[@class='next']//a/@href", "xpath");
+        nextRegexRuleMap.setMatchingUrl("https://www.douban.com/group/358842/members[?]start*");
+        regexRuleList.add(nextRegexRuleMap);
+
+        RegexRuleMap<RegexRuleMap<String>> detailRegexMap = new RegexRuleMap();
+        detailRegexMap.setMatchingUrl("https://www.douban.com/people/*");
+        detailRegexMap.setIsDetailPage(true);
+        RegexRuleMap<String> signatureMap = new RegexRuleMap<>();
+        signatureMap.put("//div[@id='display']//html()", "xpath");
+        detailRegexMap.put("signature", signatureMap);
+        RegexRuleMap<String> nameMap = new RegexRuleMap<>();
+//        nameMap.put("//div[@class='info']//h1/allText()","xpath");
+        nameMap.put("//title/allText()","xpath");
+        detailRegexMap.put("name",nameMap);
+        RegexRuleMap<String> picMap = new RegexRuleMap<>();
+        picMap.put("//div[@class='pic']//img/@src", "xpath");
+        detailRegexMap.put("picture", picMap);
+        regexRuleList.add(detailRegexMap);
+
+
+        FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/douban.csv", ",,", "::");
+//        DBPersistPipeline dbPipeline = new DBPersistPipeline(Project.class);
+        Spider spider = Spider.create(myPageProcessor)
+                .scheduler(new PriorityScheduler())
+                .pipeline(myPipeline)
+                .pipeline(new ConsolePipeline())
+                .downloader(new MyHttpClientDownloader(""));
+//        SpiderMonitor.instance().register(spider);
+        spider.start();
     }
 
     private static void fetchFeiyichengProject() throws IOException, JMException {
@@ -430,7 +524,7 @@ public class MyPageProcessor implements PageProcessor {
 
 
         FilePersistPipeline myPipeline = new FilePersistPipeline("C:/Users/Administrator/Desktop/shujukuxitong.txt", "@", "@");
-        Spider spider = Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(myPipeline).pipeline(new ConsolePipeline());
+        Spider spider = Spider.create(myPageProcessor).scheduler(new PriorityScheduler()).pipeline(myPipeline).pipeline(new ConsolePipeline()).downloader(new MyHttpClientDownloader(""));
         SpiderMonitor.instance().register(spider);
         spider.start();
     }

@@ -114,11 +114,11 @@
     <bean id="scoreboardManagerImpl" class="com.efeiyi.ec.system.yale.question.service.impl.ScoreboardManagerImpl"/>
     <bean id="scoreboardDaoHibernate" class="com.efeiyi.ec.system.yale.question.dao.hibernate.ScoreboardDaoHibernate"/>
 
-    <bean id="grabDataManager" class="com.efeiyi.parser.service.impl.GrabDataManagerImpl"/>
-    <bean id="grabDataDao" class="com.efeiyi.parser.dao.hibernate.GrabDataDaoHibernate"/>
+    <!--<bean id="grabDataManager" class="com.efeiyi.parser.service.impl.GrabDataManagerImpl"/>-->
+    <!--<bean id="grabDataDao" class="com.efeiyi.parser.dao.hibernate.GrabDataDaoHibernate"/>-->
 
     <!-- 非遗大师头像抓取上传 -->
-    <bean id="aliOssUploadManager" class="com.efeiyi.parser.service.impl.AliOssUploadManagerImpl" />
+    <!--<bean id="aliOssUploadManager" class="com.efeiyi.parser.service.impl.AliOssUploadManagerImpl" />-->
 
     <!--&lt;!&ndash; 获取序列号 &ndash;&gt;-->
     <!--<bean id="autoSerialManager" class="com.efeiyi.jh.service.AutoSerialManagerImpl" />-->
