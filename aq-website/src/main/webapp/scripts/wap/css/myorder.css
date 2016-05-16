@@ -934,7 +934,40 @@ html, body {height:100%}
 .wechat-header .wea-hero{width: 145px;height: 31px;background: url("../images/wechat-icon.png") no-repeat 0 -151px;display: inline-block;background-size:344px auto;margin: 20px 0;position: relative}
 .wechat-header .head-number{position: absolute;font-size: 15px;color: #000;right: 37px;top: 8px;line-height: 15px;font-weight: bold}
 .wechat-header .add-head{font-size: 12px;color:#ae846d;padding: 0 27px;width: 100%;float: left;text-align: left;margin-bottom: 20px;margin-top: -10px;}
-/*题目*/
+.wechat-bg .e-logo {width:100%;float: left;margin-top: 49px;text-align: center;}
+.wechat-bg .e-logo .img img {width:85px;}
+.wechat-bg .e-logo .txt {margin-top:15px;font-size: 15px;}
+.wechat-bg .e-info {
+    width:100%;
+    float: left;
+    margin-top: 50px;
+    padding:0 36px;
+    font-size:15px;
+    line-height:30px;
+}
+.wechat-bg .e-info p {
+    font-size:13px;
+}
+.wechat-bg .e-btn {
+    width:100%;
+    float: left;
+    text-align: center;
+    margin-top:100px;
+}
+.wechat-bg .e-btn a {
+    width:159px;
+    height:44px;
+    line-height:40px;
+    display: inline-block;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    border:2px #565656 solid;
+    text-align: center;
+    color: #4d4d4d;
+}
+
+
+    /*题目*/
 .topic{text-align: center;}
 .addtopic{display: none}
 .topic.active{display: block}
@@ -989,8 +1022,8 @@ html, body {height:100%}
 .weachat-tab .fiy-box ul{padding:0 19px;}
 .weachat-tab .fiy-box li{width: 100%;float: left;height: 50px;line-height: 50px;padding: 0 16px;background: #fff;border-radius: 10px;margin-bottom: 10px;color: #000}
 .weachat-tab .fiy-box li .fiy-text{float: left;position: relative}
-.weachat-tab .fiy-box li .fiy-text .fiy-pic{width: 31px;height: 31px;position: absolute;left: 0;top: 0;}
-.weachat-tab .fiy-box li .fiy-text .fiy-pic img{width: 100%;border-radius: 50%;}
+.weachat-tab .fiy-box li .fiy-text .fiy-pic{width: 31px;height: 31px;position: absolute;left: 0;top: 50%;margin-top: -15px;}
+.weachat-tab .fiy-box li .fiy-text .fiy-pic img{width: 100%;border-radius: 50%;float: left}
 .weachat-tab .fiy-box li .fiy-text .fiy-txt{padding-left: 40px;font-size: 12px;color: #000;}
 .weachat-tab .fiy-box li .fiy-buck{float: right;font-size: 12px;}
 /*获得奖励去好包*/

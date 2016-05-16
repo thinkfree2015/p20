@@ -8,38 +8,29 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+<!doctype html>
 <html class="no-js">
 <head>
-  <title>活动说明</title>
 </head>
 <body id="bodyone">
-
 <div class="wechat-bg">
-  <div class="wechat-header ae">
-    <div class="wechat-top"></div>
-    <div class="wea-bg"></div>
+  <div class="e-logo">
+    <div class="img"><img src="../shop2015/images/wechat-sq1.png" alt=""></div>
+    <div class="txt">
+      <p>答题赚红包</p>
+      <p>小飞蚁恭候多时啦!</p>
+    </div>
   </div>
-  <div class="explain ae">
-    <div class="explain-top ae">
-      <h5>活动说明:</h5>
-      <p>点击“马上开始”进入问答页面开始答题，完成当日所有题目即可获得当日奖励。累计答题还可以赢月度大奖，快来参加活动吧！</p>
-    </div>
-    <div class="explain-bot">
-      <h5>活动规则:</h5>
-      <p><span>一、</span>参加活动者当天24：00以前完成答题可以获得当日奖励，超过该时间可以答题，但无奖励；</p>
-      <p><span>二、</span>每人每天可以参加活动一次，答完为止；</p>
-      <p><span>三、</span>答错的题目可以发送给好友求助，好友必须在当天24：00以前完成答题，否则无效；</p>
-      <p><span>四、</span>e飞蚁保留对活动的最终解释权。</p>
-    </div>
-    <div class="explain-btn">
-      <%--<c:if test="${not empty examination}">
-        <a href="<c:url value='/answer/assistAnswer/${examination.id}'/>" class="wechat-btn">帮助好友</a>
-      </c:if>--%>
-      <a href="<c:url value='/answer/start2Answer.do'/>" class="wechat-btn">马上开始</a>
-    </div>
-    <div class="explain-bg"></div>
+  <div class="e-info">
+    <p>1、每天完成答题即可领红包；</p>
+    <p>2、答错也没关系，求助好友同样得红包；</p>
+    <p>3、先到先得，快快行动吧！</p>
+  </div>
+  <div class="e-btn">
+    <a href="<c:url value='/answer/start2Answer.do'/>" class="wechat-btn">马上开始答题</a>
   </div>
 </div>
-
 </body>
 </html>
