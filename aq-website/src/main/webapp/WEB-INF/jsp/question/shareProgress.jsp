@@ -109,7 +109,7 @@
 <script src="<c:url value="/scripts/wap/js/weixin.js"/>"></script>
 <script>
 
-  var wx_share_title = "【第${examination.examinationEdition.name}非遗答题赚红包】${sessionScope.nickname}需要你的帮助！"; //分享标题
+  var wx_share_title = "【第${examination.examinationEdition.name}期非遗答题赚红包】${sessionScope.nickname}需要你的帮助！"; //分享标题
   var wx_share_des = "${sessionScope.nickname}在玩非遗知识闯关，有道题答不上来，需要你的帮助，快来帮ta答题吧！";  //分享描述
   var wx_share_link = "http://dati.efeiyi.com/answer/assistAnswer/${examination.id}"; //分享的链接地址  //需要动态获取，而不是直接填写静态值
   //  var wx_share_link = "http://dati.efeiyi.com/wx/start.do";
