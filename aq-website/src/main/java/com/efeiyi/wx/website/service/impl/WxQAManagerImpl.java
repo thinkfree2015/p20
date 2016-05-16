@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * Created by Administrator on 2015/12/30.
@@ -146,7 +147,7 @@ public class WxQAManagerImpl implements WxQAManager {
                 session.saveOrUpdate(eq.getClass().getName(), eq);
             }
 //            if (examination.getExaminationEdition().getExpireDate().compareTo(new Date()) >= 0) {
-                examination.setStatus(Examination.examFinished);//试题状态 都答对且未过期的-2已完成
+            examination.setStatus(Examination.examFinished);//试题状态 都答对且未过期的-2已完成
 //            }
             examination.setFinishDatetime(new Date());
             session.saveOrUpdate(Examination.class.getName(), examination);
@@ -175,7 +176,7 @@ public class WxQAManagerImpl implements WxQAManager {
         }
         participationRecord.setCreationRecord(creatorRecord);
         session.saveOrUpdate(ParticipationRecord.class.getName(), participationRecord);
-
+        modelMap.put("participationRecord", participationRecord);
         return returnEQList;
     }
 
@@ -192,24 +193,79 @@ public class WxQAManagerImpl implements WxQAManager {
         session.saveOrUpdate(Examination.class.getName(), examination);
 
         List<Question> questionList = baseManager.listObject("from Question where status != 0", new LinkedHashMap());
+        Map<String, List<Question>> questionLevelMap = questionList.stream().collect(Collectors.groupingBy(Question :: getLevel));
         List<ExaminationQuestion> eqList = new ArrayList<>();//已选取的题目列表
-        List<Integer> indexList = new ArrayList<>();//已取到题目的序号
+//        List<Integer> indexList = new ArrayList<>();//已取到题目的序号
         Random random = new Random();
-        for (int x = 0; x < examinationEdition.getQuestionCount(); ) {
-            //防止取到相同的题目
-            int index = random.nextInt(questionList.size());
-            if (!indexList.contains(index)) {
-                x++;
-                indexList.add(index);
-                Question question = questionList.get(index);
-                ExaminationQuestion examinationQuestion = new ExaminationQuestion();
-                examinationQuestion.setQuestion(question);
-                examinationQuestion.setExamination(examination);
-                examinationQuestion.setQuestionOrder(x);
-                session.saveOrUpdate(ExaminationQuestion.class.getName(), examinationQuestion);
-                eqList.add(examinationQuestion);
+        int count = 0;
+        for (Map.Entry<String, List<Question>> entry : questionLevelMap.entrySet()) {
+            List<Integer> indexList = new ArrayList<>();//已取到题目的序号
+            switch (entry.getKey()) {
+                case "1":
+                    //难度1固定选2题
+                    for (int x = 0; x < 2;) {
+                        int index = random.nextInt(entry.getValue().size());
+                        if (!indexList.contains(index)) {
+                            count++;
+                            indexList.add(index);
+                            Question question = entry.getValue().get(index);
+                            ExaminationQuestion examinationQuestion = new ExaminationQuestion();
+                            examinationQuestion.setQuestion(question);
+                            examinationQuestion.setExamination(examination);
+                            examinationQuestion.setQuestionOrder(count);
+                            session.saveOrUpdate(ExaminationQuestion.class.getName(), examinationQuestion);
+                            eqList.add(examinationQuestion);
+                            x++;
+                        }
+                    }
+                break;
+                case "2":
+                    //难度2固定选2题
+                    for (int x = 0; x < 2;) {
+                        int index = random.nextInt(entry.getValue().size());
+                        if (!indexList.contains(index)) {
+                            count++;
+                            indexList.add(index);
+                            Question question = entry.getValue().get(index);
+                            ExaminationQuestion examinationQuestion = new ExaminationQuestion();
+                            examinationQuestion.setQuestion(question);
+                            examinationQuestion.setExamination(examination);
+                            examinationQuestion.setQuestionOrder(count);
+                            session.saveOrUpdate(ExaminationQuestion.class.getName(), examinationQuestion);
+                            eqList.add(examinationQuestion);
+                            x++;
+                        }
+                    }
+                break;
+                case "3":
+                    //难度3固定选1题
+                    count++;
+                    int index = random.nextInt(entry.getValue().size());
+                    Question question = entry.getValue().get(index);
+                    ExaminationQuestion examinationQuestion = new ExaminationQuestion();
+                    examinationQuestion.setQuestion(question);
+                    examinationQuestion.setExamination(examination);
+                    examinationQuestion.setQuestionOrder(count);
+                    session.saveOrUpdate(ExaminationQuestion.class.getName(), examinationQuestion);
+                    eqList.add(examinationQuestion);
             }
         }
+
+//        for (int x = 0; x < examinationEdition.getQuestionCount(); ) {
+//            //防止取到相同的题目
+//            int index = random.nextInt(questionList.size());
+//            if (!indexList.contains(index)) {
+//                x++;
+//                indexList.add(index);
+//                Question question = questionList.get(index);
+//                ExaminationQuestion examinationQuestion = new ExaminationQuestion();
+//                examinationQuestion.setQuestion(question);
+//                examinationQuestion.setExamination(examination);
+//                examinationQuestion.setQuestionOrder(x);
+//                session.saveOrUpdate(ExaminationQuestion.class.getName(), examinationQuestion);
+//                eqList.add(examinationQuestion);
+//            }
+//        }
 
         examination.setExaminationQuestionList(eqList);
 
@@ -410,17 +466,17 @@ public class WxQAManagerImpl implements WxQAManager {
         return wxCalledRecord;
     }
 
-    public WxCalledRecord wxLogin(String openid, String nickname, String headimgurl){
+    public WxCalledRecord wxLogin(String openid, String nickname, String headimgurl) {
         Map map = new HashMap();
-        map.put("openid",openid);
-        map.put("nickname",nickname);
-        map.put("headimgurl",headimgurl);
+        map.put("openid", openid);
+        map.put("nickname", nickname);
+        map.put("headimgurl", headimgurl);
         return wxLogin(map);
     }
 
-    public List<Map<String, String>> randomSortAnswer(Examination examination){
+    public List<Map<String, String>> randomSortAnswer(Examination examination) {
         List<Map<String, String>> randomAnswerList = new ArrayList<>();
-        for(ExaminationQuestion examinationQuestion : examination.getExaminationQuestionList()){
+        for (ExaminationQuestion examinationQuestion : examination.getExaminationQuestionList()) {
             randomAnswerList.add(getRandomAnswers(examinationQuestion));
         }
         return randomAnswerList;
@@ -440,7 +496,7 @@ public class WxQAManagerImpl implements WxQAManager {
         for (int x = 4; x > 0; x--) {
             int index = random.nextInt(x);
 
-            Map.Entry<Integer,String> entry = entryList.remove(index);
+            Map.Entry<Integer, String> entry = entryList.remove(index);
             String key = numberMap2Letter(entry.getKey());
             String value = entry.getValue();
             randomAnswerMap.put(key, value);
