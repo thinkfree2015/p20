@@ -132,7 +132,7 @@
     });
 
     //微信
-    var wx_share_title = "【非遗答题赚红包】${sessionScope.nickname}需要你的帮助！"; //分享标题
+    var wx_share_title = "【第${examination.examinationEdition.name}非遗答题赚红包】${sessionScope.nickname}需要你的帮助！"; //分享标题
     var wx_share_des = "${sessionScope.nickname}在玩非遗知识闯关，有道题答不上来，需要你的帮助，快来帮ta答题吧！";  //分享描述
     <%--var wx_share_link = "http://dati.efeiyi.com/wx/start.do?examinationId=${examination.id}"; //分享的链接地址  //需要动态获取，而不是直接填写静态值--%>
     var wx_share_link = "http://dati.efeiyi.com/answer/assistAnswer/${examination.id}"; //分享的链接地址  //需要动态获取，而不是直接填写静态值
@@ -142,7 +142,7 @@
     var wx_api_list = ['onMenuShareAppMessage', 'onMenuShareTimeline'];    //需要使用的JS接口列表
     <c:if test="${examination.status == '2' && tag == 0}">
     var wx_share_link = "http://dati.efeiyi.com/wx/start.do";
-    var wx_share_title = "${sessionScope.nickname}完成了在非遗知识闯关答题，敢来挑战吗？"; //分享标题
+    var wx_share_title = "${sessionScope.nickname}完成了在非遗知识闯关答题第${examination.examinationEdition.name}期，敢来挑战吗？"; //分享标题
     var wx_share_des = "${sessionScope.nickname}在玩非遗知识闯关，涨姿势还有钱赚，敢来挑战Ta吗？";  //分享描述
     </c:if>
 

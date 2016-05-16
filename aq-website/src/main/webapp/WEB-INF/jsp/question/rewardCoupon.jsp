@@ -26,9 +26,13 @@
       <p class="bouns-text text-center">奖励以优惠券的形式发放到您的e飞蚁账户中，购物时抵现金使用，进入个人中心“我的卡券”查看。</p>
       <div class="ds-btn"><a href="${couponUrl}" class="wechat-btn">立即领取</a></div>
     </div>
+    <c:set var="examinationEdition" value="" scope="page"/>
+    <c:forEach items="${rankList}" var="participationRecord" end="10">
+      <c:set var="examinationEdition" value="${participationRecord.examination.examinationEdition.name}" scope="page"/>
+    </c:forEach>
     <div class="fiy-box">
       <div class="fiy-title ae"><i class="fiy-icon"></i></div>
-      <div class="ae text-fiy">今日闯关英雄榜,您目前排名${rank}名。<a class="right-btn share" href="">炫耀一下!</a></div>
+      <div class="ae text-fiy">第${examinationEdition}期非遗知识答题闯关英雄榜,您目前排名【第${rank}名】。<a class="right-btn share" href="">炫耀一下!</a></div>
       <!--月榜-->
       <ul class="ae">
         <c:forEach items="${rankList}" var="participationRecord" end="10">
@@ -77,7 +81,7 @@
   var wx_share_dataUrl = ""; // 如果type是music或video，则要提供数据链接，默认为空
   var wx_api_list = ['onMenuShareAppMessage', 'onMenuShareTimeline'];    //需要使用的JS接口列表
   var wx_share_link = "http://dati.efeiyi.com/wx/start.do";
-  var wx_share_title = "${sessionScope.nickname}完成了在非遗知识闯关答题，敢来挑战吗？"; //分享标题
+  var wx_share_title = "${sessionScope.nickname}完成了在非遗知识闯关答题第${participationRecord.examination.examinationEdition.name}，敢来挑战吗？"; //分享标题
   var wx_share_des = "${sessionScope.nickname}在玩非遗知识闯关，涨姿势还有钱赚，敢来挑战Ta吗？";  //分享描述
   initWx("http://dati.efeiyi.com/wx/init.do","",wx_share_title,wx_share_des,wx_share_link,wx_share_imgUrl,wx_share_type,wx_share_dataUrl,wx_api_list);
 
