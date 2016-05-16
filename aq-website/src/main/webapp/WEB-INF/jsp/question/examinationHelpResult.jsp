@@ -151,7 +151,7 @@
         });
     });
 
-    initWx("http://dati.efeiyi.com/wx/init.do", "<c:url value='/wx/shareExamination/${examination.id}'/>", wx_share_title, wx_share_des, wx_share_link, wx_share_imgUrl, wx_share_type, wx_share_dataUrl, wx_api_list);
+    initWx("http://dati.efeiyi.com/wx/init.do", "<c:url value='/wx/shareExamination/${examination.id}'/>", wx_share_title, wx_share_des, wx_share_link, wx_share_imgUrl, wx_share_type, wx_share_dataUrl, wx_api_list,"<c:url value='/answer/inquireProgress.do?examId=${examination.id}'/>");
 </script>
 
 <style type="text/css">

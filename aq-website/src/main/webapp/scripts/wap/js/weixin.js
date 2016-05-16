@@ -22,7 +22,7 @@ function isWeiXin() {
     }
 }
 
-function initWx(initUrl, shareExaminationUrl, wx_share_title, wx_share_des, wx_share_link, wx_share_imgUrl, wx_share_type, wx_share_dataUrl, wx_api_list) {
+function initWx(initUrl, shareExaminationUrl, wx_share_title, wx_share_des, wx_share_link, wx_share_imgUrl, wx_share_type, wx_share_dataUrl, wx_api_list,destinationUrl,forwardFlag) {
     var noncestr = "Wm3WZYTPz0wzccnW";
     var timestamp = new Date().getTime();
     var config = {
@@ -51,7 +51,7 @@ function initWx(initUrl, shareExaminationUrl, wx_share_title, wx_share_des, wx_s
                 imgUrl: wx_share_imgUrl, // 分享图标
                 type: wx_share_type, // 分享类型,music、video或link，不填默认为link
                 dataUrl: wx_share_dataUrl, // 如果type是music或video，则要提供数据链接，默认为空
-                success: shareExamination(shareExaminationUrl),
+                success: shareExamination(destinationUrl),
                 //cancel: shareExamination(shareExaminationUrl)
             });
 
@@ -59,7 +59,7 @@ function initWx(initUrl, shareExaminationUrl, wx_share_title, wx_share_des, wx_s
                 title: wx_share_title, // 分享标题
                 link: wx_share_link, // 分享链接
                 imgUrl: wx_share_imgUrl, // 分享图标
-                success: shareExamination(shareExaminationUrl),
+                success: shareExamination(destinationUrl),
                 //cancel: shareExamination(shareExaminationUrl),
             });
         });
@@ -71,15 +71,18 @@ function initWx(initUrl, shareExaminationUrl, wx_share_title, wx_share_des, wx_s
     }, "get");
 
 
-    function shareExamination(shareExaminationUrl) {
+    function shareExamination(destinationUrl) {
         //alert(shareExaminationUrl);
-        if (shareExaminationUrl != "") {
-            ajaxRequest(shareExaminationUrl, {
+        //微信这坑回调根本不会动
+        if (destinationUrl != null && destinationUrl != "" && forwardFlag) {
+            ajaxRequest(destinationUrl, {
                 "callUrl": encodeURIComponent(window.location.href.split('#')[0])
             }, function (data) {
                 //window.location = encodeURIComponent(window.location.href.split('#')[0]);
                 console.log(window.location.href.split('#')[0]);
             });
+
+            window.location.href = destinationUrl;
         }
     }
 }

@@ -206,8 +206,12 @@
             window.location.href = "<c:url value='/answer/getAward/${examination.id}'/>";
         }
 
+        var forwardFlag = false;
+        <c:if test="${examination.status == '0' && count != 0}">
+        forwardFlag = true;
+        </c:if>
         initWx("http://dati.efeiyi.com/wx/init.do", "<c:url value='/wx/shareExamination/${examination.id}'/>", wx_share_title, wx_share_des, wx_share_link, wx_share_imgUrl,
-                wx_share_type, wx_share_dataUrl, wx_api_list);
+                wx_share_type, wx_share_dataUrl, wx_api_list,"<c:url value='/answer/inquireProgress.do?examId=${examination.id}'/>",forwardFlag);
     </script>
     </body>
     </html>

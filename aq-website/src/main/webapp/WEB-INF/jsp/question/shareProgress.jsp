@@ -18,7 +18,7 @@
     <div class="headline">
       <div class="head-number">${examination.examinationEdition.name}</div>
     </div>
-    <div class="add-head">你的好友正拼尽全力帮你解答呢，稍等片刻哦。</div>
+    <div class="add-head">你的好友正拼尽全力帮你解答呢，稍等片刻哦。刷新页面查看求助进度，您也可以稍后查看（关注公众号“e飞蚁非遗电商”→菜单-非遗知识-答题赚红包-查看进度</div>
     <div class="wea-bg"></div>
   </div>
   <div class="topic ae">
