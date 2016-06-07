@@ -41,7 +41,7 @@ public class AssMyUser implements Serializable, UserDetails {
         this.id = id;
     }
 
-    @Column(name = "name")
+    @Column(name = "username")
     public String getName() {
         return name;
     }
