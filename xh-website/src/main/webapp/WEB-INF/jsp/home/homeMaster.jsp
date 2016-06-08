@@ -13,7 +13,7 @@
     <c:forEach items="${masterList}" var="master">
       <li>
         <a href="<c:url value='/project/project.master.do?qm=plistTenant_default&provinceid=-1&type=-1&masterid=${master.id}'/>" title="">
-          <img src="http://pro.efeiyi.com/pro/${master.favicon}" alt="">
+          <img src="http://tenant.efeiyi.com/${master.favicon}" alt="">
         </a>
         <p>${master.fullName}</p>
       </li>

@@ -17,7 +17,7 @@
                 <li>
                     <a href="<c:url value='/project/project.do?qm=plistProject_default&provinceid=${project.addressDistrict.addressCity.addressProvince.id}&type=${project.type}'/>"
                        target="_self" title=""><img
-                            <c:if test="${not empty project.picture_url}">src="http://pro.efeiyi.com/<c:url value='${project.picture_url}'/>@!project-picture"
+                            <c:if test="${not empty project.picture_url}">src="http://wiki-oss.efeiyi.com/${project.picture_url}"
                     </c:if>
                             <c:if test="${empty project.picture_url}">src="<c:url value='/shop2015/upload/exp4.jpg'/>"
                     </c:if>
